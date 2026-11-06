@@ -1,0 +1,47 @@
+{% extends "shared/templates/base.html" %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="/static/services/settings/css/dark_mode.css">
+{% endblock %}
+
+{% block content %}
+<section class="view-page active-view">
+  <div class="tool-header-banner">
+    <div class="tool-header-left">
+      <div class="tool-icon-square" style="background: linear-gradient(135deg, #64748b, #475569);">⚙</div>
+      <div class="tool-title-group">
+        <h2>Oasis Configuration &amp; Modular Service Environments</h2>
+        <p>Configured service paths, gateway network parameters, and background multi-tool engine registry</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-card" style="margin-bottom: 24px;">
+    <div class="card-title-bar">
+      <span class="card-heading">Platform Architecture &amp; Service Registry</span>
+    </div>
+    <div style="padding: 20px 24px; display: flex; flex-direction: column; gap: 16px;">
+      <div class="form-group">
+        <label class="form-label">OASIS GATEWAY PORT</label>
+        <input type="text" class="form-input" value="{{ gateway_port }}" readonly>
+      </div>
+      <div class="form-group">
+        <label class="form-label">MODULAR SERVICES ROOT DIRECTORY</label>
+        <input type="text" class="form-input" value="{{ services_dir }}" readonly>
+      </div>
+      <div class="form-group">
+        <label class="form-label">ACTIVE SOCIAL MEDIA INTELLIGENCE ENGINES</label>
+        <input type="text" class="form-input" value="{{ social_services_count }} Services (Instagram, LinkedIn, X, Reddit)" readonly>
+      </div>
+      <div class="form-group">
+        <label class="form-label">ACTIVE RECONNAISSANCE &amp; FOOTPRINTING ENGINES</label>
+        <input type="text" class="form-input" value="{{ recon_services_count }} Services (Website URLs, Web Browsers, Email, IP, Username, Phone, Subdomains, Crypto)" readonly>
+      </div>
+      <div class="form-group">
+        <label class="form-label">BACKGROUND MULTI-TOOL ENGINE SUB-DIRECTORIES</label>
+        <input type="text" class="form-input" value="{{ total_tools_count }} Background Engines Configured Across All 12 Services" readonly>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

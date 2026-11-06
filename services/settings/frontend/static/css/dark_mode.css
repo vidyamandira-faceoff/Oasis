@@ -1,0 +1,53 @@
+/* ==========================================================================
+   OASIS SETTINGS MICROSERVICE - DARK MODE STYLESHEET
+   Page: Configuration, Gateway Ports & Environment Paths
+   Path: services/settings/frontend/static/css/dark_mode.css
+   ========================================================================== */
+
+/* Tool Header Banner */
+html[data-theme="dark"] .tool-header-banner,
+body.dark-mode .tool-header-banner {
+  background: linear-gradient(135deg, #111827 0%, #162032 60%, #1a2234 100%);
+  border: 1px solid var(--border-soft);
+  box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.65);
+}
+
+/* Content Card & Configuration Fields */
+html[data-theme="dark"] .content-card,
+body.dark-mode .content-card {
+  background: #111827;
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-card);
+}
+
+html[data-theme="dark"] .form-group .form-label,
+body.dark-mode .form-group .form-label {
+  color: #64748b;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+html[data-theme="dark"] .form-group .form-input,
+html[data-theme="dark"] .form-group .form-input[readonly],
+body.dark-mode .form-group .form-input,
+body.dark-mode .form-group .form-input[readonly] {
+  background-color: #162032 !important;
+  border: 1px solid var(--border-soft) !important;
+  color: #e2e8f0 !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.35);
+  font-family: var(--font-mono);
+}
+
+html[data-theme="dark"] .form-group .form-input:focus,
+body.dark-mode .form-group .form-input:focus {
+  border-color: var(--ember-500) !important;
+  box-shadow: 0 0 0 4px var(--ember-glow) !important;
+}
+
+html[data-theme="dark"] .btn-save-settings,
+body.dark-mode .btn-save-settings {
+  background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
+  color: #ffffff;
+  border: none;
+}
+

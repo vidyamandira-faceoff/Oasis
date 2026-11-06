@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oasis — Unified Reconnaissance &amp; Scraping Suite</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/dark_mode.css" id="static-dark-mode">
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('oasis_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark-theme');
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- =========================================================================
+       STATIC TOP HEADER BAR
+       ========================================================================= -->
+  <header class="header-bar">
+    <div class="header-left">
+      <div class="brand-emblem">
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10" stroke="white" stroke-width="2" fill="none"/>
+          <circle cx="12" cy="12" r="6" stroke="white" stroke-width="1.5" fill="none"/>
+          <circle cx="12" cy="12" r="2" fill="white"/>
+          <line x1="12" y1="2" x2="12" y2="6" stroke="white" stroke-width="2"/>
+          <line x1="12" y1="18" x2="12" y2="22" stroke="white" stroke-width="2"/>
+          <line x1="2" y1="12" x2="6" y2="12" stroke="white" stroke-width="2"/>
+          <line x1="18" y1="12" x2="22" y2="12" stroke="white" stroke-width="2"/>
+        </svg>
+      </div>
+      <div class="brand-name-group">
+        <span class="brand-title">Oasis</span>
+        <span class="brand-tag">Cyber Intelligence Suite</span>
+      </div>
+    </div>
+
+    <!-- Quick Recon Target Search Palette -->
+    <div class="header-center-search">
+      <span class="header-search-icon">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </span>
+      <input type="text" class="header-search-box" id="global-search-input" placeholder="Search target domain, IP, or @handle..." onkeydown="if(event.key==='Enter'&&this.value.trim()){window.location.href='/services/recon-website-url?target='+encodeURIComponent(this.value.trim());}">
+      <span class="header-search-shortcut">Enter ↵</span>
+    </div>
+
+    <div class="header-right">
+      <!-- Theme Changing Button (Dark / Light Mode Toggle) -->
+      <button class="header-icon-btn theme-toggle-btn" id="theme-toggle-btn" title="Toggle Theme (Dark / Light)" aria-label="Toggle Theme (Dark / Light)" onclick="toggleOasisTheme()">
+        <svg class="theme-toggle-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <svg class="theme-toggle-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+      </button>
+
+      <div class="status-pill" id="global-status-pill" onclick="window.location.href='/dashboard'">
+        <span class="status-indicator-dot"></span>
+        <span id="global-status-text">Oasis Engines Operational (12 Active Services)</span>
+      </div>
+
+      <button class="header-icon-btn" title="Environment Settings" onclick="window.location.href='/settings'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </button>
+
+      <button class="header-icon-btn" title="Intelligence Alerts" onclick="window.location.href='/notifications'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+        <span class="badge-counter" id="alert-counter">5</span>
+      </button>
+
+      <div class="header-user-group">
+        <div class="header-avatar" title="User Profile">U</div>
+        <button class="header-signout-btn" title="Sign Out" onclick="handleSignOut()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       STATIC LEFT SIDEBAR (Menu toggles OSINT tool frontends)
+       ========================================================================= -->
+  <aside class="sidebar">
+    <div class="sidebar-nav">
+      <div class="nav-section-title">Core Operations</div>
+      <a href="/dashboard" class="nav-item active"><span>Mission Briefing</span></a>
+      <a href="/vault" class="nav-item"><span>Target Repository</span></a>
+      <a href="/terminal" class="nav-item"><span>Live Telemetry</span></a>
+      <a href="/notifications" class="nav-item"><span>Event Notifications</span></a>
+
+      <div class="nav-section-title" style="margin-top: 14px;">Social Media Intelligence</div>
+      <a href="/services/social-instagram" class="nav-item"><span>Instagram Scraping</span><span class="nav-badge">IG</span></a>
+      <a href="/services/social-linkedin" class="nav-item"><span>LinkedIn Scraping</span><span class="nav-badge">IN</span></a>
+      <a href="/services/social-x" class="nav-item"><span>X Scraping &amp; Recon</span><span class="nav-badge">X</span></a>
+      <a href="/services/social-reddit" class="nav-item"><span>Reddit Scraping</span><span class="nav-badge">RD</span></a>
+
+      <div class="nav-section-title" style="margin-top: 14px;">Reconnaissance &amp; Footprinting</div>
+      <a href="/services/recon-website-url" class="nav-item"><span>Website URL Recon</span><span class="nav-badge">URL</span></a>
+      <a href="/services/recon-web-browsers" class="nav-item"><span>Web Browsers &amp; Stack</span><span class="nav-badge">WEB</span></a>
+      <a href="/services/recon-email" class="nav-item"><span>Email Address Recon</span><span class="nav-badge">@</span></a>
+      <a href="/services/recon-ip" class="nav-item"><span>IP Addresses Intelligence</span><span class="nav-badge">IP</span></a>
+      <a href="/services/recon-username" class="nav-item"><span>Username Recon</span><span class="nav-badge">ID</span></a>
+      <a href="/services/recon-phone" class="nav-item"><span>Phone Number Recon</span><span class="nav-badge">TEL</span></a>
+      <a href="/services/recon-subdomains" class="nav-item"><span>Hostname &amp; Subdomains</span><span class="nav-badge">SUB</span></a>
+      <a href="/services/recon-crypto" class="nav-item"><span>Bitcoin &amp; Crypto Recon</span><span class="nav-badge">BTC</span></a>
+
+      <div class="nav-section-title" style="margin-top: 14px;">Environment</div>
+      <a href="/settings" class="nav-item"><span>System Environment</span></a>
+    </div>
+
+    <!-- Sidebar Bottom Profile Badge -->
+    <div class="sidebar-footer">
+      <div class="user-profile-card">
+        <div class="user-avatar-orange">U</div>
+        <div class="user-info-text">
+          <span class="user-display-name">User</span>
+          <span class="user-role-badge">INTELLIGENCE ANALYST</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- =========================================================================
+       PRIMARY DYNAMIC WORKSPACE
+       ========================================================================= -->
+  <main class="main-wrapper">
+    <section class="view-page active-view">
+      <div class="welcome-banner-card">
+        <div class="welcome-banner-left">
+          <div class="welcome-avatar-box">OS</div>
+          <div class="welcome-text-group">
+            <h1 class="welcome-heading">Oasis Intelligence Gateway</h1>
+            <p class="welcome-subtitle">Multi-Engine Modular Reconnaissance &amp; Social Media Scraping Architecture</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hud-grid-row" style="margin-top: 24px;">
+        <div class="hud-left-col">
+          <div class="content-card">
+            <div class="card-title-bar">
+              <span class="card-heading">Available Reconnaissance &amp; Scraping Services</span>
+            </div>
+            <div style="padding: 20px 24px;">
+              <p style="margin-bottom: 16px; color: var(--slate-600);">
+                Select any service from the left sidebar to open its dedicated dashboard, configure target queries, and run multi-engine background crawlers:
+              </p>
+              <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px;">
+                <a href="/services/social-instagram" class="quick-action-tile">
+                  <div class="tile-icon-box" style="background: linear-gradient(135deg, #c026d3, #9333ea);">IG</div>
+                  <div class="tile-info"><span class="tile-title">Instagram Scraping</span><span class="tile-subtext">Profile &amp; network harvesting</span></div>
+                </a>
+                <a href="/services/social-linkedin" class="quick-action-tile">
+                  <div class="tile-icon-box" style="background: linear-gradient(135deg, #0077b5, #004182);">IN</div>
+                  <div class="tile-info"><span class="tile-title">LinkedIn Scraping</span><span class="tile-subtext">Corporate &amp; employee mapping</span></div>
+                </a>
+                <a href="/services/social-x" class="quick-action-tile">
+                  <div class="tile-icon-box" style="background: linear-gradient(135deg, #1d9bf0, #0f1419);">X</div>
+                  <div class="tile-info"><span class="tile-title">X Scraping &amp; Recon</span><span class="tile-subtext">Timeline &amp; sentiment tracker</span></div>
+                </a>
+                <a href="/services/social-reddit" class="quick-action-tile">
+                  <div class="tile-icon-box" style="background: linear-gradient(135deg, #ff4500, #cc3700);">RD</div>
+                  <div class="tile-info"><span class="tile-title">Reddit Scraping</span><span class="tile-subtext">Subreddits &amp; user dossiers</span></div>
+                </a>
+                <a href="/services/recon-website-url" class="quick-action-tile">
+                  <div class="tile-icon-box" style="background: linear-gradient(135deg, #0284c7, #0369a1);">URL</div>
+                  <div class="tile-info"><span class="tile-title">Website URL Recon</span><span class="tile-subtext">Endpoints &amp; secret scanning</span></div>
+                </a>
+                <a href="/services/recon-web-browsers" class="quick-action-tile">
+                  <div class="tile-icon-box" style="background: linear-gradient(135deg, #6366f1, #4338ca);">WB</div>
+                  <div class="tile-info"><span class="tile-title">Web Browsers &amp; Stack</span><span class="tile-subtext">DOM &amp; tech fingerprinter</span></div>
+                </a>
+                <a href="/services/recon-email" class="quick-action-tile">
+                  <div class="tile-icon-box" style="background: linear-gradient(135deg, #ea580c, #c2410c);">@</div>
+                  <div class="tile-info"><span class="tile-title">Email Address Recon</span><span class="tile-subtext">Breach &amp; deliverability scanner</span></div>
+                </a>
+                <a href="/services/recon-ip" class="quick-action-tile">
+                  <div class="tile-icon-box" style="background: linear-gradient(135deg, #0d9488, #0f766e);">IP</div>
+                  <div class="tile-info"><span class="tile-title">IP Address Intelligence</span><span class="tile-subtext">GeoIP &amp; ASN routing</span></div>
+                </a>
+                <a href="/services/recon-username" class="quick-action-tile">
+                  <div class="tile-icon-box" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);">ID</div>
+                  <div class="tile-info"><span class="tile-title">Username Recon</span><span class="tile-subtext">100+ platform scanner</span></div>
+                </a>
+                <a href="/services/recon-phone" class="quick-action-tile">
+                  <div class="tile-icon-box" style="background: linear-gradient(135deg, #f59e0b, #d97706);">TEL</div>
+                  <div class="tile-info"><span class="tile-title">Phone Number Recon</span><span class="tile-subtext">Carrier lookup &amp; HLR validator</span></div>
+                </a>
+                <a href="/services/recon-subdomains" class="quick-action-tile">
+                  <div class="tile-icon-box" style="background: linear-gradient(135deg, #10b981, #047857);">SUB</div>
+                  <div class="tile-info"><span class="tile-title">Hostname &amp; Subdomains</span><span class="tile-subtext">DNS bruteforce &amp; CT logs</span></div>
+                </a>
+                <a href="/services/recon-crypto" class="quick-action-tile">
+                  <div class="tile-icon-box" style="background: linear-gradient(135deg, #f7931a, #c66f00);">BTC</div>
+                  <div class="tile-info"><span class="tile-title">Bitcoin &amp; Crypto Recon</span><span class="tile-subtext">Ledger &amp; wallet profiler</span></div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/static/js/common.js"></script>
+</body>
+</html>

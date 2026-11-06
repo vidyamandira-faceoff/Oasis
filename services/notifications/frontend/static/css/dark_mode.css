@@ -1,0 +1,188 @@
+/* ==========================================================================
+   OASIS NOTIFICATIONS MICROSERVICE - DARK MODE STYLESHEET
+   Page: Tool Processing Notifications & Telemetry Events
+   Path: services/notifications/frontend/static/css/dark_mode.css
+   ========================================================================== */
+
+html[data-theme="dark"] .notifications-page-container,
+body.dark-mode .notifications-page-container {
+  color: var(--slate-800);
+}
+
+/* Page Top Banner */
+html[data-theme="dark"] .page-top-banner,
+body.dark-mode .page-top-banner {
+  background: linear-gradient(135deg, #111827 0%, #162032 70%, #1c2333 100%);
+  border: 1px solid var(--border-soft);
+  box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.65);
+}
+
+html[data-theme="dark"] .banner-pretitle,
+body.dark-mode .banner-pretitle {
+  color: #fb923c;
+}
+
+html[data-theme="dark"] .banner-title,
+body.dark-mode .banner-title {
+  color: #f8fafc;
+}
+
+html[data-theme="dark"] .banner-desc,
+body.dark-mode .banner-desc {
+  color: #94a3b8;
+}
+
+/* Stats Cards in Banner */
+html[data-theme="dark"] .banner-stat-card,
+body.dark-mode .banner-stat-card {
+  background: rgba(10, 14, 23, 0.7);
+  border: 1px solid var(--border-soft);
+}
+
+html[data-theme="dark"] .banner-stat-label,
+body.dark-mode .banner-stat-label {
+  color: #64748b;
+}
+
+html[data-theme="dark"] .banner-stat-value,
+body.dark-mode .banner-stat-value {
+  color: #f8fafc;
+}
+
+html[data-theme="dark"] .banner-stat-value.text-orange,
+body.dark-mode .banner-stat-value.text-orange {
+  color: #fb923c;
+}
+
+html[data-theme="dark"] .banner-stat-value.text-green,
+body.dark-mode .banner-stat-value.text-green {
+  color: #34d399;
+}
+
+/* Controls & Filter Bar */
+html[data-theme="dark"] .notif-controls-bar,
+body.dark-mode .notif-controls-bar {
+  background: #111827;
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-card);
+}
+
+html[data-theme="dark"] .filter-label,
+body.dark-mode .filter-label {
+  color: #64748b;
+}
+
+html[data-theme="dark"] .filter-pill,
+body.dark-mode .filter-pill {
+  background-color: #162032;
+  border: 1px solid var(--border-soft);
+  color: #94a3b8;
+}
+
+html[data-theme="dark"] .filter-pill:hover,
+body.dark-mode .filter-pill:hover {
+  background-color: #1e293b;
+  color: #f8fafc;
+  border-color: var(--border-main);
+}
+
+html[data-theme="dark"] .filter-pill.active,
+body.dark-mode .filter-pill.active {
+  background-color: rgba(249, 115, 22, 0.16);
+  border-color: #f97316;
+  color: #fb923c;
+}
+
+html[data-theme="dark"] .filter-pill.pill-processing.active,
+body.dark-mode .filter-pill.pill-processing.active {
+  background-color: rgba(249, 115, 22, 0.2);
+  border-color: #f97316;
+  color: #fb923c;
+}
+
+html[data-theme="dark"] .filter-pill.pill-finished.active,
+body.dark-mode .filter-pill.pill-finished.active {
+  background-color: rgba(16, 185, 129, 0.2);
+  border-color: #10b981;
+  color: #34d399;
+}
+
+html[data-theme="dark"] .btn-clear-notifs,
+body.dark-mode .btn-clear-notifs {
+  background-color: #162032;
+  border: 1px solid var(--border-soft);
+  color: #94a3b8;
+}
+
+html[data-theme="dark"] .btn-clear-notifs:hover,
+body.dark-mode .btn-clear-notifs:hover {
+  background-color: rgba(244, 63, 94, 0.16);
+  border-color: #f43f5e;
+  color: #fb7185;
+}
+
+/* Notification Feed & Cards */
+html[data-theme="dark"] .notif-card,
+body.dark-mode .notif-card {
+  background: #111827;
+  border: 1px solid var(--border-soft);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+}
+
+html[data-theme="dark"] .notif-card:hover,
+body.dark-mode .notif-card:hover {
+  border-color: var(--border-main);
+  background: #141d2f;
+}
+
+html[data-theme="dark"] .notif-card.processing,
+body.dark-mode .notif-card.processing {
+  border-left: 3px solid #f97316;
+}
+
+html[data-theme="dark"] .notif-card.finished,
+body.dark-mode .notif-card.finished {
+  border-left: 3px solid #10b981;
+}
+
+html[data-theme="dark"] .notif-title,
+body.dark-mode .notif-title {
+  color: #f8fafc;
+}
+
+html[data-theme="dark"] .notif-desc,
+body.dark-mode .notif-desc {
+  color: #94a3b8;
+}
+
+html[data-theme="dark"] .notif-time-badge,
+body.dark-mode .notif-time-badge {
+  background: #162032;
+  color: #64748b;
+  border: 1px solid var(--border-ultra-soft);
+}
+
+html[data-theme="dark"] .notif-tool-badge,
+body.dark-mode .notif-tool-badge {
+  background: rgba(249, 115, 22, 0.14);
+  color: #fb923c;
+  border: 1px solid rgba(249, 115, 22, 0.3);
+}
+
+html[data-theme="dark"] .notif-progress-bar,
+body.dark-mode .notif-progress-bar {
+  background: #162032;
+}
+
+html[data-theme="dark"] .notif-progress-fill,
+body.dark-mode .notif-progress-fill {
+  background: linear-gradient(90deg, #ea580c, #f97316);
+}
+
+html[data-theme="dark"] .notif-empty-state,
+body.dark-mode .notif-empty-state {
+  background: #111827;
+  border: 1px dashed var(--border-main);
+  color: #64748b;
+}
+

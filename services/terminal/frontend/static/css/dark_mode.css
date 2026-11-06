@@ -1,0 +1,64 @@
+/* ==========================================================================
+   OASIS TERMINAL MICROSERVICE - DARK MODE STYLESHEET
+   Page: Live Telemetry & Process Terminal Stream
+   Path: services/terminal/frontend/static/css/dark_mode.css
+   ========================================================================== */
+
+/* Tool Header Banner */
+html[data-theme="dark"] .tool-header-banner,
+body.dark-mode .tool-header-banner {
+  background: linear-gradient(135deg, #111827 0%, #162032 60%, #0d1627 100%);
+  border: 1px solid var(--border-soft);
+  box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.65);
+}
+
+/* Terminal Console Window */
+html[data-theme="dark"] .terminal-window,
+body.dark-mode .terminal-window {
+  background: #06090e;
+  border: 1px solid var(--border-soft);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.6);
+  font-family: var(--font-mono);
+}
+
+html[data-theme="dark"] .terminal-line,
+body.dark-mode .terminal-line {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+html[data-theme="dark"] .terminal-line:hover,
+body.dark-mode .terminal-line:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+html[data-theme="dark"] .term-time,
+body.dark-mode .term-time {
+  color: #64748b;
+}
+
+html[data-theme="dark"] .term-source,
+body.dark-mode .term-source {
+  color: #fb923c;
+  font-weight: 700;
+}
+
+html[data-theme="dark"] .term-msg,
+body.dark-mode .term-msg {
+  color: #e2e8f0;
+}
+
+html[data-theme="dark"] .term-msg.term-success,
+body.dark-mode .term-msg.term-success {
+  color: #34d399;
+}
+
+html[data-theme="dark"] .term-msg.term-warning,
+body.dark-mode .term-msg.term-warning {
+  color: #fbbf24;
+}
+
+html[data-theme="dark"] .term-msg.term-error,
+body.dark-mode .term-msg.term-error {
+  color: #f87171;
+}
+

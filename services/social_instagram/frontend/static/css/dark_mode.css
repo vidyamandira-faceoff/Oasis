@@ -1,0 +1,205 @@
+/* ==========================================================================
+   OASIS INSTAGRAM INTELLIGENCE & SCRAPING - DEDICATED DARK MODE STYLESHEET
+   Page: Instagram Intelligence & Scraping
+   Path: services/social_instagram/frontend/static/css/dark_mode.css
+   ========================================================================== */
+
+/* Tactical Tool Header Banner */
+html[data-theme="dark"] .tool-header-banner,
+body.dark-mode .tool-header-banner {
+  background: linear-gradient(135deg, #111827 0%, #162032 60%, #171d2b 100%) !important;
+  border: 1px solid var(--border-soft) !important;
+  box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.65) !important;
+}
+
+html[data-theme="dark"] .tool-title-group h2,
+body.dark-mode .tool-title-group h2 {
+  color: #f8fafc !important;
+}
+
+html[data-theme="dark"] .tool-title-group p,
+body.dark-mode .tool-title-group p {
+  color: #94a3b8 !important;
+}
+
+/* Query Controls & Background Tool Selector */
+html[data-theme="dark"] .control-panel-card,
+body.dark-mode .control-panel-card {
+  background: #111827 !important;
+  border: 1px solid var(--border-soft) !important;
+  box-shadow: var(--shadow-card) !important;
+}
+
+html[data-theme="dark"] .form-label,
+body.dark-mode .form-label {
+  color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .form-input,
+html[data-theme="dark"] .form-select,
+body.dark-mode .form-input,
+body.dark-mode .form-select {
+  background-color: #162032 !important;
+  border: 1px solid var(--border-soft) !important;
+  color: #f8fafc !important;
+}
+
+html[data-theme="dark"] .form-input:focus,
+html[data-theme="dark"] .form-select:focus,
+body.dark-mode .form-input:focus,
+body.dark-mode .form-select:focus {
+  background-color: #111827 !important;
+  border-color: var(--ember-500) !important;
+  box-shadow: 0 0 0 4px var(--ember-glow) !important;
+}
+
+/* Form Select Dropdown Options */
+html[data-theme="dark"] select.form-select option,
+body.dark-mode select.form-select option,
+html[data-theme="dark"] .form-select option,
+body.dark-mode .form-select option,
+html[data-theme="dark"] option,
+body.dark-mode option {
+  background-color: #162032 !important;
+  color: #f8fafc !important;
+}
+
+/* Tool Engine Cards (Background Multi-Engine Workers) */
+html[data-theme="dark"] .tool-engine-card,
+body.dark-mode .tool-engine-card {
+  background: #162032 !important;
+  border: 1px solid var(--border-soft) !important;
+  color: #e2e8f0 !important;
+}
+
+html[data-theme="dark"] .tool-engine-card:hover,
+body.dark-mode .tool-engine-card:hover {
+  border-color: var(--ember-500) !important;
+  background: #1e293b !important;
+}
+
+html[data-theme="dark"] .tool-engine-chk,
+body.dark-mode .tool-engine-chk {
+  accent-color: #f97316 !important;
+}
+
+html[data-theme="dark"] .role-pill-dark,
+body.dark-mode .role-pill-dark {
+  background: rgba(249, 115, 22, 0.15) !important;
+  color: #fb923c !important;
+  border: 1px solid rgba(249, 115, 22, 0.35) !important;
+}
+
+/* Telemetry & Task Status Banner */
+html[data-theme="dark"] .status-stream-bar,
+body.dark-mode .status-stream-bar,
+html[data-theme="dark"] #recon-status-bar,
+body.dark-mode #recon-status-bar {
+  background: rgba(249, 115, 22, 0.1) !important;
+  border: 1px solid rgba(249, 115, 22, 0.3) !important;
+}
+
+html[data-theme="dark"] #recon-status-text,
+body.dark-mode #recon-status-text {
+  color: #fb923c !important;
+}
+
+/* Metrics Row */
+html[data-theme="dark"] .metric-card,
+body.dark-mode .metric-card {
+  background: #111827 !important;
+  border: 1px solid var(--border-soft) !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.55) !important;
+}
+
+html[data-theme="dark"] .metric-title,
+body.dark-mode .metric-title {
+  color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .metric-value,
+body.dark-mode .metric-value {
+  color: #f8fafc !important;
+}
+
+html[data-theme="dark"] .metric-subtext,
+body.dark-mode .metric-subtext {
+  color: #64748b !important;
+}
+
+/* Dossier Content Card & Table */
+html[data-theme="dark"] .content-card,
+body.dark-mode .content-card {
+  background: #111827 !important;
+  border: 1px solid var(--border-soft) !important;
+  box-shadow: var(--shadow-card) !important;
+}
+
+html[data-theme="dark"] .card-title-bar,
+body.dark-mode .card-title-bar {
+  background: rgba(22, 32, 50, 0.5) !important;
+  border-bottom: 1px solid var(--border-soft) !important;
+}
+
+html[data-theme="dark"] .card-heading,
+body.dark-mode .card-heading {
+  color: #f8fafc !important;
+}
+
+html[data-theme="dark"] .card-title-subtext,
+body.dark-mode .card-title-subtext {
+  color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .data-table-container,
+body.dark-mode .data-table-container {
+  background: #0f172a !important;
+  border: 1px solid var(--border-soft) !important;
+}
+
+html[data-theme="dark"] .data-table th,
+body.dark-mode .data-table th {
+  background: #162032 !important;
+  color: #94a3b8 !important;
+  border-bottom: 1px solid var(--border-soft) !important;
+}
+
+html[data-theme="dark"] .data-table td,
+body.dark-mode .data-table td {
+  border-bottom: 1px solid var(--border-ultra-soft) !important;
+  color: #cbd5e1 !important;
+}
+
+html[data-theme="dark"] .data-table tr:hover td,
+body.dark-mode .data-table tr:hover td {
+  background-color: rgba(22, 32, 50, 0.7) !important;
+  color: #f8fafc !important;
+}
+
+/* Findings Action Buttons */
+html[data-theme="dark"] .btn-inspect,
+body.dark-mode .btn-inspect {
+  background-color: #162032 !important;
+  color: #cbd5e1 !important;
+  border: 1px solid #2b3952 !important;
+}
+
+html[data-theme="dark"] .btn-inspect:hover,
+body.dark-mode .btn-inspect:hover {
+  background-color: #f97316 !important;
+  color: #ffffff !important;
+  border-color: #ea580c !important;
+}
+
+html[data-theme="dark"] .btn-secondary-action,
+body.dark-mode .btn-secondary-action {
+  background-color: #162032 !important;
+  color: #cbd5e1 !important;
+  border: 1px solid #2b3952 !important;
+}
+
+html[data-theme="dark"] .btn-secondary-action:hover,
+body.dark-mode .btn-secondary-action:hover {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}

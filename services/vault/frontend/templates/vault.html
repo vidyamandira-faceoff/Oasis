@@ -1,0 +1,55 @@
+{% extends "shared/templates/base.html" %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="/static/services/vault/css/dark_mode.css">
+{% endblock %}
+
+{% block content %}
+<section class="view-page active-view">
+  <div class="tool-header-banner">
+    <div class="tool-header-left">
+      <div class="tool-icon-square" style="background: linear-gradient(135deg, #10b981, #059669);">VT</div>
+      <div class="tool-title-group">
+        <h2>Target Vault &amp; Aggregated Intelligence</h2>
+        <p>Unified secure repository for all collected domains, usernames, social profiles, network assets, and crypto addresses</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-card">
+    <div class="card-title-bar">
+      <span class="card-heading">Collected Entities Across All Reconnaissance &amp; Scraping Engines</span>
+      <span class="card-title-subtext">Click any entity to immediately open its respective intelligence service</span>
+    </div>
+    <div class="investigation-table-wrap">
+      <table class="investigation-table">
+        <thead>
+          <tr>
+            <th>Target Identifier</th>
+            <th>Source Engine</th>
+            <th>Asset &amp; Record Count</th>
+            <th>Last Updated</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for entity in entities %}
+          <tr>
+            <td>
+              <div class="target-cell">
+                <span class="target-badge-circle" style="color: {{ entity.badge_color }};">{{ entity.badge }}</span>
+                <strong>{{ entity.name }}</strong>
+              </div>
+            </td>
+            <td><span class="badge-pill-info">{{ entity.engine }}</span></td>
+            <td>{{ entity.asset_count }}</td>
+            <td>{{ entity.last_modified }}</td>
+            <td><button class="btn-inspect" onclick="window.location.href='{{ entity.service_url }}'">Open in Service</button></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="/static/services/notifications/css/dark_mode.css">
+{% endblock %}
+
+{% block content %}
+<div class="notifications-page-container">
+
+  <!-- =========================================================================
+       PAGE HEADER / BANNER
+       ========================================================================= -->
+  <div class="page-top-banner">
+    <div class="banner-info">
+      <div class="banner-pretitle">
+        <span class="live-dot-pulse"></span>
+        <span>OSINT TELEMETRY & EVENT STREAM</span>
+      </div>
+      <h1 class="banner-title">Tool Processing Notifications</h1>
+      <p class="banner-desc">Real-time status tracking for active crawls, profile queries, and finished tasks across Oasis Social Media &amp; Reconnaissance Engines.</p>
+    </div>
+    <div class="banner-stats-group">
+      <div class="banner-stat-card">
+        <span class="banner-stat-label">Actively Processing</span>
+        <span class="banner-stat-value text-orange" id="stat-processing-count">{{ stats.processing }}</span>
+      </div>
+      <div class="banner-stat-card">
+        <span class="banner-stat-label">Tasks Finished</span>
+        <span class="banner-stat-value text-green" id="stat-finished-count">{{ stats.finished }}</span>
+      </div>
+      <div class="banner-stat-card">
+        <span class="banner-stat-label">Total Events</span>
+        <span class="banner-stat-value" id="stat-total-count">{{ stats.total }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       FILTER BAR & CONTROLS
+       ========================================================================= -->
+  <div class="notif-controls-bar">
+    <div class="filter-group">
+      <span class="filter-label">Status:</span>
+      <button class="filter-pill {% if current_status_filter == 'ALL' %}active{% endif %}" onclick="setFilter('status', 'ALL')">
+        All
+      </button>
+      <button class="filter-pill pill-processing {% if current_status_filter == 'PROCESSING' %}active{% endif %}" onclick="setFilter('status', 'PROCESSING')">
+        <span class="pulse-indicator"></span> Processing ({{ stats.processing }})
+      </button>
+      <button class="filter-pill pill-finished {% if current_status_filter == 'FINISHED' %}active{% endif %}" onclick="setFilter('status', 'FINISHED')">
+        ✓ Finished ({{ stats.finished }})
+      </button>
+    </div>
+
+    <div class="filter-group">
+      <span class="filter-label">Engine:</span>
+      <button class="filter-pill {% if current_tool_filter == 'all' %}active{% endif %}" onclick="setFilter('tool', 'all')">
+        All Engines
+      </button>
+      <button class="filter-pill {% if current_tool_filter == 'recon' %}active{% endif %}" onclick="setFilter('tool', 'recon')">
+        Recon
+      </button>
+      <button class="filter-pill {% if current_tool_filter == 'social' %}active{% endif %}" onclick="setFilter('tool', 'social')">
+        Social Media
+      </button>
+      <button class="filter-pill {% if current_tool_filter == 'ip' %}active{% endif %}" onclick="setFilter('tool', 'ip')">
+        IP &amp; Network
+      </button>
+      <button class="filter-pill {% if current_tool_filter == 'subdomain' %}active{% endif %}" onclick="setFilter('tool', 'subdomain')">
+        Subdomains
+      </button>
+    </div>
+
+    <div class="controls-right">
+      <button class="btn-clear-notifs" onclick="clearFinishedNotifications()" title="Clear completed notification logs">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="3 6 5 6 21 6"></polyline>
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+        </svg>
+        <span>Clear Finished</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       NOTIFICATIONS FEED LIST
+       ========================================================================= -->
+  <div class="notifications-feed" id="notifications-feed-list">
+    {% if notifications %}
+      {% for notif in notifications %}
+        <div class="notif-card {{ notif.status_class }}" id="{{ notif.id }}" data-tool="{{ notif.tool_code }}" data-status="{{ notif.status }}">
+          
+          <div class="notif-header">
+            <div class="notif-tool-identity">
+              <div class="tool-icon-bubble tool-{{ notif.tool_code }}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="2" y1="12" x2="22" y2="12"></line>
+                </svg>
+              </div>
+              <div class="tool-meta">
+                <span class="tool-name">{{ notif.tool }}</span>
+                {% if notif.target %}
+                  <span class="tool-target-pill">{{ notif.target }}</span>
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="notif-status-badge">
+              {% if notif.status == 'PROCESSING' %}
+                <span class="badge-status-processing">
+                  <span class="pulse-dot"></span>
+                  PROCESSING
+                </span>
+              {% else %}
+                <span class="badge-status-finished">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                  PROCESSING FINISHED
+                </span>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="notif-body">
+            <h3 class="notif-title">{{ notif.title }}</h3>
+            <p class="notif-details">{{ notif.details }}</p>
+            
+            {% if notif.metrics %}
+              <div class="notif-metrics-tag">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+                <span>{{ notif.metrics }}</span>
+              </div>
+            {% endif %}
+
+            {% if notif.status == 'PROCESSING' %}
+              <div class="notif-progress-wrap">
+                <div class="notif-progress-bar progress-animated"></div>
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="notif-footer">
+            <span class="notif-timestamp" title="{{ notif.timestamp }}">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              <span>{{ notif.time_display }}</span>
+            </span>
+
+            <div class="notif-actions">
+              {% if notif.status == 'PROCESSING' %}
+                <button class="btn-notif-stop" onclick="stopToolImmediately('{{ notif.tool_code }}'); setTimeout(()=>location.reload(), 600);">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                    <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+                  </svg>
+                  <span>Stop Task</span>
+                </button>
+              {% endif %}
+
+              <a href="{{ notif.action_url }}" class="btn-notif-inspect">
+                <span>{{ notif.action_label }}</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="notif-empty-state">
+        <div class="empty-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+        </div>
+        <h3>No Matching Tool Notifications</h3>
+        <p>There are no engine tasks matching the selected filters. Launch an extraction query from any Social Media or Reconnaissance service in the sidebar to view live processing status.</p>
+        <button class="filter-pill active" onclick="setFilter('status', 'ALL'); setFilter('tool', 'all');">
+          Reset Filters
+        </button>
+      </div>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  function setFilter(type, value) {
+    const url = new URL(window.location.href);
+    url.searchParams.set(type, value);
+    window.location.href = url.toString();
+  }
+
+  async function clearFinishedNotifications() {
+    try {
+      const res = await fetch('/api/notifications/clear', { method: 'POST' });
+      if (res.ok) {
+        window.location.reload();
+      }
+    } catch (err) {
+      console.error("Failed to clear notifications:", err);
+    }
+  }
+
+  // Periodic polling every 6 seconds to detect new completed/processing tasks
+  setInterval(async () => {
+    try {
+      const res = await fetch('/api/notifications');
+      if (res.ok) {
+        const data = await res.json();
+        // Update stats
+        if (data.stats) {
+          const procEl = document.getElementById('stat-processing-count');
+          const finEl = document.getElementById('stat-finished-count');
+          const totEl = document.getElementById('stat-total-count');
+          if (procEl) procEl.textContent = data.stats.processing;
+          if (finEl) finEl.textContent = data.stats.finished;
+          if (totEl) totEl.textContent = data.stats.total;
+        }
+      }
+    } catch (e) {
+      // Background poll silently
+    }
+  }, 6000);
+</script>
+{% endblock %}
+

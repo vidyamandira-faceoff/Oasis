@@ -1,0 +1,84 @@
+/* ==========================================================================
+   OASIS TARGET VAULT MICROSERVICE - DARK MODE STYLESHEET
+   Page: Target Repository & Aggregated Intelligence Vault
+   Path: services/vault/frontend/static/css/dark_mode.css
+   ========================================================================== */
+
+/* Tool Header Banner */
+html[data-theme="dark"] .tool-header-banner,
+body.dark-mode .tool-header-banner {
+  background: linear-gradient(135deg, #111827 0%, #162032 60%, #0d271e 100%);
+  border: 1px solid var(--border-soft);
+  box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.65);
+}
+
+/* Investigation Table Wrapper */
+html[data-theme="dark"] .investigation-table-wrap,
+body.dark-mode .investigation-table-wrap {
+  background: #111827;
+}
+
+html[data-theme="dark"] .investigation-table,
+body.dark-mode .investigation-table {
+  color: #cbd5e1;
+}
+
+html[data-theme="dark"] .investigation-table th,
+body.dark-mode .investigation-table th {
+  background-color: #162032;
+  border-bottom: 1px solid var(--border-soft);
+  color: #94a3b8;
+}
+
+html[data-theme="dark"] .investigation-table td,
+body.dark-mode .investigation-table td {
+  border-bottom: 1px solid var(--border-ultra-soft);
+}
+
+html[data-theme="dark"] .investigation-table tr:hover td,
+body.dark-mode .investigation-table tr:hover td {
+  background-color: rgba(22, 32, 50, 0.7);
+  color: #f8fafc;
+}
+
+html[data-theme="dark"] .target-cell strong,
+body.dark-mode .target-cell strong {
+  color: #f8fafc;
+}
+
+html[data-theme="dark"] .target-badge-circle,
+body.dark-mode .target-badge-circle {
+  background-color: #1e293b;
+  border: 1px solid var(--border-main);
+  color: #38bdf8;
+}
+
+html[data-theme="dark"] .badge-pill-info,
+body.dark-mode .badge-pill-info {
+  background: rgba(56, 189, 248, 0.14);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+html[data-theme="dark"] .badge-pill-purple,
+body.dark-mode .badge-pill-purple {
+  background: rgba(192, 38, 211, 0.14);
+  color: #e879f9;
+  border: 1px solid rgba(192, 38, 211, 0.3);
+}
+
+html[data-theme="dark"] .btn-inspect,
+body.dark-mode .btn-inspect {
+  background-color: #162032;
+  border: 1px solid var(--border-main);
+  color: #e2e8f0;
+}
+
+html[data-theme="dark"] .btn-inspect:hover,
+body.dark-mode .btn-inspect:hover {
+  background-color: #1e293b;
+  border-color: var(--ember-500);
+  color: #fb923c;
+  box-shadow: 0 0 10px rgba(249, 115, 22, 0.2);
+}
+
