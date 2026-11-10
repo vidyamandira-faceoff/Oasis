@@ -18,7 +18,7 @@ from services.terminal.backend.router import router as terminal_router
 from services.settings.backend.router import router as settings_router
 from services.notifications.backend.router import router as notifications_router
 
-# Active Intelligence Module Routers (IM-01)
+# Active Intelligence Module Routers
 from services.recon_username.backend.router import router as recon_username_router
 
 app = FastAPI(
@@ -55,7 +55,7 @@ async def get_system_status():
         "status": "operational",
         "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
         "active_processes": len(RUNNING_PROCESSES),
-        "active_modules": ["IM-01: Username Intelligence"],
+        "active_modules": ["Username Intelligence"],
         "connected_engines": ["Maigret"]
     }
 
