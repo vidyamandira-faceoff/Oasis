@@ -16,13 +16,13 @@
             <span class="status-dot-sm dot-green"></span>
             <span class="status-dot-sm dot-orange"></span>
           </span>
-          <span id="live-date-str">SURVEILLANCE CYCLE ACTIVE // LIVE TELEMETRY</span>
+          <span id="live-date-str">V1 DEMONSTRATION PLATFORM // ACTIVE</span>
         </div>
         <div class="welcome-heading-row">
           <h1 class="welcome-heading">Mission Briefing</h1>
-          <span class="role-pill-dark">OPERATIONAL HUD</span>
+          <span class="role-pill-dark">DEMO BUILD — NOT FOR CASEWORK</span>
         </div>
-        <p class="welcome-subtitle">Oasis Intelligence Suite &bull; Modular Reconnaissance, Social Media Scraping &amp; Background Automation</p>
+        <p class="welcome-subtitle">OASIS Open-Source Intelligence Platform &bull; Modular Monolith &amp; Multi-Host Engine Architecture</p>
       </div>
     </div>
 
@@ -33,8 +33,8 @@
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
         <div class="clock-details">
-          <span class="clock-label">SYSTEM CLOCK (UTC+5:30)</span>
-          <span class="clock-display" id="live-clock-text">12:08:16 PM</span>
+          <span class="clock-label">SYSTEM TIME (UTC)</span>
+          <span class="clock-display" id="live-clock-text">--:--:--</span>
         </div>
       </div>
     </div>
@@ -42,10 +42,10 @@
 
   <!-- 4 Metrics Cards Grid -->
   <div class="metrics-grid-row">
-    <!-- Metric 1: Active Targets -->
+    <!-- Metric 1: Active Investigations -->
     <div class="metric-card">
       <div class="metric-header">
-        <span class="metric-title">TARGETS IN VAULT</span>
+        <span class="metric-title">ACTIVE INVESTIGATIONS</span>
         <div class="metric-badge-icon icon-blue">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
@@ -53,39 +53,19 @@
         </div>
       </div>
       <div class="metric-body">
-        <span class="metric-value">{{ summary.active_targets_count }}</span>
-        <span class="metric-subtext">indexed entities</span>
+        <span class="metric-value">{{ summary.active_investigations }}</span>
+        <span class="metric-subtext">case active</span>
       </div>
       <div class="metric-footer">
-        <span class="metric-footer-stat">Ready for deep scan</span>
+        <span class="metric-footer-stat">Rule: 1 active per analyst</span>
         <a class="metric-footer-action" href="/vault">Open Repository &rarr;</a>
       </div>
     </div>
 
-    <!-- Metric 2: Discovered Assets -->
+    <!-- Metric 2: Active Modules -->
     <div class="metric-card">
       <div class="metric-header">
-        <span class="metric-title">EXTRACTED ASSETS</span>
-        <div class="metric-badge-icon icon-red">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-          </svg>
-        </div>
-      </div>
-      <div class="metric-body">
-        <span class="metric-value">{{ summary.total_assets_formatted }}</span>
-        <span class="pill-alert">Cataloged</span>
-      </div>
-      <div class="metric-footer">
-        <span class="metric-footer-stat">URLs, endpoints &amp; params</span>
-        <a class="metric-footer-action" style="color: var(--ember-600);" href="/services/recon-website-url">Inspect Assets &rarr;</a>
-      </div>
-    </div>
-
-    <!-- Metric 3: Recon Velocity -->
-    <div class="metric-card">
-      <div class="metric-header">
-        <span class="metric-title">CRAWL EFFICIENCY</span>
+        <span class="metric-title">CONNECTED MODULES</span>
         <div class="metric-badge-icon icon-green">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
@@ -94,19 +74,19 @@
         </div>
       </div>
       <div class="metric-body">
-        <span class="metric-value">{{ summary.recon_velocity }}</span>
-        <span class="metric-subtext">signal ratio</span>
+        <span class="metric-value">{{ summary.active_modules_count }}</span>
+        <span class="pill-alert" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3);">IM-01 Active</span>
       </div>
       <div class="metric-footer">
-        <span class="metric-footer-stat">Background async runners</span>
-        <a class="metric-footer-action" style="color: var(--emerald-500);" href="/services/recon-website-url">Configure Engine &rarr;</a>
+        <span class="metric-footer-stat">11 Modules Coming Soon</span>
+        <a class="metric-footer-action" style="color: var(--emerald-500);" href="/services/recon-username">Open IM-01 &rarr;</a>
       </div>
     </div>
 
-    <!-- Metric 4: Platform Engines -->
+    <!-- Metric 3: Connected Engines -->
     <div class="metric-card">
       <div class="metric-header">
-        <span class="metric-title">ENGINES DEPLOYED</span>
+        <span class="metric-title">INTEGRATED ENGINES</span>
         <div class="metric-badge-icon icon-orange">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
@@ -114,12 +94,32 @@
         </div>
       </div>
       <div class="metric-body">
-        <span class="metric-value" id="dash-active-count">{{ summary.engines_ready }}</span>
-        <span class="metric-subtext">ready for queries</span>
+        <span class="metric-value">{{ summary.connected_engines_count }}</span>
+        <span class="metric-subtext">Maigret v0.5.0+</span>
       </div>
       <div class="metric-footer">
-        <span class="metric-footer-stat">Social Media &amp; Recon</span>
-        <a class="metric-footer-action" style="color: var(--ember-500);" href="/terminal">Live Telemetry &rarr;</a>
+        <span class="metric-footer-stat">Sherlock in registry</span>
+        <a class="metric-footer-action" style="color: var(--ember-500);" href="/terminal">Engine Health &rarr;</a>
+      </div>
+    </div>
+
+    <!-- Metric 4: System Operational Status -->
+    <div class="metric-card">
+      <div class="metric-header">
+        <span class="metric-title">PLATFORM HEALTH</span>
+        <div class="metric-badge-icon icon-red">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+          </svg>
+        </div>
+      </div>
+      <div class="metric-body">
+        <span class="metric-value" style="font-size: 20px;">Ready</span>
+        <span class="metric-subtext">SSE &amp; Worker OK</span>
+      </div>
+      <div class="metric-footer">
+        <span class="metric-footer-stat">Background jobs detached</span>
+        <a class="metric-footer-action" style="color: var(--ember-600);" href="/settings">Environment &rarr;</a>
       </div>
     </div>
   </div>
@@ -131,28 +131,46 @@
       <!-- Quick Action Launcher Cards -->
       <div class="content-card" style="margin-bottom: 24px;">
         <div class="card-title-bar">
-          <span class="card-heading">Tactical Intelligence Launchpad</span>
-          <span class="card-title-subtext">One-click deployment into specialized recon engines</span>
+          <span class="card-heading">Intelligence Module Launchpad</span>
+          <span class="card-title-subtext">Execution boundary for connected open-source intelligence engines</span>
         </div>
         <div class="quick-actions-grid">
-          <!-- Tile 1: Instagram -->
-          <a class="quick-action-tile" href="/services/social-instagram">
-            <div class="tile-icon-box" style="background: linear-gradient(135deg, #c026d3 0%, #9333ea 100%);">
+          <!-- Active Tile: IM-01 Username Intelligence -->
+          <a class="quick-action-tile" href="/services/recon-username" style="border: 1px solid rgba(16, 185, 129, 0.3);">
+            <div class="tile-icon-box" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="2" y="2" width="20" height="20" rx="4"></rect>
-                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                <circle cx="17.5" cy="6.5" r="1.5"></circle>
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
               </svg>
             </div>
             <div class="tile-info">
-              <span class="tile-title">Instagram Scraping</span>
-              <span class="tile-subtext">Profile harvesting &amp; relationship analysis</span>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="tile-title">IM-01 Username Intelligence</span>
+                <span class="nav-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: none; font-size: 9px; padding: 2px 6px;">READY</span>
+              </div>
+              <span class="tile-subtext">Cross-platform profile enumeration &amp; metadata via <strong>Maigret</strong></span>
             </div>
           </a>
 
-          <!-- Tile 2: Website URL -->
-          <a class="quick-action-tile" href="/services/recon-website-url">
-            <div class="tile-icon-box" style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);">
+          <!-- Disabled Tile: IM-02 Social Media -->
+          <div class="quick-action-tile" style="opacity: 0.5; cursor: not-allowed; filter: grayscale(50%);">
+            <div class="tile-icon-box" style="background: linear-gradient(135deg, #64748b 0%, #475569 100%);">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+              </svg>
+            </div>
+            <div class="tile-info">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="tile-title">IM-02 Social Media</span>
+                <span class="nav-badge-coming-soon">Coming Soon</span>
+              </div>
+              <span class="tile-subtext">Targeted public platform scraping &bull; V2 release</span>
+            </div>
+          </div>
+
+          <!-- Disabled Tile: IM-05 Domain & Website -->
+          <div class="quick-action-tile" style="opacity: 0.5; cursor: not-allowed; filter: grayscale(50%);">
+            <div class="tile-icon-box" style="background: linear-gradient(135deg, #64748b 0%, #475569 100%);">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="12" cy="12" r="10"></circle>
                 <line x1="2" y1="12" x2="22" y2="12"></line>
@@ -160,130 +178,82 @@
               </svg>
             </div>
             <div class="tile-info">
-              <span class="tile-title">Website URL Recon</span>
-              <span class="tile-subtext">Endpoint extraction &amp; secret auditing</span>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="tile-title">IM-05 Domain &amp; Website</span>
+                <span class="nav-badge-coming-soon">Coming Soon</span>
+              </div>
+              <span class="tile-subtext">DNS, subdomains, web infrastructure &bull; V2 release</span>
             </div>
-          </a>
-
-          <!-- Tile 3: IP Intelligence -->
-          <a class="quick-action-tile" href="/services/recon-ip">
-            <div class="tile-icon-box" style="background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="1" y="4" width="22" height="16" rx="2"></rect>
-                <line x1="1" y1="10" x2="23" y2="10"></line>
-              </svg>
-            </div>
-            <div class="tile-info">
-              <span class="tile-title">IP &amp; ASN Intelligence</span>
-              <span class="tile-subtext">BGP prefixes &amp; geolocation mapping</span>
-            </div>
-          </a>
+          </div>
         </div>
       </div>
 
-      <!-- Live Recent Targets Feed -->
+      <!-- V1 Verification Notice & Specification References -->
       <div class="content-card">
         <div class="card-title-bar">
           <div>
-            <span class="card-heading">Recent Indexed Recon Targets</span>
-            <span class="card-title-subtext" style="display: block; margin-top: 2px;">Stored in local SQLite target repository</span>
+            <span class="card-heading">OASIS V1 Architecture Guardrails</span>
+            <span class="card-title-subtext" style="display: block; margin-top: 2px;">Enforced architectural boundaries per OASIS-VSG-001 &amp; OASIS-SDD-001</span>
           </div>
-          <a class="card-header-link" href="/vault">Full Target Vault &rarr;</a>
+          <span class="role-pill-dark">V1 PROOF</span>
         </div>
-        <div class="data-table-container">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Target Identifier</th>
-                <th>Service Engine</th>
-                <th>Harvested Records</th>
-                <th style="text-align: right;">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td style="font-weight: 700; color: var(--slate-900);">belurmath.org</td>
-                <td><span class="nav-badge" style="background: rgba(2, 132, 199, 0.12); color: #0284c7;">Website URL</span></td>
-                <td>86,120 endpoints</td>
-                <td style="text-align: right;"><button class="btn-inspect" onclick="window.location.href='/services/recon-website-url?target=belurmath.org'">Inspect</button></td>
-              </tr>
-              <tr>
-                <td style="font-weight: 700; color: var(--slate-900);">animeschedule.net</td>
-                <td><span class="nav-badge" style="background: rgba(16, 185, 129, 0.12); color: #10b981;">Subdomains</span></td>
-                <td>14 hostnames</td>
-                <td style="text-align: right;"><button class="btn-inspect" onclick="window.location.href='/services/recon-subdomains?target=animeschedule.net'">Inspect</button></td>
-              </tr>
-              <tr>
-                <td style="font-weight: 700; color: var(--slate-900);">@veritasium_daily</td>
-                <td><span class="nav-badge" style="background: rgba(192, 38, 211, 0.12); color: #c026d3;">Instagram</span></td>
-                <td>1,240 posts &amp; relations</td>
-                <td style="text-align: right;"><button class="btn-inspect" onclick="window.location.href='/services/social-instagram'">Inspect</button></td>
-              </tr>
-              <tr>
-                <td style="font-weight: 700; color: var(--slate-900);">104.21.55.2</td>
-                <td><span class="nav-badge" style="background: rgba(13, 148, 136, 0.12); color: #0d9488;">IP Intelligence</span></td>
-                <td>Cloudflare ASN 13335</td>
-                <td style="text-align: right;"><button class="btn-inspect" onclick="window.location.href='/services/recon-ip'">Inspect</button></td>
-              </tr>
-            </tbody>
-          </table>
+        <div style="padding: 16px 20px; font-size: 13.5px; line-height: 1.6; color: var(--slate-700);">
+          <ul style="margin: 0; padding-left: 20px;">
+            <li><strong>Provenance Preservation:</strong> Raw outputs are stored unmodified with SHA-256 digests.</li>
+            <li><strong>Single Active Run Rule:</strong> 1 active investigation and 1 active module execution per user.</li>
+            <li><strong>Decoupled Execution:</strong> Engine host tasks run in the background; closing the browser does not terminate jobs.</li>
+            <li><strong>Demarcation:</strong> All output and reports are labeled <em>DEMO BUILD — not for casework</em>.</li>
+          </ul>
         </div>
       </div>
     </div>
 
-    <!-- Right Column: System Engines & Telemetry Activity -->
+    <!-- Right Column: System Telemetry & Logs -->
     <div class="hud-right-col">
-      <!-- Engine Control HUD -->
-      <div class="content-card" style="margin-bottom: 24px;">
-        <div class="card-title-bar">
-          <span class="card-heading">Modular Engine Status</span>
-          <span class="card-title-subtext">Real-time status of 12 background services</span>
-        </div>
-        <div style="padding: 16px 22px; display: flex; flex-direction: column; gap: 12px;">
-          <!-- Social Group -->
-          <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: var(--bg-card-subtle); border-radius: 10px; border: 1px solid var(--border-soft);">
-            <div style="display: flex; align-items: center; gap: 10px;">
-              <span class="status-dot-sm dot-green"></span>
-              <span style="font-size: 13.5px; font-weight: 700;">Social Media Harvesters</span>
-            </div>
-            <span class="role-pill-dark" style="color: var(--emerald-500); border-color: rgba(16, 185, 129, 0.3);">4 ENGINES ONLINE</span>
-          </div>
-
-          <!-- Recon Group -->
-          <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: var(--bg-card-subtle); border-radius: 10px; border: 1px solid var(--border-soft);">
-            <div style="display: flex; align-items: center; gap: 10px;">
-              <span class="status-dot-sm dot-green"></span>
-              <span style="font-size: 13.5px; font-weight: 700;">Reconnaissance &amp; Footprinting</span>
-            </div>
-            <span class="role-pill-dark" style="color: var(--emerald-500); border-color: rgba(16, 185, 129, 0.3);">8 ENGINES ONLINE</span>
-          </div>
-
-          <!-- Workers Concurrency -->
-          <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: var(--bg-card-subtle); border-radius: 10px; border: 1px solid var(--border-soft);">
-            <div style="display: flex; align-items: center; gap: 10px;">
-              <span class="status-dot-sm dot-green"></span>
-              <span style="font-size: 13.5px; font-weight: 700;">Background Thread Pool</span>
-            </div>
-            <span class="role-pill-dark" style="color: var(--ember-500); border-color: rgba(249, 115, 22, 0.3);">UNRESTRICTED</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Quick Abort & Emergency Actions -->
       <div class="content-card">
         <div class="card-title-bar">
-          <span class="card-heading">Global Engine Controls</span>
+          <span class="card-heading">Engine Health Telemetry</span>
+          <span class="status-indicator-dot dot-green"></span>
         </div>
-        <div style="padding: 18px 22px; display: flex; flex-direction: column; gap: 10px;">
-          <button class="btn-secondary-action" style="justify-content: center; width: 100%;" onclick="window.location.href='/terminal'">
-            Open Live Telemetry Console &rarr;
-          </button>
-          <button class="btn-danger-action" style="justify-content: center; width: 100%;" onclick="abortAllTasksImmediately()">
-            Emergency Stop All Background Engines
-          </button>
+        <div style="padding: 14px 18px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border-ultra-soft);">
+            <div>
+              <div style="font-weight: 700; color: var(--slate-900); font-size: 13px;">Maigret Adapter</div>
+              <div style="font-size: 11.5px; color: var(--slate-500);">Module IM-01 &bull; Local Host</div>
+            </div>
+            <span class="nav-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border-color: rgba(16, 185, 129, 0.3);">Online</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border-ultra-soft);">
+            <div>
+              <div style="font-weight: 700; color: var(--slate-900); font-size: 13px;">Sherlock Adapter</div>
+              <div style="font-size: 11.5px; color: var(--slate-500);">Module IM-01 Fallback &bull; Standby</div>
+            </div>
+            <span class="nav-badge" style="background: var(--slate-100); color: var(--slate-500);">Standby</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0;">
+            <div>
+              <div style="font-weight: 700; color: var(--slate-900); font-size: 13px;">Audit Logger (CPM-10)</div>
+              <div style="font-size: 11.5px; color: var(--slate-500);">Append-only transaction stream</div>
+            </div>
+            <span class="nav-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border-color: rgba(16, 185, 129, 0.3);">Active</span>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  function updateLiveClock() {
+    const clockEl = document.getElementById('live-clock-text');
+    if (clockEl) {
+      const now = new Date();
+      clockEl.innerText = now.toUTCString().split(' ')[4] + ' UTC';
+    }
+  }
+  setInterval(updateLiveClock, 1000);
+  updateLiveClock();
+</script>
 {% endblock %}

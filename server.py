@@ -18,25 +18,12 @@ from services.terminal.backend.router import router as terminal_router
 from services.settings.backend.router import router as settings_router
 from services.notifications.backend.router import router as notifications_router
 
-# Social Media Scraping & Recon Routers
-from services.social_instagram.backend.router import router as social_instagram_router
-from services.social_linkedin.backend.router import router as social_linkedin_router
-from services.social_x.backend.router import router as social_x_router
-from services.social_reddit.backend.router import router as social_reddit_router
-
-# Reconnaissance & Footprinting Routers
-from services.recon_website_url.backend.router import router as recon_website_url_router
-from services.recon_web_browsers.backend.router import router as recon_web_browsers_router
-from services.recon_email.backend.router import router as recon_email_router
-from services.recon_ip.backend.router import router as recon_ip_router
+# Active Intelligence Module Routers (IM-01)
 from services.recon_username.backend.router import router as recon_username_router
-from services.recon_phone.backend.router import router as recon_phone_router
-from services.recon_subdomains.backend.router import router as recon_subdomains_router
-from services.recon_crypto.backend.router import router as recon_crypto_router
 
 app = FastAPI(
     title=APP_NAME,
-    description="Unified Modular Reconnaissance & Scraping Architecture with Background Multi-Tool Engines",
+    description="OASIS — Open-source OSINT Investigation Platform (V1 Demo Build)",
     version=APP_VERSION
 )
 
@@ -68,20 +55,8 @@ async def get_system_status():
         "status": "operational",
         "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
         "active_processes": len(RUNNING_PROCESSES),
-        "engines_ready": 12,
-        "services": {
-            "social": ["instagram", "linkedin", "x", "reddit"],
-            "recon": [
-                "website_url",
-                "web_browsers",
-                "email",
-                "ip",
-                "username",
-                "phone",
-                "subdomains",
-                "crypto"
-            ]
-        }
+        "active_modules": ["IM-01: Username Intelligence"],
+        "connected_engines": ["Maigret"]
     }
 
 @app.post("/api/tools/abort-all")
@@ -91,30 +66,24 @@ async def abort_all_tasks():
 # -----------------------------------------------------------------------------
 # Microservice Routers Registration
 # -----------------------------------------------------------------------------
-# Core
+# Core Platform Modules
 app.include_router(dashboard_router)
 app.include_router(vault_router)
 app.include_router(terminal_router)
 app.include_router(settings_router)
 app.include_router(notifications_router)
 
-# Social Media
-app.include_router(social_instagram_router)
-app.include_router(social_linkedin_router)
-app.include_router(social_x_router)
-app.include_router(social_reddit_router)
-
-# Reconnaissance & Footprinting
-app.include_router(recon_website_url_router)
-app.include_router(recon_web_browsers_router)
-app.include_router(recon_email_router)
-app.include_router(recon_ip_router)
+# Intelligence Modules
 app.include_router(recon_username_router)
-app.include_router(recon_phone_router)
-app.include_router(recon_subdomains_router)
-app.include_router(recon_crypto_router)
+
+# -----------------------------------------------------------------------------
+# Root Fallback Redirect
+# -----------------------------------------------------------------------------
+@app.get("/")
+async def root_redirect():
+    from fastapi.responses import RedirectResponse
+    return RedirectResponse(url="/dashboard")
 
 if __name__ == "__main__":
     import uvicorn
-    print(f"[*] Starting Oasis OSINT Gateway on http://127.0.0.1:{GATEWAY_PORT} ...")
-    uvicorn.run("server:app", host="127.0.0.1", port=GATEWAY_PORT, reload=True)
+    uvicorn.run("server:app", host="0.0.0.0", port=GATEWAY_PORT, reload=True)
