@@ -5,4 +5,10 @@ pydantic>=2.0.0
 requests>=2.28.0
 httpx>=0.24.0
 aiofiles>=23.1.0
+trio>=0.22.0
+bs4>=0.0.1
+termcolor>=2.0.0
+tqdm>=4.60.0
+-e ../holehe_OSINT
+
 
