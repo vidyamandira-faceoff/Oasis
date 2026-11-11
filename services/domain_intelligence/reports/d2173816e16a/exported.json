@@ -1,0 +1,43 @@
+{
+    "files": [],
+    "intel": [],
+    "robots": [],
+    "custom": [],
+    "failed": [],
+    "internal": [
+        "https://rkmvmfamily.in/?page=developers",
+        "https://rkmvmfamily.in/mailto:rkmvparivar@vidyamandira.ac.in",
+        "https://rkmvmfamily.in/?page=account_service",
+        "https://rkmvmfamily.in/?page=landing",
+        "https://rkmvmfamily.in/?page=privacy_policy",
+        "https://rkmvmfamily.in/",
+        "https://rkmvmfamily.in/?page=terms_conditions",
+        "https://rkmvmfamily.in",
+        "https://rkmvmfamily.in/?page=login"
+    ],
+    "scripts": [],
+    "external": [
+        "https://twitter.com/rkmvidyamandira",
+        "https://www.facebook.com/Ramakrishna-Mission-Vidyamandira-College-Belur-Math-Howrah-106396990910466/",
+        "https://www.instagram.com/rkmvidyamandira/",
+        "https://www.whatsapp.com/channel/0029VaASGai0rGiLfeuHh039",
+        "https://www.caluniv.ac.in/",
+        "https://rkmvmbosehouse.com/",
+        "https://vidyamandira.ac.in",
+        "https://vidyamandira.ac.in/",
+        "https://belurmath.org/",
+        "http://www.youtube.com/@RamakrishnaMissionVidyamandira",
+        "https://saradapitha.org/",
+        "https://vidyamandiraonline.in/"
+    ],
+    "fuzzable": [
+        "https://rkmvmfamily.in/?page=account_service",
+        "https://rkmvmfamily.in/?page=landing",
+        "https://rkmvmfamily.in/?page=privacy_policy",
+        "https://rkmvmfamily.in/?page=terms_conditions",
+        "https://rkmvmfamily.in/?page=developers",
+        "https://rkmvmfamily.in/?page=login"
+    ],
+    "endpoints": [],
+    "keys": []
+}

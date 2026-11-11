@@ -17,10 +17,10 @@ from services.vault.backend.router import router as vault_router
 from services.terminal.backend.router import router as terminal_router
 from services.settings.backend.router import router as settings_router
 from services.notifications.backend.router import router as notifications_router
-from services.surface_analysis.backend.router import router as surface_analysis_router
-
 # Active Intelligence Module Routers
 from services.recon_username.backend.router import router as recon_username_router
+from services.domain_intelligence.backend.router import router as domain_intelligence_router
+from services.social_media_intelligence.backend.router import router as social_media_router
 
 app = FastAPI(
     title=APP_NAME,
@@ -58,11 +58,14 @@ async def get_system_status():
         "active_processes": len(RUNNING_PROCESSES),
         "active_modules": [
             "Username Intelligence",
-            "Website Surface Intelligence",
-            "Hostname & Subdomain Intelligence",
-            "Web Footprint Intelligence",
+            "Domain & Website Intelligence",
+            "Social Media Intelligence",
         ],
-        "connected_engines": ["Username Intelligence Engine", "Surface Analysis"],
+        "connected_engines": [
+            "Username Intelligence Engine",
+            "Domain & Website Intelligence Engine",
+            "Social Media Intelligence Engine (Flash/Pro/Ultra/Max)",
+        ],
     }
 
 @app.post("/api/tools/abort-all")
@@ -78,10 +81,11 @@ app.include_router(vault_router)
 app.include_router(terminal_router)
 app.include_router(settings_router)
 app.include_router(notifications_router)
-app.include_router(surface_analysis_router)
 
 # Intelligence Modules
 app.include_router(recon_username_router)
+app.include_router(domain_intelligence_router)
+app.include_router(social_media_router)
 
 # -----------------------------------------------------------------------------
 # Root Fallback Redirect

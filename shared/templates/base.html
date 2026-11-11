@@ -165,24 +165,25 @@
         <span class="nav-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border-color: rgba(16, 185, 129, 0.3);">Active</span>
       </a>
 
-      <a href="/services/recon-website-url" class="nav-item {% if active_view == 'recon_website_url' %}active{% endif %}">
-        <span>Website Surface</span><span class="nav-badge">WEB</span>
-      </a>
-      <a href="/services/recon-subdomains" class="nav-item {% if active_view == 'recon_subdomains' %}active{% endif %}">
-        <span>Hostname &amp; Subdomains</span><span class="nav-badge">DNS</span>
-      </a>
-      <a href="/services/recon-web-browsers" class="nav-item {% if active_view == 'recon_web_browsers' %}active{% endif %}">
-        <span>Web Footprint</span><span class="nav-badge">DOM</span>
+      <!-- Intelligence Module: Domain & Website Intelligence -->
+      <a href="/services/domain-intelligence" class="nav-item {% if active_view == 'domain_intelligence' %}active{% endif %}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+        <span>Domain &amp; Website Intelligence</span>
+        <span class="nav-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border-color: rgba(16, 185, 129, 0.3);">Active</span>
       </a>
 
-      <!-- Social Media Intelligence (DISABLED - Coming Soon) -->
-      <div class="nav-item disabled" title="Social Media Intelligence (Coming Soon)">
+      <!-- Social Media Intelligence (CONNECTED & ACTIVE) -->
+      <a href="/services/social-media-intelligence" class="nav-item {% if active_view == 'social_media_intelligence' %}active{% endif %}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
           <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
         </svg>
         <span>Social Media Intelligence</span>
-        <span class="nav-badge-coming-soon">Coming Soon</span>
-      </div>
+        <span class="nav-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border-color: rgba(16, 185, 129, 0.3);">Active</span>
+      </a>
 
       <!-- Email Intelligence (DISABLED - Coming Soon) -->
       <div class="nav-item disabled" title="Email Intelligence (Coming Soon)">
@@ -203,16 +204,7 @@
         <span class="nav-badge-coming-soon">Coming Soon</span>
       </div>
 
-      <!-- Domain & Website Intelligence (DISABLED - Coming Soon) -->
-      <div class="nav-item disabled" title="Domain & Website Intelligence (Coming Soon)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <circle cx="12" cy="12" r="10"></circle>
-          <line x1="2" y1="12" x2="22" y2="12"></line>
-          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-        </svg>
-        <span>Domain &amp; Website Intelligence</span>
-        <span class="nav-badge-coming-soon">Coming Soon</span>
-      </div>
+
 
       <!-- IP & Network Intelligence (DISABLED - Coming Soon) -->
       <div class="nav-item disabled" title="IP & Network Intelligence (Coming Soon)">

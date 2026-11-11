@@ -1,0 +1,1138 @@
+{% extends "shared/templates/base.html" %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="/static/services/recon_username/css/dark_mode.css">
+<style>
+  .social-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-bottom: 40px;
+  }
+  .input-panel {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    box-shadow: var(--shadow-card);
+    margin-bottom: 24px;
+  }
+  .input-grid-social {
+    display: grid;
+    grid-template-columns: 2fr 1.3fr auto auto;
+    gap: 16px;
+    align-items: flex-end;
+  }
+  @media (max-width: 1024px) {
+    .input-grid-social {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (max-width: 640px) {
+    .input-grid-social {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Mode Tier Selection Cards */
+  .mode-selection-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-soft);
+  }
+  @media (max-width: 900px) {
+    .mode-selection-strip {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 540px) {
+    .mode-selection-strip {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .mode-card {
+    border: 1.5px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    background: var(--bg-card-subtle);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    position: relative;
+  }
+  .mode-card:hover {
+    border-color: #8b5cf6;
+    background: var(--bg-surface);
+    transform: translateY(-1px);
+  }
+  .mode-card.active {
+    border-color: #8b5cf6;
+    background: rgba(139, 92, 246, 0.08);
+    box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+  }
+  .mode-card.max-mode {
+    border-color: #f59e0b;
+    background: rgba(245, 158, 11, 0.05);
+  }
+  .mode-card.max-mode:hover, .mode-card.max-mode.active {
+    border-color: #d97706;
+    background: rgba(245, 158, 11, 0.12);
+    box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.3);
+  }
+  .mode-badge {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    display: inline-block;
+    align-self: flex-start;
+  }
+
+  .btn-social-search {
+    background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 11px 22px;
+    font-weight: 700;
+    font-size: 13.5px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 42px;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 10px rgba(139, 92, 246, 0.3);
+    white-space: nowrap;
+  }
+  .btn-social-search:hover:not(:disabled) {
+    box-shadow: 0 4px 16px rgba(139, 92, 246, 0.45);
+    transform: translateY(-1px);
+  }
+  .btn-social-search:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+  }
+
+  .progress-card {
+    display: none;
+    background: var(--bg-surface);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: var(--radius-md);
+    padding: 18px 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 16px rgba(139, 92, 246, 0.08);
+  }
+  .metrics-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 900px) {
+    .metrics-strip {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .kpi-tile {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    padding: 18px 20px;
+    box-shadow: var(--shadow-subtle);
+  }
+  .kpi-label {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--slate-500);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  .kpi-value {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--slate-900);
+    line-height: 1.1;
+  }
+  .kpi-sub {
+    font-size: 11.5px;
+    color: var(--slate-500);
+    margin-top: 4px;
+  }
+
+  .filter-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 16px 20px;
+    background: var(--bg-card-subtle);
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .filter-pills {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .pill-filter {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    padding: 5px 12px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--slate-600);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .pill-filter:hover {
+    border-color: #8b5cf6;
+    color: #8b5cf6;
+  }
+  .pill-filter.active {
+    background: #8b5cf6;
+    border-color: #8b5cf6;
+    color: #ffffff;
+  }
+
+  .profile-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1.5px solid var(--border-soft);
+    background: var(--slate-100);
+  }
+  .profile-avatar-fallback {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .copy-btn {
+    background: transparent;
+    border: 1px solid var(--border-soft);
+    color: var(--slate-600);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .copy-btn:hover {
+    background: var(--slate-100);
+    color: var(--slate-900);
+  }
+
+  /* Modal Styling */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(4px);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-box {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    border-radius: 16px;
+    max-width: 640px;
+    width: 100%;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    animation: modalSlide 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes modalSlide {
+    from { opacity: 0; transform: translateY(12px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .modal-header {
+    padding: 22px 26px;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(217, 119, 6, 0.05) 100%);
+    border-bottom: 1px solid rgba(245, 158, 11, 0.25);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .modal-body {
+    padding: 24px 26px;
+  }
+  .native-cluster-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border: 1px solid var(--border-soft);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    background: var(--bg-card-subtle);
+    transition: all 0.2s ease;
+  }
+  .native-cluster-card:hover {
+    border-color: #8b5cf6;
+    background: var(--bg-surface);
+    transform: translateX(3px);
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="view-page active-view">
+  <div class="social-container">
+
+    <!-- 1. Header Banner -->
+    <div class="tool-header-banner" style="margin-bottom: 24px;">
+      <div class="tool-header-left">
+        <div class="tool-icon-square" style="background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #3b82f6 100%); font-weight: 800; font-size: 14px; letter-spacing: 0.5px;">SOC</div>
+        <div class="tool-title-group">
+          <h2>Social Media Intelligence &amp; Account Analysis</h2>
+          <p>Multi-platform presence verification, deep profile metadata extraction, and native high-capacity scraper integration.</p>
+        </div>
+      </div>
+      <div class="tool-header-actions">
+        <button class="btn-secondary-action" onclick="openMaxModeModal()" style="border-color: #f59e0b; color: #d97706; font-weight: 700;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+          <span>Launch Max Mode Cluster</span>
+        </button>
+        <button class="btn-secondary-action" id="btn-export-csv" onclick="downloadSocialExport('csv')" disabled title="Download tabular CSV report">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Export CSV</span>
+        </button>
+        <button class="btn-secondary-action" id="btn-export-json" onclick="downloadSocialExport('json')" disabled title="Download structured JSON dossier">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+          </svg>
+          <span>Export JSON</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 2. Target Handle & Mode Selection Panel -->
+    <div class="input-panel">
+      <div style="margin-bottom: 16px;">
+        <h3 style="font-size: 15px; font-weight: 700; color: var(--slate-900); margin-bottom: 4px;">Target Social Handle &amp; Intelligence Mode</h3>
+        <p style="font-size: 12.5px; color: var(--slate-500);">Specify the social handle to investigate and select the appropriate reconnaissance depth tier.</p>
+      </div>
+
+      <div class="input-grid-social">
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label" style="font-weight: 700; font-size: 12px;">TARGET USERNAME OR PROFILE HANDLE</label>
+          <div style="position: relative;">
+            <input 
+              type="text" 
+              class="form-input" 
+              id="social-target-input" 
+              placeholder="e.g. oushnikbhaduri, mark_zuck, or sundarpichai" 
+              value="{{ initial_target }}" 
+              style="padding-left: 36px; font-family: var(--font-mono); font-weight: 600;"
+              onkeydown="if(event.key==='Enter'){ startSocialRecon(false); }"
+            >
+            <span style="position: absolute; left: 12px; top: 12px; color: var(--slate-400);">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label" style="font-weight: 700; font-size: 12px;">TARGET NETWORK</label>
+          <select class="form-select" id="social-platform-select">
+            <option value="all" selected>All Major Social Ecosystems</option>
+            <option value="instagram">Instagram Only</option>
+            <option value="facebook">Facebook Only</option>
+            <option value="twitter">X / Twitter Only</option>
+            <option value="linkedin">LinkedIn Only</option>
+            <option value="tiktok">TikTok Only</option>
+            <option value="youtube">YouTube Only</option>
+            <option value="reddit">Reddit Only</option>
+          </select>
+        </div>
+
+        <div>
+          <button class="btn-social-search" id="btn-start-social" onclick="startSocialRecon(false)">
+            <svg id="btn-social-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <span id="btn-social-text">Execute Social Recon</span>
+          </button>
+        </div>
+
+        <div>
+          <button class="copy-btn" style="height: 42px; padding: 0 16px; font-size: 13px; font-weight: 700; color: #8b5cf6; border-color: #c4b5fd;" onclick="startSocialRecon(true)">
+            ↻ Re-run Fresh
+          </button>
+        </div>
+      </div>
+
+      <!-- Mode Tier Selection Hierarchy -->
+      <div class="mode-selection-strip">
+        <div class="mode-card" id="mode-card-flash" onclick="setOperationalMode('flash')">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 13.5px; font-weight: 700; color: var(--slate-900);">⚡ Flash Mode</span>
+            <span class="mode-badge" style="background: rgba(59, 130, 246, 0.12); color: #2563eb;">2-5s Rapid</span>
+          </div>
+          <p style="font-size: 11.5px; color: var(--slate-500); margin: 0; line-height: 1.4;">High-velocity public presence check across top 100 registries.</p>
+        </div>
+
+        <div class="mode-card active" id="mode-card-pro" onclick="setOperationalMode('pro')">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 13.5px; font-weight: 700; color: var(--slate-900);">🔷 Pro Mode</span>
+            <span class="mode-badge" style="background: rgba(139, 92, 246, 0.15); color: #7c3aed;">Recommended</span>
+          </div>
+          <p style="font-size: 11.5px; color: var(--slate-500); margin: 0; line-height: 1.4;">Deep profile metadata extraction (bio, avatar, followers, post stats).</p>
+        </div>
+
+        <div class="mode-card" id="mode-card-ultra" onclick="setOperationalMode('ultra')">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 13.5px; font-weight: 700; color: var(--slate-900);">🔮 Ultra Mode</span>
+            <span class="mode-badge" style="background: rgba(236, 72, 153, 0.12); color: #db2777;">Deep Graph</span>
+          </div>
+          <p style="font-size: 11.5px; color: var(--slate-500); margin: 0; line-height: 1.4;">Recursive identity discovery &amp; cross-network mention mapping.</p>
+        </div>
+
+        <div class="mode-card max-mode" id="mode-card-max" onclick="setOperationalMode('max')">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 13.5px; font-weight: 800; color: #b45309;">👑 Max Mode</span>
+            <span class="mode-badge" style="background: rgba(245, 158, 11, 0.2); color: #b45309;">Native Cluster</span>
+          </div>
+          <p style="font-size: 11.5px; color: #92400e; margin: 0; line-height: 1.4;">Vidyamandira custom high-capacity scrapers (Instagram, FB, X, LinkedIn).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Active Telemetry & Live Stream -->
+    <div class="progress-card" id="social-progress-panel">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span class="spinner-dot" style="background-color: #8b5cf6;"></span>
+          <span id="social-live-status-text" style="font-size: 13.5px; font-weight: 700; color: var(--slate-800);">Initiating social media intelligence engine...</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--slate-500);" id="social-timer-text">Elapsed: 00:00s</span>
+          <span class="nav-badge" style="background: rgba(139, 92, 246, 0.15); color: #7c3aed; border: 1px solid rgba(139, 92, 246, 0.3); font-weight: 700;" id="social-live-count-badge">0 Found</span>
+        </div>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px;" id="social-stream-chips"></div>
+    </div>
+
+    <!-- 4. Results Section -->
+    <div id="social-results-wrapper">
+
+      <!-- Empty State -->
+      <div class="content-card" id="social-empty-state" style="padding: 60px 20px; text-align: center;">
+        <div style="width: 54px; height: 54px; border-radius: 50%; background: var(--bg-card-subtle); border: 1px solid var(--border-soft); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px; color: var(--slate-400);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+          </svg>
+        </div>
+        <h4 style="font-size: 16px; font-weight: 700; color: var(--slate-800); margin-bottom: 6px;">Awaiting Social Media Target</h4>
+        <p style="font-size: 13px; color: var(--slate-500); max-width: 480px; margin: 0 auto;">Enter a target handle above and choose an operational mode to begin multi-platform profile discovery and dossier compilation.</p>
+      </div>
+
+      <!-- Active Results Display -->
+      <div id="social-active-results" style="display: none;">
+        
+        <!-- Cache Notification Banner -->
+        <div id="social-cache-notice" style="display: none; margin-bottom: 20px; background: rgba(139, 92, 246, 0.08); border: 1px solid rgba(139, 92, 246, 0.25); border-radius: 12px; padding: 12px 18px; align-items: center; justify-content: space-between;">
+          <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--slate-800);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+              <polyline points="17 21 17 13 7 13 7 21"></polyline>
+            </svg>
+            <span><strong>Loaded from Local Storage Cache:</strong> Instant retrieval (<span id="social-cache-time-label">0.1s</span>). Click to run a fresh live scan.</span>
+          </div>
+          <button class="copy-btn" style="padding: 6px 14px; font-size: 12px; height: auto; border-color: #8b5cf6; color: #8b5cf6;" onclick="startSocialRecon(true)">↻ Re-run Fresh Scan</button>
+        </div>
+
+        <!-- Metrics Strip -->
+        <div class="metrics-strip">
+          <div class="kpi-tile">
+            <div class="kpi-label">CLAIMED PROFILES</div>
+            <div class="kpi-value" id="kpi-social-claimed" style="color: #059669;">0</div>
+            <div class="kpi-sub">Verified active accounts</div>
+          </div>
+          <div class="kpi-tile">
+            <div class="kpi-label">PLATFORMS EVALUATED</div>
+            <div class="kpi-value" id="kpi-social-sites">0</div>
+            <div class="kpi-sub">Social ecosystems probed</div>
+          </div>
+          <div class="kpi-tile">
+            <div class="kpi-label">ENRICHED DOSSIERS</div>
+            <div class="kpi-value" id="kpi-social-enriched" style="color: #7c3aed;">0</div>
+            <div class="kpi-sub">Profiles with bio / avatar data</div>
+          </div>
+          <div class="kpi-tile">
+            <div class="kpi-label">RECON DURATION</div>
+            <div class="kpi-value" id="kpi-social-duration">0.0s</div>
+            <div class="kpi-sub">Total execution time</div>
+          </div>
+        </div>
+
+        <!-- Findings Table Card -->
+        <div class="content-card" style="margin-bottom: 32px;">
+          <!-- Filter Toolbar -->
+          <div class="filter-bar">
+            <div style="display: flex; align-items: center; gap: 12px; flex: 1; max-width: 360px;">
+              <input 
+                type="text" 
+                class="form-input" 
+                id="social-filter-input" 
+                placeholder="Filter by platform, bio keyword, or name..." 
+                oninput="applySocialFilter()"
+                style="padding: 7px 12px; font-size: 12.5px;"
+              >
+            </div>
+            
+            <div class="filter-pills" id="social-filter-pills">
+              <button class="pill-filter active" onclick="setSocialCategoryFilter('all', this)">All</button>
+              <button class="pill-filter" onclick="setSocialCategoryFilter('instagram', this)">Instagram</button>
+              <button class="pill-filter" onclick="setSocialCategoryFilter('facebook', this)">Facebook</button>
+              <button class="pill-filter" onclick="setSocialCategoryFilter('twitter', this)">X / Twitter</button>
+              <button class="pill-filter" onclick="setSocialCategoryFilter('linkedin', this)">LinkedIn</button>
+              <button class="pill-filter" onclick="setSocialCategoryFilter('video', this)">Video / Media</button>
+              <button class="pill-filter" onclick="setSocialCategoryFilter('messaging', this)">Messaging</button>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <span style="font-size: 12px; font-weight: 700; color: var(--slate-500);" id="social-results-count-label">
+                Showing 0 findings
+              </span>
+              <button class="copy-btn" style="color: #8b5cf6; border-color: #c4b5fd;" onclick="startSocialRecon(true)">↻ Re-run</button>
+            </div>
+          </div>
+
+          <!-- Table -->
+          <div class="data-table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th style="width: 45px;">#</th>
+                  <th style="width: 170px;">Platform</th>
+                  <th style="width: 280px;">Verified Profile URL</th>
+                  <th>Profile Dossier &amp; Harvested Metadata</th>
+                  <th style="width: 150px;">Category</th>
+                  <th style="width: 90px; text-align: right;">Action</th>
+                </tr>
+              </thead>
+              <tbody id="social-table-tbody">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 5. Capabilities & Features Provided Section -->
+    <div class="content-card" style="padding: 28px; margin-top: 24px;">
+      <div style="margin-bottom: 20px; border-bottom: 1px solid var(--border-soft); padding-bottom: 14px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+          <h3 style="font-size: 16px; font-weight: 800; color: var(--slate-900); margin: 0;">Capabilities &amp; Features Provided</h3>
+        </div>
+        <p style="font-size: 13px; color: var(--slate-500); margin-top: 4px;">Technical specifications and multi-tier scraping operations active in Social Media Intelligence.</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 16px;">
+        <div class="feature-card">
+          <div style="font-size: 14px; font-weight: 700; color: var(--slate-900); margin-bottom: 6px;">Tiered Operational Mode Unification</div>
+          <div style="font-size: 12.5px; color: var(--slate-600); line-height: 1.5;">Progressive reconnaissance tiers (Flash, Pro, Ultra, and Max) enable analysts to seamlessly scale from high-speed presence checks to deep forensic scraping.</div>
+        </div>
+
+        <div class="feature-card">
+          <div style="font-size: 14px; font-weight: 700; color: var(--slate-900); margin-bottom: 6px;">Vidyamandira Native Scraper Cluster (Max Mode)</div>
+          <div style="font-size: 12.5px; color: var(--slate-600); line-height: 1.5;">Direct integration with specialized high-capacity scraping engines developed at Ramakrishna Mission Vidyamandira for Instagram, Facebook, and X/Twitter.</div>
+        </div>
+
+        <div class="feature-card">
+          <div style="font-size: 14px; font-weight: 700; color: var(--slate-900); margin-bottom: 6px;">Deep Profile &amp; Metadata Enrichment</div>
+          <div style="font-size: 12.5px; color: var(--slate-600); line-height: 1.5;">Automated extraction of high-value metadata including profile avatars, self-reported bios, geographic locations, follower metrics, and outbound links.</div>
+        </div>
+
+        <div class="feature-card">
+          <div style="font-size: 14px; font-weight: 700; color: var(--slate-900); margin-bottom: 6px;">Cross-Platform Identity Correlation</div>
+          <div style="font-size: 12.5px; color: var(--slate-600); line-height: 1.5;">Synthesizes handles across fragmented social ecosystems (Instagram, Facebook, X, LinkedIn, TikTok, YouTube) into a consolidated person-of-interest dossier.</div>
+        </div>
+
+        <div class="feature-card">
+          <div style="font-size: 14px; font-weight: 700; color: var(--slate-900); margin-bottom: 6px;">Instant Local Caching &amp; Bypass Re-run</div>
+          <div style="font-size: 12.5px; color: var(--slate-600); line-height: 1.5;">Persists dossiers locally for sub-second retrieval while providing single-click fresh re-crawling when real-time confirmation is required.</div>
+        </div>
+
+        <div class="feature-card">
+          <div style="font-size: 14px; font-weight: 700; color: var(--slate-900); margin-bottom: 6px;">Multi-Format Dossier Archival</div>
+          <div style="font-size: 12.5px; color: var(--slate-600); line-height: 1.5;">Exports standardized case files in tabular CSV and structured JSON format for immediate integration into forensic case repositories.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. Investigation & Search History (At the very bottom) -->
+    <div class="content-card" style="padding: 28px; margin-top: 24px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border-soft); padding-bottom: 14px;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 14 14"></polyline>
+            </svg>
+            <h3 style="font-size: 16px; font-weight: 800; color: var(--slate-900); margin: 0;">Social Media Investigation History</h3>
+          </div>
+          <p style="font-size: 13px; color: var(--slate-500); margin-top: 4px;">Locally archived social investigations. Click any record to inspect findings or trigger a fresh query.</p>
+        </div>
+        <button class="btn-secondary-action" onclick="loadSocialHistory()" style="padding: 6px 12px; font-size: 12px;">Refresh History</button>
+      </div>
+
+      <div class="data-table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width: 45px;">#</th>
+              <th>Target Handle</th>
+              <th style="width: 160px;">Accounts Found</th>
+              <th style="width: 200px;">Archived Date / Time</th>
+              <th style="width: 220px; text-align: right;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="social-history-tbody">
+            <tr>
+              <td colspan="5" style="text-align: center; color: var(--slate-500); padding: 30px;">
+                Loading social investigation history...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Max Mode Modal / Popup Dialog -->
+<div class="modal-overlay" id="max-mode-modal" onclick="if(event.target===this) closeMaxModeModal()">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+          <span style="font-size: 18px;">👑</span>
+          <h3 style="font-size: 17px; font-weight: 800; color: #92400e; margin: 0;">Vidyamandira Native Scraping Cluster (Max Mode)</h3>
+        </div>
+        <span class="mode-badge" style="background: rgba(245, 158, 11, 0.25); color: #b45309;">DEDICATED RESEARCH INFRASTRUCTURE</span>
+      </div>
+      <button onclick="closeMaxModeModal()" style="background: transparent; border: none; font-size: 22px; line-height: 1; color: var(--slate-400); cursor: pointer;">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <p style="font-size: 13px; color: var(--slate-600); line-height: 1.5; margin-bottom: 20px;">
+        <strong>Max Mode</strong> deploys the dedicated high-capacity social scraping cluster built in-house at <strong>Ramakrishna Mission Vidyamandira</strong>. These standalone engines include specialized session handlers, automated proxy rotation, and post-level forensic archival.
+      </p>
+
+      <div style="margin-bottom: 16px;">
+        <span style="font-size: 12px; font-weight: 800; color: var(--slate-700); text-transform: uppercase; letter-spacing: 0.5px;">SELECT DEDICATED SCRAPER NODE TO LAUNCH:</span>
+      </div>
+
+      <!-- Instagram Node -->
+      <div class="native-cluster-card">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 38px; height: 38px; border-radius: 8px; background: rgba(225, 48, 108, 0.12); color: #e1306c; display: flex; align-items: center; justify-content: center; font-size: 18px;">
+            📸
+          </div>
+          <div>
+            <div style="font-size: 14px; font-weight: 700; color: var(--slate-900);">Instagram Intelligence Node</div>
+            <div style="font-size: 12px; color: var(--slate-500); font-family: var(--font-mono);">http://instagramintel.rkmvcse.in/</div>
+          </div>
+        </div>
+        <a href="http://instagramintel.rkmvcse.in/" target="_blank" rel="noopener noreferrer" class="btn-social-search" style="height: 36px; padding: 0 14px; font-size: 12px; background: linear-gradient(135deg, #e1306c 0%, #c13584 100%); text-decoration: none;">
+          <span>Open Node ↗</span>
+        </a>
+      </div>
+
+      <!-- Facebook Node -->
+      <div class="native-cluster-card">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 38px; height: 38px; border-radius: 8px; background: rgba(24, 119, 242, 0.12); color: #1877f2; display: flex; align-items: center; justify-content: center; font-size: 18px;">
+            📘
+          </div>
+          <div>
+            <div style="font-size: 14px; font-weight: 700; color: var(--slate-900);">Facebook Intelligence Node</div>
+            <div style="font-size: 12px; color: var(--slate-500); font-family: var(--font-mono);">https://fbintel.rkmvcse.in/</div>
+          </div>
+        </div>
+        <a href="https://fbintel.rkmvcse.in/" target="_blank" rel="noopener noreferrer" class="btn-social-search" style="height: 36px; padding: 0 14px; font-size: 12px; background: linear-gradient(135deg, #1877f2 0%, #0d6efd 100%); text-decoration: none;">
+          <span>Open Node ↗</span>
+        </a>
+      </div>
+
+      <!-- X / Twitter Node -->
+      <div class="native-cluster-card">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 38px; height: 38px; border-radius: 8px; background: rgba(15, 23, 42, 0.1); color: var(--slate-900); display: flex; align-items: center; justify-content: center; font-size: 18px;">
+            🐦
+          </div>
+          <div>
+            <div style="font-size: 14px; font-weight: 700; color: var(--slate-900);">X (Twitter) Intelligence Node</div>
+            <div style="font-size: 12px; color: var(--slate-500); font-family: var(--font-mono);">http://xintel.rkmvcse.in/</div>
+          </div>
+        </div>
+        <a href="http://xintel.rkmvcse.in/" target="_blank" rel="noopener noreferrer" class="btn-social-search" style="height: 36px; padding: 0 14px; font-size: 12px; background: #0f172a; text-decoration: none;">
+          <span>Open Node ↗</span>
+        </a>
+      </div>
+
+      <!-- LinkedIn Node -->
+      <div class="native-cluster-card">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 38px; height: 38px; border-radius: 8px; background: rgba(10, 102, 194, 0.12); color: #0a66c2; display: flex; align-items: center; justify-content: center; font-size: 18px;">
+            💼
+          </div>
+          <div>
+            <div style="font-size: 14px; font-weight: 700; color: var(--slate-900);">LinkedIn Corporate Node</div>
+            <div style="font-size: 12px; color: var(--slate-500); font-family: var(--font-mono);">Integrated Cluster Connector</div>
+          </div>
+        </div>
+        <button class="btn-social-search" style="height: 36px; padding: 0 14px; font-size: 12px; background: linear-gradient(135deg, #0a66c2 0%, #0077b5 100%);" onclick="closeMaxModeModal(); setOperationalMode('pro'); startSocialRecon(false);">
+          <span>Run Pro Extraction</span>
+        </button>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+        <button class="btn-secondary-action" onclick="closeMaxModeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let currentSocialFindings = [];
+let currentSocialTarget = "";
+let currentOperationalMode = "pro"; // "flash", "pro", "ultra", "max"
+let socialPollInterval = null;
+let socialTimerInterval = null;
+let socialScanStartTime = 0;
+let activeSocialCategory = "all";
+
+function escapeHtml(str) {
+  if (!str) return "";
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function setOperationalMode(mode) {
+  currentOperationalMode = mode;
+  document.querySelectorAll(".mode-card").forEach(c => c.classList.remove("active"));
+  const targetCard = document.getElementById(`mode-card-${mode}`);
+  if (targetCard) targetCard.classList.add("active");
+
+  if (mode === "max") {
+    openMaxModeModal();
+  }
+}
+
+function openMaxModeModal() {
+  document.getElementById("max-mode-modal").style.display = "flex";
+}
+
+function closeMaxModeModal() {
+  document.getElementById("max-mode-modal").style.display = "none";
+}
+
+async function startSocialRecon(force = false) {
+  const inputEl = document.getElementById("social-target-input");
+  const target = inputEl.value.trim();
+  if (!target) {
+    inputEl.focus();
+    alert("Please enter a target username or social handle.");
+    return;
+  }
+
+  // If user selected Max Mode, show the native scraper redirect popup
+  if (currentOperationalMode === "max") {
+    openMaxModeModal();
+    return;
+  }
+
+  const platform = document.getElementById("social-platform-select").value;
+  currentSocialTarget = target;
+  setSocialButtonState(true);
+
+  // Show progress panel & reset chips
+  const progressPanel = document.getElementById("social-progress-panel");
+  const chipsContainer = document.getElementById("social-stream-chips");
+  progressPanel.style.display = "block";
+  chipsContainer.innerHTML = "";
+  document.getElementById("social-live-status-text").innerText = `Connecting to social platform registries for handle: ${target} (${currentOperationalMode.toUpperCase()} Mode)...`;
+  document.getElementById("social-live-count-badge").innerText = "0 Found";
+
+  document.getElementById("social-empty-state").style.display = "none";
+  document.getElementById("social-cache-notice").style.display = "none";
+
+  socialScanStartTime = Date.now();
+  if (socialTimerInterval) clearInterval(socialTimerInterval);
+  socialTimerInterval = setInterval(() => {
+    const elapsedSec = ((Date.now() - socialScanStartTime) / 1000).toFixed(1);
+    document.getElementById("social-timer-text").innerText = `Elapsed: ${elapsedSec}s`;
+  }, 200);
+
+  try {
+    const res = await fetch("/api/social_media_intelligence/run", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        target: target,
+        mode: currentOperationalMode,
+        platform: platform,
+        force: Boolean(force)
+      })
+    });
+
+    if (!res.ok) {
+      let errorMsg = `Server error (${res.status})`;
+      try {
+        const errJson = await res.json();
+        if (errJson && errJson.detail) errorMsg = errJson.detail;
+      } catch (e) {
+        try {
+          const errTxt = await res.text();
+          if (errTxt) errorMsg = errTxt.substring(0, 120);
+        } catch (_) {}
+      }
+      throw new Error(errorMsg);
+    }
+
+    const data = await res.json();
+
+    if (data.status === "MAX_REDIRECT_REQUIRED") {
+      clearInterval(socialTimerInterval);
+      progressPanel.style.display = "none";
+      setSocialButtonState(false);
+      openMaxModeModal();
+      return;
+    }
+
+    if (data.status === "COMPLETED" && data.findings && data.findings.length > 0) {
+      clearInterval(socialTimerInterval);
+      progressPanel.style.display = "none";
+      setSocialButtonState(false);
+      handleSocialScanCompletion(data, target);
+      return;
+    }
+
+    startSocialPolling(target);
+
+  } catch (err) {
+    clearInterval(socialTimerInterval);
+    progressPanel.style.display = "none";
+    setSocialButtonState(false);
+    alert("Social media reconnaissance failed: " + err.message);
+  }
+}
+
+function startSocialPolling(target) {
+  if (socialPollInterval) clearInterval(socialPollInterval);
+
+  socialPollInterval = setInterval(async () => {
+    try {
+      const res = await fetch(`/api/social_media_intelligence/status?target=${encodeURIComponent(target)}`);
+      if (!res.ok) return;
+      const data = await res.json();
+
+      if (data.progress_msg) {
+        document.getElementById("social-live-status-text").innerText = data.progress_msg;
+      }
+
+      const count = data.discovered_count || 0;
+      document.getElementById("social-live-count-badge").innerText = `${count} Found`;
+
+      if (data.discovered_items && data.discovered_items.length > 0) {
+        const chipsContainer = document.getElementById("social-stream-chips");
+        chipsContainer.innerHTML = data.discovered_items.map(item => `
+          <span style="background: rgba(139, 92, 246, 0.12); color: #7c3aed; border: 1px solid rgba(139, 92, 246, 0.3); padding: 3px 10px; border-radius: 9999px; font-size: 11.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px;">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            ${escapeHtml(item.platform)}
+          </span>
+        `).join("");
+      }
+
+      if (data.status === "COMPLETED") {
+        clearInterval(socialPollInterval);
+        clearInterval(socialTimerInterval);
+        document.getElementById("social-progress-panel").style.display = "none";
+        setSocialButtonState(false);
+        handleSocialScanCompletion(data, target);
+      } else if (data.status === "ERROR") {
+        clearInterval(socialPollInterval);
+        clearInterval(socialTimerInterval);
+        document.getElementById("social-progress-panel").style.display = "none";
+        setSocialButtonState(false);
+        alert("Execution error: " + (data.error || "Unknown error encountered"));
+      }
+    } catch (e) {
+      console.warn("Polling error:", e);
+    }
+  }, 1000);
+}
+
+function handleSocialScanCompletion(data, target) {
+  currentSocialFindings = data.findings || [];
+
+  document.getElementById("btn-export-csv").disabled = currentSocialFindings.length === 0;
+  document.getElementById("btn-export-json").disabled = currentSocialFindings.length === 0;
+
+  const cacheBanner = document.getElementById("social-cache-notice");
+  if (data.cached) {
+    cacheBanner.style.display = "flex";
+    document.getElementById("social-cache-time-label").innerText = (data.duration || "0.1") + "s";
+  } else {
+    cacheBanner.style.display = "none";
+  }
+
+  const stats = data.stats || {};
+  document.getElementById("kpi-social-claimed").innerText = stats.total_claimed || currentSocialFindings.length;
+  document.getElementById("kpi-social-sites").innerText = stats.total_checked || data.total_sites || 500;
+  document.getElementById("kpi-social-enriched").innerText = stats.enriched_count || currentSocialFindings.filter(f => f.bio || f.fullname || f.avatar).length;
+  document.getElementById("kpi-social-duration").innerText = (data.elapsed || data.duration || 0) + "s";
+
+  document.getElementById("social-empty-state").style.display = "none";
+  document.getElementById("social-active-results").style.display = "block";
+
+  renderSocialFindingsTable();
+  loadSocialHistory();
+}
+
+function renderSocialFindingsTable() {
+  const tbody = document.getElementById("social-table-tbody");
+  const query = (document.getElementById("social-filter-input").value || "").toLowerCase().trim();
+
+  let filtered = currentSocialFindings.filter(f => {
+    if (activeSocialCategory !== "all") {
+      const pLower = f.platform.toLowerCase();
+      if (activeSocialCategory === "instagram" && !pLower.includes("instagram")) return false;
+      if (activeSocialCategory === "facebook" && !pLower.includes("facebook")) return false;
+      if (activeSocialCategory === "twitter" && !pLower.includes("twitter") && !pLower.includes("x")) return false;
+      if (activeSocialCategory === "linkedin" && !pLower.includes("linkedin")) return false;
+      if (activeSocialCategory === "video" && !pLower.includes("youtube") && !pLower.includes("tiktok") && !pLower.includes("twitch")) return false;
+      if (activeSocialCategory === "messaging" && !pLower.includes("telegram") && !pLower.includes("whatsapp") && !pLower.includes("discord")) return false;
+    }
+    if (query) {
+      const matchPlatform = (f.platform || "").toLowerCase().includes(query);
+      const matchUrl = (f.url || "").toLowerCase().includes(query);
+      const matchBio = (f.bio || "").toLowerCase().includes(query);
+      const matchName = (f.fullname || "").toLowerCase().includes(query);
+      return matchPlatform || matchUrl || matchBio || matchName;
+    }
+    return true;
+  });
+
+  document.getElementById("social-results-count-label").innerText = `Showing ${filtered.length} of ${currentSocialFindings.length} findings`;
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6" style="text-align: center; padding: 40px 20px; color: var(--slate-500);">
+          No matching social profiles found for current filter criteria.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map((f, idx) => {
+    const avatarHtml = f.avatar 
+      ? `<img src="${escapeHtml(f.avatar)}" class="profile-avatar" onerror="this.outerHTML='<div class=\\'profile-avatar-fallback\\'>${escapeHtml(f.platform.charAt(0))}</div>'" alt="Avatar">`
+      : `<div class="profile-avatar-fallback">${escapeHtml(f.platform.charAt(0))}</div>`;
+
+    const bioHtml = f.bio ? `<div style="font-size: 12px; color: var(--slate-700); margin-top: 4px; line-height: 1.4;">${escapeHtml(f.bio)}</div>` : "";
+    const nameHtml = f.fullname ? `<div style="font-weight: 700; color: var(--slate-900); font-size: 12.5px;">${escapeHtml(f.fullname)}</div>` : "";
+    const locHtml = f.location ? `<span style="font-size: 11px; color: var(--slate-500); margin-right: 8px;">📍 ${escapeHtml(f.location)}</span>` : "";
+    const followersHtml = f.followers ? `<span style="font-size: 11px; color: #7c3aed; font-weight: 700; margin-right: 8px;">👥 ${escapeHtml(f.followers)} Followers</span>` : "";
+
+    return `
+      <tr>
+        <td style="color: var(--slate-400); font-weight: 700; font-size: 12px;">${idx + 1}</td>
+        <td>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            ${avatarHtml}
+            <div>
+              <div style="font-weight: 700; color: var(--slate-900); font-size: 13.5px;">${escapeHtml(f.platform)}</div>
+              <span class="nav-badge" style="background: rgba(16, 185, 129, 0.1); color: #059669; border-color: rgba(16, 185, 129, 0.3); font-size: 10px; font-weight: 700;">Verified Account</span>
+            </div>
+          </div>
+        </td>
+        <td>
+          <a href="${escapeHtml(f.url)}" target="_blank" rel="noopener noreferrer" style="color: #7c3aed; font-weight: 600; text-decoration: none; word-break: break-all; display: inline-flex; align-items: center; gap: 4px; font-size: 12.5px;">
+            <span>${escapeHtml(f.url)}</span>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink: 0;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          </a>
+        </td>
+        <td>
+          <div>
+            ${nameHtml}
+            ${bioHtml}
+            <div style="margin-top: 6px;">
+              ${locHtml}
+              ${followersHtml}
+            </div>
+          </div>
+        </td>
+        <td>
+          <span class="nav-badge" style="background: rgba(139, 92, 246, 0.12); color: #7c3aed; border-color: rgba(139, 92, 246, 0.3); font-weight: 700; font-size: 10.5px;">
+            ${escapeHtml((f.tags || ["social"])[0] || "Social")}
+          </span>
+        </td>
+        <td style="text-align: right;">
+          <div style="display: inline-flex; gap: 4px;">
+            <button class="copy-btn" onclick="copySocialText('${escapeHtml(f.url)}', this)">Copy</button>
+            <a href="${escapeHtml(f.url)}" target="_blank" rel="noopener noreferrer" class="copy-btn" style="text-decoration: none;">Open</a>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+
+function applySocialFilter() {
+  renderSocialFindingsTable();
+}
+
+function setSocialCategoryFilter(category, btnEl) {
+  activeSocialCategory = category;
+  document.querySelectorAll("#social-filter-pills .pill-filter").forEach(b => b.classList.remove("active"));
+  btnEl.classList.add("active");
+  renderSocialFindingsTable();
+}
+
+function setSocialButtonState(isBusy) {
+  const btn = document.getElementById("btn-start-social");
+  const text = document.getElementById("btn-social-text");
+  const icon = document.getElementById("btn-social-icon");
+
+  btn.disabled = isBusy;
+  if (isBusy) {
+    text.innerText = "Recon in Progress...";
+    icon.innerHTML = `<circle cx="12" cy="12" r="10" stroke-dasharray="32" stroke-dashoffset="12"><animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/></circle>`;
+  } else {
+    text.innerText = "Execute Social Recon";
+    icon.innerHTML = `<circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>`;
+  }
+}
+
+function copySocialText(text, btnEl) {
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btnEl.innerText;
+    btnEl.innerText = "Copied!";
+    setTimeout(() => { btnEl.innerText = orig; }, 1500);
+  });
+}
+
+function downloadSocialExport(format) {
+  if (!currentSocialTarget) return;
+  const url = `/api/social_media_intelligence/download?target=${encodeURIComponent(currentSocialTarget)}&format=${format}`;
+  window.open(url, "_blank");
+}
+
+async function loadSocialHistory() {
+  const tbody = document.getElementById("social-history-tbody");
+  try {
+    const res = await fetch("/api/social_media_intelligence/history");
+    if (!res.ok) return;
+    const data = await res.json();
+    const history = data.history || [];
+
+    if (history.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--slate-500); padding: 30px;">No historical social investigations found.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = history.map((item, idx) => `
+      <tr>
+        <td style="color: var(--slate-400); font-weight: 700; font-size: 12px;">${idx + 1}</td>
+        <td>
+          <span style="font-family: var(--font-mono); font-weight: 700; color: var(--slate-900); font-size: 13.5px;">${escapeHtml(item.target)}</span>
+        </td>
+        <td>
+          <span class="nav-badge" style="background: rgba(16, 185, 129, 0.12); color: #059669; border-color: rgba(16, 185, 129, 0.3); font-weight: 800; font-size: 11px;">
+            ${item.count} Verified
+          </span>
+        </td>
+        <td style="font-size: 12px; color: var(--slate-500); font-family: var(--font-mono);">
+          ${escapeHtml(item.timestamp)}
+        </td>
+        <td style="text-align: right;">
+          <div style="display: inline-flex; gap: 6px;">
+            <button class="copy-btn" onclick="inspectSocialHistoryTarget('${escapeHtml(item.target)}')">Inspect</button>
+            <button class="copy-btn" style="color: #7c3aed; border-color: #c4b5fd;" onclick="rerunSocialHistoryTarget('${escapeHtml(item.target)}')">↻ Re-run</button>
+            <a href="/api/social_media_intelligence/download?target=${encodeURIComponent(item.target)}&format=csv" target="_blank" class="copy-btn" style="text-decoration: none;">CSV</a>
+          </div>
+        </td>
+      </tr>
+    `).join("");
+  } catch (err) {
+    console.warn("Failed to load history:", err);
+  }
+}
+
+function inspectSocialHistoryTarget(target) {
+  document.getElementById("social-target-input").value = target;
+  startSocialRecon(false);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function rerunSocialHistoryTarget(target) {
+  document.getElementById("social-target-input").value = target;
+  startSocialRecon(true);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadSocialHistory();
+  const initial = document.getElementById("social-target-input").value.trim();
+  if (initial) {
+    startSocialRecon(false);
+  }
+});
+</script>
+{% endblock %}

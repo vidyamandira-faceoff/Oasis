@@ -1,0 +1,18 @@
+{
+  "job_id": "d2173816e16a",
+  "target": "https://rkmvmfamily.in",
+  "domain": "rkmvmfamily.in",
+  "timestamp": "2026-11-11 10:43:46",
+  "duration": 2.4,
+  "stats": {
+    "total_urls": 21,
+    "internal_count": 9,
+    "fuzzable_count": 6,
+    "subdomain_count": 0,
+    "intel_count": 1,
+    "secret_count": 0,
+    "file_count": 0,
+    "endpoint_count": 0
+  },
+  "total_findings": 22
+}
