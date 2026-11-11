@@ -19,10 +19,20 @@ REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 RECON_DIR = BASE_DIR / "services" / "recon_username" / "reports"
 
 # Engine Python interpreter (use maigret venv which has rich social registry)
+def _get_social_engine_python() -> str:
+    for folder in ["maigret", "maigret_osint"]:
+        cand = BASE_DIR.parent / folder / ".venv" / "bin" / "python"
+        if cand.exists():
+            return str(cand)
+    cand2 = BASE_DIR / ".venv" / "bin" / "python"
+    if cand2.exists():
+        return str(cand2)
+    return sys.executable
+
 MAIGRET_DIR = (BASE_DIR.parent / "maigret").resolve()
-ENGINE_PYTHON = str(MAIGRET_DIR / ".venv" / "bin" / "python")
-if not os.path.exists(ENGINE_PYTHON):
-    ENGINE_PYTHON = sys.executable
+if not MAIGRET_DIR.exists():
+    MAIGRET_DIR = (BASE_DIR.parent / "maigret_osint").resolve()
+ENGINE_PYTHON = _get_social_engine_python()
 
 # Native Vidyamandira Scraper Cluster URLs (Max Mode)
 NATIVE_SCRAPER_ENDPOINTS = {

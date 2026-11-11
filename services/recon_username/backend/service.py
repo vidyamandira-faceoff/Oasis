@@ -19,9 +19,10 @@ REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 # Locate the Python environment equipped with the reconnaissance engine
 def _get_engine_python() -> str:
     # Priority 1: sibling workspace directory
-    cand1 = BASE_DIR.parent / "maigret" / ".venv" / "bin" / "python"
-    if cand1.exists():
-        return str(cand1)
+    for folder in ["maigret", "maigret_osint"]:
+        cand1 = BASE_DIR.parent / folder / ".venv" / "bin" / "python"
+        if cand1.exists():
+            return str(cand1)
     
     # Priority 2: local oasis venv
     cand2 = BASE_DIR / ".venv" / "bin" / "python"

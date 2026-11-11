@@ -22,8 +22,17 @@ REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 ENGINE_DIR = (BASE_DIR.parent / "Photon_osint_url").resolve()
 ENGINE_SCRIPT = ENGINE_DIR / "photon.py"
 
-# Use Oasis virtualenv python
-ENGINE_PYTHON = sys.executable
+# Use Photon virtualenv or Oasis virtualenv python
+def _get_domain_engine_python() -> str:
+    cand = ENGINE_DIR / "venv" / "bin" / "python"
+    if cand.exists():
+        return str(cand)
+    cand2 = BASE_DIR / ".venv" / "bin" / "python"
+    if cand2.exists():
+        return str(cand2)
+    return sys.executable
+
+ENGINE_PYTHON = _get_domain_engine_python()
 
 _JOBS: Dict[str, Dict[str, Any]] = {}
 _DOMAIN_CACHE: Dict[str, Dict[str, Any]] = {}

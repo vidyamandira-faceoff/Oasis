@@ -1,8 +1,10 @@
 import os
 import sys
 from pathlib import Path
+from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / ".env")
 SERVICES_DIR = BASE_DIR / "services"
 SHARED_DIR = BASE_DIR / "shared"
 
