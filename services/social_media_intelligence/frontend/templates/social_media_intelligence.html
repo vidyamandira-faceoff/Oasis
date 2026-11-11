@@ -952,6 +952,100 @@
     font-family: var(--font-mono);
   }
 
+  /* Flash Mode Features Guide Card */
+  .ig-features-guide-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-md);
+    margin-bottom: 24px;
+    overflow: hidden;
+    box-shadow: var(--shadow-subtle);
+    transition: all 0.2s ease;
+  }
+  .ig-features-guide-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
+    background: var(--bg-card-subtle);
+    border-bottom: 1px solid var(--border-soft);
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s ease;
+  }
+  .ig-features-guide-header:hover {
+    background: rgba(0, 0, 0, 0.03);
+  }
+  .ig-features-guide-body {
+    padding: 18px 20px;
+  }
+  .ig-features-guide-body.collapsed {
+    display: none;
+  }
+  .ig-feature-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 1200px) {
+    .ig-feature-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 640px) {
+    .ig-feature-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .ig-feature-tile {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-card-subtle);
+    border: 1px solid var(--border-soft);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .ig-feature-tile:hover {
+    transform: translateY(-2px);
+    border-color: rgba(225, 48, 108, 0.35);
+  }
+  .ig-feature-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  .ig-feature-content {
+    flex: 1;
+    min-width: 0;
+  }
+  .ig-feature-title {
+    font-size: 12.5px;
+    font-weight: 800;
+    color: var(--slate-900);
+    margin-bottom: 3px;
+  }
+  .ig-feature-desc {
+    font-size: 11.5px;
+    color: var(--slate-500);
+    line-height: 1.45;
+  }
+  .ig-feature-desc code {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    background: var(--bg-surface);
+    padding: 1px 4px;
+    border-radius: 3px;
+    border: 1px solid var(--border-soft);
+    color: #e1306c;
+  }
+
 </style>
 {% endblock %}
 
@@ -1110,6 +1204,100 @@
               </div>
             </details>
           </form>
+        </div>
+
+        <!-- Flash Mode Capabilities & Feature Guide -->
+        <div class="ig-features-guide-card">
+          <div class="ig-features-guide-header" onclick="toggleFlashFeaturesGuide()">
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+              <span style="font-size: 16px;">⚡</span>
+              <span style="font-size: 13.5px; font-weight: 800; color: var(--slate-900);">
+                OASIS Flash Mode Capabilities &amp; Feature Guide
+              </span>
+              <span class="status-pill-online" style="padding: 2px 8px; font-size: 10.5px; background: rgba(225, 48, 108, 0.1); color: #e1306c; border-color: rgba(225, 48, 108, 0.25);">
+                All 8 Native Capabilities Integrated
+              </span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 11.5px; color: var(--slate-500); font-family: var(--font-mono);" id="guide-toggle-label">Hide Guide ▲</span>
+            </div>
+          </div>
+
+          <div class="ig-features-guide-body" id="ig-features-guide-body">
+            <div class="ig-feature-grid">
+              <!-- Feature 1 -->
+              <div class="ig-feature-tile">
+                <div class="ig-feature-icon" style="background: rgba(225, 48, 108, 0.1); color: #e1306c;">👤</div>
+                <div class="ig-feature-content">
+                  <div class="ig-feature-title">Multi-Scope Targeting</div>
+                  <div class="ig-feature-desc">Recon on handles (<code>@target</code>), direct posts (<code>/p/...</code>), hashtags (<code>#osint</code>), or geotags (<code>location:123</code>).</div>
+                </div>
+              </div>
+
+              <!-- Feature 2 -->
+              <div class="ig-feature-tile">
+                <div class="ig-feature-icon" style="background: rgba(249, 115, 22, 0.1); color: #ea580c;">💬</div>
+                <div class="ig-feature-content">
+                  <div class="ig-feature-title">Per-Post Deep Comments</div>
+                  <div class="ig-feature-desc">Automated DOM &amp; network extraction of author handles, full comment bodies, and timestamps in an expandable drawer.</div>
+                </div>
+              </div>
+
+              <!-- Feature 3 -->
+              <div class="ig-feature-tile">
+                <div class="ig-feature-icon" style="background: rgba(16, 185, 129, 0.1); color: #059669;">📦</div>
+                <div class="ig-feature-content">
+                  <div class="ig-feature-title">Offline Media ZIP Packaging</div>
+                  <div class="ig-feature-desc">Downloads avatars and post thumbnails directly from signed CDNs, compiling an offline evidence ZIP archive with metadata.</div>
+                </div>
+              </div>
+
+              <!-- Feature 4 -->
+              <div class="ig-feature-tile">
+                <div class="ig-feature-icon" style="background: rgba(14, 165, 233, 0.1); color: #0284c7;">🍪</div>
+                <div class="ig-feature-content">
+                  <div class="ig-feature-title">Session Cookie Injection</div>
+                  <div class="ig-feature-desc">Supply an active <code>sessionid</code> cookie to bypass rate-limits, login gates, and view age-restricted profiles.</div>
+                </div>
+              </div>
+
+              <!-- Feature 5 -->
+              <div class="ig-feature-tile">
+                <div class="ig-feature-icon" style="background: rgba(139, 92, 246, 0.1); color: #7c3aed;">🛡️</div>
+                <div class="ig-feature-content">
+                  <div class="ig-feature-title">Custom Proxy Routing</div>
+                  <div class="ig-feature-desc">Route Chromium headless scraping traffic through custom HTTP or SOCKS5 proxies for anonymous reconnaissance.</div>
+                </div>
+              </div>
+
+              <!-- Feature 6 -->
+              <div class="ig-feature-tile">
+                <div class="ig-feature-icon" style="background: rgba(236, 72, 153, 0.1); color: #db2777;">💾</div>
+                <div class="ig-feature-content">
+                  <div class="ig-feature-title">Multi-Format Dossier Vault</div>
+                  <div class="ig-feature-desc">1-click export to structured <strong>JSON</strong>, formatted incident <strong>Markdown</strong>, tabular <strong>CSV</strong>, and <strong>ZIP</strong> packages.</div>
+                </div>
+              </div>
+
+              <!-- Feature 7 -->
+              <div class="ig-feature-tile">
+                <div class="ig-feature-icon" style="background: rgba(100, 116, 139, 0.1); color: #475569;">📊</div>
+                <div class="ig-feature-content">
+                  <div class="ig-feature-title">Profile Metrics &amp; Bio</div>
+                  <div class="ig-feature-desc">Extracts exact follower/following/post counts, full account bio, external link, verification status, and public visibility.</div>
+                </div>
+              </div>
+
+              <!-- Feature 8 -->
+              <div class="ig-feature-tile">
+                <div class="ig-feature-icon" style="background: rgba(245, 158, 11, 0.1); color: #d97706;">⚡</div>
+                <div class="ig-feature-content">
+                  <div class="ig-feature-title">Zero-Latency In-App Engine</div>
+                  <div class="ig-feature-desc">No external redirections required. Live progress bar, terminal logs, and interactive UI visualizer directly within OASIS.</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Unified OASIS Progress & Status Panel -->
@@ -1719,6 +1907,16 @@ function pollInstagramStatus(target, timerInterval) {
       }
     } catch (e) {}
   }, 1200);
+}
+
+function toggleFlashFeaturesGuide() {
+  const body = document.getElementById("ig-features-guide-body");
+  const label = document.getElementById("guide-toggle-label");
+  if (!body) return;
+  const isCollapsed = body.classList.toggle("collapsed");
+  if (label) {
+    label.textContent = isCollapsed ? "Show Guide ▼" : "Hide Guide ▲";
+  }
 }
 
 function dismissInstagramProgress() {
