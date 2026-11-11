@@ -1,0 +1,94 @@
+# ==============================================================================
+# OASIS — OSINT Aggregation and Strategic Intelligence System
+# Standard .gitignore Specification
+# ==============================================================================
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# C extensions
+*.so
+
+# Distribution / packaging
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+# Runtime, process files and local execution logs
+.run/
+*.pid
+*.log
+*.sock
+nohup.out
+
+# Local environmental and secret files
+.env
+.env.*
+!.env.example
+secrets.json
+*.key
+*.pem
+*.cert
+
+# Database, caches & persistent evidence artifacts
+*.sqlite3
+*.db
+*.db-journal
+*.db-wal
+evidence_storage/
+raw_artifacts/
+exports/*.pdf
+exports/*.json
+exports/*.csv
+
+# Unit test & coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
