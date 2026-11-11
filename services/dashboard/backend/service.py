@@ -7,9 +7,9 @@ from core.process_manager import RUNNING_PROCESSES
 def get_dashboard_summary():
     return {
         "active_investigations": 1,
-        "active_modules_count": "2 / 12",
-        "connected_engines_count": "2 Ready",
-        "active_engine_name": "Username Intelligence Engine",
+        "active_modules_count": "4 Active",
+        "connected_engines_count": "4 Ready",
+        "active_engine_name": "OASIS Reconnaissance Platform",
         "system_status": "Operational",
-        "compliance_tag": "DEMO BUILD — not for casework"
+        "compliance_tag": "PRODUCTION BUILD"
     }

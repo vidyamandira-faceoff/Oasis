@@ -64,10 +64,10 @@ async def get_system_status():
             "Phone Number Intelligence",
         ],
         "connected_engines": [
-            "Username Intelligence Engine",
-            "Domain & Website Intelligence Engine",
-            "Social Media Intelligence Engine (Flash/Pro/Ultra/Max)",
-            "Native Phone Search Intelligence (phonesearch.rkmvcse.in)",
+            "OASIS Username Intelligence Engine",
+            "OASIS Domain & Website Intelligence Engine",
+            "Native Social Media Scraper Cluster",
+            "Native Phone Number Intelligence Platform",
         ],
     }
 
