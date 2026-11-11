@@ -1,0 +1,955 @@
+{% extends "shared/templates/base.html" %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="/static/services/recon_username/css/dark_mode.css">
+<style>
+  .email-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding-bottom: 60px;
+  }
+
+  /* Form Input Card */
+  .email-input-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-card);
+  }
+  .email-input-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .email-input-field {
+    flex: 1;
+    min-width: 280px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    padding: 12px 18px;
+    font-size: 14px;
+    color: var(--slate-900);
+    outline: none;
+    transition: all 0.2s ease;
+  }
+  .email-input-field:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+  }
+  .email-select {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-size: 13px;
+    color: var(--slate-800);
+    outline: none;
+    cursor: pointer;
+  }
+  .btn-email-recon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 800;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
+    transition: all 0.2s ease;
+  }
+  .btn-email-recon:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+  }
+  .btn-email-recon:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* Unified Progress & Status Panel */
+  .email-progress-panel {
+    display: none;
+    background: var(--bg-surface);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    border-radius: var(--radius-md);
+    padding: 18px 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 18px rgba(99, 102, 241, 0.08);
+    transition: all 0.3s ease;
+  }
+  .email-progress-panel.active {
+    display: block;
+    animation: fadeIn 0.25s ease-out;
+  }
+  .email-progress-panel.completed {
+    border-color: rgba(16, 185, 129, 0.4);
+    box-shadow: 0 4px 18px rgba(16, 185, 129, 0.08);
+    background: linear-gradient(180deg, var(--bg-surface) 0%, rgba(16, 185, 129, 0.03) 100%);
+  }
+  .email-progress-panel.error {
+    border-color: rgba(239, 68, 68, 0.4);
+    box-shadow: 0 4px 18px rgba(239, 68, 68, 0.08);
+  }
+
+  .oasis-email-bar-track {
+    width: 100%;
+    height: 8px;
+    background: var(--bg-card-subtle);
+    border-radius: 9999px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--border-soft);
+    margin: 12px 0 10px 0;
+  }
+  .oasis-email-bar-fill {
+    height: 100%;
+    border-radius: 9999px;
+    transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+  }
+  .oasis-email-bar-fill.active-anim {
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent);
+    background-size: 1rem 1rem;
+    animation: emailBarStripes 1s linear infinite;
+  }
+  @keyframes emailBarStripes {
+    0% { background-position: 1rem 0; }
+    100% { background-position: 0 0; }
+  }
+  .oasis-email-bar-fill.completed-fill {
+    background: linear-gradient(90deg, #10b981 0%, #059669 100%) !important;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+  }
+  .oasis-email-bar-fill.error-fill {
+    background: #ef4444 !important;
+  }
+
+  /* Live Discovery Chips */
+  .email-stream-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .chip-email-found {
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    padding: 3px 10px;
+    border-radius: 9999px;
+    font-size: 11.5px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  /* KPI Summary Strip */
+  .email-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 900px) {
+    .email-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  .email-kpi-tile {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    padding: 16px 20px;
+  }
+  .email-kpi-val {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--slate-900);
+  }
+  .email-kpi-lbl {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--slate-500);
+    margin-top: 4px;
+  }
+
+  /* Capabilities Guide Card */
+  .email-guide-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-md);
+    margin-bottom: 24px;
+    overflow: hidden;
+    box-shadow: var(--shadow-subtle);
+  }
+  .email-guide-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
+    background: var(--bg-card-subtle);
+    border-bottom: 1px solid var(--border-soft);
+    cursor: pointer;
+    user-select: none;
+  }
+  .email-guide-header:hover {
+    background: rgba(0, 0, 0, 0.03);
+  }
+  .email-guide-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    padding: 18px 20px;
+  }
+  @media (max-width: 1100px) {
+    .email-guide-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .email-guide-grid { grid-template-columns: 1fr; }
+  }
+  .email-guide-tile {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-card-subtle);
+    border: 1px solid var(--border-soft);
+  }
+  .email-guide-tile:hover {
+    border-color: rgba(99, 102, 241, 0.35);
+  }
+  .email-guide-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+
+  /* Results Card & Filter Bar */
+  .email-results-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-card);
+  }
+  .email-filter-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .email-cat-pills {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .email-cat-btn {
+    padding: 6px 14px;
+    border-radius: 9999px;
+    border: 1px solid var(--border-soft);
+    background: var(--bg-surface);
+    color: var(--slate-600);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .email-cat-btn:hover {
+    background: var(--bg-card-subtle);
+    color: var(--slate-900);
+  }
+  .email-cat-btn.active {
+    background: #6366f1;
+    color: #ffffff;
+    border-color: #6366f1;
+  }
+
+  /* Account Findings Grid */
+  .email-findings-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 1024px) {
+    .email-findings-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .email-findings-grid { grid-template-columns: 1fr; }
+  }
+  .email-finding-card {
+    background: var(--bg-card-subtle);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .email-finding-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(99, 102, 241, 0.4);
+  }
+  .email-finding-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .email-platform-name {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--slate-900);
+  }
+  .email-cat-badge {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(99, 102, 241, 0.1);
+    color: #6366f1;
+  }
+  .email-leak-box {
+    background: var(--bg-surface);
+    border: 1px dashed rgba(245, 158, 11, 0.4);
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 11px;
+    font-family: var(--font-mono);
+    color: #b45309;
+  }
+
+  /* Export Action Toolbar */
+  .email-export-bar {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .email-export-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-soft);
+    background: var(--bg-surface);
+    color: var(--slate-700);
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+  .email-export-btn:hover {
+    background: var(--bg-card-subtle);
+    color: var(--slate-900);
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="view-page active-view">
+  <div class="email-container">
+
+    <!-- 1. Header Banner -->
+    <div class="tool-header-banner" style="margin-bottom: 24px;">
+      <div class="tool-header-left">
+        <div class="tool-title-group">
+          <h2>Email Intelligence &amp; Account Footprint</h2>
+          <p>Passive non-intrusive registration enumeration, credential leakage detection, and account correlation across 120+ platforms.</p>
+        </div>
+      </div>
+      <div class="tool-header-actions">
+        <!-- Clean -->
+      </div>
+    </div>
+
+    <!-- 2. Target Email Input Card -->
+    <div class="email-input-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+        <div>
+          <h4 style="font-size: 15px; font-weight: 800; color: var(--slate-900); margin: 0 0 4px 0;">
+            ✉️ Enter Target Email Address
+          </h4>
+          <p style="font-size: 12.5px; color: var(--slate-500); margin: 0;">
+            Surveys authentication &amp; password-reset endpoints across social networks, developer hubs, enterprise suites, and services.
+          </p>
+        </div>
+        <div style="font-size: 11.5px; color: var(--slate-500); font-family: var(--font-mono);">
+          Engine: <span style="color: #6366f1; font-weight: 700;">OASIS Email Intelligence Engine</span>
+        </div>
+      </div>
+
+      <form id="email-recon-form" onsubmit="event.preventDefault(); startEmailRecon();">
+        <div class="email-input-row">
+          <input type="email" id="email-target-input" class="email-input-field" placeholder="Enter target email (e.g. target@example.com or user@protonmail.com)..." value="{{ initial_target }}" required>
+          
+          <select id="email-timeout-select" class="email-select" title="Request timeout per registry">
+            <option value="6">Fast (6s timeout)</option>
+            <option value="10" selected>Standard (10s timeout)</option>
+            <option value="15">Thorough (15s timeout)</option>
+          </select>
+
+          <button type="submit" id="btn-email-submit" class="btn-email-recon">
+            <span id="email-btn-icon">⚡</span>
+            <span id="email-btn-label">Execute Email Recon</span>
+          </button>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; flex-wrap: wrap; gap: 10px;">
+          <label style="display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--slate-600); cursor: pointer;">
+            <input type="checkbox" id="email-check-force" style="accent-color: #6366f1;">
+            <span>Bypass internal vault cache &amp; execute fresh probe</span>
+          </label>
+          <span style="font-size: 11.5px; color: var(--slate-500); font-family: var(--font-mono);">
+            Target Platforms: <strong>123 Services</strong>
+          </span>
+        </div>
+      </form>
+    </div>
+
+    <!-- 3. Capabilities & Feature Guide Card -->
+    <div class="email-guide-card">
+      <div class="email-guide-header" onclick="toggleEmailGuide()">
+        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+          <span style="font-size: 16px;">⚡</span>
+          <span style="font-size: 13.5px; font-weight: 800; color: var(--slate-900);">
+            OASIS Email Intelligence Capabilities &amp; Feature Guide
+          </span>
+          <span class="status-pill-online" style="padding: 2px 8px; font-size: 10.5px; background: rgba(99, 102, 241, 0.1); color: #6366f1; border-color: rgba(99, 102, 241, 0.25);">
+            120+ Service Registries Covered
+          </span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 11.5px; color: var(--slate-500); font-family: var(--font-mono);" id="email-guide-toggle-label">Hide Guide ▲</span>
+        </div>
+      </div>
+
+      <div id="email-guide-body">
+        <div class="email-guide-grid">
+          <div class="email-guide-tile">
+            <div class="email-guide-icon" style="background: rgba(99, 102, 241, 0.1); color: #6366f1;">🔍</div>
+            <div>
+              <div style="font-size: 12.5px; font-weight: 800; color: var(--slate-900); margin-bottom: 3px;">120+ Platform Coverage</div>
+              <div style="font-size: 11.5px; color: var(--slate-500); line-height: 1.45;">Checks Twitter, Instagram, GitHub, Discord, Spotify, Google, Office365, Amazon, eBay, and more.</div>
+            </div>
+          </div>
+
+          <div class="email-guide-tile">
+            <div class="email-guide-icon" style="background: rgba(245, 158, 11, 0.1); color: #d97706;">🛡️</div>
+            <div>
+              <div style="font-size: 12.5px; font-weight: 800; color: var(--slate-900); margin-bottom: 3px;">Masked Data Harvesting</div>
+              <div style="font-size: 11.5px; color: var(--slate-500); line-height: 1.45;">Extracts leaked phone numbers (<code>+1 *****42</code>) and secondary recovery email hints without contacting the target.</div>
+            </div>
+          </div>
+
+          <div class="email-guide-tile">
+            <div class="email-guide-icon" style="background: rgba(16, 185, 129, 0.1); color: #059669;">⚡</div>
+            <div>
+              <div style="font-size: 12.5px; font-weight: 800; color: var(--slate-900); margin-bottom: 3px;">High-Speed Trio Engine</div>
+              <div style="font-size: 11.5px; color: var(--slate-500); line-height: 1.45;">Fully concurrent async I/O checks all 120+ platforms in 5–8 seconds with zero third-party API dependencies.</div>
+            </div>
+          </div>
+
+          <div class="email-guide-tile">
+            <div class="email-guide-icon" style="background: rgba(236, 72, 153, 0.1); color: #db2777;">💾</div>
+            <div>
+              <div style="font-size: 12.5px; font-weight: 800; color: var(--slate-900); margin-bottom: 3px;">Multi-Format Dossiers</div>
+              <div style="font-size: 11.5px; color: var(--slate-500); line-height: 1.45;">One-click export to OASIS <strong>JSON</strong> structured data, incident <strong>Markdown</strong>, and spreadsheet <strong>CSV</strong>.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Unified OASIS Progress & Status Panel -->
+    <div id="email-progress-panel" class="email-progress-panel">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+          <span id="email-status-pill" class="status-pill-online" style="background: rgba(99, 102, 241, 0.12); color: #6366f1; border-color: rgba(99, 102, 241, 0.3); padding: 3px 10px; font-size: 11px; font-weight: 800; letter-spacing: 0.5px;">
+            <span class="dot" style="background: #6366f1; box-shadow: 0 0 6px #6366f1;"></span>
+            <span id="email-status-pill-text">ACTIVE RECONNAISSANCE</span>
+          </span>
+          <span class="nav-badge" style="font-family: var(--font-mono); font-size: 11px; color: var(--slate-500); background: var(--bg-card-subtle); padding: 2px 8px; font-weight: 600;">⚡ OASIS Internal Engine</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--slate-500); font-weight: 700;" id="email-timer-text">Elapsed: 00:00s</span>
+          <span class="nav-badge" style="background: rgba(99, 102, 241, 0.15); color: #6366f1; border: 1px solid rgba(99, 102, 241, 0.3); font-weight: 700;" id="email-live-count-badge">0 Found</span>
+          <button type="button" onclick="dismissEmailProgress()" style="background: transparent; border: none; color: var(--slate-400); cursor: pointer; font-size: 14px; padding: 2px 6px; border-radius: 4px;" title="Dismiss status panel">✕</button>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 10px;">
+        <div id="email-live-status-text" style="font-size: 13px; font-weight: 700; color: var(--slate-800);">Initiating Trio asynchronous nursery...</div>
+        <div id="email-progress-percent" style="font-family: var(--font-mono); font-size: 12.5px; font-weight: 800; color: var(--slate-700);">10%</div>
+      </div>
+
+      <div class="oasis-email-bar-track">
+        <div class="oasis-email-bar-fill active-anim" id="email-progress-fill" style="width: 10%;"></div>
+      </div>
+
+      <div class="email-stream-chips" id="email-stream-chips">
+        <!-- Live discovered accounts stream here -->
+      </div>
+    </div>
+
+    <!-- 5. Empty State Awaiting Target -->
+    <div id="email-empty-state" class="content-card" style="padding: 60px 20px; text-align: center;">
+      <div style="width: 54px; height: 54px; border-radius: 50%; background: var(--bg-card-subtle); border: 1px solid var(--border-soft); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px; color: var(--slate-400);">
+        ✉️
+      </div>
+      <h4 style="font-size: 16px; font-weight: 800; color: var(--slate-800); margin-bottom: 6px;">Awaiting Target Email</h4>
+      <p style="font-size: 13px; color: var(--slate-500); max-width: 480px; margin: 0 auto;">
+        Enter a target email address above and click <strong>Execute Email Recon</strong> to identify associated accounts across 120+ online platforms.
+      </p>
+    </div>
+
+    <!-- 6. Results Section -->
+    <div id="email-results-container" style="display: none;">
+
+      <!-- KPI Metrics Strip -->
+      <div class="email-kpi-grid">
+        <div class="email-kpi-tile">
+          <div class="email-kpi-val" id="kpi-registered">0</div>
+          <div class="email-kpi-lbl">Confirmed Accounts</div>
+        </div>
+        <div class="email-kpi-tile">
+          <div class="email-kpi-val" id="kpi-checked">0</div>
+          <div class="email-kpi-lbl">Platforms Checked</div>
+        </div>
+        <div class="email-kpi-tile">
+          <div class="email-kpi-val" id="kpi-leaks">0</div>
+          <div class="email-kpi-lbl">Leaked Data Points</div>
+        </div>
+        <div class="email-kpi-tile">
+          <div class="email-kpi-val" id="kpi-duration">0.0s</div>
+          <div class="email-kpi-lbl">Execution Duration</div>
+        </div>
+      </div>
+
+      <!-- Main Results Card -->
+      <div class="email-results-card">
+        <div class="email-filter-bar">
+          <div>
+            <h3 style="font-size: 16px; font-weight: 800; color: var(--slate-900); margin: 0 0 4px 0;" id="results-target-title">
+              Account Footprint: target@example.com
+            </h3>
+            <span style="font-size: 12px; color: var(--slate-500);" id="results-count-summary">
+              Discovered 0 accounts
+            </span>
+          </div>
+
+          <!-- Export Toolbar -->
+          <div class="email-export-bar">
+            <a href="#" id="btn-export-json" class="email-export-btn" target="_blank">
+              <span>💾 OASIS JSON</span>
+            </a>
+            <a href="#" id="btn-export-md" class="email-export-btn" target="_blank">
+              <span>📄 Markdown Dossier</span>
+            </a>
+            <a href="#" id="btn-export-csv" class="email-export-btn" target="_blank">
+              <span>📊 CSV Export</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Category Filter Pills & Search Input -->
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
+          <div class="email-cat-pills" id="email-category-filters">
+            <button type="button" class="email-cat-btn active" onclick="filterCategory('all')">All Platforms (<span id="cat-count-all">0</span>)</button>
+            <button type="button" class="email-cat-btn" onclick="filterCategory('social')">Social (<span id="cat-count-social">0</span>)</button>
+            <button type="button" class="email-cat-btn" onclick="filterCategory('tech')">Tech &amp; Dev (<span id="cat-count-tech">0</span>)</button>
+            <button type="button" class="email-cat-btn" onclick="filterCategory('business')">Enterprise (<span id="cat-count-business">0</span>)</button>
+            <button type="button" class="email-cat-btn" onclick="filterCategory('media')">Media (<span id="cat-count-media">0</span>)</button>
+            <button type="button" class="email-cat-btn" onclick="filterCategory('retail')">Retail (<span id="cat-count-retail">0</span>)</button>
+            <button type="button" class="email-cat-btn" onclick="filterCategory('gaming')">Gaming (<span id="cat-count-gaming">0</span>)</button>
+            <button type="button" class="email-cat-btn" onclick="filterCategory('adult')">Adult (<span id="cat-count-adult">0</span>)</button>
+          </div>
+
+          <input type="text" id="email-search-filter" oninput="filterSearch()" placeholder="Filter findings..." style="padding: 6px 12px; font-size: 12px; border: 1px solid var(--border-soft); border-radius: var(--radius-sm); outline: none; background: var(--bg-surface);">
+        </div>
+
+        <!-- Account Cards Grid -->
+        <div class="email-findings-grid" id="email-findings-grid">
+          <!-- Dynamically populated cards -->
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<script>
+let currentEmailTarget = "";
+let emailPollInterval = null;
+let emailTimerInterval = null;
+let emailScanStartTime = 0;
+let allFindings = [];
+let currentCategory = "all";
+
+function toggleEmailGuide() {
+  const body = document.getElementById("email-guide-body");
+  const label = document.getElementById("email-guide-toggle-label");
+  if (!body) return;
+  const isHidden = body.style.display === "none";
+  body.style.display = isHidden ? "block" : "none";
+  if (label) label.textContent = isHidden ? "Hide Guide ▲" : "Show Guide ▼";
+}
+
+function dismissEmailProgress() {
+  const panel = document.getElementById("email-progress-panel");
+  if (panel) panel.classList.remove("active");
+}
+
+async function startEmailRecon() {
+  const inputEl = document.getElementById("email-target-input");
+  const timeoutEl = document.getElementById("email-timeout-select");
+  const forceCheck = document.getElementById("email-check-force");
+  const btnSubmit = document.getElementById("btn-email-submit");
+
+  const email = (inputEl.value || "").trim();
+  if (!email) {
+    alert("Please enter a valid target email address.");
+    return;
+  }
+
+  currentEmailTarget = email;
+  const timeout = parseInt(timeoutEl.value, 10) || 10;
+  const force = forceCheck ? forceCheck.checked : false;
+
+  btnSubmit.disabled = true;
+  document.getElementById("email-btn-icon").textContent = "⏳";
+  document.getElementById("email-btn-label").textContent = "OASIS Surveying...";
+
+  // UI state transitions
+  const progressPanel = document.getElementById("email-progress-panel");
+  const statusPill = document.getElementById("email-status-pill");
+  const statusPillText = document.getElementById("email-status-pill-text");
+  const progressFill = document.getElementById("email-progress-fill");
+  const progressPercent = document.getElementById("email-progress-percent");
+  const chipsContainer = document.getElementById("email-stream-chips");
+
+  progressPanel.className = "email-progress-panel active";
+  if (statusPill) {
+    statusPill.style.background = "rgba(99, 102, 241, 0.12)";
+    statusPill.style.color = "#6366f1";
+    statusPill.style.borderColor = "rgba(99, 102, 241, 0.3)";
+  }
+  if (statusPillText) statusPillText.innerText = "ACTIVE RECONNAISSANCE";
+  if (progressFill) {
+    progressFill.className = "oasis-email-bar-fill active-anim";
+    progressFill.style.width = "10%";
+  }
+  if (progressPercent) progressPercent.innerText = "10%";
+  chipsContainer.innerHTML = "";
+
+  document.getElementById("email-empty-state").style.display = "none";
+  document.getElementById("email-live-status-text").innerText = `Surveying 120+ platforms for: ${email}...`;
+  document.getElementById("email-live-count-badge").innerText = "0 Found";
+
+  emailScanStartTime = Date.now();
+  let simPercent = 10;
+  if (emailTimerInterval) clearInterval(emailTimerInterval);
+  emailTimerInterval = setInterval(() => {
+    const elapsedSec = ((Date.now() - emailScanStartTime) / 1000).toFixed(1);
+    document.getElementById("email-timer-text").innerText = `Elapsed: ${elapsedSec}s`;
+
+    if (simPercent < 88) {
+      simPercent += 1.8;
+      const rounded = Math.round(simPercent);
+      if (progressFill) progressFill.style.width = `${rounded}%`;
+      if (progressPercent) progressPercent.innerText = `${rounded}%`;
+    }
+  }, 200);
+
+  try {
+    const res = await fetch("/api/email_intelligence/run", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        target: email,
+        force: force,
+        timeout: timeout
+      })
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.detail || "Server error");
+    }
+
+    const data = await res.json();
+
+    if (data.status === "COMPLETED" && data.cached) {
+      clearInterval(emailTimerInterval);
+      handleEmailCompletion(data);
+      resetEmailButton();
+      return;
+    }
+
+    pollEmailStatus(email);
+
+  } catch (err) {
+    clearInterval(emailTimerInterval);
+    progressPanel.className = "email-progress-panel active error";
+    if (statusPill) {
+      statusPill.style.background = "rgba(239, 68, 68, 0.12)";
+      statusPill.style.color = "#dc2626";
+      statusPill.style.borderColor = "rgba(239, 68, 68, 0.3)";
+    }
+    if (statusPillText) statusPillText.innerText = "EXECUTION TERMINATED";
+    if (progressFill) {
+      progressFill.className = "oasis-email-bar-fill error-fill";
+      progressFill.style.width = "100%";
+    }
+    if (progressPercent) progressPercent.innerText = "Failed";
+    document.getElementById("email-live-status-text").innerText = `Execution error: ${err.message}`;
+    resetEmailButton();
+    alert("Email reconnaissance failed: " + err.message);
+  }
+}
+
+function pollEmailStatus(email) {
+  if (emailPollInterval) clearInterval(emailPollInterval);
+
+  emailPollInterval = setInterval(async () => {
+    try {
+      const res = await fetch(`/api/email_intelligence/status?target=${encodeURIComponent(email)}`);
+      if (!res.ok) return;
+      const data = await res.json();
+
+      if (data.progress_msg) {
+        document.getElementById("email-live-status-text").innerText = data.progress_msg;
+      }
+
+      const count = data.total_registered || (data.discovered_items ? data.discovered_items.length : 0);
+      document.getElementById("email-live-count-badge").innerText = `${count} Found`;
+
+      if (data.discovered_items && data.discovered_items.length > 0) {
+        const chipsContainer = document.getElementById("email-stream-chips");
+        chipsContainer.innerHTML = data.discovered_items.map(item => `
+          <span class="chip-email-found">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            ${escapeHtml(item.name)}
+          </span>
+        `).join("");
+      }
+
+      if (data.status === "COMPLETED") {
+        clearInterval(emailPollInterval);
+        clearInterval(emailTimerInterval);
+        handleEmailCompletion(data);
+        resetEmailButton();
+      } else if (data.status === "ERROR") {
+        clearInterval(emailPollInterval);
+        clearInterval(emailTimerInterval);
+        const progressPanel = document.getElementById("email-progress-panel");
+        progressPanel.className = "email-progress-panel active error";
+        document.getElementById("email-live-status-text").innerText = data.error || "Engine error";
+        resetEmailButton();
+        alert("Execution error: " + (data.error || "Unknown error encountered"));
+      }
+    } catch (e) {
+      console.warn("Polling error:", e);
+    }
+  }, 1000);
+}
+
+function resetEmailButton() {
+  const btn = document.getElementById("btn-email-submit");
+  btn.disabled = false;
+  document.getElementById("email-btn-icon").textContent = "⚡";
+  document.getElementById("email-btn-label").textContent = "Execute Email Recon";
+}
+
+function handleEmailCompletion(data) {
+  const progressPanel = document.getElementById("email-progress-panel");
+  const statusPill = document.getElementById("email-status-pill");
+  const statusPillText = document.getElementById("email-status-pill-text");
+  const progressFill = document.getElementById("email-progress-fill");
+  const progressPercent = document.getElementById("email-progress-percent");
+
+  const totalElapsed = ((Date.now() - emailScanStartTime) / 1000).toFixed(1);
+  document.getElementById("email-timer-text").innerText = `Elapsed: ${data.duration || totalElapsed}s`;
+
+  progressPanel.className = "email-progress-panel active completed";
+  if (statusPill) {
+    statusPill.style.background = "rgba(16, 185, 129, 0.12)";
+    statusPill.style.color = "#059669";
+    statusPill.style.borderColor = "rgba(16, 185, 129, 0.3)";
+  }
+  if (statusPillText) statusPillText.innerText = "RECONNAISSANCE COMPLETED";
+  if (progressFill) {
+    progressFill.className = "oasis-email-bar-fill completed-fill";
+    progressFill.style.width = "100%";
+  }
+  if (progressPercent) progressPercent.innerText = "100% Complete";
+
+  const findings = data.findings || [];
+  allFindings = findings;
+  document.getElementById("email-live-status-text").innerText = `Triage finished in ${data.duration || totalElapsed}s • ${findings.length} registered accounts confirmed across ${data.total_checked || 123} platforms.`;
+
+  // Render KPIs
+  document.getElementById("kpi-registered").textContent = findings.length;
+  document.getElementById("kpi-checked").textContent = data.total_checked || 123;
+  
+  let leaksCount = 0;
+  findings.forEach(f => {
+    if (f.email_recovery || f.phone_number || f.others) leaksCount++;
+  });
+  document.getElementById("kpi-leaks").textContent = leaksCount;
+  document.getElementById("kpi-duration").textContent = `${data.duration || totalElapsed}s`;
+
+  // Render Category Counts
+  updateCategoryCounts(findings);
+
+  // Update Export Links
+  const cleanTarget = data.target || currentEmailTarget;
+  document.getElementById("results-target-title").textContent = `Account Footprint: ${cleanTarget}`;
+  document.getElementById("results-count-summary").textContent = `Confirmed ${findings.length} registered accounts across online platforms.`;
+  document.getElementById("btn-export-json").href = `/api/email_intelligence/download?target=${encodeURIComponent(cleanTarget)}&format=json`;
+  document.getElementById("btn-export-md").href = `/api/email_intelligence/download?target=${encodeURIComponent(cleanTarget)}&format=md`;
+  document.getElementById("btn-export-csv").href = `/api/email_intelligence/download?target=${encodeURIComponent(cleanTarget)}&format=csv`;
+
+  // Show Results Container
+  document.getElementById("email-results-container").style.display = "block";
+  document.getElementById("email-empty-state").style.display = "none";
+
+  renderFindingsGrid();
+}
+
+function updateCategoryCounts(findings) {
+  const counts = { all: findings.length, social: 0, tech: 0, business: 0, media: 0, retail: 0, gaming: 0, adult: 0 };
+  findings.forEach(f => {
+    const cat = f.category || "general";
+    if (counts[cat] !== undefined) counts[cat]++;
+  });
+
+  for (const [k, v] of Object.entries(counts)) {
+    const el = document.getElementById(`cat-count-${k}`);
+    if (el) el.textContent = v;
+  }
+}
+
+function filterCategory(cat) {
+  currentCategory = cat;
+  document.querySelectorAll(".email-cat-btn").forEach(btn => btn.classList.remove("active"));
+  event.target.classList.add("active");
+  renderFindingsGrid();
+}
+
+function filterSearch() {
+  renderFindingsGrid();
+}
+
+function renderFindingsGrid() {
+  const grid = document.getElementById("email-findings-grid");
+  const searchQuery = (document.getElementById("email-search-filter").value || "").toLowerCase().trim();
+
+  let filtered = allFindings.filter(f => {
+    const matchCat = (currentCategory === "all") || (f.category === currentCategory);
+    const matchSearch = !searchQuery || 
+      (f.name && f.name.toLowerCase().includes(searchQuery)) ||
+      (f.domain && f.domain.toLowerCase().includes(searchQuery));
+    return matchCat && matchSearch;
+  });
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `
+      <div style="grid-column: 1 / -1; padding: 40px 20px; text-align: center; color: var(--slate-400);">
+        No registered accounts matched the active category or filter query.
+      </div>
+    `;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(f => {
+    const name = escapeHtml(f.name || "");
+    const domain = escapeHtml(f.domain || "");
+    const category = escapeHtml((f.category || "general").toUpperCase());
+    const method = escapeHtml(f.method || "register");
+
+    let leaksHtml = "";
+    if (f.email_recovery) {
+      leaksHtml += `<div class="email-leak-box">📧 Leaked Email: <strong>${escapeHtml(f.email_recovery)}</strong></div>`;
+    }
+    if (f.phone_number) {
+      leaksHtml += `<div class="email-leak-box" style="margin-top: 4px;">📱 Leaked Phone: <strong>${escapeHtml(f.phone_number)}</strong></div>`;
+    }
+    if (f.others) {
+      for (const [k, v] of Object.entries(f.others)) {
+        leaksHtml += `<div class="email-leak-box" style="margin-top: 4px;">ℹ️ ${escapeHtml(k)}: <strong>${escapeHtml(String(v))}</strong></div>`;
+      }
+    }
+
+    return `
+      <div class="email-finding-card">
+        <div>
+          <div class="email-finding-header">
+            <span class="email-platform-name">${name}</span>
+            <span class="email-cat-badge">${category}</span>
+          </div>
+          <div style="font-size: 11.5px; color: var(--slate-500); font-family: var(--font-mono); margin-top: 4px;">
+            ${domain}
+          </div>
+        </div>
+
+        ${leaksHtml}
+
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-soft); padding-top: 8px; font-size: 11px;">
+          <span style="color: var(--slate-500);">Method: <strong>${method}</strong></span>
+          <a href="https://${domain}" target="_blank" rel="noopener noreferrer" style="color: #6366f1; font-weight: 700; text-decoration: none;">
+            Visit ↗
+          </a>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const initTarget = "{{ initial_target }}".trim();
+  if (initTarget) {
+    startEmailRecon();
+  }
+});
+</script>
+{% endblock %}

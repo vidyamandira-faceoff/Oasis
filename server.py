@@ -22,6 +22,7 @@ from services.recon_username.backend.router import router as recon_username_rout
 from services.domain_intelligence.backend.router import router as domain_intelligence_router
 from services.social_media_intelligence.backend.router import router as social_media_router
 from services.phone_intelligence.backend.router import router as phone_intelligence_router
+from services.email_intelligence.backend.router import router as email_intelligence_router
 
 app = FastAPI(
     title=APP_NAME,
@@ -62,11 +63,13 @@ async def get_system_status():
             "Domain & Website Intelligence",
             "Social Media Intelligence",
             "Phone Number Intelligence",
+            "Email Intelligence",
         ],
         "connected_engines": [
             "OASIS Username Intelligence Engine",
             "OASIS Domain & Website Intelligence Engine",
             "OASIS Instagram Flash Scraper (Chromium Headless)",
+            "OASIS Email Intelligence Engine",
             "Native Social Media Scraper Cluster",
             "Native Phone Number Intelligence Platform",
         ],
@@ -91,6 +94,7 @@ app.include_router(recon_username_router)
 app.include_router(domain_intelligence_router)
 app.include_router(social_media_router)
 app.include_router(phone_intelligence_router)
+app.include_router(email_intelligence_router)
 
 # -----------------------------------------------------------------------------
 # Root Fallback Redirect
