@@ -40,6 +40,52 @@
     gap: 16px;
   }
 
+  /* Suite Navigation Switcher */
+  .email-suite-nav {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 22px;
+    border-bottom: 1px solid var(--border-soft);
+    padding-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .email-suite-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-soft);
+    background: var(--bg-surface);
+    color: var(--slate-700);
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .email-suite-tab:hover {
+    border-color: rgba(99, 102, 241, 0.4);
+    background: var(--bg-card-subtle);
+  }
+  .email-suite-tab.active {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.12) 100%);
+    border-color: #6366f1;
+    color: #6366f1;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.15);
+  }
+  .email-suite-tab .pill {
+    font-size: 10.5px;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    background: var(--bg-card-subtle);
+    color: var(--slate-500);
+    font-family: var(--font-mono);
+  }
+  .email-suite-tab.active .pill {
+    background: #6366f1;
+    color: #ffffff;
+  }
+
   /* Form Input Card */
   .email-input-card {
     background: var(--bg-surface);
@@ -142,6 +188,32 @@
     box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
   }
   .btn-email-recon:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .btn-mailbox-recon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 800;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 50%, #6366f1 100%);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(14, 165, 233, 0.3);
+    transition: all 0.2s ease;
+  }
+  .btn-mailbox-recon:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4);
+  }
+  .btn-mailbox-recon:disabled {
     opacity: 0.6;
     cursor: not-allowed;
     transform: none;
@@ -298,16 +370,15 @@
     font-size: 26px;
     font-weight: 800;
     color: var(--slate-900);
-    line-height: 1.1;
+    line-height: 1.2;
     margin-bottom: 4px;
-    font-family: var(--font-mono);
   }
   .email-kpi-lbl {
-    font-size: 11.5px;
+    font-size: 12px;
+    font-weight: 600;
     color: var(--slate-500);
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    font-weight: 700;
   }
 
   .email-results-card {
@@ -316,30 +387,34 @@
     border-radius: var(--radius-md);
     padding: 24px;
     box-shadow: var(--shadow-card);
+    margin-bottom: 24px;
   }
+
   .email-filter-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 18px;
-    padding-bottom: 16px;
     border-bottom: 1px solid var(--border-soft);
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 14px;
   }
+
   .email-cat-pills {
     display: flex;
+    gap: 8px;
     flex-wrap: wrap;
-    gap: 6px;
+    align-items: center;
   }
   .email-cat-btn {
     padding: 5px 12px;
+    border-radius: 9999px;
     font-size: 12px;
     font-weight: 700;
-    border-radius: 9999px;
     border: 1px solid var(--border-soft);
-    background: var(--bg-surface);
-    color: var(--slate-600);
+    background: var(--bg-card-subtle);
+    color: var(--slate-700);
     cursor: pointer;
     transition: all 0.2s ease;
   }
@@ -428,6 +503,50 @@
     font-size: 11px;
     font-family: var(--font-mono);
     color: #b45309;
+  }
+
+  /* Mailbox Discovery Card */
+  .mailbox-inbox-card {
+    background: var(--bg-card-subtle);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 12px;
+    transition: all 0.2s ease;
+  }
+  .mailbox-inbox-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(14, 165, 233, 0.4);
+    box-shadow: 0 4px 14px rgba(14, 165, 233, 0.1);
+  }
+  .mailbox-inbox-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--slate-900);
+    font-family: var(--font-mono);
+    word-break: break-all;
+  }
+  .btn-pivot-footprint {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    font-weight: 800;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+    transition: all 0.2s ease;
+  }
+  .btn-pivot-footprint:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
   }
 
   /* Audit Table */
@@ -521,257 +640,465 @@
 <section class="view-page active-view">
   <div class="email-container">
 
-    <!-- 1. Header Banner (Clean & Prominent) -->
-    <div class="tool-header-banner" style="margin-bottom: 24px;">
+    <!-- 1. Header Banner -->
+    <div class="tool-header-banner" style="margin-bottom: 20px;">
       <div class="tool-header-left">
         <div class="tool-title-group">
-          <h2>Email Intelligence &amp; Account Footprint</h2>
-          <p>Passive non-intrusive registration enumeration, credential leakage detection, and account correlation across 124 platforms.</p>
+          <h2>Email Intelligence &amp; Mailbox Discovery Suite</h2>
+          <p>Comprehensive dual-mode email intelligence: Reverse account footprint across 124 web platforms and proactive mailbox discovery across 26+ email service providers.</p>
         </div>
       </div>
-      <div class="tool-header-actions">
-        <!-- Clean: No avatar badge -->
-      </div>
+    </div>
+
+    <!-- 2. Suite Mode Switcher -->
+    <div class="email-suite-nav">
+      <button type="button" class="email-suite-tab active" id="btn-suite-footprint" onclick="switchSuiteView('footprint')">
+        <span style="font-size: 15px;">🔍</span>
+        <span>Reverse Account Footprint</span>
+        <span class="pill">Email → 124 Platforms</span>
+      </button>
+      <button type="button" class="email-suite-tab" id="btn-suite-mailbox" onclick="switchSuiteView('mailbox')">
+        <span style="font-size: 15px;">📫</span>
+        <span>Mailbox Discovery by Handle</span>
+        <span class="pill">Username → 26+ Email Providers</span>
+      </button>
     </div>
 
     <!-- Workspace Layout: Operations (Left) & Capabilities Panel (Right) -->
     <div class="email-workspace-layout">
 
-      <!-- Left Column: Operations Workspace (Input, Progress, Results) -->
+      <!-- Left Column: Operations Workspace -->
       <div class="email-main-column">
 
-        <!-- 2. Target Email Input Card -->
-        <div class="email-input-card">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
-            <div class="recon-mode-tabs">
-              <button type="button" class="recon-mode-tab active" id="tab-mode-single" onclick="setReconInputMode('single')">
-                ✉️ Single Target Recon
-              </button>
-              <button type="button" class="recon-mode-tab" id="tab-mode-batch" onclick="setReconInputMode('batch')">
-                📑 Batch Email Survey
-              </button>
+        <!-- ============================================================ -->
+        <!-- VIEW 1: REVERSE ACCOUNT FOOTPRINT (EMAIL -> 124 PLATFORMS)  -->
+        <!-- ============================================================ -->
+        <div id="suite-footprint-workspace">
+          <!-- Target Email Input Card -->
+          <div class="email-input-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+              <div class="recon-mode-tabs">
+                <button type="button" class="recon-mode-tab active" id="tab-mode-single" onclick="setReconInputMode('single')">
+                  ✉️ Single Target Recon
+                </button>
+                <button type="button" class="recon-mode-tab" id="tab-mode-batch" onclick="setReconInputMode('batch')">
+                  📑 Batch Email Survey
+                </button>
+              </div>
+              <div style="font-size: 11.5px; color: var(--slate-500); font-family: var(--font-mono);">
+                Engine: <span style="color: #6366f1; font-weight: 700;">OASIS Reverse Footprint Engine</span>
+              </div>
             </div>
-            <div style="font-size: 11.5px; color: var(--slate-500); font-family: var(--font-mono);">
-              Engine: <span style="color: #6366f1; font-weight: 700;">OASIS Email Intelligence Engine</span>
+
+            <form id="email-recon-form" onsubmit="event.preventDefault(); startEmailRecon();">
+              
+              <!-- Single Input Mode -->
+              <div id="wrapper-single-input">
+                <div class="email-input-row">
+                  <input type="email" id="email-target-input" class="email-input-field" placeholder="Enter target email (e.g. target@example.com or user@protonmail.com)..." value="{{ initial_target }}">
+                  
+                  <select id="email-timeout-select" class="email-select" title="Request timeout per registry">
+                    <option value="6">Fast (6s timeout)</option>
+                    <option value="10" selected>Standard (10s timeout)</option>
+                    <option value="15">Thorough (15s timeout)</option>
+                  </select>
+
+                  <button type="submit" id="btn-email-submit" class="btn-email-recon">
+                    <span id="email-btn-icon">⚡</span>
+                    <span id="email-btn-label">Execute Email Recon</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Batch Input Mode -->
+              <div id="wrapper-batch-input" style="display: none;">
+                <textarea id="email-batch-input" class="email-textarea-field" placeholder="Enter multiple target emails separated by commas, newlines, or spaces&#10;e.g.:&#10;target1@gmail.com&#10;target2@company.org, lead@domain.io"></textarea>
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 8px;">
+                  <div style="font-size: 12px; color: var(--slate-600);" id="batch-counter-text">
+                    Target Queue: <strong>0 valid email addresses</strong>
+                  </div>
+                  <button type="submit" id="btn-email-batch-submit" class="btn-email-recon">
+                    <span id="email-batch-btn-icon">⚡</span>
+                    <span id="email-batch-btn-label">Launch Batch Recon</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Advanced Switches & Configuration -->
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border-soft); flex-wrap: wrap; gap: 14px;">
+                <div style="display: flex; gap: 18px; align-items: center; flex-wrap: wrap;">
+                  <label style="display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--slate-700); cursor: pointer;" title="Excludes password-recovery probes on Adobe, Mail.ru, Odnoklassniki, and Samsung">
+                    <input type="checkbox" id="email-check-nopassword" style="accent-color: #6366f1;">
+                    <span>🔒 <strong>Passive Registration Only</strong> (Skip password-recovery tests on Adobe, Mail.ru, Odnoklassniki, Samsung) <code style="font-size: 10.5px; color: #6366f1;">-NP</code></span>
+                  </label>
+                  <label style="display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--slate-600); cursor: pointer;">
+                    <input type="checkbox" id="email-check-force" style="accent-color: #6366f1;">
+                    <span>Bypass vault cache &amp; execute fresh probe</span>
+                  </label>
+                </div>
+                <span style="font-size: 11.5px; color: var(--slate-500); font-family: var(--font-mono);">
+                  Target Platforms: <strong id="platforms-count-label">124 Services</strong>
+                </span>
+              </div>
+            </form>
+          </div>
+
+          <!-- Progress & Status Panel -->
+          <div id="email-progress-panel" class="email-progress-panel">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+              <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                <span id="email-status-pill" class="status-pill-online" style="background: rgba(99, 102, 241, 0.12); color: #6366f1; border-color: rgba(99, 102, 241, 0.3); padding: 3px 10px; font-size: 11px; font-weight: 800; letter-spacing: 0.5px;">
+                  <span class="dot" style="background: #6366f1; box-shadow: 0 0 6px #6366f1;"></span>
+                  <span id="email-status-pill-text">ACTIVE RECONNAISSANCE</span>
+                </span>
+                <span class="nav-badge" style="font-family: var(--font-mono); font-size: 11px; color: var(--slate-500); background: var(--bg-card-subtle); padding: 2px 8px; font-weight: 600;">⚡ OASIS Internal Engine</span>
+                <span id="email-batch-indicator" class="nav-badge" style="display: none; background: rgba(139, 92, 246, 0.15); color: #8b5cf6; font-weight: 700; border: 1px solid rgba(139, 92, 246, 0.3);">
+                  Batch Mode
+                </span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="font-family: var(--font-mono); font-size: 12px; color: var(--slate-500); font-weight: 700;" id="email-timer-text">Elapsed: 00:00s</span>
+                <span class="nav-badge" style="background: rgba(99, 102, 241, 0.15); color: #6366f1; border: 1px solid rgba(99, 102, 241, 0.3); font-weight: 700;" id="email-live-count-badge">0 Found</span>
+                <button type="button" onclick="dismissEmailProgress()" style="background: transparent; border: none; color: var(--slate-400); cursor: pointer; font-size: 14px; padding: 2px 6px; border-radius: 4px;" title="Dismiss status panel">✕</button>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 10px;">
+              <div id="email-live-status-text" style="font-size: 13px; font-weight: 700; color: var(--slate-800);">Initiating Trio asynchronous pipeline...</div>
+              <div id="email-progress-percent" style="font-family: var(--font-mono); font-size: 12.5px; font-weight: 800; color: var(--slate-700);">10%</div>
+            </div>
+
+            <div class="oasis-email-bar-track">
+              <div class="oasis-email-bar-fill active-anim" id="email-progress-fill" style="width: 10%;"></div>
+            </div>
+
+            <div class="email-stream-chips" id="email-stream-chips">
+              <!-- Live discovered accounts stream here -->
             </div>
           </div>
 
-          <form id="email-recon-form" onsubmit="event.preventDefault(); startEmailRecon();">
-            
-            <!-- Single Input Mode -->
-            <div id="wrapper-single-input">
+          <!-- Empty State Awaiting Target -->
+          <div id="email-empty-state" class="content-card" style="padding: 60px 20px; text-align: center;">
+            <div style="width: 54px; height: 54px; border-radius: 50%; background: var(--bg-card-subtle); border: 1px solid var(--border-soft); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px; color: var(--slate-400); font-size: 24px;">
+              ✉️
+            </div>
+            <h4 style="font-size: 16px; font-weight: 800; color: var(--slate-800); margin-bottom: 6px;">Awaiting Target Email</h4>
+            <p style="font-size: 13px; color: var(--slate-500); max-width: 500px; margin: 0 auto;">
+              Enter a target email address or batch list above and click <strong>Execute Email Recon</strong> to identify associated accounts across 124 online platforms.
+            </p>
+          </div>
+
+          <!-- Results Section -->
+          <div id="email-results-container" style="display: none;">
+            <!-- KPI Metrics Strip -->
+            <div class="email-kpi-grid">
+              <div class="email-kpi-tile">
+                <div class="email-kpi-val" id="kpi-registered">0</div>
+                <div class="email-kpi-lbl">Confirmed Accounts</div>
+              </div>
+              <div class="email-kpi-tile">
+                <div class="email-kpi-val" id="kpi-checked">0</div>
+                <div class="email-kpi-lbl">Platforms Checked</div>
+              </div>
+              <div class="email-kpi-tile">
+                <div class="email-kpi-val" id="kpi-leaks">0</div>
+                <div class="email-kpi-lbl">Leaked Data Points</div>
+              </div>
+              <div class="email-kpi-tile">
+                <div class="email-kpi-val" id="kpi-duration">0.0s</div>
+                <div class="email-kpi-lbl">Execution Duration</div>
+              </div>
+            </div>
+
+            <!-- Main Results Card -->
+            <div class="email-results-card">
+              <div class="email-filter-bar">
+                <div>
+                  <h3 style="font-size: 16px; font-weight: 800; color: var(--slate-900); margin: 0 0 4px 0;" id="results-target-title">
+                    Account Footprint: target@example.com
+                  </h3>
+                  <span style="font-size: 12px; color: var(--slate-500);" id="results-count-summary">
+                    Discovered 0 accounts
+                  </span>
+                </div>
+
+                <!-- View Switcher: Confirmed Only vs Complete Audit -->
+                <div class="view-switcher-group">
+                  <button type="button" class="view-switch-btn active" id="btn-view-confirmed" onclick="switchResultView('confirmed')">
+                    ● Confirmed Accounts Only (<span id="switch-count-confirmed">0</span>)
+                  </button>
+                  <button type="button" class="view-switch-btn" id="btn-view-audit" onclick="switchResultView('audit')">
+                    ○ Complete Platform Audit (<span id="switch-count-audit">124</span>)
+                  </button>
+                </div>
+
+                <!-- Export Toolbar -->
+                <div class="email-export-bar">
+                  <a href="#" id="btn-export-json" class="email-export-btn" target="_blank">
+                    <span>💾 OASIS JSON</span>
+                  </a>
+                  <a href="#" id="btn-export-md" class="email-export-btn" target="_blank">
+                    <span>📄 Markdown Dossier</span>
+                  </a>
+                  <a href="#" id="btn-export-csv" class="email-export-btn" target="_blank">
+                    <span>📊 CSV Export</span>
+                  </a>
+                </div>
+              </div>
+
+              <!-- VIEW 1: Confirmed Accounts View -->
+              <div id="view-confirmed-container">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
+                  <div class="email-cat-pills" id="email-category-filters">
+                    <button type="button" class="email-cat-btn active" onclick="filterCategory('all')">All Platforms (<span id="cat-count-all">0</span>)</button>
+                    <button type="button" class="email-cat-btn" onclick="filterCategory('social')">Social (<span id="cat-count-social">0</span>)</button>
+                    <button type="button" class="email-cat-btn" onclick="filterCategory('tech')">Tech &amp; Dev (<span id="cat-count-tech">0</span>)</button>
+                    <button type="button" class="email-cat-btn" onclick="filterCategory('business')">Enterprise (<span id="cat-count-business">0</span>)</button>
+                    <button type="button" class="email-cat-btn" onclick="filterCategory('media')">Media (<span id="cat-count-media">0</span>)</button>
+                    <button type="button" class="email-cat-btn" onclick="filterCategory('retail')">Retail (<span id="cat-count-retail">0</span>)</button>
+                    <button type="button" class="email-cat-btn" onclick="filterCategory('gaming')">Gaming (<span id="cat-count-gaming">0</span>)</button>
+                    <button type="button" class="email-cat-btn" onclick="filterCategory('adult')">Adult (<span id="cat-count-adult">0</span>)</button>
+                  </div>
+
+                  <input type="text" id="email-search-filter" oninput="renderFindingsGrid()" placeholder="Filter findings by name or domain..." style="padding: 6px 12px; font-size: 12px; border: 1px solid var(--border-soft); border-radius: var(--radius-sm); outline: none; background: var(--bg-surface);">
+                </div>
+
+                <!-- Account Cards Grid -->
+                <div class="email-findings-grid" id="email-findings-grid">
+                  <!-- Populated dynamically -->
+                </div>
+              </div>
+
+              <!-- VIEW 2: Complete Platform Audit View -->
+              <div id="view-audit-container" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
+                  <div class="email-cat-pills">
+                    <button type="button" class="email-cat-btn active" id="audit-filter-all" onclick="filterAuditStatus('all')">All (<span id="audit-count-all">124</span>)</button>
+                    <button type="button" class="email-cat-btn" id="audit-filter-registered" onclick="filterAuditStatus('registered')">[+] Registered (<span id="audit-count-registered">0</span>)</button>
+                    <button type="button" class="email-cat-btn" id="audit-filter-not_registered" onclick="filterAuditStatus('not_registered')">[-] Not Registered (<span id="audit-count-not_registered">0</span>)</button>
+                    <button type="button" class="email-cat-btn" id="audit-filter-rate_limited" onclick="filterAuditStatus('rate_limited')">[x] Rate Limited (<span id="audit-count-rate_limited">0</span>)</button>
+                    <button type="button" class="email-cat-btn" id="audit-filter-error" onclick="filterAuditStatus('error')">[!] Errors (<span id="audit-count-error">0</span>)</button>
+                  </div>
+
+                  <input type="text" id="audit-search-filter" oninput="renderAuditTable()" placeholder="Search platform audit..." style="padding: 6px 12px; font-size: 12px; border: 1px solid var(--border-soft); border-radius: var(--radius-sm); outline: none; background: var(--bg-surface);">
+                </div>
+
+                <div class="audit-table-wrapper">
+                  <table class="audit-table">
+                    <thead>
+                      <tr>
+                        <th style="width: 40px;">#</th>
+                        <th>Platform Name</th>
+                        <th>Service Domain</th>
+                        <th>Category</th>
+                        <th>Discovery Status</th>
+                        <th>Method &amp; Leaked Data</th>
+                        <th style="text-align: right;">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="audit-table-body">
+                      <!-- Populated dynamically -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- VIEW 2: MAILBOX DISCOVERY (USERNAME -> 26+ PROVIDERS)       -->
+        <!-- ============================================================ -->
+        <div id="suite-mailbox-workspace" style="display: none;">
+          <!-- Target Handle Input Card -->
+          <div class="email-input-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+              <div>
+                <h3 style="font-size: 15px; font-weight: 800; color: var(--slate-900); margin: 0 0 4px 0;">
+                  Target Handle / Username Mailbox Discovery
+                </h3>
+                <p style="font-size: 12px; color: var(--slate-500); margin: 0;">
+                  Query 26+ email service providers to discover active mailboxes registered for this alias.
+                </p>
+              </div>
+              <div style="font-size: 11.5px; color: var(--slate-500); font-family: var(--font-mono);">
+                Engine: <span style="color: #0ea5e9; font-weight: 700;">OASIS Mailbox Discovery Engine</span>
+              </div>
+            </div>
+
+            <form id="mailbox-recon-form" onsubmit="event.preventDefault(); startMailboxRecon();">
               <div class="email-input-row">
-                <input type="email" id="email-target-input" class="email-input-field" placeholder="Enter target email (e.g. target@example.com or user@protonmail.com)..." value="{{ initial_target }}">
+                <input type="text" id="mailbox-target-input" class="email-input-field" placeholder="Enter target handle / username (e.g. torvalds, alex_dev, john.doe)...">
                 
-                <select id="email-timeout-select" class="email-select" title="Request timeout per registry">
+                <select id="mailbox-timeout-select" class="email-select" title="Request timeout per provider">
                   <option value="6">Fast (6s timeout)</option>
                   <option value="10" selected>Standard (10s timeout)</option>
                   <option value="15">Thorough (15s timeout)</option>
                 </select>
 
-                <button type="submit" id="btn-email-submit" class="btn-email-recon">
-                  <span id="email-btn-icon">⚡</span>
-                  <span id="email-btn-label">Execute Email Recon</span>
+                <button type="submit" id="btn-mailbox-submit" class="btn-mailbox-recon">
+                  <span id="mailbox-btn-icon">⚡</span>
+                  <span id="mailbox-btn-label">Discover Mailboxes</span>
                 </button>
               </div>
-            </div>
 
-            <!-- Batch Input Mode -->
-            <div id="wrapper-batch-input" style="display: none;">
-              <textarea id="email-batch-input" class="email-textarea-field" placeholder="Enter multiple target emails separated by commas, newlines, or spaces&#10;e.g.:&#10;target1@gmail.com&#10;target2@company.org, lead@domain.io"></textarea>
-              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 8px;">
-                <div style="font-size: 12px; color: var(--slate-600);" id="batch-counter-text">
-                  Target Queue: <strong>0 valid email addresses</strong>
-                </div>
-                <button type="submit" id="btn-email-batch-submit" class="btn-email-recon">
-                  <span id="email-batch-btn-icon">⚡</span>
-                  <span id="email-batch-btn-label">Launch Batch Recon</span>
-                </button>
-              </div>
-            </div>
-
-            <!-- Advanced Switches & Configuration -->
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border-soft); flex-wrap: wrap; gap: 14px;">
-              <div style="display: flex; gap: 18px; align-items: center; flex-wrap: wrap;">
-                <label style="display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--slate-700); cursor: pointer;" title="Excludes password-recovery probes on Adobe, Mail.ru, Odnoklassniki, and Samsung">
-                  <input type="checkbox" id="email-check-nopassword" style="accent-color: #6366f1;">
-                  <span>🔒 <strong>Passive Registration Only</strong> (Skip password-recovery tests on Adobe, Mail.ru, Odnoklassniki, Samsung) <code style="font-size: 10.5px; color: #6366f1;">-NP</code></span>
-                </label>
+              <!-- Options -->
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border-soft); flex-wrap: wrap; gap: 14px;">
                 <label style="display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--slate-600); cursor: pointer;">
-                  <input type="checkbox" id="email-check-force" style="accent-color: #6366f1;">
+                  <input type="checkbox" id="mailbox-check-force" style="accent-color: #0ea5e9;">
                   <span>Bypass vault cache &amp; execute fresh probe</span>
                 </label>
-              </div>
-              <span style="font-size: 11.5px; color: var(--slate-500); font-family: var(--font-mono);">
-                Target Platforms: <strong id="platforms-count-label">124 Services</strong>
-              </span>
-            </div>
-          </form>
-        </div>
-
-        <!-- 3. Unified OASIS Progress & Status Panel (Directly Below Input) -->
-        <div id="email-progress-panel" class="email-progress-panel">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
-            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-              <span id="email-status-pill" class="status-pill-online" style="background: rgba(99, 102, 241, 0.12); color: #6366f1; border-color: rgba(99, 102, 241, 0.3); padding: 3px 10px; font-size: 11px; font-weight: 800; letter-spacing: 0.5px;">
-                <span class="dot" style="background: #6366f1; box-shadow: 0 0 6px #6366f1;"></span>
-                <span id="email-status-pill-text">ACTIVE RECONNAISSANCE</span>
-              </span>
-              <span class="nav-badge" style="font-family: var(--font-mono); font-size: 11px; color: var(--slate-500); background: var(--bg-card-subtle); padding: 2px 8px; font-weight: 600;">⚡ OASIS Internal Engine</span>
-              <span id="email-batch-indicator" class="nav-badge" style="display: none; background: rgba(139, 92, 246, 0.15); color: #8b5cf6; font-weight: 700; border: 1px solid rgba(139, 92, 246, 0.3);">
-                Batch Mode
-              </span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 12px;">
-              <span style="font-family: var(--font-mono); font-size: 12px; color: var(--slate-500); font-weight: 700;" id="email-timer-text">Elapsed: 00:00s</span>
-              <span class="nav-badge" style="background: rgba(99, 102, 241, 0.15); color: #6366f1; border: 1px solid rgba(99, 102, 241, 0.3); font-weight: 700;" id="email-live-count-badge">0 Found</span>
-              <button type="button" onclick="dismissEmailProgress()" style="background: transparent; border: none; color: var(--slate-400); cursor: pointer; font-size: 14px; padding: 2px 6px; border-radius: 4px;" title="Dismiss status panel">✕</button>
-            </div>
-          </div>
-
-          <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 10px;">
-            <div id="email-live-status-text" style="font-size: 13px; font-weight: 700; color: var(--slate-800);">Initiating Trio asynchronous pipeline...</div>
-            <div id="email-progress-percent" style="font-family: var(--font-mono); font-size: 12.5px; font-weight: 800; color: var(--slate-700);">10%</div>
-          </div>
-
-          <div class="oasis-email-bar-track">
-            <div class="oasis-email-bar-fill active-anim" id="email-progress-fill" style="width: 10%;"></div>
-          </div>
-
-          <div class="email-stream-chips" id="email-stream-chips">
-            <!-- Live discovered accounts stream here -->
-          </div>
-        </div>
-
-        <!-- 4. Empty State Awaiting Target -->
-        <div id="email-empty-state" class="content-card" style="padding: 60px 20px; text-align: center;">
-          <div style="width: 54px; height: 54px; border-radius: 50%; background: var(--bg-card-subtle); border: 1px solid var(--border-soft); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px; color: var(--slate-400);">
-            ✉️
-          </div>
-          <h4 style="font-size: 16px; font-weight: 800; color: var(--slate-800); margin-bottom: 6px;">Awaiting Target Email</h4>
-          <p style="font-size: 13px; color: var(--slate-500); max-width: 500px; margin: 0 auto;">
-            Enter a target email address or batch list above and click <strong>Execute Email Recon</strong> to identify associated accounts across 124 online platforms.
-          </p>
-        </div>
-
-        <!-- 5. Results Section (Directly Visible) -->
-        <div id="email-results-container" style="display: none;">
-
-          <!-- KPI Metrics Strip -->
-          <div class="email-kpi-grid">
-            <div class="email-kpi-tile">
-              <div class="email-kpi-val" id="kpi-registered">0</div>
-              <div class="email-kpi-lbl">Confirmed Accounts</div>
-            </div>
-            <div class="email-kpi-tile">
-              <div class="email-kpi-val" id="kpi-checked">0</div>
-              <div class="email-kpi-lbl">Platforms Checked</div>
-            </div>
-            <div class="email-kpi-tile">
-              <div class="email-kpi-val" id="kpi-leaks">0</div>
-              <div class="email-kpi-lbl">Leaked Data Points</div>
-            </div>
-            <div class="email-kpi-tile">
-              <div class="email-kpi-val" id="kpi-duration">0.0s</div>
-              <div class="email-kpi-lbl">Execution Duration</div>
-            </div>
-          </div>
-
-          <!-- Main Results Card -->
-          <div class="email-results-card">
-            <div class="email-filter-bar">
-              <div>
-                <h3 style="font-size: 16px; font-weight: 800; color: var(--slate-900); margin: 0 0 4px 0;" id="results-target-title">
-                  Account Footprint: target@example.com
-                </h3>
-                <span style="font-size: 12px; color: var(--slate-500);" id="results-count-summary">
-                  Discovered 0 accounts
+                <span style="font-size: 11.5px; color: var(--slate-500); font-family: var(--font-mono);">
+                  Target Providers: <strong>26 Active Mail Services</strong>
                 </span>
               </div>
+            </form>
+          </div>
 
-              <!-- View Mode Switcher: Confirmed Only vs Complete Audit -->
-              <div class="view-switcher-group">
-                <button type="button" class="view-switch-btn active" id="btn-view-confirmed" onclick="switchResultView('confirmed')">
-                  ● Confirmed Accounts Only (<span id="switch-count-confirmed">0</span>)
-                </button>
-                <button type="button" class="view-switch-btn" id="btn-view-audit" onclick="switchResultView('audit')">
-                  ○ Complete Platform Audit (<span id="switch-count-audit">124</span>)
-                </button>
+          <!-- Mailbox Progress & Status Panel -->
+          <div id="mailbox-progress-panel" class="email-progress-panel">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+              <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                <span id="mailbox-status-pill" class="status-pill-online" style="background: rgba(14, 165, 233, 0.12); color: #0284c7; border-color: rgba(14, 165, 233, 0.3); padding: 3px 10px; font-size: 11px; font-weight: 800; letter-spacing: 0.5px;">
+                  <span class="dot" style="background: #0ea5e9; box-shadow: 0 0 6px #0ea5e9;"></span>
+                  <span id="mailbox-status-pill-text">PROBING PROVIDERS</span>
+                </span>
+                <span class="nav-badge" style="font-family: var(--font-mono); font-size: 11px; color: var(--slate-500); background: var(--bg-card-subtle); padding: 2px 8px; font-weight: 600;">⚡ OASIS Internal Engine</span>
               </div>
-
-              <!-- Export Toolbar -->
-              <div class="email-export-bar">
-                <a href="#" id="btn-export-json" class="email-export-btn" target="_blank">
-                  <span>💾 OASIS JSON</span>
-                </a>
-                <a href="#" id="btn-export-md" class="email-export-btn" target="_blank">
-                  <span>📄 Markdown Dossier</span>
-                </a>
-                <a href="#" id="btn-export-csv" class="email-export-btn" target="_blank">
-                  <span>📊 CSV Export</span>
-                </a>
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="font-family: var(--font-mono); font-size: 12px; color: var(--slate-500); font-weight: 700;" id="mailbox-timer-text">Elapsed: 00:00s</span>
+                <span class="nav-badge" style="background: rgba(14, 165, 233, 0.15); color: #0284c7; border: 1px solid rgba(14, 165, 233, 0.3); font-weight: 700;" id="mailbox-live-count-badge">0 Found</span>
+                <button type="button" onclick="dismissMailboxProgress()" style="background: transparent; border: none; color: var(--slate-400); cursor: pointer; font-size: 14px; padding: 2px 6px; border-radius: 4px;" title="Dismiss status panel">✕</button>
               </div>
             </div>
 
-            <!-- VIEW 1: Confirmed Accounts View (Category Filters & Grid) -->
-            <div id="view-confirmed-container">
-              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
-                <div class="email-cat-pills" id="email-category-filters">
-                  <button type="button" class="email-cat-btn active" onclick="filterCategory('all')">All Platforms (<span id="cat-count-all">0</span>)</button>
-                  <button type="button" class="email-cat-btn" onclick="filterCategory('social')">Social (<span id="cat-count-social">0</span>)</button>
-                  <button type="button" class="email-cat-btn" onclick="filterCategory('tech')">Tech &amp; Dev (<span id="cat-count-tech">0</span>)</button>
-                  <button type="button" class="email-cat-btn" onclick="filterCategory('business')">Enterprise (<span id="cat-count-business">0</span>)</button>
-                  <button type="button" class="email-cat-btn" onclick="filterCategory('media')">Media (<span id="cat-count-media">0</span>)</button>
-                  <button type="button" class="email-cat-btn" onclick="filterCategory('retail')">Retail (<span id="cat-count-retail">0</span>)</button>
-                  <button type="button" class="email-cat-btn" onclick="filterCategory('gaming')">Gaming (<span id="cat-count-gaming">0</span>)</button>
-                  <button type="button" class="email-cat-btn" onclick="filterCategory('adult')">Adult (<span id="cat-count-adult">0</span>)</button>
-                </div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 10px;">
+              <div id="mailbox-live-status-text" style="font-size: 13px; font-weight: 700; color: var(--slate-800);">Surveying 26 email providers...</div>
+              <div id="mailbox-progress-percent" style="font-family: var(--font-mono); font-size: 12.5px; font-weight: 800; color: var(--slate-700);">5%</div>
+            </div>
 
-                <input type="text" id="email-search-filter" oninput="renderFindingsGrid()" placeholder="Filter findings by name or domain..." style="padding: 6px 12px; font-size: 12px; border: 1px solid var(--border-soft); border-radius: var(--radius-sm); outline: none; background: var(--bg-surface);">
+            <div class="oasis-email-bar-track">
+              <div class="oasis-email-bar-fill active-anim" id="mailbox-progress-fill" style="width: 5%; background: linear-gradient(90deg, #0ea5e9 0%, #3b82f6 50%, #6366f1 100%);"></div>
+            </div>
+
+            <div class="email-stream-chips" id="mailbox-stream-chips">
+              <!-- Live discovered inboxes stream here -->
+            </div>
+          </div>
+
+          <!-- Empty State Awaiting Handle -->
+          <div id="mailbox-empty-state" class="content-card" style="padding: 60px 20px; text-align: center;">
+            <div style="width: 54px; height: 54px; border-radius: 50%; background: var(--bg-card-subtle); border: 1px solid var(--border-soft); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px; color: var(--slate-400); font-size: 24px;">
+              📫
+            </div>
+            <h4 style="font-size: 16px; font-weight: 800; color: var(--slate-800); margin-bottom: 6px;">Awaiting Target Handle</h4>
+            <p style="font-size: 13px; color: var(--slate-500); max-width: 500px; margin: 0 auto;">
+              Enter a target handle or nickname above and click <strong>Discover Mailboxes</strong> to query Gmail, Outlook, ProtonMail, DuckDuckGo, Posteo, Fastmail, and 20+ other email providers.
+            </p>
+          </div>
+
+          <!-- Mailbox Results Container -->
+          <div id="mailbox-results-container" style="display: none;">
+            <!-- KPI Metrics Strip -->
+            <div class="email-kpi-grid">
+              <div class="email-kpi-tile">
+                <div class="email-kpi-val" id="kpi-mailbox-found" style="color: #0284c7;">0</div>
+                <div class="email-kpi-lbl">Active Inboxes</div>
               </div>
-
-              <!-- Account Cards Grid -->
-              <div class="email-findings-grid" id="email-findings-grid">
-                <!-- Dynamically populated cards -->
+              <div class="email-kpi-tile">
+                <div class="email-kpi-val" id="kpi-mailbox-checked">26</div>
+                <div class="email-kpi-lbl">Providers Surveyed</div>
+              </div>
+              <div class="email-kpi-tile">
+                <div class="email-kpi-val" id="kpi-mailbox-aliases">0</div>
+                <div class="email-kpi-lbl">Aliases / Variants</div>
+              </div>
+              <div class="email-kpi-tile">
+                <div class="email-kpi-val" id="kpi-mailbox-duration">0.0s</div>
+                <div class="email-kpi-lbl">Recon Duration</div>
               </div>
             </div>
 
-            <!-- VIEW 2: Complete Platform Audit View -->
-            <div id="view-audit-container" style="display: none;">
-              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
-                <div class="email-cat-pills">
-                  <button type="button" class="email-cat-btn active" id="audit-filter-all" onclick="filterAuditStatus('all')">All (<span id="audit-count-all">124</span>)</button>
-                  <button type="button" class="email-cat-btn" id="audit-filter-registered" onclick="filterAuditStatus('registered')">[+] Registered (<span id="audit-count-registered">0</span>)</button>
-                  <button type="button" class="email-cat-btn" id="audit-filter-not_registered" onclick="filterAuditStatus('not_registered')">[-] Not Registered (<span id="audit-count-not_registered">0</span>)</button>
-                  <button type="button" class="email-cat-btn" id="audit-filter-rate_limited" onclick="filterAuditStatus('rate_limited')">[x] Rate Limited (<span id="audit-count-rate_limited">0</span>)</button>
-                  <button type="button" class="email-cat-btn" id="audit-filter-error" onclick="filterAuditStatus('error')">[!] Errors (<span id="audit-count-error">0</span>)</button>
+            <!-- Main Results Card -->
+            <div class="email-results-card">
+              <div class="email-filter-bar">
+                <div>
+                  <h3 style="font-size: 16px; font-weight: 800; color: var(--slate-900); margin: 0 0 4px 0;" id="mailbox-results-title">
+                    Discovered Mailboxes: target
+                  </h3>
+                  <span style="font-size: 12px; color: var(--slate-500);" id="mailbox-results-summary">
+                    Identified 0 active mailboxes across 26 providers
+                  </span>
                 </div>
 
-                <input type="text" id="audit-search-filter" oninput="renderAuditTable()" placeholder="Search platform audit..." style="padding: 6px 12px; font-size: 12px; border: 1px solid var(--border-soft); border-radius: var(--radius-sm); outline: none; background: var(--bg-surface);">
+                <!-- Export Toolbar -->
+                <div class="email-export-bar">
+                  <a href="#" id="btn-mailbox-export-json" class="email-export-btn" target="_blank">
+                    <span>💾 OASIS JSON</span>
+                  </a>
+                  <a href="#" id="btn-mailbox-export-md" class="email-export-btn" target="_blank">
+                    <span>📄 Markdown Dossier</span>
+                  </a>
+                  <a href="#" id="btn-mailbox-export-csv" class="email-export-btn" target="_blank">
+                    <span>📊 CSV Export</span>
+                  </a>
+                </div>
               </div>
 
-              <div class="audit-table-wrapper">
-                <table class="audit-table">
-                  <thead>
-                    <tr>
-                      <th style="width: 40px;">#</th>
-                      <th>Platform Name</th>
-                      <th>Service Domain</th>
-                      <th>Category</th>
-                      <th>Discovery Status</th>
-                      <th>Method &amp; Leaked Data</th>
-                      <th style="text-align: right;">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody id="audit-table-body">
-                    <!-- Dynamically populated table rows -->
-                  </tbody>
-                </table>
+              <!-- Discovered Inboxes Grid -->
+              <div style="margin-bottom: 24px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+                  <h4 style="font-size: 14px; font-weight: 800; color: var(--slate-800); margin: 0;">
+                    Confirmed Active Inboxes &amp; 1-Click Footprint Pivots
+                  </h4>
+                  <span style="font-size: 11.5px; color: var(--slate-500);">
+                    Click <strong>Pivot ↗</strong> to instantly interrogate 124 websites for any discovered mailbox.
+                  </span>
+                </div>
+
+                <div class="email-findings-grid" id="mailbox-inboxes-grid">
+                  <!-- Populated dynamically -->
+                </div>
               </div>
+
+              <!-- Full Provider Reconnaissance Audit Table -->
+              <div style="margin-top: 24px; border-top: 1px solid var(--border-soft); padding-top: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+                  <div class="email-cat-pills">
+                    <button type="button" class="email-cat-btn active" id="mb-filter-all" onclick="filterMailboxAuditStatus('all')">All Providers (26)</button>
+                    <button type="button" class="email-cat-btn" id="mb-filter-found" onclick="filterMailboxAuditStatus('found')">[+] Active (<span id="mb-count-found">0</span>)</button>
+                    <button type="button" class="email-cat-btn" id="mb-filter-not_found" onclick="filterMailboxAuditStatus('not_found')">[-] Not Found (<span id="mb-count-not_found">0</span>)</button>
+                    <button type="button" class="email-cat-btn" id="mb-filter-error" onclick="filterMailboxAuditStatus('error')">[!] Timeout / Error (<span id="mb-count-error">0</span>)</button>
+                  </div>
+
+                  <input type="text" id="mailbox-search-filter" oninput="renderMailboxAuditTable()" placeholder="Search providers or domains..." style="padding: 6px 12px; font-size: 12px; border: 1px solid var(--border-soft); border-radius: var(--radius-sm); outline: none; background: var(--bg-surface);">
+                </div>
+
+                <div class="audit-table-wrapper">
+                  <table class="audit-table">
+                    <thead>
+                      <tr>
+                        <th style="width: 40px;">#</th>
+                        <th>Email Service Provider</th>
+                        <th>Mail Domain</th>
+                        <th>Status</th>
+                        <th>Discovered Mailbox Address(es)</th>
+                        <th>Latency</th>
+                        <th style="text-align: right;">Cross-Module Pivot</th>
+                      </tr>
+                    </thead>
+                    <tbody id="mailbox-audit-table-body">
+                      <!-- Populated dynamically -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
             </div>
 
           </div>
-
         </div>
 
       </div>
@@ -783,53 +1110,67 @@
             <div style="display: flex; align-items: center; gap: 8px;">
               <span style="font-size: 15px;">⚡</span>
               <span style="font-size: 13px; font-weight: 800; color: var(--slate-900);">
-                Engine Capabilities
+                Email Suite Capabilities
               </span>
             </div>
             <span class="status-pill-online" style="padding: 2px 7px; font-size: 10px; background: rgba(99, 102, 241, 0.1); color: #6366f1; border-color: rgba(99, 102, 241, 0.25);">
-              124 Registries
+              Dual Engine
             </span>
           </div>
 
           <div id="email-guide-body">
             <div class="email-guide-list">
+              <!-- Feature 1 -->
               <div class="email-guide-tile">
                 <div class="email-guide-icon" style="background: rgba(99, 102, 241, 0.1); color: #6366f1;">🔍</div>
                 <div>
                   <div style="font-size: 12px; font-weight: 800; color: var(--slate-900); margin-bottom: 2px;">124 Platform Coverage</div>
-                  <div style="font-size: 11px; color: var(--slate-500); line-height: 1.4;">Twitter, Instagram, GitHub, Discord, Spotify, Google, Office365, Amazon, and 115+ more.</div>
+                  <div style="font-size: 11px; color: var(--slate-500); line-height: 1.4;">Reverse account enumeration on Twitter, Instagram, GitHub, Spotify, Google, Office365, Amazon, and 115+ more.</div>
                 </div>
               </div>
 
+              <!-- Feature 2 -->
+              <div class="email-guide-tile">
+                <div class="email-guide-icon" style="background: rgba(14, 165, 233, 0.1); color: #0284c7;">📫</div>
+                <div>
+                  <div style="font-size: 12px; font-weight: 800; color: var(--slate-900); margin-bottom: 2px;">26+ Mailbox Probes</div>
+                  <div style="font-size: 11px; color: var(--slate-500); line-height: 1.4;">Proactively checks active inboxes across Gmail, Outlook, Proton, DuckDuckGo, Yahoo, Posteo, Fastmail, and Zoho.</div>
+                </div>
+              </div>
+
+              <!-- Feature 3 -->
               <div class="email-guide-tile">
                 <div class="email-guide-icon" style="background: rgba(245, 158, 11, 0.1); color: #d97706;">🛡️</div>
                 <div>
                   <div style="font-size: 12px; font-weight: 800; color: var(--slate-900); margin-bottom: 2px;">Masked Data Harvesting</div>
-                  <div style="font-size: 11px; color: var(--slate-500); line-height: 1.4;">Extracts phone hints (<code>+1 *****42</code>) and secondary recovery email hints passively.</div>
+                  <div style="font-size: 11px; color: var(--slate-500); line-height: 1.4;">Passively harvests leaked recovery phone hints (<code>+1 *****42</code>) and secondary email hints without alerting targets.</div>
                 </div>
               </div>
 
+              <!-- Feature 4 -->
               <div class="email-guide-tile">
                 <div class="email-guide-icon" style="background: rgba(16, 185, 129, 0.1); color: #059669;">🔒</div>
                 <div>
                   <div style="font-size: 12px; font-weight: 800; color: var(--slate-900); margin-bottom: 2px;">Passive Mode (-NP)</div>
-                  <div style="font-size: 11px; color: var(--slate-500); line-height: 1.4;">Excludes password-recovery checks on Adobe, Mail.ru, Odnoklassniki, and Samsung.</div>
+                  <div style="font-size: 11px; color: var(--slate-500); line-height: 1.4;">Excludes password-recovery checks on Adobe, Mail.ru, Odnoklassniki, and Samsung for zero-contact ops.</div>
                 </div>
               </div>
 
+              <!-- Feature 5 -->
               <div class="email-guide-tile">
-                <div class="email-guide-icon" style="background: rgba(236, 72, 153, 0.1); color: #db2777;">📋</div>
+                <div class="email-guide-icon" style="background: rgba(236, 72, 153, 0.1); color: #db2777;">⚡</div>
                 <div>
-                  <div style="font-size: 12px; font-weight: 800; color: var(--slate-900); margin-bottom: 2px;">Audit Matrix &amp; Batch</div>
-                  <div style="font-size: 11px; color: var(--slate-500); line-height: 1.4;">View all 124 registry responses (Registered, Not Registered, Rate Limited) or survey email batches.</div>
+                  <div style="font-size: 12px; font-weight: 800; color: var(--slate-900); margin-bottom: 2px;">Cross-Engine 1-Click Pivot</div>
+                  <div style="font-size: 11px; color: var(--slate-500); line-height: 1.4;">Pivot directly from any discovered mailbox into the 124-platform account footprint interrogation in 1 click.</div>
                 </div>
               </div>
 
+              <!-- Feature 6 -->
               <div class="email-guide-tile">
                 <div class="email-guide-icon" style="background: rgba(139, 92, 246, 0.1); color: #8b5cf6;">💾</div>
                 <div>
-                  <div style="font-size: 12px; font-weight: 800; color: var(--slate-900); margin-bottom: 2px;">Dossier Vault Artifacts</div>
-                  <div style="font-size: 11px; color: var(--slate-500); line-height: 1.4;">Auto-generates structured OASIS JSON, Markdown incident reports, and spreadsheet CSVs.</div>
+                  <div style="font-size: 12px; font-weight: 800; color: var(--slate-900); margin-bottom: 2px;">Forensic Evidence Vault</div>
+                  <div style="font-size: 11px; color: var(--slate-500); line-height: 1.4;">Auto-compiles standardized OASIS JSON, formatted Markdown investigation dossiers, and audit CSV spreadsheets.</div>
                 </div>
               </div>
             </div>
@@ -843,6 +1184,21 @@
 </section>
 
 <script>
+// Global Suite Mode State
+let activeSuiteView = "footprint"; // "footprint" or "mailbox"
+
+function switchSuiteView(view) {
+  activeSuiteView = view;
+  document.getElementById("btn-suite-footprint").classList.toggle("active", view === "footprint");
+  document.getElementById("btn-suite-mailbox").classList.toggle("active", view === "mailbox");
+
+  document.getElementById("suite-footprint-workspace").style.display = view === "footprint" ? "block" : "none";
+  document.getElementById("suite-mailbox-workspace").style.display = view === "mailbox" ? "block" : "none";
+}
+
+// -------------------------------------------------------------
+// FOOTPRINT ENGINE STATE & FUNCTIONS
+// -------------------------------------------------------------
 let currentEmailTarget = "";
 let emailPollInterval = null;
 let emailTimerInterval = null;
@@ -851,10 +1207,9 @@ let allFindings = [];
 let allServices = [];
 let currentCategory = "all";
 let currentAuditStatus = "all";
-let activeResultView = "confirmed"; // "confirmed" or "audit"
-let currentInputMode = "single"; // "single" or "batch"
+let activeResultView = "confirmed";
+let currentInputMode = "single";
 
-// Batch queue tracking
 let batchQueue = [];
 let batchCurrentIndex = 0;
 let batchCumulativeResults = [];
@@ -883,7 +1238,6 @@ function parseEmailsFromText(text) {
   return unique;
 }
 
-// Live batch counter update
 const batchTextarea = document.getElementById("email-batch-input");
 if (batchTextarea) {
   batchTextarea.addEventListener("input", () => {
@@ -897,11 +1251,8 @@ if (batchTextarea) {
 
 function toggleEmailGuide() {
   const body = document.getElementById("email-guide-body");
-  const label = document.getElementById("email-guide-toggle-label");
   if (!body) return;
-  const isHidden = body.style.display === "none";
-  body.style.display = isHidden ? "block" : "none";
-  if (label) label.textContent = isHidden ? "Hide Guide ▲" : "Show Guide ▼";
+  body.style.display = (body.style.display === "none") ? "block" : "none";
 }
 
 function dismissEmailProgress() {
@@ -947,7 +1298,6 @@ async function startEmailRecon() {
     return;
   }
 
-  // Single target mode
   const inputEl = document.getElementById("email-target-input");
   const email = (inputEl.value || "").trim();
   if (!email) {
@@ -966,7 +1316,6 @@ async function runSingleEmailRecon(email, timeout, force, noPasswordRecovery) {
   document.getElementById("email-btn-icon").textContent = "⏳";
   document.getElementById("email-btn-label").textContent = "OASIS Surveying...";
 
-  // UI state transitions
   const progressPanel = document.getElementById("email-progress-panel");
   const statusPill = document.getElementById("email-status-pill");
   const statusPillText = document.getElementById("email-status-pill-text");
@@ -1057,7 +1406,6 @@ async function runSingleEmailRecon(email, timeout, force, noPasswordRecovery) {
 
 async function processNextBatchItem(timeout, force, noPasswordRecovery) {
   if (batchCurrentIndex >= batchQueue.length) {
-    // All batch items completed
     document.getElementById("email-live-status-text").innerText = `Batch reconnaissance complete: ${batchQueue.length} emails surveyed.`;
     resetEmailButton();
     return;
@@ -1102,7 +1450,6 @@ function pollEmailStatus(email) {
         handleEmailCompletion(data);
         resetEmailButton();
 
-        // If in batch mode, proceed to next item after 1 second
         if (currentInputMode === "batch" && batchCurrentIndex < batchQueue.length - 1) {
           batchCurrentIndex++;
           const timeoutEl = document.getElementById("email-timeout-select");
@@ -1186,12 +1533,10 @@ function handleEmailCompletion(data) {
   document.getElementById("kpi-leaks").textContent = leaksCount;
   document.getElementById("kpi-duration").textContent = `${data.duration || totalElapsed}s`;
 
-  // Render Category Counts & Switcher counts
   updateCategoryCounts(findings);
   document.getElementById("switch-count-confirmed").textContent = findings.length;
   document.getElementById("switch-count-audit").textContent = data.total_checked || allServices.length;
 
-  // Update Export Links
   const cleanTarget = data.target || currentEmailTarget;
   document.getElementById("results-target-title").textContent = `Account Footprint: ${cleanTarget}`;
   document.getElementById("results-count-summary").textContent = `Confirmed ${findings.length} registered accounts across ${data.total_checked || allServices.length} surveyed platforms${modeNotice}.`;
@@ -1199,7 +1544,6 @@ function handleEmailCompletion(data) {
   document.getElementById("btn-export-md").href = `/api/email_intelligence/download?target=${encodeURIComponent(cleanTarget)}&format=md`;
   document.getElementById("btn-export-csv").href = `/api/email_intelligence/download?target=${encodeURIComponent(cleanTarget)}&format=csv`;
 
-  // Show Results Container
   document.getElementById("email-results-container").style.display = "block";
   document.getElementById("email-empty-state").style.display = "none";
 
@@ -1382,6 +1726,389 @@ function renderAuditTable() {
   }).join("");
 }
 
+// -------------------------------------------------------------
+// MAILBOX DISCOVERY ENGINE STATE & FUNCTIONS
+// -------------------------------------------------------------
+let currentMailboxTarget = "";
+let mailboxPollInterval = null;
+let mailboxTimerInterval = null;
+let mailboxScanStartTime = 0;
+let allMailboxInboxes = [];
+let allMailboxResults = [];
+let currentMailboxAuditStatus = "all";
+
+function dismissMailboxProgress() {
+  const panel = document.getElementById("mailbox-progress-panel");
+  if (panel) panel.classList.remove("active");
+}
+
+async function startMailboxRecon() {
+  const inputEl = document.getElementById("mailbox-target-input");
+  const timeoutEl = document.getElementById("mailbox-timeout-select");
+  const forceCheck = document.getElementById("mailbox-check-force");
+
+  const rawUser = (inputEl.value || "").trim();
+  if (!rawUser || rawUser.length < 2) {
+    alert("Please enter a valid target handle or username (at least 2 characters).");
+    return;
+  }
+
+  const cleanUser = rawUser.includes("@") ? rawUser.split("@")[0].trim() : rawUser;
+  const timeout = parseInt(timeoutEl.value, 10) || 10;
+  const force = forceCheck ? forceCheck.checked : false;
+
+  currentMailboxTarget = cleanUser;
+  const btnSubmit = document.getElementById("btn-mailbox-submit");
+  btnSubmit.disabled = true;
+  document.getElementById("mailbox-btn-icon").textContent = "⏳";
+  document.getElementById("mailbox-btn-label").textContent = "OASIS Probing...";
+
+  const progressPanel = document.getElementById("mailbox-progress-panel");
+  const statusPill = document.getElementById("mailbox-status-pill");
+  const statusPillText = document.getElementById("mailbox-status-pill-text");
+  const progressFill = document.getElementById("mailbox-progress-fill");
+  const progressPercent = document.getElementById("mailbox-progress-percent");
+  const chipsContainer = document.getElementById("mailbox-stream-chips");
+
+  progressPanel.className = "email-progress-panel active";
+  if (statusPill) {
+    statusPill.style.background = "rgba(14, 165, 233, 0.12)";
+    statusPill.style.color = "#0284c7";
+    statusPill.style.borderColor = "rgba(14, 165, 233, 0.3)";
+  }
+  if (statusPillText) statusPillText.innerText = "PROBING 26+ PROVIDERS";
+  if (progressFill) {
+    progressFill.className = "oasis-email-bar-fill active-anim";
+    progressFill.style.width = "5%";
+  }
+  if (progressPercent) progressPercent.innerText = "5%";
+  chipsContainer.innerHTML = "";
+
+  document.getElementById("mailbox-empty-state").style.display = "none";
+  document.getElementById("mailbox-live-status-text").innerText = `Connecting to 26+ email service providers for '${cleanUser}'...`;
+  document.getElementById("mailbox-live-count-badge").innerText = "0 Found";
+
+  mailboxScanStartTime = Date.now();
+  let simPercent = 5;
+  if (mailboxTimerInterval) clearInterval(mailboxTimerInterval);
+  mailboxTimerInterval = setInterval(() => {
+    const elapsedSec = ((Date.now() - mailboxScanStartTime) / 1000).toFixed(1);
+    document.getElementById("mailbox-timer-text").innerText = `Elapsed: ${elapsedSec}s`;
+
+    if (simPercent < 90) {
+      simPercent += 2.2;
+      const rounded = Math.round(simPercent);
+      if (progressFill) progressFill.style.width = `${rounded}%`;
+      if (progressPercent) progressPercent.innerText = `${rounded}%`;
+    }
+  }, 250);
+
+  try {
+    const res = await fetch("/api/email_intelligence/mailbox/run", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: cleanUser,
+        force: force,
+        timeout: timeout
+      })
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.detail || "Server error");
+    }
+
+    const data = await res.json();
+
+    if (data.status === "COMPLETED" && data.cached) {
+      clearInterval(mailboxTimerInterval);
+      handleMailboxCompletion(data);
+      resetMailboxButton();
+      return;
+    }
+
+    pollMailboxStatus(cleanUser);
+
+  } catch (err) {
+    clearInterval(mailboxTimerInterval);
+    progressPanel.className = "email-progress-panel active error";
+    if (statusPill) {
+      statusPill.style.background = "rgba(239, 68, 68, 0.12)";
+      statusPill.style.color = "#dc2626";
+      statusPill.style.borderColor = "rgba(239, 68, 68, 0.3)";
+    }
+    if (statusPillText) statusPillText.innerText = "EXECUTION TERMINATED";
+    if (progressFill) {
+      progressFill.className = "oasis-email-bar-fill error-fill";
+      progressFill.style.width = "100%";
+    }
+    if (progressPercent) progressPercent.innerText = "Failed";
+    document.getElementById("mailbox-live-status-text").innerText = `Execution error: ${err.message}`;
+    resetMailboxButton();
+    alert("Mailbox discovery failed: " + err.message);
+  }
+}
+
+function pollMailboxStatus(username) {
+  if (mailboxPollInterval) clearInterval(mailboxPollInterval);
+
+  mailboxPollInterval = setInterval(async () => {
+    try {
+      const res = await fetch(`/api/email_intelligence/mailbox/status?username=${encodeURIComponent(username)}`);
+      if (!res.ok) return;
+      const data = await res.json();
+
+      if (data.progress_msg) {
+        document.getElementById("mailbox-live-status-text").innerText = data.progress_msg;
+      }
+
+      const foundCount = data.total_found || (data.discovered_inboxes ? data.discovered_inboxes.length : 0);
+      document.getElementById("mailbox-live-count-badge").innerText = `${foundCount} Found`;
+
+      if (data.discovered_inboxes && data.discovered_inboxes.length > 0) {
+        const chipsContainer = document.getElementById("mailbox-stream-chips");
+        chipsContainer.innerHTML = data.discovered_inboxes.map(item => `
+          <span class="chip-email-found" style="color: #0284c7; background: rgba(14, 165, 233, 0.1); border-color: rgba(14, 165, 233, 0.25);">
+            📫 ${escapeHtml(item.email)}
+          </span>
+        `).join("");
+      }
+
+      if (data.status === "COMPLETED") {
+        clearInterval(mailboxPollInterval);
+        clearInterval(mailboxTimerInterval);
+        handleMailboxCompletion(data);
+        resetMailboxButton();
+      } else if (data.status === "ERROR") {
+        clearInterval(mailboxPollInterval);
+        clearInterval(mailboxTimerInterval);
+        const progressPanel = document.getElementById("mailbox-progress-panel");
+        progressPanel.className = "email-progress-panel active error";
+        document.getElementById("mailbox-live-status-text").innerText = data.error || "Engine error";
+        resetMailboxButton();
+      }
+    } catch (e) {
+      console.warn("Mailbox poll error:", e);
+    }
+  }, 1000);
+}
+
+function resetMailboxButton() {
+  const btn = document.getElementById("btn-mailbox-submit");
+  if (btn) {
+    btn.disabled = false;
+    document.getElementById("mailbox-btn-icon").textContent = "⚡";
+    document.getElementById("mailbox-btn-label").textContent = "Discover Mailboxes";
+  }
+}
+
+function handleMailboxCompletion(data) {
+  const progressPanel = document.getElementById("mailbox-progress-panel");
+  const statusPill = document.getElementById("mailbox-status-pill");
+  const statusPillText = document.getElementById("mailbox-status-pill-text");
+  const progressFill = document.getElementById("mailbox-progress-fill");
+  const progressPercent = document.getElementById("mailbox-progress-percent");
+
+  const totalElapsed = ((Date.now() - mailboxScanStartTime) / 1000).toFixed(1);
+  document.getElementById("mailbox-timer-text").innerText = `Elapsed: ${data.duration || totalElapsed}s`;
+
+  progressPanel.className = "email-progress-panel active completed";
+  if (statusPill) {
+    statusPill.style.background = "rgba(16, 185, 129, 0.12)";
+    statusPill.style.color = "#059669";
+    statusPill.style.borderColor = "rgba(16, 185, 129, 0.3)";
+  }
+  if (statusPillText) statusPillText.innerText = "DISCOVERY COMPLETED";
+  if (progressFill) {
+    progressFill.className = "oasis-email-bar-fill completed-fill";
+    progressFill.style.width = "100%";
+  }
+  if (progressPercent) progressPercent.innerText = "100% Complete";
+
+  const inboxes = data.discovered_inboxes || [];
+  allMailboxInboxes = inboxes;
+  allMailboxResults = data.all_results || [];
+
+  document.getElementById("mailbox-live-status-text").innerText = `Discovery finished in ${data.duration || totalElapsed}s • ${inboxes.length} active mailboxes discovered across ${data.total_checked || allMailboxResults.length} email providers.`;
+
+  // KPIs
+  document.getElementById("kpi-mailbox-found").textContent = inboxes.length;
+  document.getElementById("kpi-mailbox-checked").textContent = data.total_checked || allMailboxResults.length;
+  document.getElementById("kpi-mailbox-aliases").textContent = inboxes.length;
+  document.getElementById("kpi-mailbox-duration").textContent = `${data.duration || totalElapsed}s`;
+
+  const cleanTarget = data.target || currentMailboxTarget;
+  document.getElementById("mailbox-results-title").textContent = `Discovered Mailboxes: ${cleanTarget}`;
+  document.getElementById("mailbox-results-summary").textContent = `Confirmed ${inboxes.length} active mailboxes across ${data.total_checked || allMailboxResults.length} email providers.`;
+
+  // Exports
+  document.getElementById("btn-mailbox-export-json").href = `/api/email_intelligence/mailbox/download?username=${encodeURIComponent(cleanTarget)}&format=json`;
+  document.getElementById("btn-mailbox-export-md").href = `/api/email_intelligence/mailbox/download?username=${encodeURIComponent(cleanTarget)}&format=md`;
+  document.getElementById("btn-mailbox-export-csv").href = `/api/email_intelligence/mailbox/download?username=${encodeURIComponent(cleanTarget)}&format=csv`;
+
+  document.getElementById("mailbox-results-container").style.display = "block";
+  document.getElementById("mailbox-empty-state").style.display = "none";
+
+  renderMailboxInboxesGrid();
+  renderMailboxAuditTable();
+  updateMailboxAuditCounts();
+}
+
+function renderMailboxInboxesGrid() {
+  const grid = document.getElementById("mailbox-inboxes-grid");
+  if (!allMailboxInboxes || allMailboxInboxes.length === 0) {
+    grid.innerHTML = `
+      <div style="grid-column: 1 / -1; padding: 36px 20px; text-align: center; color: var(--slate-400); background: var(--bg-card-subtle); border-radius: var(--radius-sm); border: 1px dashed var(--border-soft);">
+        No active registered mailboxes were detected for this handle on the surveyed providers.
+      </div>
+    `;
+    return;
+  }
+
+  grid.innerHTML = allMailboxInboxes.map(item => {
+    const prov = escapeHtml(item.provider || "Mail Service");
+    const email = escapeHtml(item.email || "");
+    const domain = escapeHtml(item.domain || "");
+
+    return `
+      <div class="mailbox-inbox-card">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 11px; font-weight: 800; color: #0284c7; text-transform: uppercase; background: rgba(14, 165, 233, 0.1); padding: 2px 8px; border-radius: 4px;">
+              ${prov}
+            </span>
+            <span class="status-badge badge-registered">
+              ✓ ACTIVE
+            </span>
+          </div>
+          <div class="mailbox-inbox-title">
+            ${email}
+          </div>
+          <div style="font-size: 11.5px; color: var(--slate-500); font-family: var(--font-mono); margin-top: 4px;">
+            Domain: ${domain}
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-soft); padding-top: 10px; margin-top: 4px;">
+          <span style="font-size: 11px; color: var(--slate-500);">Pivot to footprint:</span>
+          <button type="button" class="btn-pivot-footprint" onclick="pivotToEmailFootprint('${email}')" title="Interrogate 124 websites for this discovered email">
+            <span>⚡ Pivot ↗</span>
+          </button>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function pivotToEmailFootprint(email) {
+  // 1. Switch to Reverse Account Footprint suite tab
+  switchSuiteView('footprint');
+
+  // 2. Put target into single email input
+  setReconInputMode('single');
+  const inputEl = document.getElementById("email-target-input");
+  if (inputEl) {
+    inputEl.value = email;
+    inputEl.focus();
+  }
+
+  // 3. Automatically dispatch 124-platform reconnaissance
+  startEmailRecon();
+}
+
+function updateMailboxAuditCounts() {
+  let found = 0, notFound = 0, errors = 0;
+  allMailboxResults.forEach(r => {
+    if (r.status === "found") found++;
+    else if (r.status === "not_found") notFound++;
+    else errors++;
+  });
+
+  const fEl = document.getElementById("mb-count-found");
+  const nfEl = document.getElementById("mb-count-not_found");
+  const errEl = document.getElementById("mb-count-error");
+
+  if (fEl) fEl.textContent = found;
+  if (nfEl) nfEl.textContent = notFound;
+  if (errEl) errEl.textContent = errors;
+}
+
+function filterMailboxAuditStatus(status) {
+  currentMailboxAuditStatus = status;
+  document.querySelectorAll("#suite-mailbox-workspace .email-cat-btn").forEach(btn => btn.classList.remove("active"));
+  const activeBtn = document.getElementById(`mb-filter-${status}`);
+  if (activeBtn) activeBtn.classList.add("active");
+  renderMailboxAuditTable();
+}
+
+function renderMailboxAuditTable() {
+  const tbody = document.getElementById("mailbox-audit-table-body");
+  const searchQuery = (document.getElementById("mailbox-search-filter").value || "").toLowerCase().trim();
+
+  let filtered = allMailboxResults.filter(r => {
+    let matchStatus = true;
+    if (currentMailboxAuditStatus === "found") matchStatus = (r.status === "found");
+    else if (currentMailboxAuditStatus === "not_found") matchStatus = (r.status === "not_found");
+    else if (currentMailboxAuditStatus === "error") matchStatus = (r.status === "error" || r.status === "timeout");
+
+    const matchSearch = !searchQuery ||
+      (r.provider && r.provider.toLowerCase().includes(searchQuery)) ||
+      (r.domain && r.domain.toLowerCase().includes(searchQuery));
+    return matchStatus && matchSearch;
+  });
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="7" style="text-align: center; padding: 26px; color: var(--slate-400);">
+          No providers matched the selected filter or query.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map((r, idx) => {
+    const prov = escapeHtml(r.provider || "");
+    const domain = escapeHtml(r.domain || "");
+    const status = r.status || "not_found";
+    const emails = r.discovered_emails || [];
+    const dur = `${r.duration || 0}s`;
+
+    let badgeHtml = "";
+    if (status === "found") {
+      badgeHtml = `<span class="status-badge badge-registered">✓ ACTIVE</span>`;
+    } else if (status === "timeout") {
+      badgeHtml = `<span class="status-badge badge-rate-limited">⚠ TIMEOUT</span>`;
+    } else if (status === "error") {
+      badgeHtml = `<span class="status-badge badge-error">✕ ERROR</span>`;
+    } else {
+      badgeHtml = `<span class="status-badge badge-not-registered">— Not Found</span>`;
+    }
+
+    const emailStr = emails.length > 0
+      ? emails.map(e => `<code style="font-weight:700; color:#0284c7;">${escapeHtml(e)}</code>`).join(", ")
+      : `<span style="color:var(--slate-400); font-size:11.5px;">—</span>`;
+
+    const pivotButton = (emails.length > 0)
+      ? `<button type="button" class="btn-pivot-footprint" onclick="pivotToEmailFootprint('${escapeHtml(emails[0])}')">⚡ Pivot</button>`
+      : `<span style="color:var(--slate-300); font-size:11px;">—</span>`;
+
+    return `
+      <tr>
+        <td style="font-family: var(--font-mono); color: var(--slate-400);">${idx + 1}</td>
+        <td><strong style="color: var(--slate-900);">${prov}</strong></td>
+        <td><code style="font-size: 11.5px; color: var(--slate-600);">${domain}</code></td>
+        <td>${badgeHtml}</td>
+        <td>${emailStr}</td>
+        <td style="font-family: var(--font-mono); font-size: 11px; color: var(--slate-500);">${dur}</td>
+        <td style="text-align: right;">${pivotButton}</td>
+      </tr>
+    `;
+  }).join("");
+}
+
 function escapeHtml(str) {
   if (!str) return '';
   return String(str)
@@ -1395,8 +2122,15 @@ function escapeHtml(str) {
 document.addEventListener("DOMContentLoaded", () => {
   const initTarget = "{{ initial_target }}".trim();
   if (initTarget) {
-    document.getElementById("email-target-input").value = initTarget;
-    startEmailRecon();
+    if (initTarget.includes("@")) {
+      switchSuiteView('footprint');
+      document.getElementById("email-target-input").value = initTarget;
+      startEmailRecon();
+    } else {
+      switchSuiteView('mailbox');
+      document.getElementById("mailbox-target-input").value = initTarget;
+      startMailboxRecon();
+    }
   }
 });
 </script>

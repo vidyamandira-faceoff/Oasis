@@ -10,7 +10,11 @@ from services.email_intelligence.backend.service import (
     execute_email_recon,
     get_email_status,
     ensure_email_report_file,
-    get_recent_email_scans
+    get_recent_email_scans,
+    execute_mailbox_discovery,
+    get_mailbox_status,
+    ensure_mailbox_report_file,
+    get_recent_mailbox_scans
 )
 
 router = APIRouter()
@@ -23,6 +27,11 @@ class EmailRunRequest(BaseModel):
     force: Optional[bool] = False
     timeout: Optional[int] = 10
     no_password_recovery: Optional[bool] = False
+
+class MailboxRunRequest(BaseModel):
+    username: str = Field(min_length=2, max_length=150)
+    force: Optional[bool] = False
+    timeout: Optional[int] = 10
 
 @router.get("/services/email-intelligence", response_class=HTMLResponse)
 async def page_view(request: Request, target: Optional[str] = None):
@@ -126,3 +135,66 @@ async def download_email_report(target: str, format: str = "json"):
         filename=filename,
         headers={"Content-Disposition": f'attachment; filename="{filename}"'}
     )
+
+
+# ============================================================================
+# Mailbox Discovery Endpoints (Mailcat Engine)
+# ============================================================================
+
+@router.post("/api/email_intelligence/mailbox/run")
+async def run_mailbox_task(req: MailboxRunRequest):
+    raw_user = req.username.strip()
+    if not raw_user:
+        raise HTTPException(status_code=400, detail="Target username/handle cannot be blank.")
+    
+    try:
+        result = execute_mailbox_discovery(
+            username=raw_user,
+            force=bool(req.force),
+            timeout=req.timeout or 10
+        )
+        return result
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed dispatching mailbox discovery task: {e}")
+
+@router.get("/api/email_intelligence/mailbox/status")
+async def check_mailbox_status(username: str):
+    clean_user = username.strip()
+    if not clean_user:
+        raise HTTPException(status_code=400, detail="Target username parameter is required.")
+    return get_mailbox_status(clean_user)
+
+@router.get("/api/email_intelligence/mailbox/history")
+async def fetch_mailbox_history():
+    return {"history": get_recent_mailbox_scans()}
+
+@router.get("/api/email_intelligence/mailbox/download")
+async def download_mailbox_report(username: str, format: str = "json"):
+    clean_user = username.strip()
+    if not clean_user:
+        raise HTTPException(status_code=400, detail="Target username parameter is required.")
+
+    fmt = format.lower().strip()
+    file_path = ensure_mailbox_report_file(clean_user, fmt)
+    if not file_path or not file_path.exists():
+        raise HTTPException(status_code=404, detail="Requested OASIS Mailbox Discovery report does not exist.")
+
+    media_map = {
+        "csv": "text/csv",
+        "json": "application/json",
+        "md": "text/markdown",
+        "txt": "text/plain"
+    }
+    media_type = media_map.get(fmt, "application/octet-stream")
+    clean_key = clean_user.replace('@', '_at_')
+    filename = f"OASIS_mailbox_{clean_key}_dossier.{fmt}"
+
+    return FileResponse(
+        path=str(file_path),
+        media_type=media_type,
+        filename=filename,
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'}
+    )
+
