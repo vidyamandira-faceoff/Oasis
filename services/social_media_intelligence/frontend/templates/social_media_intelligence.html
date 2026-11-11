@@ -258,68 +258,141 @@
     margin: 0;
   }
 
-  /* Instagram Dual Mode Switcher */
+  /* Instagram Dual Mode Switcher (Vibrantly Distinct Card Themes) */
   .ig-mode-toggle {
-    display: flex;
-    gap: 12px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
     margin-bottom: 24px;
-    background: var(--bg-card-subtle);
-    padding: 6px;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border-soft);
   }
+  @media (max-width: 768px) {
+    .ig-mode-toggle {
+      grid-template-columns: 1fr;
+    }
+  }
+
   .ig-mode-btn {
-    flex: 1;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
-    padding: 12px 18px;
-    border-radius: var(--radius-sm);
-    border: 1px solid transparent;
-    background: transparent;
+    gap: 16px;
+    padding: 18px 22px;
+    border-radius: var(--radius-md);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     text-align: left;
+    position: relative;
+    overflow: hidden;
   }
-  .ig-mode-btn:hover {
-    background: rgba(255, 255, 255, 0.05);
+
+  /* ⚡ Flash Mode Card (Warm Rose / Amber / Internal Engine Theme) */
+  .ig-mode-btn.mode-flash {
+    background: linear-gradient(135deg, rgba(225, 48, 108, 0.05) 0%, rgba(249, 115, 22, 0.04) 100%);
+    border: 1.5px solid rgba(225, 48, 108, 0.25);
   }
-  .ig-mode-btn.active {
-    background: var(--bg-surface);
-    border-color: var(--border-soft);
-    box-shadow: var(--shadow-card);
+  .ig-mode-btn.mode-flash:hover {
+    background: linear-gradient(135deg, rgba(225, 48, 108, 0.09) 0%, rgba(249, 115, 22, 0.07) 100%);
+    border-color: rgba(225, 48, 108, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(225, 48, 108, 0.12);
   }
-  .ig-mode-btn.active.mode-flash {
-    border-left: 3px solid #e1306c;
+  .ig-mode-btn.mode-flash .ig-mode-title {
+    color: #e1306c;
   }
-  .ig-mode-btn.active.mode-pro {
-    border-left: 3px solid #833ab4;
+  .ig-mode-btn.mode-flash.active {
+    background: linear-gradient(135deg, rgba(225, 48, 108, 0.12) 0%, rgba(249, 115, 22, 0.08) 100%);
+    border: 2px solid #e1306c;
+    box-shadow: 0 8px 24px rgba(225, 48, 108, 0.22), inset 0 0 0 1px rgba(225, 48, 108, 0.3);
+    transform: translateY(-1px);
   }
+  .ig-mode-btn.mode-flash.active::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #e1306c, #f43f5e, #fb923c);
+  }
+
+  /* 🚀 Pro Mode Card (High-Tech Royal Indigo / Purple / Cluster Theme) */
+  .ig-mode-btn.mode-pro {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(131, 58, 180, 0.04) 100%);
+    border: 1.5px solid rgba(99, 102, 241, 0.25);
+  }
+  .ig-mode-btn.mode-pro:hover {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.09) 0%, rgba(131, 58, 180, 0.08) 100%);
+    border-color: rgba(99, 102, 241, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.14);
+  }
+  .ig-mode-btn.mode-pro .ig-mode-title {
+    color: #6366f1;
+  }
+  .ig-mode-btn.mode-pro.active {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.14) 0%, rgba(131, 58, 180, 0.1) 100%);
+    border: 2px solid #6366f1;
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.24), inset 0 0 0 1px rgba(99, 102, 241, 0.3);
+    transform: translateY(-1px);
+  }
+  .ig-mode-btn.mode-pro.active::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6, #a855f7);
+  }
+
   .ig-mode-info {
     display: flex;
     flex-direction: column;
   }
   .ig-mode-title {
-    font-size: 14px;
+    font-size: 14.5px;
     font-weight: 800;
-    color: var(--slate-900);
     display: flex;
     align-items: center;
     gap: 8px;
+    letter-spacing: -0.2px;
   }
   .ig-mode-sub {
-    font-size: 11.5px;
-    color: var(--slate-500);
-    margin-top: 2px;
+    font-size: 12px;
+    color: var(--slate-600);
+    margin-top: 4px;
+    line-height: 1.45;
   }
   .ig-mode-badge {
     font-size: 10px;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    padding: 3px 8px;
-    border-radius: 4px;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    white-space: nowrap;
+  }
+  .mode-flash .ig-mode-badge {
+    background: rgba(225, 48, 108, 0.12);
+    color: #e1306c;
+    border: 1px solid rgba(225, 48, 108, 0.3);
+  }
+  .mode-flash.active .ig-mode-badge {
+    background: #e1306c;
+    color: #ffffff;
+    border-color: #e1306c;
+    box-shadow: 0 2px 8px rgba(225, 48, 108, 0.4);
+  }
+  .mode-pro .ig-mode-badge {
+    background: rgba(99, 102, 241, 0.12);
+    color: #6366f1;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+  }
+  .mode-pro.active .ig-mode-badge {
+    background: #6366f1;
+    color: #ffffff;
+    border-color: #6366f1;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
   }
 
   /* Flash Mode Form */
@@ -889,8 +962,7 @@
     <!-- 1. Header Banner -->
     <div class="tool-header-banner" style="margin-bottom: 24px;">
       <div class="tool-header-left">
-        <div class="tool-icon-square" style="background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #3b82f6 100%); font-weight: 800; font-size: 14px; letter-spacing: 0.5px;">SOC</div>
-        <div class="tool-title-group">
+<div class="tool-title-group">
           <h2>Social Media Intelligence</h2>
           <p>Dedicated native scraper launchpads for Instagram, Facebook, X (Twitter), and LinkedIn intelligence platforms.</p>
         </div>
@@ -931,22 +1003,22 @@
           <div class="ig-mode-info">
             <span class="ig-mode-title">
               <span>⚡ Flash Mode</span>
-              <span class="status-pill-online" style="padding: 2px 8px; font-size: 10px;"><span class="dot"></span> In-App Recon</span>
+              <span class="status-pill-online" style="padding: 2px 8px; font-size: 10px; background: rgba(225, 48, 108, 0.12); color: #e1306c; border-color: rgba(225, 48, 108, 0.3);"><span class="dot" style="background: #e1306c; box-shadow: 0 0 6px #e1306c;"></span> In-App Recon</span>
             </span>
-            <span class="ig-mode-sub">Native internal engine (OASIS Instagram Engine) &bull; Live telemetry &amp; results on OASIS</span>
+            <span class="ig-mode-sub">Native internal engine (OASIS Instagram Engine) &bull; Live telemetry &amp; in-platform dossier</span>
           </div>
-          <span class="ig-mode-badge" style="background: rgba(225, 48, 108, 0.12); color: #e1306c;">Internal Engine</span>
+          <span class="ig-mode-badge">Internal Engine</span>
         </button>
 
         <button type="button" class="ig-mode-btn mode-pro" id="btn-mode-pro" onclick="setInstagramMode('pro')">
           <div class="ig-mode-info">
             <span class="ig-mode-title">
               <span>🚀 Pro Mode</span>
-              <span class="status-pill-online" style="padding: 2px 8px; font-size: 10px; background: rgba(131, 58, 180, 0.12); color: #833ab4; border-color: rgba(131, 58, 180, 0.3);"><span class="dot" style="background: #833ab4; box-shadow: 0 0 6px #833ab4;"></span> Cluster Online</span>
+              <span class="status-pill-online" style="padding: 2px 8px; font-size: 10px; background: rgba(99, 102, 241, 0.12); color: #6366f1; border-color: rgba(99, 102, 241, 0.3);"><span class="dot" style="background: #6366f1; box-shadow: 0 0 6px #6366f1;"></span> Cluster Online</span>
             </span>
-            <span class="ig-mode-sub">High-capacity scraper cluster at <code style="font-family: var(--font-mono); color: #833ab4;">instagramintel.rkmvcse.in</code></span>
+            <span class="ig-mode-sub">High-capacity scraper cluster at <code style="font-family: var(--font-mono); color: #6366f1; font-weight: 700;">instagramintel.rkmvcse.in</code></span>
           </div>
-          <span class="ig-mode-badge" style="background: rgba(131, 58, 180, 0.12); color: #833ab4;">External Redirect</span>
+          <span class="ig-mode-badge">External Redirect</span>
         </button>
       </div>
 
