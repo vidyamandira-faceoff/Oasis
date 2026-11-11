@@ -12,6 +12,9 @@ from services.social_media_intelligence.backend.service import (
     get_social_status,
     get_social_history,
     ensure_social_report_file,
+    execute_instagram_task,
+    get_instagram_status,
+    ensure_instagram_report_file,
     NATIVE_SCRAPER_ENDPOINTS,
     REPORTS_DIR
 )
@@ -98,3 +101,74 @@ async def download_report(target: str, format: str = "json"):
         filename=filename,
         headers={"Content-Disposition": f'attachment; filename="{filename}"'}
     )
+
+
+# -----------------------------------------------------------------------------
+# Dedicated OASIS Instagram Scraper Routes (Flash vs Pro Modes)
+# -----------------------------------------------------------------------------
+class InstagramRunRequest(BaseModel):
+    target: str = Field(min_length=1, max_length=150)
+    mode: Optional[str] = "flash"              # "flash" (local OASIS engine) or "pro" (native cluster)
+    count: Optional[int] = 8
+    target_type: Optional[str] = "user"        # "user", "post", "hashtag", "location"
+    comments: Optional[bool] = False          # Deep comment extraction per post
+    download_zip: Optional[bool] = False      # Download offline media ZIP archive
+    proxy: Optional[str] = ""                 # Optional HTTP/SOCKS5 proxy server
+    session: Optional[str] = ""               # Optional session cookie
+    force: Optional[bool] = False
+
+@router.post("/api/social_media_intelligence/instagram/run")
+async def run_instagram_task(req: InstagramRunRequest):
+    target = req.target.strip()
+    if not target:
+        raise HTTPException(status_code=400, detail="Target Instagram handle or URL cannot be blank.")
+    
+    result = execute_instagram_task(
+        target=target,
+        mode=req.mode or "flash",
+        count=req.count or 8,
+        target_type=req.target_type or "user",
+        comments=bool(req.comments),
+        session=req.session or "",
+        proxy=req.proxy or "",
+        download_zip=bool(req.download_zip),
+        force=bool(req.force)
+    )
+    return result
+
+@router.get("/api/social_media_intelligence/instagram/status")
+async def check_instagram_status(target: str):
+    clean_target = target.strip()
+    if not clean_target:
+        raise HTTPException(status_code=400, detail="Target parameter required.")
+    return get_instagram_status(clean_target)
+
+@router.get("/api/social_media_intelligence/instagram/download")
+async def download_instagram_report(target: str, format: str = "json"):
+    clean_target = target.strip()
+    if not clean_target:
+        raise HTTPException(status_code=400, detail="Target parameter required.")
+
+    fmt = format.lower().strip()
+    file_path = ensure_instagram_report_file(clean_target, fmt)
+    if not file_path or not file_path.exists():
+        raise HTTPException(status_code=404, detail="Requested OASIS Instagram report file does not exist.")
+
+    media_map = {
+        "csv": "text/csv",
+        "json": "application/json",
+        "md": "text/markdown",
+        "txt": "text/plain",
+        "zip": "application/zip"
+    }
+    media_type = media_map.get(fmt, "application/octet-stream")
+    ext = "zip" if fmt == "zip" else fmt
+    filename = f"OASIS_instagram_{clean_target}_{'media' if fmt == 'zip' else 'dossier'}.{ext}"
+
+    return FileResponse(
+        path=str(file_path),
+        media_type=media_type,
+        filename=filename,
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'}
+    )
+

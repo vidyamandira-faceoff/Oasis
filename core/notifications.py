@@ -180,7 +180,7 @@ def get_tool_notifications(
     for item in _NOTIFICATIONS_STORE:
         if status_f != "ALL" and item["status"] != status_f:
             continue
-        if tool_f != "ALL" and tool_f not in item["tool_code"]:
+        if tool_f != "all" and tool_f not in item["tool_code"]:
             continue
         filtered.append(item)
         if len(filtered) >= limit:

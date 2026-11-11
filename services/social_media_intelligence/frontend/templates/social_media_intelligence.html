@@ -257,6 +257,494 @@
     line-height: 1.45;
     margin: 0;
   }
+
+  /* Instagram Dual Mode Switcher */
+  .ig-mode-toggle {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    background: var(--bg-card-subtle);
+    padding: 6px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-soft);
+  }
+  .ig-mode-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 18px;
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+  }
+  .ig-mode-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  .ig-mode-btn.active {
+    background: var(--bg-surface);
+    border-color: var(--border-soft);
+    box-shadow: var(--shadow-card);
+  }
+  .ig-mode-btn.active.mode-flash {
+    border-left: 3px solid #e1306c;
+  }
+  .ig-mode-btn.active.mode-pro {
+    border-left: 3px solid #833ab4;
+  }
+  .ig-mode-info {
+    display: flex;
+    flex-direction: column;
+  }
+  .ig-mode-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--slate-900);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .ig-mode-sub {
+    font-size: 11.5px;
+    color: var(--slate-500);
+    margin-top: 2px;
+  }
+  .ig-mode-badge {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+
+  /* Flash Mode Form */
+  .ig-flash-input-card {
+    background: var(--bg-card-subtle);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .ig-input-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .ig-input-field {
+    flex: 1;
+    min-width: 260px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    font-size: 14px;
+    color: var(--slate-900);
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+  .ig-input-field:focus {
+    border-color: #e1306c;
+    box-shadow: 0 0 0 2px rgba(225, 48, 108, 0.2);
+  }
+  .ig-count-select {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-size: 13.5px;
+    color: var(--slate-800);
+    outline: none;
+    cursor: pointer;
+  }
+  .btn-ig-flash {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 800;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #e1306c 0%, #c13584 50%, #833ab4 100%);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(225, 48, 108, 0.3);
+    transition: all 0.2s ease;
+  }
+  .btn-ig-flash:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(225, 48, 108, 0.4);
+  }
+  .btn-ig-flash:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* Telemetry / Live Status */
+  .ig-live-telemetry {
+    display: none;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .ig-live-telemetry.active {
+    display: flex;
+    animation: fadeIn 0.2s ease-out;
+  }
+  .ig-spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(225, 48, 108, 0.2);
+    border-top-color: #e1306c;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Profile Card Header */
+  .ig-profile-header-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    margin-bottom: 24px;
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .ig-avatar-wrapper {
+    position: relative;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    padding: 3px;
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    flex-shrink: 0;
+  }
+  .ig-avatar-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--bg-card-subtle);
+  }
+  .ig-profile-meta {
+    flex: 1;
+    min-width: 280px;
+  }
+  .ig-profile-title-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+  .ig-profile-handle {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--slate-900);
+    margin: 0;
+  }
+  .ig-verified-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(14, 165, 233, 0.12);
+    color: #0284c7;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 9999px;
+  }
+  .ig-profile-fullname {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--slate-600);
+    margin-bottom: 12px;
+  }
+  .ig-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 768px) {
+    .ig-metrics-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .ig-metric-box {
+    background: var(--bg-card-subtle);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+  }
+  .ig-metric-val {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--slate-900);
+  }
+  .ig-metric-lbl {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--slate-500);
+    margin-top: 2px;
+  }
+  .ig-profile-bio {
+    font-size: 13px;
+    color: var(--slate-700);
+    line-height: 1.5;
+    background: var(--bg-card-subtle);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    border-left: 3px solid #e1306c;
+  }
+
+  /* Media Grid */
+  .ig-posts-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .ig-media-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 1024px) {
+    .ig-media-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 580px) {
+    .ig-media-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .ig-post-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-subtle);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .ig-post-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card);
+  }
+  .ig-post-thumb-wrapper {
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+    background: var(--bg-card-subtle);
+    overflow: hidden;
+  }
+  .ig-post-thumb {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  .ig-post-card:hover .ig-post-thumb {
+    transform: scale(1.05);
+  }
+  .ig-post-type-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+  .ig-post-body {
+    padding: 12px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .ig-post-caption {
+    font-size: 12px;
+    color: var(--slate-600);
+    line-height: 1.45;
+    margin-bottom: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .ig-post-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border-soft);
+    padding-top: 8px;
+    font-size: 11.5px;
+  }
+
+  /* Export Action Toolbar */
+  .ig-export-bar {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .ig-export-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-soft);
+    background: var(--bg-surface);
+    color: var(--slate-700);
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .ig-export-btn:hover {
+    background: var(--bg-card-subtle);
+    color: var(--slate-900);
+  }
+
+
+  /* Target Scope Selector */
+  .ig-scope-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .ig-scope-pill {
+    padding: 6px 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-soft);
+    background: var(--bg-surface);
+    color: var(--slate-600);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .ig-scope-pill:hover {
+    color: var(--slate-900);
+    background: var(--bg-card-subtle);
+  }
+  .ig-scope-pill.active {
+    background: #e1306c;
+    color: #ffffff;
+    border-color: #e1306c;
+  }
+
+  /* Checkbox Controls */
+  .ig-checkbox-row {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .ig-check-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--slate-700);
+    cursor: pointer;
+  }
+  .ig-check-label input[type="checkbox"] {
+    accent-color: #e1306c;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+  }
+
+  /* Comments Drawer inside Post Cards */
+  .ig-comments-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #e1306c;
+    background: rgba(225, 48, 108, 0.08);
+    border: 1px solid rgba(225, 48, 108, 0.2);
+    border-radius: 4px;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 8px;
+  }
+  .ig-comments-toggle-btn:hover {
+    background: rgba(225, 48, 108, 0.16);
+  }
+  .ig-comments-drawer {
+    display: none;
+    margin-top: 10px;
+    border-top: 1px dashed var(--border-soft);
+    padding-top: 8px;
+    max-height: 180px;
+    overflow-y: auto;
+    font-size: 11.5px;
+  }
+  .ig-comments-drawer.open {
+    display: block;
+    animation: fadeIn 0.2s ease-out;
+  }
+  .ig-comment-item {
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    line-height: 1.4;
+  }
+  .ig-comment-author {
+    font-weight: 700;
+    color: var(--slate-800);
+    margin-right: 4px;
+  }
+  .ig-comment-text {
+    color: var(--slate-600);
+  }
+  .ig-comment-time {
+    color: var(--slate-400);
+    font-size: 10px;
+    margin-left: 6px;
+    font-family: var(--font-mono);
+  }
+
 </style>
 {% endblock %}
 
@@ -302,62 +790,305 @@
 
     <!-- Pane 1: Instagram Intelligence -->
     <div class="platform-pane active" id="pane-instagram">
-      <div class="platform-hero-card card-instagram">
-        <div class="platform-header-row">
-          <div class="platform-title-group">
-            <div class="platform-icon-box" style="background: rgba(225, 48, 108, 0.12); color: #e1306c;">
-              📸
-            </div>
+      
+      <!-- Instagram Dual Mode Switcher -->
+      <div class="ig-mode-toggle">
+        <button type="button" class="ig-mode-btn active mode-flash" id="btn-mode-flash" onclick="setInstagramMode('flash')">
+          <div class="ig-mode-info">
+            <span class="ig-mode-title">
+              <span>⚡ Flash Mode</span>
+              <span class="status-pill-online" style="padding: 2px 8px; font-size: 10px;"><span class="dot"></span> In-App Recon</span>
+            </span>
+            <span class="ig-mode-sub">Native local engine (OASIS Instagram Engine) &bull; Live telemetry &amp; results on OASIS</span>
+          </div>
+          <span class="ig-mode-badge" style="background: rgba(225, 48, 108, 0.12); color: #e1306c;">Local Engine</span>
+        </button>
+
+        <button type="button" class="ig-mode-btn mode-pro" id="btn-mode-pro" onclick="setInstagramMode('pro')">
+          <div class="ig-mode-info">
+            <span class="ig-mode-title">
+              <span>🚀 Pro Mode</span>
+              <span class="status-pill-online" style="padding: 2px 8px; font-size: 10px; background: rgba(131, 58, 180, 0.12); color: #833ab4; border-color: rgba(131, 58, 180, 0.3);"><span class="dot" style="background: #833ab4; box-shadow: 0 0 6px #833ab4;"></span> Cluster Online</span>
+            </span>
+            <span class="ig-mode-sub">High-capacity scraper cluster at <code style="font-family: var(--font-mono); color: #833ab4;">instagramintel.rkmvcse.in</code></span>
+          </div>
+          <span class="ig-mode-badge" style="background: rgba(131, 58, 180, 0.12); color: #833ab4;">External Redirect</span>
+        </button>
+      </div>
+
+      <!-- 1. Flash Mode Container (Local Engine) -->
+      <div id="ig-flash-container">
+        
+        <!-- Input & Controls Card -->
+        <div class="ig-flash-input-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
             <div>
-              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
-                <h3 style="font-size: 18px; font-weight: 800; color: var(--slate-900); margin: 0;">Instagram Intelligence Platform</h3>
-                <span class="status-pill-online"><span class="dot"></span> Native Scraper Online</span>
-              </div>
-              <p style="font-size: 13px; color: var(--slate-500); margin: 0;">
-                High-capacity scraper cluster deployed at <code style="font-family: var(--font-mono); color: #e1306c; font-weight: 700;">http://instagramintel.rkmvcse.in/</code>
+              <h4 style="font-size: 15px; font-weight: 800; color: var(--slate-900); margin: 0 0 4px 0;">
+                ⚡ Instagram Flash Reconnaissance
+              </h4>
+              <p style="font-size: 12.5px; color: var(--slate-500); margin: 0;">
+                Extract target profile metrics, bio information, and post thumbnails directly within the OASIS investigation workspace.
               </p>
             </div>
+            <div style="font-size: 11.5px; color: var(--slate-500); font-family: var(--font-mono);">
+              Engine: <span style="color: #e1306c; font-weight: 700;">OASIS Instagram Engine</span>
+            </div>
           </div>
 
-          <a href="http://instagramintel.rkmvcse.in/" target="_blank" rel="noopener noreferrer" class="btn-launch-native btn-launch-ig">
-            <span>Go to Instagram Scraper ↗</span>
-          </a>
+          <!-- Scope Selector Bar -->
+          <div class="ig-scope-bar">
+            <button type="button" class="ig-scope-pill active" id="pill-user" onclick="setTargetScope('user')">
+              👤 User Profile &amp; Media Feed
+            </button>
+            <button type="button" class="ig-scope-pill" id="pill-post" onclick="setTargetScope('post')">
+              🔗 Direct Post &amp; Comments
+            </button>
+            <button type="button" class="ig-scope-pill" id="pill-hashtag" onclick="setTargetScope('hashtag')">
+              🏷️ Hashtag Stream Discovery
+            </button>
+            <button type="button" class="ig-scope-pill" id="pill-location" onclick="setTargetScope('location')">
+              📍 Location Geotag ID
+            </button>
+          </div>
+
+          <form id="ig-flash-form" onsubmit="event.preventDefault(); startInstagramFlash();">
+            <div class="ig-input-row">
+              <input type="text" id="ig-target-input" class="ig-input-field" placeholder="Enter target handle (e.g. @nasa), post link (/p/...), or hashtag..." value="{{ initial_target }}" required>
+              
+              <select id="ig-count-select" class="ig-count-select" title="Number of items to extract">
+                <option value="4">4 Posts</option>
+                <option value="8" selected>8 Posts</option>
+                <option value="12">12 Posts</option>
+                <option value="24">24 Posts</option>
+                <option value="40">40 Posts (Deep)</option>
+              </select>
+
+              <button type="submit" id="btn-ig-flash-submit" class="btn-ig-flash">
+                <span id="ig-btn-icon">⚡</span>
+                <span id="ig-btn-label">Launch OASIS Recon</span>
+              </button>
+            </div>
+
+            <!-- Deep Feature Checkboxes -->
+            <div class="ig-checkbox-row">
+              <label class="ig-check-label">
+                <input type="checkbox" id="ig-check-comments" checked>
+                <span>💬 Deep Comments Extraction per Post</span>
+              </label>
+
+              <label class="ig-check-label">
+                <input type="checkbox" id="ig-check-zip" checked>
+                <span>📦 Auto-Compile Media ZIP Archive</span>
+              </label>
+            </div>
+
+            <!-- Advanced Config: Session Cookie & Custom Proxy -->
+            <details style="font-size: 12.5px; color: var(--slate-600); margin-top: 14px;">
+              <summary style="cursor: pointer; font-weight: 700; color: var(--slate-800);">
+                ⚙️ Advanced Configuration (Session Cookie, Proxy Server)
+              </summary>
+              <div style="margin-top: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div>
+                  <label style="display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--slate-500); margin-bottom: 4px;">
+                    Session Cookie (Bypasses private barriers)
+                  </label>
+                  <input type="text" id="ig-session-input" class="ig-input-field" style="padding: 8px 12px; font-size: 12.5px; width: 100%;" placeholder="e.g. sessionid=6123498...">
+                </div>
+
+                <div>
+                  <label style="display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--slate-500); margin-bottom: 4px;">
+                    Custom Proxy Server (HTTP / SOCKS5)
+                  </label>
+                  <input type="text" id="ig-proxy-input" class="ig-input-field" style="padding: 8px 12px; font-size: 12.5px; width: 100%;" placeholder="e.g. http://127.0.0.1:8080 or socks5://...">
+                </div>
+              </div>
+            </details>
+          </form>
         </div>
 
-        <!-- Launchpad Action Box -->
-        <div class="launchpad-action-box">
-          <h4>Instagram Target Intelligence &amp; Data Harvester</h4>
-          <p>
-            Direct access to our dedicated Instagram scraping cluster for deep profile extraction, reels ingestion, follower/following network mapping, and engagement auditing with automated residential proxy rotation.
+        <!-- Live Telemetry Status Strip -->
+        <div id="ig-telemetry-strip" class="ig-live-telemetry">
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <div class="ig-spinner"></div>
+            <div>
+              <div style="font-size: 13.5px; font-weight: 700; color: var(--slate-900);" id="ig-telemetry-title">
+                Executing Instagram Scraper Engine...
+              </div>
+              <div style="font-size: 12px; color: var(--slate-500); font-family: var(--font-mono); margin-top: 2px;" id="ig-telemetry-detail">
+                Spawning headless Chromium instance
+              </div>
+            </div>
+          </div>
+          <div style="font-size: 12px; font-family: var(--font-mono); color: #e1306c; font-weight: 700;" id="ig-telemetry-timer">
+            Elapsed: 0.0s
+          </div>
+        </div>
+
+        <!-- Results Display Container -->
+        <div id="ig-results-container" style="display: none;">
+          
+          <!-- Profile Overview Header Card -->
+          <div class="ig-profile-header-card" id="ig-profile-card">
+            <div class="ig-avatar-wrapper">
+              <img id="ig-avatar-img" class="ig-avatar-img" src="" alt="Avatar" onerror="this.src='/static/icons/user.svg'">
+            </div>
+            <div class="ig-profile-meta">
+              <div class="ig-profile-title-row">
+                <h3 class="ig-profile-handle" id="ig-res-handle">@target</h3>
+                <span id="ig-res-verified" class="ig-verified-badge" style="display: none;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg> Verified
+                </span>
+                <span class="status-pill-online" id="ig-res-visibility">Public Active</span>
+              </div>
+              
+              <div class="ig-profile-fullname" id="ig-res-fullname">Target Full Name</div>
+
+              <!-- Metrics Grid -->
+              <div class="ig-metrics-grid">
+                <div class="ig-metric-box">
+                  <div class="ig-metric-val" id="ig-metric-followers">0</div>
+                  <div class="ig-metric-lbl">Followers</div>
+                </div>
+                <div class="ig-metric-box">
+                  <div class="ig-metric-val" id="ig-metric-following">0</div>
+                  <div class="ig-metric-lbl">Following</div>
+                </div>
+                <div class="ig-metric-box">
+                  <div class="ig-metric-val" id="ig-metric-posts">0</div>
+                  <div class="ig-metric-lbl">Total Posts</div>
+                </div>
+                <div class="ig-metric-box">
+                  <div class="ig-metric-val" id="ig-metric-harvested">0</div>
+                  <div class="ig-metric-lbl">Harvested Items</div>
+                </div>
+              </div>
+
+              <!-- Bio -->
+              <div class="ig-profile-bio" id="ig-res-bio">
+                No biography available.
+              </div>
+
+              <!-- Profile External Link & Direct Action -->
+              <div style="margin-top: 14px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                <a id="ig-link-external" href="#" target="_blank" rel="noopener" style="font-size: 12px; color: #0284c7; text-decoration: none; font-weight: 700; display: none;">
+                  🔗 External Website ↗
+                </a>
+                <a id="ig-link-profile" href="#" target="_blank" rel="noopener" class="ig-export-btn" style="color: #e1306c; border-color: rgba(225, 48, 108, 0.3);">
+                  <span>📸 Open Profile on Instagram ↗</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section: Harvested Media Posts -->
+          <div class="ig-posts-section-header">
+            <div>
+              <h4 style="font-size: 16px; font-weight: 800; color: var(--slate-900); margin: 0 0 4px 0;">
+                Harvested Media Artifacts (<span id="ig-posts-count-label">0</span>)
+              </h4>
+              <span style="font-size: 12px; color: var(--slate-500);">Live post thumbnails, captions, and links captured by engine</span>
+            </div>
+
+            <!-- Export Toolbar -->
+            <div class="ig-export-bar">
+              <a href="#" id="ig-download-json" class="ig-export-btn" download>
+                <span>💾 OASIS JSON</span>
+              </a>
+              <a href="#" id="ig-download-md" class="ig-export-btn" download>
+                <span>📄 Markdown Dossier</span>
+              </a>
+              <a href="#" id="ig-download-csv" class="ig-export-btn" download>
+                <span>📊 CSV Export</span>
+              </a>
+              <a href="#" id="ig-download-zip" class="ig-export-btn" style="border-color: rgba(225, 48, 108, 0.4); color: #e1306c;" download>
+                <span>📦 Media ZIP Package</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Media Posts Grid -->
+          <div class="ig-media-grid" id="ig-posts-grid">
+            <!-- Dynamic Post Cards injected here -->
+          </div>
+
+        </div>
+
+        <!-- Empty Guidance State (Initial) -->
+        <div id="ig-empty-guidance" style="text-align: center; padding: 40px 20px; background: var(--bg-card-subtle); border: 1px dashed var(--border-soft); border-radius: var(--radius-md);">
+          <div style="font-size: 36px; margin-bottom: 12px;">📸</div>
+          <h4 style="font-size: 15px; font-weight: 800; color: var(--slate-800); margin-bottom: 6px;">
+            Ready to Inspect Instagram Target
+          </h4>
+          <p style="font-size: 13px; color: var(--slate-500); max-width: 520px; margin: 0 auto;">
+            Enter an Instagram username (e.g. <code>@nasa</code>), hashtag, or direct post URL above and click <strong>Launch Flash Recon</strong> to initiate local Chromium harvesting.
           </p>
-          <a href="http://instagramintel.rkmvcse.in/" target="_blank" rel="noopener noreferrer" class="btn-launch-native btn-launch-ig">
-            <span>Go to Instagram Scraper ↗</span>
-          </a>
         </div>
 
-        <!-- Capabilities Grid -->
-        <div class="capabilities-mini-grid">
-          <div class="cap-box">
-            <div class="cap-box-title">🎬 Reels &amp; Posts Ingestion</div>
-            <p class="cap-box-desc">Deep extraction of feed posts, reel metrics, captions, and timestamp logs.</p>
+      </div>
+
+      <!-- 2. Pro Mode Container (Native Cluster Redirect) -->
+      <div id="ig-pro-container" style="display: none;">
+        <div class="platform-hero-card card-instagram">
+          <div class="platform-header-row">
+            <div class="platform-title-group">
+              <div class="platform-icon-box" style="background: rgba(131, 58, 180, 0.12); color: #833ab4;">
+                🚀
+              </div>
+              <div>
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+                  <h3 style="font-size: 18px; font-weight: 800; color: var(--slate-900); margin: 0;">Instagram Pro Scraper Cluster</h3>
+                  <span class="status-pill-online" style="background: rgba(131, 58, 180, 0.12); color: #833ab4; border-color: rgba(131, 58, 180, 0.3);"><span class="dot" style="background: #833ab4; box-shadow: 0 0 6px #833ab4;"></span> Native Cluster Online</span>
+                </div>
+                <p style="font-size: 13px; color: var(--slate-500); margin: 0;">
+                  Dedicated high-capacity crawler deployed at <code style="font-family: var(--font-mono); color: #833ab4; font-weight: 700;">http://instagramintel.rkmvcse.in/</code>
+                </p>
+              </div>
+            </div>
+
+            <a href="http://instagramintel.rkmvcse.in/" target="_blank" rel="noopener noreferrer" class="btn-launch-native" style="background: linear-gradient(135deg, #833ab4 0%, #5851db 100%);">
+              <span>Go to Pro Scraper ↗</span>
+            </a>
           </div>
-          <div class="cap-box">
-            <div class="cap-box-title">👥 Follower &amp; Following Graph</div>
-            <p class="cap-box-desc">Automated mapping of high-affinity connections and mutual engagements.</p>
+
+          <!-- Launchpad Action Box -->
+          <div class="launchpad-action-box">
+            <h4>High-Capacity Instagram Intelligence Cluster</h4>
+            <p>
+              Direct access to our dedicated Vidyamandira Instagram scraping cluster for mass profile extraction, full follower/following network mapping, complete reel ingestion, and bulk post comment archival with automated residential proxy rotation.
+            </p>
+            <a href="http://instagramintel.rkmvcse.in/" target="_blank" rel="noopener noreferrer" class="btn-launch-native" style="background: linear-gradient(135deg, #833ab4 0%, #5851db 100%);">
+              <span>🚀 Launch Pro Instagram Scraper ↗</span>
+            </a>
           </div>
-          <div class="cap-box">
-            <div class="cap-box-title">💬 Comments &amp; Mentions</div>
-            <p class="cap-box-desc">Audits user-tag interactions, sentiment tags, and frequent commenters.</p>
-          </div>
-          <div class="cap-box">
-            <div class="cap-box-title">🛡️ Anti-Bot Proxy Engine</div>
-            <p class="cap-box-desc">Automated residential IP rotation preventing rate-limits and IP locks.</p>
+
+          <!-- Capabilities Grid -->
+          <div class="capabilities-mini-grid">
+            <div class="cap-box">
+              <div class="cap-box-title">🎬 Bulk Reels &amp; Posts</div>
+              <p class="cap-box-desc">Deep extraction of high-volume feeds, view counts, and engagement velocity.</p>
+            </div>
+            <div class="cap-box">
+              <div class="cap-box-title">👥 Full Follower Network</div>
+              <p class="cap-box-desc">Graph mapping of complete follower rosters and reciprocal associations.</p>
+            </div>
+            <div class="cap-box">
+              <div class="cap-box-title">💬 Deep Comment Threads</div>
+              <p class="cap-box-desc">Indexes complete comment history, sentiment scores, and frequent commentators.</p>
+            </div>
+            <div class="cap-box">
+              <div class="cap-box-title">🛡️ Residential Proxy Pool</div>
+              <p class="cap-box-desc">Zero rate-limit bans through distributed residential IP rotation.</p>
+            </div>
           </div>
         </div>
       </div>
+
     </div>
 
     <!-- Pane 2: Facebook Intelligence -->
+
     <div class="platform-pane" id="pane-facebook">
       <div class="platform-hero-card card-facebook">
         <div class="platform-header-row">
@@ -541,5 +1272,321 @@ function switchPlatformTab(platform) {
   if (targetBtn) targetBtn.classList.add("active");
   if (targetPane) targetPane.classList.add("active");
 }
+
+// -----------------------------------------------------------------------------
+// OASIS Instagram Intelligence Engine Controller
+// -----------------------------------------------------------------------------
+let igPollInterval = null;
+let igScanStartTime = 0;
+let currentTargetScope = "user";
+
+function setTargetScope(scope) {
+  currentTargetScope = scope;
+  document.querySelectorAll(".ig-scope-pill").forEach(p => p.classList.remove("active"));
+  const btn = document.getElementById(`pill-${scope}`);
+  if (btn) btn.classList.add("active");
+
+  const inputEl = document.getElementById("ig-target-input");
+  if (scope === "user") {
+    inputEl.placeholder = "Enter target username (e.g. @nasa or nasa)...";
+  } else if (scope === "post") {
+    inputEl.placeholder = "Enter direct Instagram post URL (e.g. https://www.instagram.com/p/DfSi56IFwZK/)...";
+  } else if (scope === "hashtag") {
+    inputEl.placeholder = "Enter hashtag to index (e.g. #space, #threatintel)...";
+  } else if (scope === "location") {
+    inputEl.placeholder = "Enter location ID or venue URL (e.g. location:212988678)...";
+  }
+}
+
+function setInstagramMode(mode) {
+  const flashBtn = document.getElementById("btn-mode-flash");
+  const proBtn = document.getElementById("btn-mode-pro");
+  const flashContainer = document.getElementById("ig-flash-container");
+  const proContainer = document.getElementById("ig-pro-container");
+
+  if (mode === "flash") {
+    flashBtn.classList.add("active");
+    proBtn.classList.remove("active");
+    flashContainer.style.display = "block";
+    proContainer.style.display = "none";
+  } else {
+    proBtn.classList.add("active");
+    flashBtn.classList.remove("active");
+    flashContainer.style.display = "none";
+    proContainer.style.display = "block";
+  }
+}
+
+function toggleCommentsDrawer(shortcode) {
+  const drawer = document.getElementById(`comments-drawer-${shortcode}`);
+  if (drawer) {
+    drawer.classList.toggle("open");
+  }
+}
+
+async function startInstagramFlash() {
+  const inputEl = document.getElementById("ig-target-input");
+  const countEl = document.getElementById("ig-count-select");
+  const sessionEl = document.getElementById("ig-session-input");
+  const proxyEl = document.getElementById("ig-proxy-input");
+  const checkComments = document.getElementById("ig-check-comments");
+  const checkZip = document.getElementById("ig-check-zip");
+
+  const btnSubmit = document.getElementById("btn-ig-flash-submit");
+  const telemetryStrip = document.getElementById("ig-telemetry-strip");
+  const guidanceEl = document.getElementById("ig-empty-guidance");
+  const resultsContainer = document.getElementById("ig-results-container");
+
+  const target = (inputEl.value || "").trim();
+  if (!target) {
+    alert("Please enter a valid Instagram handle, post URL, hashtag, or location.");
+    return;
+  }
+
+  const count = parseInt(countEl.value, 10) || 8;
+  const session = sessionEl ? (sessionEl.value || "").trim() : "";
+  const proxy = proxyEl ? (proxyEl.value || "").trim() : "";
+  const extractComments = checkComments ? checkComments.checked : true;
+  const downloadZip = checkZip ? checkZip.checked : true;
+
+  btnSubmit.disabled = true;
+  document.getElementById("ig-btn-icon").textContent = "⏳";
+  document.getElementById("ig-btn-label").textContent = "OASIS Ingesting...";
+  telemetryStrip.classList.add("active");
+  guidanceEl.style.display = "none";
+  
+  igScanStartTime = Date.now();
+  const timerEl = document.getElementById("ig-telemetry-timer");
+  const timerInterval = setInterval(() => {
+    const elapsed = ((Date.now() - igScanStartTime) / 1000).toFixed(1);
+    timerEl.textContent = `Elapsed: ${elapsed}s`;
+  }, 100);
+
+  try {
+    const resp = await fetch("/api/social_media_intelligence/instagram/run", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        target: target,
+        mode: "flash",
+        count: count,
+        target_type: currentTargetScope,
+        comments: extractComments,
+        download_zip: downloadZip,
+        session: session,
+        proxy: proxy,
+        force: true
+      })
+    });
+
+    const data = await resp.json();
+    if (!resp.ok) {
+      throw new Error(data.detail || "Failed to start OASIS Instagram Recon.");
+    }
+
+    if (data.status === "COMPLETED" && data.cached) {
+      clearInterval(timerInterval);
+      telemetryStrip.classList.remove("active");
+      renderInstagramResults(data);
+      resetSubmitButton();
+      return;
+    }
+
+    pollInstagramStatus(data.target || target, timerInterval);
+
+  } catch (err) {
+    clearInterval(timerInterval);
+    telemetryStrip.classList.remove("active");
+    alert("OASIS Recon Error: " + err.message);
+    resetSubmitButton();
+  }
+}
+
+function pollInstagramStatus(target, timerInterval) {
+  if (igPollInterval) clearInterval(igPollInterval);
+
+  igPollInterval = setInterval(async () => {
+    try {
+      const resp = await fetch(`/api/social_media_intelligence/instagram/status?target=${encodeURIComponent(target)}`);
+      if (!resp.ok) return;
+
+      const data = await resp.json();
+      const detailEl = document.getElementById("ig-telemetry-detail");
+      if (data.progress_msg && detailEl) {
+        detailEl.textContent = data.progress_msg;
+      }
+
+      if (data.status === "COMPLETED" || data.status === "FINISHED") {
+        clearInterval(igPollInterval);
+        clearInterval(timerInterval);
+        igPollInterval = null;
+        document.getElementById("ig-telemetry-strip").classList.remove("active");
+        renderInstagramResults(data);
+        resetSubmitButton();
+      } else if (data.status === "ERROR") {
+        clearInterval(igPollInterval);
+        clearInterval(timerInterval);
+        igPollInterval = null;
+        document.getElementById("ig-telemetry-strip").classList.remove("active");
+        alert("OASIS Engine Error: " + (data.error || "Execution terminated unexpectedly."));
+        resetSubmitButton();
+      }
+    } catch (e) {}
+  }, 1200);
+}
+
+function resetSubmitButton() {
+  const btnSubmit = document.getElementById("btn-ig-flash-submit");
+  btnSubmit.disabled = false;
+  document.getElementById("ig-btn-icon").textContent = "⚡";
+  document.getElementById("ig-btn-label").textContent = "Launch OASIS Recon";
+}
+
+function renderInstagramResults(data) {
+  const resultsContainer = document.getElementById("ig-results-container");
+  const guidanceEl = document.getElementById("ig-empty-guidance");
+  resultsContainer.style.display = "block";
+  guidanceEl.style.display = "none";
+
+  const profile = data.profile || {};
+  const posts = data.posts || [];
+  const stats = data.stats || {};
+  const target = data.target || "";
+
+  // 1. Profile Details
+  const handleEl = document.getElementById("ig-res-handle");
+  handleEl.textContent = `@${profile.username || target}`;
+
+  const fullnameEl = document.getElementById("ig-res-fullname");
+  fullnameEl.textContent = profile.full_name || `@${profile.username || target}`;
+
+  const avatarEl = document.getElementById("ig-avatar-img");
+  if (profile.avatar) {
+    avatarEl.src = profile.avatar;
+  }
+
+  const verifiedEl = document.getElementById("ig-res-verified");
+  if (profile.is_verified) {
+    verifiedEl.style.display = "inline-flex";
+  } else {
+    verifiedEl.style.display = "none";
+  }
+
+  const visibilityEl = document.getElementById("ig-res-visibility");
+  if (profile.is_private) {
+    visibilityEl.textContent = "Private Account";
+    visibilityEl.style.color = "#ef4444";
+    visibilityEl.style.background = "rgba(239, 68, 68, 0.12)";
+  } else {
+    visibilityEl.textContent = "Public Active";
+    visibilityEl.style.color = "#059669";
+    visibilityEl.style.background = "rgba(16, 185, 129, 0.12)";
+  }
+
+  // Metrics
+  document.getElementById("ig-metric-followers").textContent = profile.followers_str || "N/A";
+  document.getElementById("ig-metric-following").textContent = profile.following_str || "N/A";
+  document.getElementById("ig-metric-posts").textContent = profile.posts_str || String(posts.length);
+  document.getElementById("ig-metric-harvested").textContent = `${posts.length} (${stats.total_comments || 0} comments)`;
+
+  // Bio
+  const bioEl = document.getElementById("ig-res-bio");
+  bioEl.textContent = profile.biography || "No biography provided on public profile.";
+
+  // Profile URL Link
+  const profLinkEl = document.getElementById("ig-link-profile");
+  profLinkEl.href = profile.profile_url || `https://www.instagram.com/${profile.username || target}/`;
+
+  // External URL
+  const extLinkEl = document.getElementById("ig-link-external");
+  if (profile.external_url) {
+    extLinkEl.href = profile.external_url.startsWith("http") ? profile.external_url : `https://${profile.external_url}`;
+    extLinkEl.textContent = `🔗 ${profile.external_url} ↗`;
+    extLinkEl.style.display = "inline";
+  } else {
+    extLinkEl.style.display = "none";
+  }
+
+  // 2. Download Links
+  document.getElementById("ig-download-json").href = `/api/social_media_intelligence/instagram/download?target=${encodeURIComponent(target)}&format=json`;
+  document.getElementById("ig-download-md").href = `/api/social_media_intelligence/instagram/download?target=${encodeURIComponent(target)}&format=md`;
+  document.getElementById("ig-download-csv").href = `/api/social_media_intelligence/instagram/download?target=${encodeURIComponent(target)}&format=csv`;
+  const zipBtn = document.getElementById("ig-download-zip");
+  if (zipBtn) {
+    zipBtn.href = `/api/social_media_intelligence/instagram/download?target=${encodeURIComponent(target)}&format=zip`;
+  }
+
+  // 3. Posts Grid
+  document.getElementById("ig-posts-count-label").textContent = String(posts.length);
+  const gridEl = document.getElementById("ig-posts-grid");
+  gridEl.innerHTML = "";
+
+  if (posts.length === 0) {
+    gridEl.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align: center; padding: 30px; background: var(--bg-card-subtle); border-radius: var(--radius-sm); color: var(--slate-500); font-size: 13px;">
+        No public media grid posts detected for this account.
+      </div>
+    `;
+    return;
+  }
+
+  posts.forEach((p, idx) => {
+    const card = document.createElement("div");
+    card.className = "ig-post-card";
+    const isReel = p.type === "reel" || p.is_video;
+    const thumbSrc = p.thumbnail || p.display_url || "";
+    const shortcode = p.shortcode || p.id || `post-${idx + 1}`;
+    const postUrl = p.url || `https://www.instagram.com/p/${shortcode}/`;
+    const caption = p.caption || "No caption text.";
+    const commentsList = p.comments || [];
+
+    let commentsHtml = "";
+    if (commentsList.length > 0) {
+      const itemsHtml = commentsList.map(c => `
+        <div class="ig-comment-item">
+          <span class="ig-comment-author">@${c.author || 'anon'}</span>
+          <span class="ig-comment-text">${(c.text || '').replace(/"/g, '&quot;')}</span>
+          <span class="ig-comment-time">${c.time || ''}</span>
+        </div>
+      `).join("");
+
+      commentsHtml = `
+        <button type="button" class="ig-comments-toggle-btn" onclick="toggleCommentsDrawer('${shortcode}')">
+          <span>💬 View Comments (${commentsList.length})</span>
+        </button>
+        <div class="ig-comments-drawer" id="comments-drawer-${shortcode}">
+          ${itemsHtml}
+        </div>
+      `;
+    }
+
+    card.innerHTML = `
+      <div class="ig-post-thumb-wrapper">
+        <img class="ig-post-thumb" src="${thumbSrc}" alt="Media Post" onerror="this.src='/static/icons/image.svg'">
+        <span class="ig-post-type-badge">${isReel ? "🎬 REEL" : "📸 POST"}</span>
+      </div>
+      <div class="ig-post-body">
+        <div class="ig-post-caption" title="${caption.replace(/"/g, '&quot;')}">${caption}</div>
+        ${commentsHtml}
+        <div class="ig-post-footer">
+          <span style="font-family: var(--font-mono); color: var(--slate-500); font-size: 11px;">#${shortcode}</span>
+          <a href="${postUrl}" target="_blank" rel="noopener noreferrer" style="color: #e1306c; font-weight: 700; text-decoration: none;">
+            View ↗
+          </a>
+        </div>
+      </div>
+    `;
+    gridEl.appendChild(card);
+  });
+}
+
+// Auto-run if target was provided via query parameter
+document.addEventListener("DOMContentLoaded", () => {
+  const initialTarget = "{{ initial_target }}".trim();
+  if (initialTarget) {
+    startInstagramFlash();
+  }
+});
+
 </script>
 {% endblock %}

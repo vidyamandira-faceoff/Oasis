@@ -66,6 +66,7 @@ async def get_system_status():
         "connected_engines": [
             "OASIS Username Intelligence Engine",
             "OASIS Domain & Website Intelligence Engine",
+            "OASIS Instagram Flash Scraper (Chromium Headless)",
             "Native Social Media Scraper Cluster",
             "Native Phone Number Intelligence Platform",
         ],

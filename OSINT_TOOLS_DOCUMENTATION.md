@@ -41,17 +41,19 @@ The **Oasis** platform is structured around a decoupled, modular reconnaissance 
 ---
 
 ### Service 1: Instagram Intelligence & Scraping (`social_instagram`)
-* **Service Route**: `/services/social-instagram`
-* **Target Inputs**: Username handle (e.g., `@target_user`) or profile URL.
-* **Scope**: Public profile extraction, social graph correlation, media cataloging.
+* **Service Route**: `/services/social-media-intelligence` (Instagram Tab)
+* **Target Inputs**: Username handle (e.g., `@target_user`), post URL (`/p/...`, `/reel/...`), or hashtag (`#tag`).
+* **Execution Architecture (Dual-Mode)**:
+  * **⚡ Flash Mode**: In-app native reconnaissance engine executed via local headless Chromium (`instagram-scraper_OSINT`). Directly parses OpenGraph metadata, follower/following/post counts, profile biographies, and extracts public media grid artifacts (posts & reels) with real-time telemetry streaming in `/terminal` and full dossier rendering on OASIS.
+  * **🚀 Pro Mode**: One-click redirection to the dedicated Vidyamandira high-capacity scraper cluster (`http://instagramintel.rkmvcse.in/`), supporting automated residential proxy rotation, deep session resilience, and mass follower/comment graph extraction.
 
 #### Sub-Tools & Working Procedures:
 
 | Sub-Tool | Engine ID | Working Procedure & Functioning | Intelligence Value |
 | :--- | :--- | :--- | :--- |
-| **Profile Scraper** | `profile_scraper` | Connects to public endpoints and parses serialized JSON state and OpenGraph headers. Extracts biographical text, business category tags, external hyperlinked URLs, verification badges, and follower/following counts. | Baseline subject identity, primary contact vectors, verification status. |
-| **Relationship Analyzer** | `relationship_analyzer` | Traverses public follower/following lists and post mention tags. Evaluates mutual connection clusters, tagging frequency, engagement velocity, and cross-profile interaction patterns to graph influence networks. | Social hierarchy mapping, high-interaction affiliates, mutual node discovery. |
-| **Media Harvester** | `media_harvester` | Iterates over public media nodes. Extracts image/video CDN links, publication timestamps, location geotag IDs, caption text, and comment hashtags. Analyzes temporal posting habits. | Geolocation patterns, operational schedules, recurring campaign hashtags. |
+| **Profile Scraper (Flash)** | `profile_scraper` | Connects to public endpoints and parses serialized JSON state and OpenGraph headers. Extracts biographical text, business category tags, external hyperlinked URLs, verification badges, and follower/following counts. | Baseline subject identity, primary contact vectors, verification status. |
+| **Media Harvester (Flash)** | `media_harvester` | Iterates over public media nodes in the profile grid. Extracts CDN images, reels, publication timestamps, and caption text. Renders interactive post cards on OASIS. | Geolocation patterns, operational schedules, recurring campaign hashtags. |
+| **Cluster Profiler (Pro)** | `cluster_crawler` | High-concurrency cluster crawler with residential proxy pool traversal. Performs deep follower/following dumps and comment sentiment classification. | Deep network graphs, mutual affiliations, bot interaction tracking. |
 
 ---
 

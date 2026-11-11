@@ -533,7 +533,7 @@ def get_social_history() -> List[Dict[str, Any]]:
     history.sort(key=lambda x: x["mtime"], reverse=True)
     return history
 
-def ensure_social_report_file(target: str, fmt: str) -> Optional[Path]:
+def ensure_social_report_file(target: str, fmt: str):
     """Ensures that the requested report format (CSV, JSON, MD, TXT) exists for the social target."""
     clean_target = target.strip()
     fmt = fmt.lower().strip()
@@ -567,9 +567,9 @@ def ensure_social_report_file(target: str, fmt: str) -> Optional[Path]:
         p = REPORTS_DIR / f"report_{clean_target}.md"
         if p.exists():
             return p
-        lines = [
+        md_lines = [
             f"# OASIS Social Media Intelligence Dossier: `{clean_target}`",
-            f"",
+            "",
             f"- **Target Handle:** `{clean_target}`",
             f"- **Generated:** {time.strftime('%Y-%m-%d %H:%M:%S')}",
             f"- **Claimed Profiles:** {cached.get('total_claimed', len(cached['findings']))}",
@@ -579,21 +579,21 @@ def ensure_social_report_file(target: str, fmt: str) -> Optional[Path]:
             ""
         ]
         for itm in cached["findings"]:
-            lines.append(f"### {itm.get('platform')}")
-            lines.append(f"- **URL:** [{itm.get('url')}]({itm.get('url')})")
-            if itm.get("fullname"): lines.append(f"- **Name:** {itm.get('fullname')}")
-            if itm.get("bio"): lines.append(f"- **Bio:** {itm.get('bio')}")
-            if itm.get("location"): lines.append(f"- **Location:** {itm.get('location')}")
-            if itm.get("followers"): lines.append(f"- **Followers:** {itm.get('followers')}")
-            lines.append("")
-        p.write_text("\n".join(lines), encoding="utf-8")
+            md_lines.append(f"### {itm.get('platform')}")
+            md_lines.append(f"- **URL:** [{itm.get('url')}]({itm.get('url')})")
+            if itm.get("fullname"): md_lines.append(f"- **Name:** {itm.get('fullname')}")
+            if itm.get("bio"): md_lines.append(f"- **Bio:** {itm.get('bio')}")
+            if itm.get("location"): md_lines.append(f"- **Location:** {itm.get('location')}")
+            if itm.get("followers"): md_lines.append(f"- **Followers:** {itm.get('followers')}")
+            md_lines.append("")
+        p.write_text("\n".join(md_lines), encoding="utf-8")
         return p
 
     elif fmt == "txt":
         p = REPORTS_DIR / f"report_{clean_target}.txt"
         if p.exists():
             return p
-        lines = [
+        txt_lines = [
             f"=== OASIS SOCIAL MEDIA INTELLIGENCE DOSSIER ===",
             f"Target: {clean_target}",
             f"Generated: {time.strftime('%Y-%m-%d %H:%M:%S')}",
@@ -602,17 +602,16 @@ def ensure_social_report_file(target: str, fmt: str) -> Optional[Path]:
             "--- CLAIMED SOCIAL ACCOUNTS ---"
         ]
         for itm in cached["findings"]:
-            lines.append(f"[{itm.get('platform')}] {itm.get('url')}")
-            if itm.get('fullname'): lines.append(f"  Name: {itm.get('fullname')}")
-            if itm.get('bio'): lines.append(f"  Bio: {itm.get('bio')}")
-        p.write_text("\n".join(lines), encoding="utf-8")
+            txt_lines.append(f"[{itm.get('platform')}] {itm.get('url')}")
+            if itm.get('fullname'): txt_lines.append(f"  Name: {itm.get('fullname')}")
+            if itm.get('bio'): txt_lines.append(f"  Bio: {itm.get('bio')}")
+        p.write_text("\n".join(txt_lines), encoding="utf-8")
         return p
 
     else:  # json
         p = REPORTS_DIR / f"report_{clean_target}_simple.json"
         if p.exists():
             return p
-        # Write simple json
         with open(p, "w", encoding="utf-8") as f:
             raw_dict = {
                 itm.get("platform"): {
@@ -624,3 +623,422 @@ def ensure_social_report_file(target: str, fmt: str) -> Optional[Path]:
             json.dump(raw_dict, f, indent=2)
         return p
 
+
+# -----------------------------------------------------------------------------
+# OASIS Instagram Intelligence Engine (Flash Mode: Local / Pro Mode: Cluster)
+# Fully Rebranded to OASIS OSINT Suite
+# -----------------------------------------------------------------------------
+INSTAGRAM_ENGINE_DIR = (BASE_DIR.parent / "instagram-scraper_OSINT").resolve()
+INSTAGRAM_ENGINE_SCRIPT = INSTAGRAM_ENGINE_DIR / "engine_scraper.js"
+NODE_BIN = "/usr/bin/node" if Path("/usr/bin/node").exists() else "node"
+
+_IG_TASKS: Dict[str, Dict[str, Any]] = {}
+_IG_CACHED_RESULTS: Dict[str, Dict[str, Any]] = {}
+_IG_LOCK = threading.Lock()
+
+def _sanitize_ig_key(target: str) -> str:
+    cleaned = target.strip().replace("@", "")
+    if "instagram.com/" in cleaned:
+        cleaned = cleaned.split("instagram.com/")[-1].strip("/").replace("/", "_")
+    return re.sub(r'[^a-zA-Z0-9_\-\.]', '_', cleaned)
+
+def generate_instagram_media_zip(clean_target: str, data: Dict[str, Any]) -> Optional[Path]:
+    """Downloads all harvested media thumbnails and avatars into an offline OASIS ZIP archive."""
+    import urllib.request
+    import zipfile
+
+    zip_path = REPORTS_DIR / f"instagram_{clean_target}_media.zip"
+    posts = data.get("posts", [])
+    profile = data.get("profile", {})
+
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+        "Referer": "https://www.instagram.com/"
+    }
+
+    try:
+        with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
+            # Add metadata file
+            meta_json = json.dumps(data, indent=2)
+            zf.writestr("OASIS_metadata.json", meta_json)
+
+            # Download avatar
+            avatar_url = profile.get("avatar")
+            if avatar_url and avatar_url.startswith("http"):
+                try:
+                    req = urllib.request.Request(avatar_url, headers=headers)
+                    with urllib.request.urlopen(req, timeout=12) as resp:
+                        zf.writestr("avatar_profile.jpg", resp.read())
+                except Exception:
+                    pass
+
+            # Download post images
+            for idx, p in enumerate(posts, 1):
+                thumb = p.get("thumbnail") or p.get("display_url")
+                if thumb and thumb.startswith("http"):
+                    try:
+                        req = urllib.request.Request(thumb, headers=headers)
+                        with urllib.request.urlopen(req, timeout=12) as resp:
+                            shortcode = p.get("shortcode") or f"post_{idx}"
+                            ext = "jpg"
+                            zf.writestr(f"media_{idx:02d}_{shortcode}.{ext}", resp.read())
+                    except Exception:
+                        pass
+
+        add_log("OASIS Instagram Engine", f"Compiled offline media archive: {zip_path.name}", "success")
+        return zip_path
+    except Exception as e:
+        add_log("OASIS Instagram Engine", f"Failed building media ZIP archive: {e}", "warning")
+        return None
+
+def _save_instagram_dossier_files(clean_target: str, data: Dict[str, Any]):
+    """Persists JSON, Markdown, and CSV dossiers with full OASIS branding."""
+    json_path = REPORTS_DIR / f"instagram_{clean_target}.json"
+    try:
+        with open(json_path, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2)
+    except Exception as e:
+        add_log("OASIS Instagram Engine", f"Failed saving JSON report: {e}", "warning")
+
+    profile = data.get("profile", {})
+    posts = data.get("posts", [])
+    stats = data.get("stats", {})
+
+    # Generate OASIS Markdown report
+    try:
+        md_path = REPORTS_DIR / f"instagram_{clean_target}.md"
+        md_lines = [
+            f"# OASIS Intelligence Dossier: Instagram Reconnaissance",
+            f"**Platform:** OASIS OSINT Platform | **Engine:** OASIS Instagram Intelligence Engine",
+            f"**Subject Identifier:** `@{profile.get('username', clean_target)}`",
+            f"**Investigation Timestamp:** {data.get('timestamp')}",
+            "",
+            "---",
+            "",
+            "## 1. Subject Profile & Identity Overview",
+            "",
+            f"- **Username / Handle:** `@{profile.get('username', clean_target)}`",
+            f"- **Full Declared Name:** {profile.get('full_name', 'N/A')}",
+            f"- **Account Verification:** {'[VERIFIED] Official Blue Badge Confirmed' if profile.get('is_verified') else 'Unverified / Standard User'}",
+            f"- **Visibility Status:** {stats.get('account_status', 'Public Active')}",
+            f"- **Audience Reach:** {profile.get('followers_str', 'N/A')} Followers ({profile.get('followers_count', 0):,} estimated)",
+            f"- **Outbound Connections:** {profile.get('following_str', 'N/A')} Following",
+            f"- **Total Account Posts:** {profile.get('posts_str', 'N/A')}",
+            f"- **Biography / Bio:** {profile.get('biography') or 'No public biography supplied'}",
+            f"- **Profile URL:** [{profile.get('profile_url')}]({profile.get('profile_url')})",
+            f"- **Harvested Artifacts:** {len(posts)} media items | {stats.get('total_comments', 0)} comments extracted",
+            "",
+            "---",
+            "",
+            f"## 2. Harvested Media Artifacts & Posts ({len(posts)})",
+            ""
+        ]
+
+        for idx, p in enumerate(posts, 1):
+            shortcode = p.get('shortcode', 'N/A')
+            kind = p.get('type', 'post').upper()
+            md_lines.append(f"### Artifact #{idx} — {kind} (`#{shortcode}`)")
+            md_lines.append(f"- **Direct Link:** [{p.get('url')}]({p.get('url')})")
+            if p.get('caption'):
+                md_lines.append(f"- **Caption Text:** {p.get('caption')}")
+            if p.get('thumbnail'):
+                md_lines.append(f"- **CDN Preview:** [View Thumbnail Asset]({p.get('thumbnail')})")
+            
+            comments = p.get('comments', [])
+            if comments:
+                md_lines.append(f"- **Extracted Comments ({len(comments)}):**")
+                for c in comments:
+                    author = c.get('author', 'Anonymous')
+                    ctime = c.get('time', '')
+                    raw_c_text = str(c.get('text', '')).replace('\n', ' ')
+                    md_lines.append(f"  - **@{author}** ({ctime}): {raw_c_text}")
+            md_lines.append("")
+
+        with open(md_path, "w", encoding="utf-8") as f:
+            f.write("\n".join(md_lines))
+    except Exception as e:
+        add_log("OASIS Instagram Engine", f"Failed saving MD report: {e}", "warning")
+
+    # Generate OASIS CSV report
+    try:
+        csv_path = REPORTS_DIR / f"instagram_{clean_target}.csv"
+        import csv
+        with open(csv_path, "w", newline="", encoding="utf-8") as f:
+            writer = csv.writer(f)
+            writer.writerow(["OASIS_Index", "Target_Handle", "Media_Type", "Shortcode", "Post_URL", "Thumbnail_URL", "Comments_Count", "Caption_Snippet"])
+            for idx, p in enumerate(posts, 1):
+                writer.writerow([
+                    idx,
+                    clean_target,
+                    p.get("type", "post"),
+                    p.get("shortcode", ""),
+                    p.get("url", ""),
+                    p.get("thumbnail", ""),
+                    p.get("comments_count", 0),
+                    p.get("caption", "").replace("\n", " ")[:300]
+                ])
+    except Exception as e:
+        add_log("OASIS Instagram Engine", f"Failed saving CSV report: {e}", "warning")
+
+def _run_instagram_flash_worker(clean_target: str, count: int, session: str, target_type: str = "user", comments: bool = False, proxy: str = "", download_zip: bool = False):
+    """Background worker executing the OASIS Headless Chromium Instagram Scraper."""
+    task = _IG_TASKS[clean_target]
+    out_file = REPORTS_DIR / f"instagram_{clean_target}.json"
+
+    cmd = [
+        NODE_BIN,
+        str(INSTAGRAM_ENGINE_SCRIPT),
+        "--target", clean_target,
+        "--count", str(count),
+        "--type", target_type,
+        "--output", str(out_file)
+    ]
+    if session:
+        cmd.extend(["--session", session])
+    if proxy:
+        cmd.extend(["--proxy", proxy])
+    if comments:
+        cmd.append("--comments")
+
+    add_log("OASIS Instagram Engine", f"Launching Flash Recon on target: @{clean_target} (Type: {target_type.upper()}, Items: {count}, Comments: {comments})", "info")
+    add_recon_notification(
+        tool="OASIS Instagram Intelligence Engine",
+        status="PROCESSING",
+        title="OASIS Instagram Recon Initiated",
+        details=f"Harvesting public profile, metrics, and media grid for: @{clean_target}",
+        target=clean_target,
+        action_url="/services/social-media-intelligence"
+    )
+
+    try:
+        proc = subprocess.Popen(
+            cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            bufsize=1,
+            cwd=str(INSTAGRAM_ENGINE_DIR)
+        )
+
+        for line in iter(proc.stdout.readline, ''):
+            if not line:
+                break
+            line_str = line.strip()
+            if not line_str:
+                continue
+            add_log("OASIS Instagram Engine", line_str, "info")
+            if "[OASIS]" in line_str or "[OASIS:SUCCESS]" in line_str:
+                task["progress_msg"] = line_str.replace("[OASIS:SUCCESS]", "").replace("[OASIS]", "").strip()
+
+        proc.stdout.close()
+        return_code = proc.wait()
+
+        if return_code != 0:
+            task["status"] = "ERROR"
+            task["error"] = "OASIS Instagram engine exited with an error. Check terminal telemetry."
+            task["progress_msg"] = "Scraping failed."
+            add_log("OASIS Instagram Engine", f"Process exited with code {return_code}", "error")
+            update_tool_notification("OASIS Instagram Intelligence Engine", clean_target, "ERROR", details=f"Failed scraping @{clean_target}")
+            return
+
+        if out_file.exists():
+            with open(out_file, "r", encoding="utf-8") as f:
+                dossier = json.load(f)
+
+            _save_instagram_dossier_files(clean_target, dossier)
+
+            if download_zip:
+                generate_instagram_media_zip(clean_target, dossier)
+
+            task["status"] = "COMPLETED"
+            task["duration"] = round(time.time() - task["start_time"], 1)
+            task["profile"] = dossier.get("profile", {})
+            task["posts"] = dossier.get("posts", [])
+            task["stats"] = dossier.get("stats", {})
+            task["progress_msg"] = f"Extraction completed. {len(task['posts'])} media artifacts harvested ({task['stats'].get('total_comments', 0)} comments)."
+
+            _IG_CACHED_RESULTS[clean_target] = dossier
+
+            add_log("OASIS Instagram Engine", f"OASIS Dossier ready for @{clean_target}: {len(task['posts'])} posts and {task['stats'].get('total_comments', 0)} comments extracted.", "success")
+            update_tool_notification(
+                "OASIS Instagram Intelligence Engine",
+                clean_target,
+                "FINISHED",
+                title="OASIS Instagram Recon Completed",
+                details=f"Extracted profile, {len(task['posts'])} posts, and {task['stats'].get('total_comments', 0)} comments for @{clean_target}",
+                metrics=f"{len(task['posts'])} Media Items • Followers: {task['profile'].get('followers_str', 'N/A')}"
+            )
+        else:
+            task["status"] = "ERROR"
+            task["error"] = "Output file was not generated by engine."
+            task["progress_msg"] = "Output file missing."
+            update_tool_notification("OASIS Instagram Intelligence Engine", clean_target, "ERROR", details=f"Output missing for @{clean_target}")
+
+    except Exception as e:
+        task["status"] = "ERROR"
+        task["error"] = str(e)
+        task["progress_msg"] = f"Error: {e}"
+        add_log("OASIS Instagram Engine", f"Exception during execution: {e}", "error")
+        update_tool_notification("OASIS Instagram Intelligence Engine", clean_target, "ERROR", details=f"Exception for @{clean_target}: {e}")
+
+def execute_instagram_task(
+    target: str,
+    mode: str = "flash",
+    count: int = 8,
+    target_type: str = "user",
+    comments: bool = False,
+    session: str = "",
+    proxy: str = "",
+    download_zip: bool = False,
+    force: bool = False
+) -> Dict[str, Any]:
+    """Dispatches either Flash Mode (local OASIS engine) or Pro Mode (native cluster redirect)."""
+    clean_target = _sanitize_ig_key(target)
+
+    if mode.lower() == "pro":
+        return {
+            "mode": "pro",
+            "redirect_url": NATIVE_SCRAPER_ENDPOINTS["instagram"]["url"],
+            "target": clean_target,
+            "status": "REDIRECT",
+            "message": "Redirecting to OASIS high-capacity native scraper cluster."
+        }
+
+    # Flash Mode
+    if not force:
+        cached_file = REPORTS_DIR / f"instagram_{clean_target}.json"
+        if cached_file.exists():
+            try:
+                with open(cached_file, "r", encoding="utf-8") as f:
+                    cached_data = json.load(f)
+                return {
+                    "mode": "flash",
+                    "status": "COMPLETED",
+                    "cached": True,
+                    "target": clean_target,
+                    "duration": 0.1,
+                    "profile": cached_data.get("profile", {}),
+                    "posts": cached_data.get("posts", []),
+                    "stats": cached_data.get("stats", {}),
+                    "progress_msg": "Loaded cached OASIS Instagram dossier from local vault."
+                }
+            except Exception:
+                pass
+
+    with _IG_LOCK:
+        if clean_target in _IG_TASKS and _IG_TASKS[clean_target].get("status") == "RUNNING":
+            t = _IG_TASKS[clean_target]
+            return {
+                "mode": "flash",
+                "status": "RUNNING",
+                "target": clean_target,
+                "elapsed": round(time.time() - t["start_time"], 1),
+                "progress_msg": t.get("progress_msg", "Scraping in progress..."),
+                "profile": {},
+                "posts": []
+            }
+
+        task_record = {
+            "mode": "flash",
+            "target": clean_target,
+            "status": "RUNNING",
+            "start_time": time.time(),
+            "duration": 0,
+            "progress_msg": "Initializing OASIS Chromium Headless Engine...",
+            "profile": {},
+            "posts": [],
+            "stats": {},
+            "error": None
+        }
+        _IG_TASKS[clean_target] = task_record
+
+        worker = threading.Thread(
+            target=_run_instagram_flash_worker,
+            args=(clean_target, count, session, target_type, comments, proxy, download_zip),
+            daemon=True
+        )
+        worker.start()
+
+        return {
+            "mode": "flash",
+            "status": "RUNNING",
+            "target": clean_target,
+            "elapsed": 0,
+            "progress_msg": "OASIS Engine task dispatched to background worker."
+        }
+
+def get_instagram_status(target: str) -> Dict[str, Any]:
+    """Retrieves live execution status or cached dossier for an Instagram target."""
+    clean_target = _sanitize_ig_key(target)
+    if clean_target in _IG_TASKS:
+        t = _IG_TASKS[clean_target]
+        elapsed = round(time.time() - t["start_time"], 1) if t["status"] == "RUNNING" else t.get("duration", 0)
+        return {
+            "target": clean_target,
+            "mode": "flash",
+            "status": t["status"],
+            "elapsed": elapsed,
+            "progress_msg": t.get("progress_msg", ""),
+            "profile": t.get("profile", {}),
+            "posts": t.get("posts", []),
+            "stats": t.get("stats", {}),
+            "error": t.get("error")
+        }
+
+    cached_file = REPORTS_DIR / f"instagram_{clean_target}.json"
+    if cached_file.exists():
+        try:
+            with open(cached_file, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            return {
+                "target": clean_target,
+                "mode": "flash",
+                "status": "COMPLETED",
+                "cached": True,
+                "elapsed": 0,
+                "progress_msg": "Retrieved from local OASIS dossier cache.",
+                "profile": data.get("profile", {}),
+                "posts": data.get("posts", []),
+                "stats": data.get("stats", {}),
+                "error": None
+            }
+        except Exception:
+            pass
+
+    return {
+        "target": clean_target,
+        "mode": "flash",
+        "status": "IDLE",
+        "elapsed": 0,
+        "progress_msg": "Ready to scan.",
+        "profile": {},
+        "posts": [],
+        "stats": {},
+        "error": None
+    }
+
+def ensure_instagram_report_file(target: str, fmt: str = "json") -> Optional[Path]:
+    """Returns path to cached OASIS Instagram report format (JSON, MD, CSV, ZIP)."""
+    clean_target = _sanitize_ig_key(target)
+    fmt = fmt.lower().strip()
+    if fmt == "csv":
+        p = REPORTS_DIR / f"instagram_{clean_target}.csv"
+        if p.exists(): return p
+    elif fmt == "md":
+        p = REPORTS_DIR / f"instagram_{clean_target}.md"
+        if p.exists(): return p
+    elif fmt == "zip":
+        p = REPORTS_DIR / f"instagram_{clean_target}_media.zip"
+        if p.exists(): return p
+        cached_file = REPORTS_DIR / f"instagram_{clean_target}.json"
+        if cached_file.exists():
+            try:
+                with open(cached_file, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                return generate_instagram_media_zip(clean_target, data)
+            except Exception:
+                pass
+    else:
+        p = REPORTS_DIR / f"instagram_{clean_target}.json"
+        if p.exists(): return p
+    return None
