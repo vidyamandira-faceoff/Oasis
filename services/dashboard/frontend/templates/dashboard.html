@@ -2,260 +2,611 @@
 
 {% block head_extra %}
 <link rel="stylesheet" href="/static/services/dashboard/css/dark_mode.css">
+<style>
+  .dashboard-welcome-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-bottom: 50px;
+  }
+
+  /* 1. Hero Welcome Card */
+  .hero-welcome-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-lg);
+    padding: 36px 40px;
+    box-shadow: var(--shadow-card);
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+  .hero-welcome-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #f97316 0%, #ec4899 35%, #8b5cf6 70%, #0284c7 100%);
+  }
+
+  .hero-welcome-left {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    flex: 1;
+    min-width: 320px;
+  }
+  .hero-logo-box {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    box-shadow: 0 8px 24px rgba(249, 115, 22, 0.3);
+    flex-shrink: 0;
+  }
+
+  .hero-greeting-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--ember-600);
+    margin-bottom: 6px;
+  }
+  .hero-greeting-tag .pulse-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: var(--emerald-500);
+    box-shadow: 0 0 8px var(--emerald-500);
+  }
+
+  .hero-title {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--slate-900);
+    letter-spacing: -0.5px;
+    margin: 0 0 6px 0;
+    line-height: 1.25;
+  }
+  .hero-subtitle {
+    font-size: 14px;
+    color: var(--slate-600);
+    margin: 0;
+    max-width: 650px;
+    line-height: 1.5;
+  }
+
+  .hero-welcome-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .system-clock-badge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--bg-card-subtle);
+    border: 1px solid var(--border-soft);
+    padding: 12px 20px;
+    border-radius: var(--radius-md);
+  }
+  .system-clock-badge svg {
+    color: var(--ember-500);
+  }
+  .clock-meta-label {
+    font-size: 10.5px;
+    font-weight: 800;
+    color: var(--slate-400);
+    letter-spacing: 0.5px;
+    display: block;
+    margin-bottom: 2px;
+  }
+  .clock-time-val {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--slate-800);
+  }
+
+  /* 2. Section Header */
+  .section-heading-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+  .section-heading-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--slate-900);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    letter-spacing: -0.3px;
+  }
+  .section-heading-sub {
+    font-size: 13px;
+    color: var(--slate-500);
+  }
+
+  /* 3. Core Modules Grid */
+  .modules-showcase-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+    margin-bottom: 34px;
+  }
+  @media (max-width: 860px) {
+    .modules-showcase-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .module-feature-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-md);
+    padding: 28px;
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+  }
+  .module-feature-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-float);
+    border-color: var(--border-main);
+  }
+  .module-feature-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 4px;
+    transition: width 0.2s ease;
+  }
+  .module-feature-card:hover::before {
+    width: 6px;
+  }
+
+  .card-recon-username::before { background: #10b981; }
+  .card-domain-intel::before { background: #0ea5e9; }
+  .card-social-intel::before { background: #ec4899; }
+  .card-phone-intel::before { background: #059669; }
+
+  .module-card-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    margin-bottom: 18px;
+  }
+  .module-card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .icon-green-bg { background: rgba(16, 185, 129, 0.12); color: #10b981; }
+  .icon-blue-bg { background: rgba(14, 165, 233, 0.12); color: #0284c7; }
+  .icon-pink-bg { background: rgba(236, 72, 153, 0.12); color: #ec4899; }
+  .icon-emerald-bg { background: rgba(5, 150, 105, 0.12); color: #059669; }
+
+  .module-card-title-group h3 {
+    font-size: 16.5px;
+    font-weight: 800;
+    color: var(--slate-900);
+    margin: 0 0 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .module-card-badge {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    background: rgba(16, 185, 129, 0.12);
+    color: #059669;
+  }
+
+  .module-card-desc {
+    font-size: 13.5px;
+    color: var(--slate-600);
+    line-height: 1.55;
+    margin: 0 0 20px 0;
+  }
+
+  .module-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border-soft);
+    padding-top: 16px;
+    margin-top: auto;
+  }
+  .module-action-cta {
+    font-size: 13px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--ember-600);
+    transition: gap 0.2s ease;
+  }
+  .module-feature-card:hover .module-action-cta {
+    gap: 9px;
+  }
+  .module-status-chip {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--slate-500);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .module-status-chip .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--emerald-500);
+  }
+
+  /* 4. Platform Capabilities Banner (3 Pillars) */
+  .platform-pillars-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-md);
+    padding: 30px;
+    box-shadow: var(--shadow-card);
+    margin-bottom: 30px;
+  }
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  @media (max-width: 900px) {
+    .pillars-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .pillar-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .pillar-icon-box {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: var(--bg-card-subtle);
+    border: 1px solid var(--border-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .pillar-info h4 {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--slate-900);
+    margin: 0 0 4px 0;
+  }
+  .pillar-info p {
+    font-size: 12.5px;
+    color: var(--slate-500);
+    line-height: 1.45;
+    margin: 0;
+  }
+
+  /* 5. Quick Tools & Operations Toolbar */
+  .quick-ops-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 768px) {
+    .quick-ops-bar {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .quick-op-link {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--slate-800);
+    font-size: 13px;
+    font-weight: 700;
+    transition: all 0.18s ease;
+  }
+  .quick-op-link:hover {
+    border-color: var(--ember-400);
+    background: var(--bg-card-subtle);
+    transform: translateY(-1px);
+    color: var(--ember-600);
+  }
+  .quick-op-link svg {
+    color: var(--slate-400);
+    transition: color 0.18s ease;
+  }
+  .quick-op-link:hover svg {
+    color: var(--ember-500);
+  }
+
+  /* 6. Professional Footer */
+  .dashboard-footer {
+    text-align: center;
+    padding-top: 10px;
+    color: var(--slate-500);
+    font-size: 12.5px;
+  }
+</style>
 {% endblock %}
 
 {% block content %}
 <section class="view-page active-view">
-  <!-- Mission Briefing Header Banner -->
-  <div class="welcome-banner-card">
-    <div class="welcome-banner-left">
-      <div class="welcome-avatar-box">OS</div>
-      <div class="welcome-text-group">
-        <div class="welcome-date-line">
-          <span class="status-dots-pair">
-            <span class="status-dot-sm dot-green"></span>
-            <span class="status-dot-sm dot-orange"></span>
-          </span>
-          <span id="live-date-str">V1 DEMONSTRATION PLATFORM // ACTIVE</span>
-        </div>
-        <div class="welcome-heading-row">
-          <h1 class="welcome-heading">Mission Briefing</h1>
-          <span class="role-pill-dark">DEMO BUILD — NOT FOR CASEWORK</span>
-        </div>
-        <p class="welcome-subtitle">OASIS Open-Source Intelligence Platform &bull; Modular Monolith &amp; Multi-Host Engine Architecture</p>
-      </div>
-    </div>
+  <div class="dashboard-welcome-container">
 
-    <div class="welcome-banner-right">
-      <div class="clock-info-box">
-        <svg class="clock-icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10"></circle>
-          <polyline points="12 6 12 12 16 14"></polyline>
-        </svg>
-        <div class="clock-details">
-          <span class="clock-label">SYSTEM TIME (UTC)</span>
-          <span class="clock-display" id="live-clock-text">--:--:--</span>
+    <!-- 1. Hero Welcome Card -->
+    <div class="hero-welcome-card">
+      <div class="hero-welcome-left">
+        <div class="hero-logo-box">
+          OS
+        </div>
+        <div>
+          <div class="hero-greeting-tag">
+            <span class="pulse-dot"></span>
+            <span>OASIS INTELLIGENCE HUB &bull; SYSTEM ONLINE</span>
+          </div>
+          <h1 class="hero-title">Welcome to OASIS</h1>
+          <p class="hero-subtitle">
+            Next-generation open-source intelligence aggregation and strategic reconnaissance system. Access unified intelligence gathering across usernames, web infrastructure, social platforms, and telecommunications.
+          </p>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- 4 Metrics Cards Grid -->
-  <div class="metrics-grid-row">
-    <!-- Metric 1: Active Investigations -->
-    <div class="metric-card">
-      <div class="metric-header">
-        <span class="metric-title">ACTIVE INVESTIGATIONS</span>
-        <div class="metric-badge-icon icon-blue">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+      <div class="hero-welcome-right">
+        <div class="system-clock-badge">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
           </svg>
+          <div>
+            <span class="clock-meta-label">SYSTEM TIME (UTC)</span>
+            <span class="clock-time-val" id="live-clock-text">--:--:-- UTC</span>
+          </div>
         </div>
-      </div>
-      <div class="metric-body">
-        <span class="metric-value">{{ summary.active_investigations }}</span>
-        <span class="metric-subtext">case active</span>
-      </div>
-      <div class="metric-footer">
-        <span class="metric-footer-stat">Rule: 1 active per analyst</span>
-        <a class="metric-footer-action" href="/vault">Open Repository &rarr;</a>
       </div>
     </div>
 
-    <!-- Metric 2: Active Modules -->
-    <div class="metric-card">
-      <div class="metric-header">
-        <span class="metric-title">CONNECTED MODULES</span>
-        <div class="metric-badge-icon icon-green">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-            <polyline points="17 6 23 6 23 12"></polyline>
-          </svg>
-        </div>
+    <!-- 2. Core Intelligence Modules Section -->
+    <div class="section-heading-bar">
+      <div class="section-heading-title">
+        <span>⚡ Primary Intelligence Modules</span>
       </div>
-      <div class="metric-body">
-        <span class="metric-value">{{ summary.active_modules_count }}</span>
-        <span class="pill-alert" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3);">Username Intelligence Active</span>
-      </div>
-      <div class="metric-footer">
-        <span class="metric-footer-stat">11 Modules Coming Soon</span>
-        <a class="metric-footer-action" style="color: var(--emerald-500);" href="/services/recon-username">Open Username Intelligence &rarr;</a>
+      <div class="section-heading-sub">
+        4 Active Reconnaissance Suites Ready for Investigation
       </div>
     </div>
 
-    <!-- Metric 3: Connected Engines -->
-    <div class="metric-card">
-      <div class="metric-header">
-        <span class="metric-title">INTEGRATED ENGINES</span>
-        <div class="metric-badge-icon icon-orange">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-          </svg>
-        </div>
-      </div>
-      <div class="metric-body">
-        <span class="metric-value">{{ summary.connected_engines_count }}</span>
-        <span class="metric-subtext">Username Intelligence Engine</span>
-      </div>
-      <div class="metric-footer">
-        <span class="metric-footer-stat">Sherlock in registry</span>
-        <a class="metric-footer-action" style="color: var(--ember-500);" href="/terminal">Engine Health &rarr;</a>
-      </div>
-    </div>
+    <!-- 3. Core Modules 2x2 Grid -->
+    <div class="modules-showcase-grid">
 
-    <!-- Metric 4: System Operational Status -->
-    <div class="metric-card">
-      <div class="metric-header">
-        <span class="metric-title">PLATFORM HEALTH</span>
-        <div class="metric-badge-icon icon-red">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-          </svg>
-        </div>
-      </div>
-      <div class="metric-body">
-        <span class="metric-value" style="font-size: 20px;">Ready</span>
-        <span class="metric-subtext">SSE &amp; Worker OK</span>
-      </div>
-      <div class="metric-footer">
-        <span class="metric-footer-stat">Background jobs detached</span>
-        <a class="metric-footer-action" style="color: var(--ember-600);" href="/settings">Environment &rarr;</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Primary Tactical HUD Grid -->
-  <div class="hud-grid-row">
-    <!-- Left Column: Reconnaissance Actions & Recent Assets -->
-    <div class="hud-left-col">
-      <!-- Quick Action Launcher Cards -->
-      <div class="content-card" style="margin-bottom: 24px;">
-        <div class="card-title-bar">
-          <span class="card-heading">Intelligence Module Launchpad</span>
-          <span class="card-title-subtext">Execution boundary for connected open-source intelligence engines</span>
-        </div>
-        <div class="quick-actions-grid">
-          <!-- Active Tile: Username Intelligence -->
-          <a class="quick-action-tile" href="/services/recon-username" style="border: 1px solid rgba(16, 185, 129, 0.3);">
-            <div class="tile-icon-box" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <!-- Module 1: Username Intelligence -->
+      <a href="/services/recon-username" class="module-feature-card card-recon-username">
+        <div>
+          <div class="module-card-top">
+            <div class="module-card-icon icon-green-bg">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                 <circle cx="12" cy="7" r="4"></circle>
               </svg>
             </div>
-            <div class="tile-info">
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <span class="tile-title">Username Intelligence</span>
-                <span class="nav-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: none; font-size: 9px; padding: 2px 6px;">READY</span>
-              </div>
-              <span class="tile-subtext">Cross-platform profile enumeration &amp; deep metadata extraction</span>
+            <div class="module-card-title-group">
+              <h3>
+                Username &amp; Identity Intelligence
+                <span class="module-card-badge">Active</span>
+              </h3>
+              <span style="font-size: 12px; color: var(--slate-500);">3,000+ Global Online Platform Registries</span>
             </div>
-          </a>
+          </div>
+          <p class="module-card-desc">
+            Enumerate registered accounts across thousands of web platforms. Harvest profile biographies, avatars, verified handles, and cross-platform identity linkages.
+          </p>
+        </div>
+        <div class="module-card-footer">
+          <span class="module-action-cta">Launch Username Recon &rarr;</span>
+          <span class="module-status-chip"><span class="dot"></span> Online</span>
+        </div>
+      </a>
 
-          <!-- Active Tile: Social Media Intelligence -->
-          <a class="quick-action-tile" href="/services/social-media-intelligence" style="border: 1px solid rgba(139, 92, 246, 0.3);">
-            <div class="tile-icon-box" style="background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-              </svg>
-            </div>
-            <div class="tile-info">
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <span class="tile-title">Social Media Intelligence</span>
-                <span class="nav-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: none; font-size: 9px; padding: 2px 6px;">READY</span>
-              </div>
-              <span class="tile-subtext">Multi-platform presence &amp; Vidyamandira Native Scraper Cluster (Max Mode)</span>
-            </div>
-          </a>
-
-          <!-- Active Tile: Domain & Website Intelligence -->
-          <a class="quick-action-tile" href="/services/domain-intelligence" style="border: 1px solid rgba(14, 165, 233, 0.3);">
-            <div class="tile-icon-box" style="background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <!-- Module 2: Domain & Website Intelligence -->
+      <a href="/services/domain-intelligence" class="module-feature-card card-domain-intel">
+        <div>
+          <div class="module-card-top">
+            <div class="module-card-icon icon-blue-bg">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="12" cy="12" r="10"></circle>
                 <line x1="2" y1="12" x2="22" y2="12"></line>
                 <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
               </svg>
             </div>
-            <div class="tile-info">
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <span class="tile-title">Domain &amp; Website Intelligence</span>
-                <span class="nav-badge" style="background: rgba(14, 165, 233, 0.15); color: #0284c7; border: none; font-size: 9px; padding: 2px 6px;">READY</span>
-              </div>
-              <span class="tile-subtext">Web spidering, DNS subdomains &amp; secret exposure analysis</span>
+            <div class="module-card-title-group">
+              <h3>
+                Domain &amp; Website Intelligence
+                <span class="module-card-badge">Active</span>
+              </h3>
+              <span style="font-size: 12px; color: var(--slate-500);">Web Spidering &bull; DNS Topology &bull; Secret Scanning</span>
             </div>
-          </a>
+          </div>
+          <p class="module-card-desc">
+            Deep recursive crawling of web endpoints, automated DNS subdomain resolution, client-side JavaScript route extraction, and high-entropy secret detection.
+          </p>
+        </div>
+        <div class="module-card-footer">
+          <span class="module-action-cta">Launch Domain Recon &rarr;</span>
+          <span class="module-status-chip"><span class="dot"></span> Online</span>
+        </div>
+      </a>
 
-          <!-- Active Tile: Phone Number Intelligence -->
-          <a class="quick-action-tile" href="/services/phone-intelligence" style="border: 1px solid rgba(16, 185, 129, 0.3);">
-            <div class="tile-icon-box" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <!-- Module 3: Social Media Intelligence -->
+      <a href="/services/social-media-intelligence" class="module-feature-card card-social-intel">
+        <div>
+          <div class="module-card-top">
+            <div class="module-card-icon icon-pink-bg">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+              </svg>
+            </div>
+            <div class="module-card-title-group">
+              <h3>
+                Social Media Intelligence
+                <span class="module-card-badge" style="background: rgba(236, 72, 153, 0.12); color: #ec4899;">Native Scrapers</span>
+              </h3>
+              <span style="font-size: 12px; color: var(--slate-500);">Instagram &bull; Facebook &bull; X / Twitter &bull; LinkedIn</span>
+            </div>
+          </div>
+          <p class="module-card-desc">
+            Access dedicated native high-capacity scraping launchpads for Instagram, Facebook, X, and LinkedIn with resilient proxy rotation and comprehensive profile harvesting.
+          </p>
+        </div>
+        <div class="module-card-footer">
+          <span class="module-action-cta" style="color: #ec4899;">Launch Social Scrapers &rarr;</span>
+          <span class="module-status-chip"><span class="dot"></span> Online</span>
+        </div>
+      </a>
+
+      <!-- Module 4: Phone Number Intelligence -->
+      <a href="/services/phone-intelligence" class="module-feature-card card-phone-intel">
+        <div>
+          <div class="module-card-top">
+            <div class="module-card-icon icon-emerald-bg">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
               </svg>
             </div>
-            <div class="tile-info">
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <span class="tile-title">Phone Number Intelligence</span>
-                <span class="nav-badge" style="background: rgba(16, 185, 129, 0.15); color: #059669; border: none; font-size: 9px; padding: 2px 6px;">READY</span>
-              </div>
-              <span class="tile-subtext">Carrier lookup, telecom circle mapping &amp; Native Search Platform (phonesearch.rkmvcse.in)</span>
+            <div class="module-card-title-group">
+              <h3>
+                Phone Number Intelligence
+                <span class="module-card-badge">Native Scraper</span>
+              </h3>
+              <span style="font-size: 12px; color: var(--slate-500);">Carrier Resolution &bull; Circle Mapping &bull; Search Platform</span>
             </div>
-          </a>
-        </div>
-      </div>
-
-      <!-- V1 Verification Notice & Specification References -->
-      <div class="content-card">
-        <div class="card-title-bar">
-          <div>
-            <span class="card-heading">OASIS V1 Architecture Guardrails</span>
-            <span class="card-title-subtext" style="display: block; margin-top: 2px;">Enforced architectural boundaries per OASIS-VSG-001 &amp; OASIS-SDD-001</span>
           </div>
-          <span class="role-pill-dark">V1 PROOF</span>
+          <p class="module-card-desc">
+            Direct access to native telephone investigation intelligence for carrier network resolution, geographic telecom circle mapping, line type validation, and multi-source footprints.
+          </p>
         </div>
-        <div style="padding: 16px 20px; font-size: 13.5px; line-height: 1.6; color: var(--slate-700);">
-          <ul style="margin: 0; padding-left: 20px;">
-            <li><strong>Provenance Preservation:</strong> Raw outputs are stored unmodified with SHA-256 digests.</li>
-            <li><strong>Single Active Run Rule:</strong> 1 active investigation and 1 active module execution per user.</li>
-            <li><strong>Decoupled Execution:</strong> Engine host tasks run in the background; closing the browser does not terminate jobs.</li>
-            <li><strong>Demarcation:</strong> All output and reports are labeled <em>DEMO BUILD — not for casework</em>.</li>
-          </ul>
+        <div class="module-card-footer">
+          <span class="module-action-cta">Launch Phone Scraper &rarr;</span>
+          <span class="module-status-chip"><span class="dot"></span> Online</span>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- 4. Quick Platform Navigation Shortcuts -->
+    <div class="quick-ops-bar">
+      <a href="/vault" class="quick-op-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"></path>
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+        </svg>
+        <span>Target Repository</span>
+      </a>
+      <a href="/terminal" class="quick-op-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="4 17 10 11 4 5"></polyline>
+          <line x1="12" y1="19" x2="20" y2="19"></line>
+        </svg>
+        <span>Live Telemetry</span>
+      </a>
+      <a href="/notifications" class="quick-op-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+        <span>Event Notifications</span>
+      </a>
+      <a href="/settings" class="quick-op-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+        <span>Global Settings</span>
+      </a>
+    </div>
+
+    <!-- 5. Platform Architecture & Capabilities Pillars -->
+    <div class="platform-pillars-card">
+      <div class="pillars-grid">
+        <div class="pillar-item">
+          <div class="pillar-icon-box">🛡️</div>
+          <div class="pillar-info">
+            <h4>Passive &amp; Resilient Reconnaissance</h4>
+            <p>Engineered for zero-footprint information retrieval with automated proxy cycling, anti-blocking measures, and session resilience.</p>
+          </div>
+        </div>
+        <div class="pillar-item">
+          <div class="pillar-icon-box">⚡</div>
+          <div class="pillar-info">
+            <h4>Asynchronous Multi-Engine Tasks</h4>
+            <p>Decoupled background execution keeps investigations running continuously without browser dependency or session loss.</p>
+          </div>
+        </div>
+        <div class="pillar-item">
+          <div class="pillar-icon-box">📊</div>
+          <div class="pillar-info">
+            <h4>Forensic-Grade Artifacts</h4>
+            <p>Direct structured data exports in CSV, JSON, Markdown, and TXT formats with cryptographic hash provenance.</p>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Right Column: System Telemetry & Logs -->
-    <div class="hud-right-col">
-      <div class="content-card">
-        <div class="card-title-bar">
-          <span class="card-heading">Engine Health Telemetry</span>
-          <span class="status-indicator-dot dot-green"></span>
-        </div>
-        <div style="padding: 14px 18px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border-ultra-soft);">
-            <div>
-              <div style="font-weight: 700; color: var(--slate-900); font-size: 13px;">Username Intelligence Engine</div>
-              <div style="font-size: 11.5px; color: var(--slate-500);">Username Intelligence &bull; Local Host</div>
-            </div>
-            <span class="nav-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border-color: rgba(16, 185, 129, 0.3);">Online</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border-ultra-soft);">
-            <div>
-              <div style="font-weight: 700; color: var(--slate-900); font-size: 13px;">Sherlock Adapter</div>
-              <div style="font-size: 11.5px; color: var(--slate-500);">Username Intelligence Fallback &bull; Standby</div>
-            </div>
-            <span class="nav-badge" style="background: var(--slate-100); color: var(--slate-500);">Standby</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0;">
-            <div>
-              <div style="font-weight: 700; color: var(--slate-900); font-size: 13px;">Audit Logger</div>
-              <div style="font-size: 11.5px; color: var(--slate-500);">Append-only transaction stream</div>
-            </div>
-            <span class="nav-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border-color: rgba(16, 185, 129, 0.3);">Active</span>
-          </div>
-        </div>
-      </div>
+    <!-- 6. Footer -->
+    <div class="dashboard-footer">
+      <span>OASIS &mdash; OSINT Aggregation and Strategic Intelligence System &bull; Incubated at Ramakrishna Mission Vidyamandira</span>
     </div>
+
   </div>
 </section>
 {% endblock %}

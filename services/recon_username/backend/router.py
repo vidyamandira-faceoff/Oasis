@@ -28,7 +28,7 @@ class ReconRunRequest(BaseModel):
     id_type: Optional[str] = "username"
     enrich: Optional[bool] = False
     with_domains: Optional[bool] = False
-    recursive: Optional[bool] = True
+    recursive: Optional[bool] = False
     tor: Optional[bool] = False
 
 @router.get("/services/recon-username", response_class=HTMLResponse)

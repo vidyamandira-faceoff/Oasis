@@ -169,7 +169,7 @@ def _run_recon_worker(
     id_type: str = "username",
     enrich: bool = False,
     with_domains: bool = False,
-    recursive: bool = True,
+    recursive: bool = False,
     tor: bool = False
 ):
     """Background worker executing the reconnaissance engine."""
@@ -384,7 +384,7 @@ def execute_recon_task(
     id_type: str = "username",
     enrich: bool = False,
     with_domains: bool = False,
-    recursive: bool = True,
+    recursive: bool = False,
     tor: bool = False
 ) -> Dict[str, Any]:
     """Triggers or retrieves reconnaissance task for a target username."""

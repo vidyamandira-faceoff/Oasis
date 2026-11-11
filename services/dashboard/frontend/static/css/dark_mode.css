@@ -213,3 +213,108 @@ html[data-theme="dark"] .tool-status-table tr:hover td,
 body.dark-mode .tool-status-table tr:hover td {
   background-color: rgba(22, 32, 50, 0.7) !important;
 }
+
+
+/* New Professional Welcome Dashboard Dark Mode Additions */
+html[data-theme="dark"] .hero-welcome-card,
+body.dark-mode .hero-welcome-card {
+  background: linear-gradient(135deg, #111827 0%, #162032 60%, #1a1e2e 100%) !important;
+  border-color: var(--border-soft) !important;
+  box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.65) !important;
+}
+
+html[data-theme="dark"] .hero-title,
+body.dark-mode .hero-title {
+  color: #f8fafc !important;
+}
+
+html[data-theme="dark"] .hero-subtitle,
+body.dark-mode .hero-subtitle {
+  color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .system-clock-badge,
+body.dark-mode .system-clock-badge {
+  background: rgba(10, 14, 23, 0.7) !important;
+  border-color: var(--border-soft) !important;
+}
+
+html[data-theme="dark"] .clock-time-val,
+body.dark-mode .clock-time-val {
+  color: #f8fafc !important;
+}
+
+html[data-theme="dark"] .section-heading-title,
+body.dark-mode .section-heading-title {
+  color: #f8fafc !important;
+}
+
+html[data-theme="dark"] .section-heading-sub,
+body.dark-mode .section-heading-sub {
+  color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .module-feature-card,
+body.dark-mode .module-feature-card {
+  background: #111827 !important;
+  border-color: var(--border-soft) !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.55) !important;
+}
+
+html[data-theme="dark"] .module-feature-card:hover,
+body.dark-mode .module-feature-card:hover {
+  background: #162032 !important;
+  border-color: rgba(249, 115, 22, 0.4) !important;
+  box-shadow: 0 8px 30px -4px rgba(0, 0, 0, 0.7), 0 0 16px rgba(249, 115, 22, 0.12) !important;
+}
+
+html[data-theme="dark"] .module-card-title-group h3,
+body.dark-mode .module-card-title-group h3 {
+  color: #f8fafc !important;
+}
+
+html[data-theme="dark"] .module-card-desc,
+body.dark-mode .module-card-desc {
+  color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .module-card-footer,
+body.dark-mode .module-card-footer {
+  border-top-color: var(--border-ultra-soft) !important;
+}
+
+html[data-theme="dark"] .quick-op-link,
+body.dark-mode .quick-op-link {
+  background: #111827 !important;
+  border-color: var(--border-soft) !important;
+  color: #cbd5e1 !important;
+}
+
+html[data-theme="dark"] .quick-op-link:hover,
+body.dark-mode .quick-op-link:hover {
+  background: #162032 !important;
+  border-color: var(--ember-500) !important;
+  color: #f8fafc !important;
+}
+
+html[data-theme="dark"] .platform-pillars-card,
+body.dark-mode .platform-pillars-card {
+  background: #111827 !important;
+  border-color: var(--border-soft) !important;
+}
+
+html[data-theme="dark"] .pillar-info h4,
+body.dark-mode .pillar-info h4 {
+  color: #f8fafc !important;
+}
+
+html[data-theme="dark"] .pillar-info p,
+body.dark-mode .pillar-info p {
+  color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .pillar-icon-box,
+body.dark-mode .pillar-icon-box {
+  background: #162032 !important;
+  border-color: var(--border-soft) !important;
+}
