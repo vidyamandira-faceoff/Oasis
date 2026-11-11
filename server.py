@@ -21,6 +21,7 @@ from services.notifications.backend.router import router as notifications_router
 from services.recon_username.backend.router import router as recon_username_router
 from services.domain_intelligence.backend.router import router as domain_intelligence_router
 from services.social_media_intelligence.backend.router import router as social_media_router
+from services.phone_intelligence.backend.router import router as phone_intelligence_router
 
 app = FastAPI(
     title=APP_NAME,
@@ -60,11 +61,13 @@ async def get_system_status():
             "Username Intelligence",
             "Domain & Website Intelligence",
             "Social Media Intelligence",
+            "Phone Number Intelligence",
         ],
         "connected_engines": [
             "Username Intelligence Engine",
             "Domain & Website Intelligence Engine",
             "Social Media Intelligence Engine (Flash/Pro/Ultra/Max)",
+            "Native Phone Search Intelligence (phonesearch.rkmvcse.in)",
         ],
     }
 
@@ -86,6 +89,7 @@ app.include_router(notifications_router)
 app.include_router(recon_username_router)
 app.include_router(domain_intelligence_router)
 app.include_router(social_media_router)
+app.include_router(phone_intelligence_router)
 
 # -----------------------------------------------------------------------------
 # Root Fallback Redirect

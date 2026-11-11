@@ -1,0 +1,245 @@
+{% extends "shared/templates/base.html" %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="/static/services/recon_username/css/dark_mode.css">
+<style>
+  .phone-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding-bottom: 50px;
+  }
+
+  /* Hero Launchpad Card */
+  .phone-hero-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-md);
+    padding: 32px;
+    box-shadow: var(--shadow-card);
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .phone-hero-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #10b981, #059669, #0284c7);
+  }
+
+  .phone-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+    border-bottom: 1px solid var(--border-soft);
+    padding-bottom: 24px;
+  }
+  .phone-title-group {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .phone-icon-box {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    background: rgba(16, 185, 129, 0.12);
+    color: #059669;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+    border: 1px solid rgba(16, 185, 129, 0.25);
+  }
+
+  .status-pill-online {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 700;
+    background: rgba(16, 185, 129, 0.12);
+    color: #059669;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+  }
+  .status-pill-online .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: #10b981;
+    box-shadow: 0 0 6px #10b981;
+  }
+
+  /* Launchpad Action Box */
+  .launchpad-action-box {
+    background: var(--bg-card-subtle);
+    border: 1px dashed var(--border-soft);
+    border-radius: var(--radius-md);
+    padding: 38px 24px;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .launchpad-action-box h4 {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--slate-900);
+    margin-bottom: 8px;
+  }
+  .launchpad-action-box p {
+    font-size: 13.5px;
+    color: var(--slate-600);
+    max-width: 620px;
+    margin: 0 auto 24px auto;
+    line-height: 1.5;
+  }
+
+  /* Scraper Redirect Button */
+  .btn-launch-native-phone {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 32px;
+    border-radius: var(--radius-sm);
+    font-size: 15px;
+    font-weight: 800;
+    color: #ffffff !important;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+  }
+  .btn-launch-native-phone:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.45);
+    color: #ffffff !important;
+  }
+
+  /* Capabilities Grid inside Pane */
+  .capabilities-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-top: 10px;
+  }
+  @media (max-width: 1024px) {
+    .capabilities-mini-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 560px) {
+    .capabilities-mini-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .cap-box {
+    background: var(--bg-card-subtle);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    padding: 16px 16px;
+  }
+  .cap-box-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--slate-800);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .cap-box-desc {
+    font-size: 12px;
+    color: var(--slate-500);
+    line-height: 1.45;
+    margin: 0;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="view-page active-view">
+  <div class="phone-container">
+
+    <!-- 1. Header Banner -->
+    <div class="tool-header-banner" style="margin-bottom: 24px;">
+      <div class="tool-header-left">
+        <div class="tool-icon-square" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); font-weight: 800; font-size: 14px; letter-spacing: 0.5px;">TEL</div>
+        <div class="tool-title-group">
+          <h2>Phone Number Intelligence</h2>
+          <p>Dedicated native phone search engine and telecom reconnaissance launchpad.</p>
+        </div>
+      </div>
+      <div class="tool-header-actions">
+        <!-- Kept clean -->
+      </div>
+    </div>
+
+    <!-- 2. Hero Launchpad Card -->
+    <div class="phone-hero-card">
+      <div class="phone-header-row">
+        <div class="phone-title-group">
+          <div class="phone-icon-box">
+            📞
+          </div>
+          <div>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+              <h3 style="font-size: 18px; font-weight: 800; color: var(--slate-900); margin: 0;">Phone Number Intelligence Platform</h3>
+              <span class="status-pill-online"><span class="dot"></span> Native Scraper Online</span>
+            </div>
+            <p style="font-size: 13px; color: var(--slate-500); margin: 0;">
+              High-capacity phone number investigation engine deployed at <code style="font-family: var(--font-mono); color: #059669; font-weight: 700;">https://phonesearch.rkmvcse.in/</code>
+            </p>
+          </div>
+        </div>
+
+        <a href="https://phonesearch.rkmvcse.in/" target="_blank" rel="noopener noreferrer" class="btn-launch-native-phone">
+          <span>Go to Phone Number Scraper ↗</span>
+        </a>
+      </div>
+
+      <!-- Launchpad Action Box -->
+      <div class="launchpad-action-box">
+        <h4>Phone Number Target Intelligence &amp; Telecom Lookup</h4>
+        <p>
+          Direct access to our dedicated phone number intelligence platform for deep carrier resolution, regional circle tracking, line type validation, and multi-source footprint correlation.
+        </p>
+        <a href="https://phonesearch.rkmvcse.in/" target="_blank" rel="noopener noreferrer" class="btn-launch-native-phone">
+          <span>Go to Phone Number Scraper ↗</span>
+        </a>
+      </div>
+
+      <!-- Capabilities Grid -->
+      <div class="capabilities-mini-grid">
+        <div class="cap-box">
+          <div class="cap-box-title">📡 Carrier &amp; Operator Identification</div>
+          <p class="cap-box-desc">Maps original and ported network operators (Jio, Airtel, Vi, BSNL, etc.).</p>
+        </div>
+        <div class="cap-box">
+          <div class="cap-box-title">📍 Telecom Circle &amp; Geography</div>
+          <p class="cap-box-desc">Identifies registration state, regional telecom circle, and timezones.</p>
+        </div>
+        <div class="cap-box">
+          <div class="cap-box-title">✅ Line Type &amp; HLR Validity</div>
+          <p class="cap-box-desc">Validates routability and classifies as mobile, landline, VOIP, or toll-free.</p>
+        </div>
+        <div class="cap-box">
+          <div class="cap-box-title">💬 OSINT &amp; Messaging Footprints</div>
+          <p class="cap-box-desc">Correlates accounts across messaging networks and verified registries.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock %}
