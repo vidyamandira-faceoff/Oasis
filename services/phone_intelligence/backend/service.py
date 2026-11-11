@@ -16,7 +16,7 @@ REPORTS_DIR = BASE_DIR / "services" / "phone_intelligence" / "reports"
 REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 
 # Native Research Scraper Endpoint
-NATIVE_PHONE_ENDPOINT = "https://phonesearch.rkmvcse.in/"
+NATIVE_PHONE_ENDPOINT = "https://investigator.rkmvcse.in/"
 
 # In-memory Task State and Cache
 _TASKS: Dict[str, Dict[str, Any]] = {}
