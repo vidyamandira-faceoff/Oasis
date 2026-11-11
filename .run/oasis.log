@@ -17,3 +17,27 @@ INFO:     Shutting down
 INFO:     Waiting for application shutdown.
 INFO:     Application shutdown complete.
 INFO:     Finished server process [136870]
+INFO:     Started server process [46435]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:5050 (Press CTRL+C to quit)
+INFO:     127.0.0.1:56644 - "GET /api/status HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [46435]
+INFO:     Started server process [47214]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:5055 (Press CTRL+C to quit)
+INFO:     127.0.0.1:36406 - "GET /api/status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36170 - "GET /api/status HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [47214]
+INFO:     Started server process [48723]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:5050 (Press CTRL+C to quit)
+INFO:     127.0.0.1:54796 - "GET /api/status HTTP/1.1" 200 OK

@@ -61,6 +61,34 @@ get_python() {
 }
 
 # ------------------------------------------------------------------------------
+# Helper: Prompt Port (Interactive with default fallback)
+# ------------------------------------------------------------------------------
+prompt_port() {
+    # If passed as command line argument (e.g. ./oasis.sh start 8080)
+    if [ -n "${2:-}" ] && [[ "$2" =~ ^[0-9]+$ ]]; then
+        OASIS_PORT="$2"
+        return 0
+    fi
+
+    # Prompt user (works both in interactive terminal and piped input)
+    local user_input=""
+    if [ -t 0 ]; then
+        read -r -p "Enter port number to run OASIS on [default: ${OASIS_PORT}]: " user_input || true
+    else
+        # Non-interactive pipe or script redirect
+        read -r user_input || true
+    fi
+
+    if [ -n "$user_input" ]; then
+        if [[ "$user_input" =~ ^[0-9]+$ ]] && [ "$user_input" -ge 1 ] && [ "$user_input" -le 65535 ]; then
+            OASIS_PORT="$user_input"
+        else
+            echo "[!] Invalid port '$user_input'. Falling back to default: $OASIS_PORT"
+        fi
+    fi
+}
+
+# ------------------------------------------------------------------------------
 # Helper: Check Running PID (PID file with fallback to port listener check)
 # ------------------------------------------------------------------------------
 get_pid() {
@@ -129,6 +157,8 @@ cmd_setup() {
 # Subcommand: start (Persistent background daemon)
 # ------------------------------------------------------------------------------
 cmd_start() {
+    prompt_port "$@"
+
     local pid
     pid=$(get_pid)
     if [ -n "$pid" ]; then
@@ -204,6 +234,8 @@ cmd_start() {
 # Subcommand: dev (Foreground with live reload)
 # ------------------------------------------------------------------------------
 cmd_dev() {
+    prompt_port "$@"
+
     local pid
     pid=$(get_pid)
     if [ -n "$pid" ]; then
@@ -272,10 +304,11 @@ cmd_stop() {
 # Subcommand: restart
 # ------------------------------------------------------------------------------
 cmd_restart() {
+    prompt_port "$@"
     echo "[*] Restarting OASIS..."
     cmd_stop
     sleep 1
-    cmd_start
+    cmd_start "$@"
 }
 
 # ------------------------------------------------------------------------------
@@ -391,16 +424,16 @@ cmd_help() {
 # ------------------------------------------------------------------------------
 case "${1:-status}" in
     start)
-        cmd_start
+        cmd_start "$@"
         ;;
     dev)
-        cmd_dev
+        cmd_dev "$@"
         ;;
     stop)
-        cmd_stop
+        cmd_stop "$@"
         ;;
     restart)
-        cmd_restart
+        cmd_restart "$@"
         ;;
     status)
         cmd_status
