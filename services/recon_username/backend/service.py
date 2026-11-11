@@ -568,3 +568,131 @@ def get_latest_findings(target: Optional[str] = None) -> List[Dict[str, Any]]:
     if _CACHED_RESULTS:
         return list(_CACHED_RESULTS.values())[-1].get("findings", [])
     return []
+
+def ensure_report_file(target: str, fmt: str) -> Optional[Path]:
+    """Ensures requested report file exists on disk, compiling it dynamically if missing."""
+    clean_target = target.strip()
+    fmt = fmt.lower().strip()
+
+    if fmt == "csv":
+        p = REPORTS_DIR / f"report_{clean_target}.csv"
+        if p.exists():
+            return p
+        cached = load_cached_report_from_disk(clean_target)
+        if not cached or not cached.get("findings"):
+            return None
+        import csv
+        with open(p, "w", newline="", encoding="utf-8") as f:
+            writer = csv.writer(f)
+            writer.writerow(["Platform", "URL", "Status", "Fullname", "Bio", "Location", "Followers", "Tags"])
+            for itm in cached["findings"]:
+                writer.writerow([
+                    itm.get("platform", ""),
+                    itm.get("url", ""),
+                    itm.get("status", "Claimed"),
+                    itm.get("fullname", ""),
+                    itm.get("bio", ""),
+                    itm.get("location", ""),
+                    itm.get("followers", ""),
+                    "; ".join(itm.get("tags", []))
+                ])
+        return p
+
+    elif fmt == "md":
+        p = REPORTS_DIR / f"report_{clean_target}.md"
+        if p.exists():
+            return p
+        cached = load_cached_report_from_disk(clean_target)
+        if not cached or not cached.get("findings"):
+            return None
+        lines = [
+            f"# OASIS Username Intelligence Dossier: {clean_target}",
+            f"",
+            f"- **Target Handle:** `{clean_target}`",
+            f"- **Claimed Profiles:** {cached.get('total_claimed', len(cached['findings']))}",
+            f"- **Enriched Profiles:** {cached.get('enriched_count', 0)}",
+            f"- **Generated Date:** {time.strftime('%Y-%m-%d %H:%M:%S')}",
+            f"",
+            f"## Verified Profiles & Discoveries",
+            f"",
+            f"| # | Platform | Verified URL | Enriched Metadata |",
+            f"|---|---|---|---|"
+        ]
+        for idx, itm in enumerate(cached["findings"], 1):
+            meta_parts = []
+            if itm.get("fullname"): meta_parts.append(f"**Name:** {itm['fullname']}")
+            if itm.get("bio"): meta_parts.append(f"**Bio:** {itm['bio']}")
+            if itm.get("location"): meta_parts.append(f"**Location:** {itm['location']}")
+            if itm.get("followers"): meta_parts.append(f"**Followers:** {itm['followers']}")
+            meta_str = " <br> ".join(meta_parts) if meta_parts else "Active Profile Verified"
+            lines.append(f"| {idx} | **{itm.get('platform')}** | [{itm.get('url')}]({itm.get('url')}) | {meta_str} |")
+        lines.append("")
+        with open(p, "w", encoding="utf-8") as f:
+            f.write("\n".join(lines))
+        return p
+
+    elif fmt == "html":
+        p = REPORTS_DIR / f"report_{clean_target}_plain.html"
+        if p.exists():
+            return p
+        cached = load_cached_report_from_disk(clean_target)
+        if not cached or not cached.get("findings"):
+            return None
+        rows = []
+        for idx, itm in enumerate(cached["findings"], 1):
+            rows.append(f"""
+            <tr>
+                <td>{idx}</td>
+                <td><strong>{itm.get('platform')}</strong></td>
+                <td><a href="{itm.get('url')}" target="_blank">{itm.get('url')}</a></td>
+                <td>{itm.get('fullname', '')}</td>
+                <td>{itm.get('bio', '')}</td>
+                <td>{', '.join(itm.get('tags', []))}</td>
+            </tr>
+            """)
+        html_code = f"""<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>OASIS Intelligence Dossier - {clean_target}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>body {{ padding: 30px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f8fafc; }} .table {{ background: #fff; border-radius: 8px; overflow: hidden; }}</style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="mb-2">OASIS Intelligence Dossier: {clean_target}</h2>
+        <p class="text-muted">Total Claimed Profiles: {cached.get('total_claimed', len(cached['findings']))} | Generated: {time.strftime('%Y-%m-%d %H:%M:%S')}</p>
+        <table class="table table-bordered table-striped mt-4">
+            <thead class="thead-dark">
+                <tr><th>#</th><th>Platform</th><th>Verified Profile URL</th><th>Full Name</th><th>Bio / Dossier</th><th>Tags</th></tr>
+            </thead>
+            <tbody>{''.join(rows)}</tbody>
+        </table>
+    </div>
+</body>
+</html>"""
+        with open(p, "w", encoding="utf-8") as f:
+            f.write(html_code)
+        return p
+
+    elif fmt == "txt":
+        p = REPORTS_DIR / f"report_{clean_target}.txt"
+        if p.exists():
+            return p
+        cached = load_cached_report_from_disk(clean_target)
+        if not cached or not cached.get("findings"):
+            return None
+        lines = [f"OASIS Reconnaissance Report for: {clean_target}", "=" * 50]
+        for itm in cached["findings"]:
+            lines.append(f"[{itm.get('platform')}] {itm.get('url')}")
+        with open(p, "w", encoding="utf-8") as f:
+            f.write("\n".join(lines))
+        return p
+
+    elif fmt == "json":
+        p = REPORTS_DIR / f"report_{clean_target}_simple.json"
+        if p.exists():
+            return p
+        return None
+
+    return None

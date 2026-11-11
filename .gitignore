@@ -66,6 +66,9 @@ raw_artifacts/
 exports/*.pdf
 exports/*.json
 exports/*.csv
+**/reports/
+reports/
+report_*
 
 # Unit test & coverage reports
 htmlcov/

@@ -11,6 +11,7 @@ from services.social_media_intelligence.backend.service import (
     execute_social_task,
     get_social_status,
     get_social_history,
+    ensure_social_report_file,
     NATIVE_SCRAPER_ENDPOINTS,
     REPORTS_DIR
 )
@@ -78,20 +79,22 @@ async def download_report(target: str, format: str = "json"):
         raise HTTPException(status_code=400, detail="Target parameter required.")
 
     fmt = format.lower().strip()
-    if fmt == "csv":
-        file_path = REPORTS_DIR / f"report_{clean_target}.csv"
-        media_type = "text/csv"
-        filename = f"social_intelligence_{clean_target}.csv"
-    else:
-        file_path = REPORTS_DIR / f"report_{clean_target}_simple.json"
-        media_type = "application/json"
-        filename = f"social_intelligence_{clean_target}.json"
+    file_path = ensure_social_report_file(clean_target, fmt)
+    if not file_path or not file_path.exists():
+        raise HTTPException(status_code=404, detail="Requested report file does not exist and could not be generated.")
 
-    if not file_path.exists():
-        raise HTTPException(status_code=404, detail="Requested report file does not exist for this target.")
+    media_map = {
+        "csv": "text/csv",
+        "json": "application/json",
+        "md": "text/markdown",
+        "txt": "text/plain"
+    }
+    media_type = media_map.get(fmt, "text/plain")
+    filename = f"social_intelligence_{clean_target}.{fmt}"
 
     return FileResponse(
         path=str(file_path),
         media_type=media_type,
-        filename=filename
+        filename=filename,
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'}
     )

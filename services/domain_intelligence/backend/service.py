@@ -504,3 +504,106 @@ def get_domain_history() -> List[Dict[str, Any]]:
 
     history.sort(key=lambda x: x.get("mtime", 0), reverse=True)
     return history
+
+def find_domain_job_dir(identifier: str) -> Optional[Path]:
+    """Finds the output directory for a given job_id or target domain."""
+    clean = identifier.strip()
+    if not clean:
+        return None
+
+    # Check direct folder match
+    direct = REPORTS_DIR / clean
+    if direct.exists() and direct.is_dir():
+        return direct
+
+    # Search through subfolders
+    for folder in REPORTS_DIR.iterdir():
+        if not folder.is_dir():
+            continue
+        if folder.name.lower() == clean.lower():
+            return folder
+        meta_file = folder / "meta.json"
+        if meta_file.exists():
+            try:
+                with open(meta_file, "r", encoding="utf-8") as f:
+                    meta = json.load(f)
+                    if (
+                        meta.get("target", "").lower() == clean.lower()
+                        or meta.get("domain", "").lower() == clean.lower()
+                        or meta.get("clean_target", "").lower() == clean.lower()
+                    ):
+                        return folder
+            except Exception:
+                pass
+    return None
+
+def ensure_domain_report_file(identifier: str, fmt: str = "json") -> Optional[Path]:
+    """Ensures that a requested report format (JSON, TXT, CSV) exists on disk."""
+    folder = find_domain_job_dir(identifier)
+    if not folder:
+        return None
+
+    fmt = fmt.lower().strip()
+    target_name = folder.name
+    meta_file = folder / "meta.json"
+    if meta_file.exists():
+        try:
+            with open(meta_file, "r", encoding="utf-8") as f:
+                meta = json.load(f)
+                target_name = meta.get("target") or meta.get("domain") or folder.name
+        except Exception:
+            pass
+
+    if fmt == "json":
+        json_path = folder / "exported.json"
+        if not json_path.exists():
+            _parse_scan_output(folder, target_name)
+        if json_path.exists():
+            return json_path
+        parsed = _parse_scan_output(folder, target_name)
+        with open(json_path, "w", encoding="utf-8") as f:
+            json.dump(parsed, f, indent=2)
+        return json_path
+
+    elif fmt == "csv":
+        csv_path = folder / "domain_intel.csv"
+        parsed = _parse_scan_output(folder, target_name)
+        findings = parsed.get("findings", [])
+        import csv
+        with open(csv_path, "w", encoding="utf-8", newline="") as f:
+            writer = csv.writer(f)
+            writer.writerow(["Target Domain", "Category", "Badge", "Discovered Observation / Value"])
+            for item in findings:
+                writer.writerow([
+                    target_name,
+                    item.get("category", ""),
+                    item.get("badge", ""),
+                    item.get("value", "")
+                ])
+        return csv_path
+
+    else:  # txt
+        txt_path = folder / "domain_inventory.txt"
+        parsed = _parse_scan_output(folder, target_name)
+        findings = parsed.get("findings", [])
+        lines = [
+            "=== OASIS DOMAIN & WEBSITE INTELLIGENCE INVENTORY ===",
+            f"Target: {target_name}",
+            f"Generated: {time.strftime('%Y-%m-%d %H:%M:%S')}",
+            f"Total Discoveries: {len(findings)}",
+            "",
+            "--- DETAILED FINDINGS ---"
+        ]
+        for item in findings:
+            lines.append(f"[{item.get('badge', 'INTEL')}] ({item.get('category', 'General')}) {item.get('value', '')}")
+        
+        internal_file = folder / "internal.txt"
+        if internal_file.exists():
+            try:
+                lines.append("\n--- INTERNAL CRAWLED ROUTES ---")
+                lines.append(internal_file.read_text(encoding="utf-8", errors="ignore"))
+            except Exception:
+                pass
+        txt_path.write_text("\n".join(lines), encoding="utf-8")
+        return txt_path
+

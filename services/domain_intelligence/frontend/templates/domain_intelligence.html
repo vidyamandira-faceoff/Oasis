@@ -233,20 +233,7 @@
         </div>
       </div>
       <div class="tool-header-actions">
-        <button class="btn-secondary-action" id="btn-export-text" onclick="downloadDomainExport('txt')" disabled title="Download plain text inventory">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-            <polyline points="14 2 14 8 20 8"></polyline>
-          </svg>
-          <span>Export TXT</span>
-        </button>
-        <button class="btn-secondary-action" id="btn-export-json" onclick="downloadDomainExport('json')" disabled title="Download structured JSON report">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="16 18 22 12 16 6"></polyline>
-            <polyline points="8 6 2 12 8 18"></polyline>
-          </svg>
-          <span>Export JSON</span>
-        </button>
+        <!-- Export Dossier Toolbar is presented in the results section once reconnaissance completes -->
       </div>
     </div>
 
@@ -369,6 +356,46 @@
             <span><strong>Loaded from Local Storage Cache:</strong> Instant retrieval (<span id="domain-cache-time-label">0.1s</span>). Click to run a fresh live crawl.</span>
           </div>
           <button class="btn-secondary-action" style="padding: 6px 14px; font-size: 12px; height: auto; border-color: #0284c7; color: #0284c7;" onclick="startDomainRecon(true)">↻ Re-run Fresh Scan</button>
+        </div>
+
+        <!-- Export & Dossier Actions Toolbar (Shown ONLY after scan is complete) -->
+        <div class="content-card" style="margin-bottom: 20px; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; background: var(--bg-surface); border: 1px solid var(--border-soft);">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 32px; height: 32px; border-radius: 6px; background: rgba(14, 165, 233, 0.12); color: #0284c7; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px;">
+              DOM
+            </div>
+            <div>
+              <div style="font-size: 13.5px; font-weight: 700; color: var(--slate-900);">
+                Domain Intelligence Dossier: <span style="font-family: var(--font-mono); color: #0284c7;" id="domain-dossier-target-title">—</span>
+              </div>
+              <div style="font-size: 11.5px; color: var(--slate-500);">Spider routes, subdomains, exposed keys, and endpoints ready for export.</div>
+            </div>
+          </div>
+          
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <button class="btn-secondary-action" onclick="downloadDomainExport('json')" title="Download full JSON dataset" style="border-color: #0284c7; color: #0284c7; font-weight: 700;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
+              </svg>
+              <span>Export JSON</span>
+            </button>
+            <button class="btn-secondary-action" onclick="downloadDomainExport('txt')" title="Download formatted inventory text">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+              </svg>
+              <span>Export TXT</span>
+            </button>
+            <button class="btn-secondary-action" onclick="downloadDomainExport('csv')" title="Download tabular CSV report">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>Export CSV</span>
+            </button>
+          </div>
         </div>
 
         <!-- Metrics Strip -->
@@ -649,12 +676,13 @@ async function startDomainRecon(force = false) {
     });
 
     if (!res.ok) {
-      let errDetail = "Failed to start domain analysis.";
+      const rawText = await res.text();
+      let errDetail = `Server error (${res.status})`;
       try {
-        const errJson = await res.json();
-        errDetail = errJson.detail || errDetail;
+        const errJson = JSON.parse(rawText);
+        if (errJson && errJson.detail) errDetail = errJson.detail;
       } catch (_) {
-        errDetail = await res.text();
+        if (rawText) errDetail = rawText.substring(0, 120);
       }
       throw new Error(errDetail);
     }
@@ -717,8 +745,10 @@ function startDomainPolling(jobId) {
 function handleDomainCompletion(data) {
   currentDomainFindings = data.findings || [];
 
-  document.getElementById("btn-export-text").disabled = currentDomainFindings.length === 0;
-  document.getElementById("btn-export-json").disabled = currentDomainFindings.length === 0;
+  // Update dossier header target name
+  const targetLabel = data.target || data.clean_target || (document.getElementById("domain-target-input") ? document.getElementById("domain-target-input").value.trim() : "—");
+  const dossierTitle = document.getElementById("domain-dossier-target-title");
+  if (dossierTitle) dossierTitle.innerText = targetLabel;
 
   // Cache banner
   const cacheBanner = document.getElementById("domain-cache-notice");
@@ -735,6 +765,7 @@ function handleDomainCompletion(data) {
   document.getElementById("kpi-intel-count").innerText = stats.intel_count || 0;
   document.getElementById("kpi-secrets-count").innerText = stats.secret_count || 0;
 
+  // Show active results section (which contains the dossier export toolbar)
   document.getElementById("domain-empty-state").style.display = "none";
   document.getElementById("domain-active-results").style.display = "block";
 
@@ -844,9 +875,22 @@ function copyDomainText(text, btnEl) {
 }
 
 function downloadDomainExport(format) {
-  if (!currentJobId) return;
-  const url = `/api/domain_intelligence/download?job_id=${encodeURIComponent(currentJobId)}&format=${format}`;
-  window.open(url, "_blank");
+  const jobId = currentJobId;
+  const target = document.getElementById("domain-target-input") ? document.getElementById("domain-target-input").value.trim() : "";
+  if (!jobId && !target) {
+    alert("Please enter a domain or run a scan to export findings.");
+    return;
+  }
+  let url = `/api/domain_intelligence/download?format=${encodeURIComponent(format)}`;
+  if (jobId) url += `&job_id=${encodeURIComponent(jobId)}`;
+  if (target) url += `&target=${encodeURIComponent(target)}`;
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.setAttribute("download", `domain_intelligence_${target || jobId}.${format}`);
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 }
 
 async function loadDomainHistory() {
@@ -877,10 +921,12 @@ async function loadDomainHistory() {
           ${escapeHtml(item.timestamp || "—")}
         </td>
         <td style="text-align: right;">
-          <div style="display: inline-flex; gap: 6px;">
+          <div style="display: inline-flex; gap: 6px; align-items: center;">
             <button class="copy-btn" onclick="inspectDomainTarget('${escapeHtml(item.domain || item.target)}')">Inspect</button>
             <button class="copy-btn" style="color: #0284c7; border-color: #38bdf8;" onclick="rerunDomainTarget('${escapeHtml(item.domain || item.target)}')">↻ Re-run</button>
-            <a href="/api/domain_intelligence/download?job_id=${encodeURIComponent(item.job_id)}&format=json" target="_blank" class="copy-btn" style="text-decoration: none;">JSON</a>
+            <button class="copy-btn" onclick="downloadDomainHistory('${escapeHtml(item.job_id || item.domain || item.target)}', 'json')">JSON</button>
+            <button class="copy-btn" onclick="downloadDomainHistory('${escapeHtml(item.job_id || item.domain || item.target)}', 'txt')">TXT</button>
+            <button class="copy-btn" onclick="downloadDomainHistory('${escapeHtml(item.job_id || item.domain || item.target)}', 'csv')">CSV</button>
           </div>
         </td>
       </tr>
@@ -888,6 +934,16 @@ async function loadDomainHistory() {
   } catch (err) {
     console.warn("Failed to load domain history:", err);
   }
+}
+
+function downloadDomainHistory(identifier, format) {
+  const url = `/api/domain_intelligence/download?target=${encodeURIComponent(identifier)}&job_id=${encodeURIComponent(identifier)}&format=${encodeURIComponent(format)}`;
+  const a = document.createElement("a");
+  a.href = url;
+  a.setAttribute("download", `domain_report_${identifier}.${format}`);
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 }
 
 function inspectDomainTarget(domain) {

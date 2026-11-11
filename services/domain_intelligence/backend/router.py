@@ -10,6 +10,7 @@ from services.domain_intelligence.backend.service import (
     execute_domain_task,
     get_domain_status,
     get_domain_history,
+    ensure_domain_report_file,
     REPORTS_DIR
 )
 
@@ -73,26 +74,31 @@ async def search_history():
     return {"history": get_domain_history()}
 
 @router.get("/api/domain_intelligence/download")
-async def download_export(job_id: str, format: str = "json"):
-    clean_id = job_id.strip()
-    output_dir = REPORTS_DIR / clean_id
-    if not output_dir.exists():
-        raise HTTPException(status_code=404, detail="Scan data directory not found.")
+async def download_export(
+    job_id: Optional[str] = None,
+    target: Optional[str] = None,
+    format: str = "json"
+):
+    identifier = (job_id or target or "").strip()
+    if not identifier:
+        raise HTTPException(status_code=400, detail="Either job_id or target parameter is required.")
 
-    if format.lower() == "json":
-        file_path = output_dir / "exported.json"
-        media_type = "application/json"
-        filename = f"domain_intelligence_{clean_id}.json"
-    else:
-        file_path = output_dir / "internal.txt"
-        media_type = "text/plain"
-        filename = f"domain_urls_{clean_id}.txt"
+    fmt = format.lower().strip()
+    file_path = ensure_domain_report_file(identifier, fmt)
+    if not file_path or not file_path.exists():
+        raise HTTPException(status_code=404, detail="Requested domain report file does not exist and could not be generated.")
 
-    if not file_path.exists():
-        raise HTTPException(status_code=404, detail="Requested file format not found for this scan.")
+    media_map = {
+        "json": "application/json",
+        "csv": "text/csv",
+        "txt": "text/plain"
+    }
+    media_type = media_map.get(fmt, "text/plain")
+    filename = f"domain_intelligence_{identifier}.{fmt}"
 
     return FileResponse(
         path=str(file_path),
         media_type=media_type,
-        filename=filename
+        filename=filename,
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'}
     )

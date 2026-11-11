@@ -16,6 +16,7 @@ from core.notifications import add_recon_notification, update_tool_notification
 # Reports and Output Storage Directory
 REPORTS_DIR = BASE_DIR / "services" / "social_media_intelligence" / "reports"
 REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+RECON_DIR = BASE_DIR / "services" / "recon_username" / "reports"
 
 # Engine Python interpreter (use maigret venv which has rich social registry)
 MAIGRET_DIR = (BASE_DIR.parent / "maigret").resolve()
@@ -87,9 +88,14 @@ def _safe_task_dict(t: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 def load_cached_report_from_disk(target: str) -> Optional[Dict[str, Any]]:
-    """Loads previous social media findings from JSON report."""
+    """Loads previous social media findings from JSON report, checking local and sibling caches."""
     clean_target = target.strip()
     json_path = REPORTS_DIR / f"report_{clean_target}_simple.json"
+    if not json_path.exists() and RECON_DIR.exists():
+        cand = RECON_DIR / f"report_{clean_target}_simple.json"
+        if cand.exists():
+            json_path = cand
+
     if not json_path.exists():
         return None
 
@@ -516,3 +522,95 @@ def get_social_history() -> List[Dict[str, Any]]:
 
     history.sort(key=lambda x: x["mtime"], reverse=True)
     return history
+
+def ensure_social_report_file(target: str, fmt: str) -> Optional[Path]:
+    """Ensures that the requested report format (CSV, JSON, MD, TXT) exists for the social target."""
+    clean_target = target.strip()
+    fmt = fmt.lower().strip()
+
+    cached = load_cached_report_from_disk(clean_target)
+    if not cached or not cached.get("findings"):
+        return None
+
+    if fmt == "csv":
+        p = REPORTS_DIR / f"report_{clean_target}.csv"
+        if p.exists():
+            return p
+        import csv
+        with open(p, "w", newline="", encoding="utf-8") as f:
+            writer = csv.writer(f)
+            writer.writerow(["Target Handle", "Platform", "Verified Profile URL", "Fullname", "Bio", "Location", "Followers", "Category/Tags"])
+            for itm in cached["findings"]:
+                writer.writerow([
+                    clean_target,
+                    itm.get("platform", ""),
+                    itm.get("url", ""),
+                    itm.get("fullname", ""),
+                    itm.get("bio", ""),
+                    itm.get("location", ""),
+                    itm.get("followers", ""),
+                    "; ".join(itm.get("tags", []))
+                ])
+        return p
+
+    elif fmt == "md":
+        p = REPORTS_DIR / f"report_{clean_target}.md"
+        if p.exists():
+            return p
+        lines = [
+            f"# OASIS Social Media Intelligence Dossier: `{clean_target}`",
+            f"",
+            f"- **Target Handle:** `{clean_target}`",
+            f"- **Generated:** {time.strftime('%Y-%m-%d %H:%M:%S')}",
+            f"- **Claimed Profiles:** {cached.get('total_claimed', len(cached['findings']))}",
+            f"- **Enriched Profiles:** {cached.get('enriched_count', 0)}",
+            "",
+            "## Verified Social Media Profiles",
+            ""
+        ]
+        for itm in cached["findings"]:
+            lines.append(f"### {itm.get('platform')}")
+            lines.append(f"- **URL:** [{itm.get('url')}]({itm.get('url')})")
+            if itm.get("fullname"): lines.append(f"- **Name:** {itm.get('fullname')}")
+            if itm.get("bio"): lines.append(f"- **Bio:** {itm.get('bio')}")
+            if itm.get("location"): lines.append(f"- **Location:** {itm.get('location')}")
+            if itm.get("followers"): lines.append(f"- **Followers:** {itm.get('followers')}")
+            lines.append("")
+        p.write_text("\n".join(lines), encoding="utf-8")
+        return p
+
+    elif fmt == "txt":
+        p = REPORTS_DIR / f"report_{clean_target}.txt"
+        if p.exists():
+            return p
+        lines = [
+            f"=== OASIS SOCIAL MEDIA INTELLIGENCE DOSSIER ===",
+            f"Target: {clean_target}",
+            f"Generated: {time.strftime('%Y-%m-%d %H:%M:%S')}",
+            f"Claimed Profiles: {cached.get('total_claimed', len(cached['findings']))}",
+            "",
+            "--- CLAIMED SOCIAL ACCOUNTS ---"
+        ]
+        for itm in cached["findings"]:
+            lines.append(f"[{itm.get('platform')}] {itm.get('url')}")
+            if itm.get('fullname'): lines.append(f"  Name: {itm.get('fullname')}")
+            if itm.get('bio'): lines.append(f"  Bio: {itm.get('bio')}")
+        p.write_text("\n".join(lines), encoding="utf-8")
+        return p
+
+    else:  # json
+        p = REPORTS_DIR / f"report_{clean_target}_simple.json"
+        if p.exists():
+            return p
+        # Write simple json
+        with open(p, "w", encoding="utf-8") as f:
+            raw_dict = {
+                itm.get("platform"): {
+                    "url_user": itm.get("url"),
+                    "status": {"ids": itm.get("raw_metadata", {})}
+                }
+                for itm in cached["findings"]
+            }
+            json.dump(raw_dict, f, indent=2)
+        return p
+

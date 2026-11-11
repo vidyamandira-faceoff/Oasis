@@ -291,36 +291,7 @@
         </div>
       </div>
       <div class="tool-header-actions">
-        <button class="btn-secondary-action" id="btn-view-html" onclick="viewHtmlDossier()" disabled title="Open interactive standalone HTML dossier in new tab" style="border-color: #6366f1; color: #4f46e5;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-            <polyline points="15 3 21 3 21 9"></polyline>
-            <line x1="10" y1="14" x2="21" y2="3"></line>
-          </svg>
-          <span>View HTML Dossier</span>
-        </button>
-        <button class="btn-secondary-action" id="btn-export-csv" onclick="downloadExport('csv')" disabled title="Download tabular CSV report">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-            <polyline points="7 10 12 15 17 10"></polyline>
-            <line x1="12" y1="15" x2="12" y2="3"></line>
-          </svg>
-          <span>Export CSV</span>
-        </button>
-        <button class="btn-secondary-action" id="btn-export-json" onclick="downloadExport('json')" disabled title="Download structured JSON dossier">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="16 18 22 12 16 6"></polyline>
-            <polyline points="8 6 2 12 8 18"></polyline>
-          </svg>
-          <span>Export JSON</span>
-        </button>
-        <button class="btn-secondary-action" id="btn-export-md" onclick="downloadExport('md')" disabled title="Download Markdown dossier">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-            <polyline points="14 2 14 8 20 8"></polyline>
-          </svg>
-          <span>Export MD</span>
-        </button>
+        <!-- Export & Dossier Actions are presented in the results section once reconnaissance completes -->
       </div>
     </div>
 
@@ -442,6 +413,62 @@
             <span><strong>Loaded from Local Storage Cache:</strong> Instant retrieval (<span id="cache-time-label">0.1s</span>). Click to run a fresh live scan.</span>
           </div>
           <button class="btn-search" style="padding: 6px 14px; font-size: 12px; height: auto;" onclick="startReconnaissance(true)">↻ Re-run Fresh Scan</button>
+        </div>
+
+        <!-- Export & Dossier Actions Toolbar (Shown only when search is complete) -->
+        <div class="content-card" style="margin-bottom: 20px; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; background: var(--bg-surface); border: 1px solid var(--border-soft);">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 32px; height: 32px; border-radius: 6px; background: rgba(99, 102, 241, 0.12); color: #4f46e5; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px;">
+              DOS
+            </div>
+            <div>
+              <div style="font-size: 13.5px; font-weight: 700; color: var(--slate-900);">
+                Intelligence Dossier: <span style="font-family: var(--font-mono); color: #4f46e5;" id="dossier-target-title">—</span>
+              </div>
+              <div style="font-size: 11.5px; color: var(--slate-500);">Verified multi-platform findings ready for export and archival.</div>
+            </div>
+          </div>
+          
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <button class="btn-secondary-action" onclick="viewHtmlDossier()" title="Open interactive HTML report in a new tab" style="border-color: #6366f1; color: #4f46e5; font-weight: 700;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+              <span>View HTML Dossier</span>
+            </button>
+            <button class="btn-secondary-action" onclick="downloadExport('csv')" title="Download CSV spreadsheet">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>Export CSV</span>
+            </button>
+            <button class="btn-secondary-action" onclick="downloadExport('json')" title="Download structured JSON dossier">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <line x1="8" y1="6" x2="2" y2="12" y3="8" y4="18"></line>
+              </svg>
+              <span>Export JSON</span>
+            </button>
+            <button class="btn-secondary-action" onclick="downloadExport('md')" title="Download Markdown dossier">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+              </svg>
+              <span>Export MD</span>
+            </button>
+            <button class="btn-secondary-action" onclick="downloadExport('txt')" title="Download plain text report">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="8" y1="6" x2="21" y2="6"></line>
+                <line x1="8" y1="12" x2="21" y2="12"></line>
+                <line x1="8" y1="18" x2="21" y2="18"></line>
+              </svg>
+              <span>Export TXT</span>
+            </button>
+          </div>
         </div>
 
         <!-- Metrics Strip -->
@@ -717,15 +744,13 @@ async function startReconnaissance(force = false) {
     });
     
     if (!res.ok) {
+      const rawText = await res.text();
       let errorMsg = `Server error (${res.status})`;
       try {
-        const errJson = await res.json();
+        const errJson = JSON.parse(rawText);
         if (errJson && errJson.detail) errorMsg = errJson.detail;
-      } catch (e) {
-        try {
-          const errTxt = await res.text();
-          if (errTxt) errorMsg = errTxt.substring(0, 120);
-        } catch (_) {}
+      } catch (_) {
+        if (rawText) errorMsg = rawText.substring(0, 120);
       }
       throw new Error(errorMsg);
     }
@@ -800,11 +825,12 @@ function startPolling(target) {
 }
 
 function handleScanCompletion(data, target) {
+  currentTarget = target;
   currentFindings = data.findings || [];
-  
-  // Enable export buttons
-  document.getElementById("btn-export-csv").disabled = currentFindings.length === 0;
-  document.getElementById("btn-export-json").disabled = currentFindings.length === 0;
+
+  // Update dossier header target name
+  const dossierTitle = document.getElementById("dossier-target-title");
+  if (dossierTitle) dossierTitle.innerText = target;
 
   // Show cache notice banner if loaded from cache
   const cacheBanner = document.getElementById("cache-notice-banner");
@@ -822,7 +848,7 @@ function handleScanCompletion(data, target) {
   document.getElementById("kpi-enriched-count").innerText = stats.enriched_count || currentFindings.filter(f => f.bio || f.fullname || f.avatar).length;
   document.getElementById("kpi-duration-text").innerText = (data.elapsed || data.duration || 0) + "s";
 
-  // Show active results section
+  // Show active results section (contains the export buttons)
   document.getElementById("recon-empty-state").style.display = "none";
   document.getElementById("recon-active-results").style.display = "block";
 
@@ -978,8 +1004,27 @@ function copyText(text, btnEl) {
 }
 
 function downloadExport(format) {
-  if (!currentTarget) return;
-  const url = `/api/recon_username/download?target=${encodeURIComponent(currentTarget)}&format=${format}`;
+  const target = currentTarget || (document.getElementById("recon-target-input") ? document.getElementById("recon-target-input").value.trim() : "");
+  if (!target) {
+    alert("Please select or scan a target identifier to download the dossier.");
+    return;
+  }
+  const url = `/api/recon_username/download?target=${encodeURIComponent(target)}&format=${encodeURIComponent(format)}`;
+  const a = document.createElement("a");
+  a.href = url;
+  a.setAttribute("download", `report_${target}.${format}`);
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+function viewHtmlDossier() {
+  const target = currentTarget || (document.getElementById("recon-target-input") ? document.getElementById("recon-target-input").value.trim() : "");
+  if (!target) {
+    alert("Please select or scan a target identifier to view the dossier.");
+    return;
+  }
+  const url = `/api/recon_username/view-html?target=${encodeURIComponent(target)}`;
   window.open(url, "_blank");
 }
 
@@ -1011,10 +1056,13 @@ async function loadHistory() {
           ${escapeHtml(item.timestamp)}
         </td>
         <td style="text-align: right;">
-          <div style="display: inline-flex; gap: 6px;">
+          <div style="display: inline-flex; gap: 6px; align-items: center;">
             <button class="copy-btn" onclick="inspectHistoryTarget('${escapeHtml(item.target)}')">Inspect</button>
             <button class="copy-btn" style="color: var(--ember-600); border-color: var(--ember-300);" onclick="rerunHistoryTarget('${escapeHtml(item.target)}')">↻ Re-run</button>
-            <a href="/api/recon_username/download?target=${encodeURIComponent(item.target)}&format=csv" target="_blank" class="copy-btn" style="text-decoration: none;">CSV</a>
+            <button class="copy-btn" style="color: #4f46e5; border-color: #c7d2fe;" onclick="window.open('/api/recon_username/view-html?target=${encodeURIComponent(item.target)}', '_blank')">HTML</button>
+            <button class="copy-btn" onclick="downloadHistoryTarget('${escapeHtml(item.target)}', 'csv')">CSV</button>
+            <button class="copy-btn" onclick="downloadHistoryTarget('${escapeHtml(item.target)}', 'json')">JSON</button>
+            <button class="copy-btn" onclick="downloadHistoryTarget('${escapeHtml(item.target)}', 'md')">MD</button>
           </div>
         </td>
       </tr>
@@ -1022,6 +1070,16 @@ async function loadHistory() {
   } catch (err) {
     console.warn("Failed to load history:", err);
   }
+}
+
+function downloadHistoryTarget(target, format) {
+  const url = `/api/recon_username/download?target=${encodeURIComponent(target)}&format=${encodeURIComponent(format)}`;
+  const a = document.createElement("a");
+  a.href = url;
+  a.setAttribute("download", `report_${target}.${format}`);
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 }
 
 function inspectHistoryTarget(target) {

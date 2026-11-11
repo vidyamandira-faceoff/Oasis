@@ -12,6 +12,7 @@ from services.recon_username.backend.service import (
     get_recon_status,
     get_latest_findings,
     get_search_history,
+    ensure_report_file,
     REPORTS_DIR
 )
 
@@ -91,29 +92,21 @@ async def download_report(target: str, format: str = "json"):
         raise HTTPException(status_code=400, detail="Target parameter required.")
 
     fmt = format.lower().strip()
-    if fmt == "csv":
-        file_path = REPORTS_DIR / f"report_{clean_target}.csv"
-        media_type = "text/csv"
-        filename = f"recon_{clean_target}_report.csv"
-    elif fmt == "html":
-        file_path = REPORTS_DIR / f"report_{clean_target}_plain.html"
-        media_type = "text/html"
-        filename = f"recon_{clean_target}_report.html"
-    elif fmt == "md":
-        file_path = REPORTS_DIR / f"report_{clean_target}.md"
-        media_type = "text/markdown"
-        filename = f"recon_{clean_target}_report.md"
-    elif fmt == "txt":
-        file_path = REPORTS_DIR / f"report_{clean_target}.txt"
-        media_type = "text/plain"
-        filename = f"recon_{clean_target}_report.txt"
-    else:
-        file_path = REPORTS_DIR / f"report_{clean_target}_simple.json"
-        media_type = "application/json"
-        filename = f"recon_{clean_target}_report.json"
+    file_path = ensure_report_file(clean_target, fmt)
+    if not file_path or not file_path.exists():
+        raise HTTPException(status_code=404, detail="Requested report file does not exist and could not be generated.")
 
-    if not file_path.exists():
-        raise HTTPException(status_code=404, detail="Requested report file does not exist for this target.")
+    media_map = {
+        "csv": "text/csv",
+        "html": "text/html",
+        "md": "text/markdown",
+        "txt": "text/plain",
+        "json": "application/json"
+    }
+    media_type = media_map.get(fmt, "application/octet-stream")
+    ext_map = {"csv": "csv", "html": "html", "md": "md", "txt": "txt", "json": "json"}
+    ext = ext_map.get(fmt, "dat")
+    filename = f"recon_{clean_target}_report.{ext}"
 
     return FileResponse(
         path=str(file_path),
@@ -127,9 +120,9 @@ async def view_html_dossier(target: str):
     if not clean_target:
         raise HTTPException(status_code=400, detail="Target parameter required.")
     
-    html_path = REPORTS_DIR / f"report_{clean_target}_plain.html"
-    if not html_path.exists():
-        raise HTTPException(status_code=404, detail="HTML dossier not found for this target. Run a fresh scan to generate it.")
+    html_path = ensure_report_file(clean_target, "html")
+    if not html_path or not html_path.exists():
+        raise HTTPException(status_code=404, detail="HTML dossier not found for this target.")
     
     content = html_path.read_text(encoding="utf-8")
     content = re.sub(r'(?i)maigret', 'OASIS Reconnaissance Engine', content)
