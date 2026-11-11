@@ -920,7 +920,7 @@ def execute_instagram_task(
                     "profile": cached_data.get("profile", {}),
                     "posts": cached_data.get("posts", []),
                     "stats": cached_data.get("stats", {}),
-                    "progress_msg": "Loaded cached OASIS Instagram dossier from local vault."
+                    "progress_msg": "Loaded cached OASIS Instagram dossier from internal vault."
                 }
             except Exception:
                 pass
@@ -996,7 +996,7 @@ def get_instagram_status(target: str) -> Dict[str, Any]:
                 "status": "COMPLETED",
                 "cached": True,
                 "elapsed": 0,
-                "progress_msg": "Retrieved from local OASIS dossier cache.",
+                "progress_msg": "Retrieved from internal OASIS dossier vault.",
                 "profile": data.get("profile", {}),
                 "posts": data.get("posts", []),
                 "stats": data.get("stats", {}),

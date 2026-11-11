@@ -91,6 +91,49 @@
     padding: 18px 24px;
     margin-bottom: 24px;
     box-shadow: 0 4px 16px rgba(14, 165, 233, 0.08);
+    transition: all 0.3s ease;
+  }
+  .progress-card.completed {
+    border-color: rgba(16, 185, 129, 0.4);
+    box-shadow: 0 4px 18px rgba(16, 185, 129, 0.08);
+    background: linear-gradient(180deg, var(--bg-surface) 0%, rgba(16, 185, 129, 0.03) 100%);
+  }
+  .progress-card.error {
+    border-color: rgba(239, 68, 68, 0.4);
+    box-shadow: 0 4px 18px rgba(239, 68, 68, 0.08);
+  }
+  .oasis-domain-bar-track {
+    width: 100%;
+    height: 8px;
+    background: var(--bg-card-subtle);
+    border-radius: 9999px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--border-soft);
+    margin: 12px 0 10px 0;
+  }
+  .oasis-domain-bar-fill {
+    height: 100%;
+    border-radius: 9999px;
+    transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: #0284c7;
+    background-image: linear-gradient(90deg, #0ea5e9 0%, #0284c7 50%, #0369a1 100%);
+  }
+  .oasis-domain-bar-fill.active-anim {
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent);
+    background-size: 1rem 1rem;
+    animation: domainBarStripes 1s linear infinite;
+  }
+  @keyframes domainBarStripes {
+    0% { background-position: 1rem 0; }
+    100% { background-position: 0 0; }
+  }
+  .oasis-domain-bar-fill.completed-fill {
+    background: linear-gradient(90deg, #10b981 0%, #059669 100%) !important;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+  }
+  .oasis-domain-bar-fill.error-fill {
+    background: #ef4444 !important;
   }
   .progress-header {
     display: flex;
@@ -328,14 +371,27 @@
     <!-- 3. Active Telemetry & Live Stream -->
     <div class="progress-card" id="domain-progress-panel">
       <div class="progress-header">
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <span class="spinner-dot-sky"></span>
-          <span id="domain-live-status-text" style="font-size: 13.5px; font-weight: 700; color: var(--slate-800);">Initializing web surface crawler...</span>
+        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+          <span id="domain-status-pill" class="status-pill-online" style="background: rgba(14, 165, 233, 0.12); color: #0284c7; border-color: rgba(14, 165, 233, 0.3); padding: 3px 10px; font-size: 11px; font-weight: 800; letter-spacing: 0.5px;">
+            <span class="dot" style="background: #0284c7; box-shadow: 0 0 6px #0284c7;"></span>
+            <span id="domain-status-pill-text">ACTIVE SURFACE CRAWL</span>
+          </span>
+          <span class="nav-badge" style="font-family: var(--font-mono); font-size: 11px; color: var(--slate-500); background: var(--bg-card-subtle); padding: 2px 8px; font-weight: 600;">⚡ OASIS Internal Engine</span>
         </div>
-        <div style="display: flex; align-items: center; gap: 14px;">
-          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--slate-500);" id="domain-timer-text">Elapsed: 00:00s</span>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--slate-500); font-weight: 700;" id="domain-timer-text">Elapsed: 00:00s</span>
           <span class="nav-badge" style="background: rgba(14, 165, 233, 0.15); color: #0284c7; border: 1px solid rgba(14, 165, 233, 0.3); font-weight: 700;" id="domain-live-count-badge">Active</span>
+          <button type="button" onclick="dismissDomainProgress()" style="background: transparent; border: none; color: var(--slate-400); cursor: pointer; font-size: 14px; padding: 2px 6px; border-radius: 4px;" title="Dismiss status panel">✕</button>
         </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 10px;">
+        <div id="domain-live-status-text" style="font-size: 13px; font-weight: 700; color: var(--slate-800);">Initializing web surface crawler...</div>
+        <div id="domain-progress-percent" style="font-family: var(--font-mono); font-size: 12.5px; font-weight: 800; color: var(--slate-700);">15%</div>
+      </div>
+
+      <div class="oasis-domain-bar-track">
+        <div class="oasis-domain-bar-fill active-anim" id="domain-progress-fill" style="width: 15%;"></div>
       </div>
     </div>
 
@@ -365,7 +421,7 @@
               <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
               <polyline points="17 21 17 13 7 13 7 21"></polyline>
             </svg>
-            <span><strong>Loaded from Local Storage Cache:</strong> Instant retrieval (<span id="domain-cache-time-label">0.1s</span>). Click to run a fresh live crawl.</span>
+            <span><strong>Loaded from Internal Vault Cache:</strong> Instant retrieval (<span id="domain-cache-time-label">0.1s</span>). Click to run a fresh live crawl.</span>
           </div>
           <button class="btn-secondary-action" style="padding: 6px 14px; font-size: 12px; height: auto; border-color: #0284c7; color: #0284c7;" onclick="startDomainRecon(true)">↻ Re-run Fresh Scan</button>
         </div>
@@ -589,7 +645,7 @@
             </svg>
             <h3 style="font-size: 16px; font-weight: 800; color: var(--slate-900); margin: 0;">Domain Investigation History</h3>
           </div>
-          <p style="font-size: 13px; color: var(--slate-500); margin-top: 4px;">Locally archived domain targets. Click any target to inspect cached findings or run a fresh crawl.</p>
+          <p style="font-size: 13px; color: var(--slate-500); margin-top: 4px;">Internally archived domain targets. Click any target to inspect cached findings or run a fresh crawl.</p>
         </div>
         <button class="btn-secondary-action" onclick="loadDomainHistory()" style="padding: 6px 12px; font-size: 12px;">Refresh History</button>
       </div>
@@ -660,16 +716,42 @@ async function startDomainRecon(force = false) {
 
   // Show progress panel
   const progressPanel = document.getElementById("domain-progress-panel");
+  const statusPill = document.getElementById("domain-status-pill");
+  const statusPillText = document.getElementById("domain-status-pill-text");
+  const progressFill = document.getElementById("domain-progress-fill");
+  const progressPercent = document.getElementById("domain-progress-percent");
+
+  progressPanel.className = "progress-card";
   progressPanel.style.display = "block";
+  if (statusPill) {
+    statusPill.style.background = "rgba(14, 165, 233, 0.12)";
+    statusPill.style.color = "#0284c7";
+    statusPill.style.borderColor = "rgba(14, 165, 233, 0.3)";
+  }
+  if (statusPillText) statusPillText.innerText = "ACTIVE SURFACE CRAWL";
+  if (progressFill) {
+    progressFill.className = "oasis-domain-bar-fill active-anim";
+    progressFill.style.width = "15%";
+  }
+  if (progressPercent) progressPercent.innerText = "15%";
+
   document.getElementById("domain-live-status-text").innerText = `Connecting and spidering target: ${target}...`;
   document.getElementById("domain-empty-state").style.display = "none";
   document.getElementById("domain-cache-notice").style.display = "none";
 
   domainScanStartTime = Date.now();
+  let simPercent = 15;
   if (domainTimerInterval) clearInterval(domainTimerInterval);
   domainTimerInterval = setInterval(() => {
     const elapsedSec = ((Date.now() - domainScanStartTime) / 1000).toFixed(1);
     document.getElementById("domain-timer-text").innerText = `Elapsed: ${elapsedSec}s`;
+
+    if (simPercent < 85) {
+      simPercent += 1.6;
+      const rounded = Math.round(simPercent);
+      if (progressFill) progressFill.style.width = `${rounded}%`;
+      if (progressPercent) progressPercent.innerText = `${rounded}%`;
+    }
   }, 200);
 
   try {
@@ -704,7 +786,19 @@ async function startDomainRecon(force = false) {
 
     if (data.status === "COMPLETED" && data.findings && data.findings.length > 0) {
       clearInterval(domainTimerInterval);
-      progressPanel.style.display = "none";
+      progressPanel.className = "progress-card completed";
+      if (statusPill) {
+        statusPill.style.background = "rgba(16, 185, 129, 0.12)";
+        statusPill.style.color = "#059669";
+        statusPill.style.borderColor = "rgba(16, 185, 129, 0.3)";
+      }
+      if (statusPillText) statusPillText.innerText = "CRAWL COMPLETED";
+      if (progressFill) {
+        progressFill.className = "oasis-domain-bar-fill completed-fill";
+        progressFill.style.width = "100%";
+      }
+      if (progressPercent) progressPercent.innerText = "100% Complete";
+      document.getElementById("domain-live-status-text").innerText = `Loaded cached crawl for ${target} (${data.findings.length} endpoints).`;
       setDomainButtonState(false);
       handleDomainCompletion(data);
       loadDomainHistory();
@@ -715,7 +809,19 @@ async function startDomainRecon(force = false) {
 
   } catch (err) {
     clearInterval(domainTimerInterval);
-    progressPanel.style.display = "none";
+    progressPanel.className = "progress-card error";
+    if (statusPill) {
+      statusPill.style.background = "rgba(239, 68, 68, 0.12)";
+      statusPill.style.color = "#dc2626";
+      statusPill.style.borderColor = "rgba(239, 68, 68, 0.3)";
+    }
+    if (statusPillText) statusPillText.innerText = "EXECUTION TERMINATED";
+    if (progressFill) {
+      progressFill.className = "oasis-domain-bar-fill error-fill";
+      progressFill.style.width = "100%";
+    }
+    if (progressPercent) progressPercent.innerText = "Failed";
+    document.getElementById("domain-live-status-text").innerText = `Crawling error: ${err.message}`;
     setDomainButtonState(false);
     alert("Error starting domain analysis: " + err.message);
   }
@@ -723,6 +829,12 @@ async function startDomainRecon(force = false) {
 
 function startDomainPolling(jobId) {
   if (domainPollInterval) clearInterval(domainPollInterval);
+
+  const progressPanel = document.getElementById("domain-progress-panel");
+  const statusPill = document.getElementById("domain-status-pill");
+  const statusPillText = document.getElementById("domain-status-pill-text");
+  const progressFill = document.getElementById("domain-progress-fill");
+  const progressPercent = document.getElementById("domain-progress-percent");
 
   domainPollInterval = setInterval(async () => {
     try {
@@ -737,14 +849,46 @@ function startDomainPolling(jobId) {
       if (data.status === "COMPLETED") {
         clearInterval(domainPollInterval);
         clearInterval(domainTimerInterval);
-        document.getElementById("domain-progress-panel").style.display = "none";
+
+        const totalElapsed = ((Date.now() - domainScanStartTime) / 1000).toFixed(1);
+        document.getElementById("domain-timer-text").innerText = `Elapsed: ${totalElapsed}s`;
+
+        progressPanel.className = "progress-card completed";
+        if (statusPill) {
+          statusPill.style.background = "rgba(16, 185, 129, 0.12)";
+          statusPill.style.color = "#059669";
+          statusPill.style.borderColor = "rgba(16, 185, 129, 0.3)";
+        }
+        if (statusPillText) statusPillText.innerText = "CRAWL COMPLETED";
+        if (progressFill) {
+          progressFill.className = "oasis-domain-bar-fill completed-fill";
+          progressFill.style.width = "100%";
+        }
+        if (progressPercent) progressPercent.innerText = "100% Complete";
+        const findingsCount = (data.findings && data.findings.length) || 0;
+        document.getElementById("domain-live-status-text").innerText = `Surface crawl finished in ${totalElapsed}s • ${findingsCount} endpoints harvested.`;
+
         setDomainButtonState(false);
         handleDomainCompletion(data);
         loadDomainHistory();
       } else if (data.status === "ERROR") {
         clearInterval(domainPollInterval);
         clearInterval(domainTimerInterval);
-        document.getElementById("domain-progress-panel").style.display = "none";
+
+        progressPanel.className = "progress-card error";
+        if (statusPill) {
+          statusPill.style.background = "rgba(239, 68, 68, 0.12)";
+          statusPill.style.color = "#dc2626";
+          statusPill.style.borderColor = "rgba(239, 68, 68, 0.3)";
+        }
+        if (statusPillText) statusPillText.innerText = "EXECUTION TERMINATED";
+        if (progressFill) {
+          progressFill.className = "oasis-domain-bar-fill error-fill";
+          progressFill.style.width = "100%";
+        }
+        if (progressPercent) progressPercent.innerText = "Failed";
+        document.getElementById("domain-live-status-text").innerText = data.error || "Engine error";
+
         setDomainButtonState(false);
         alert("Crawling error: " + (data.error || "Unknown error encountered"));
       }
@@ -752,6 +896,11 @@ function startDomainPolling(jobId) {
       console.warn("Domain polling error:", e);
     }
   }, 1000);
+}
+
+function dismissDomainProgress() {
+  const panel = document.getElementById("domain-progress-panel");
+  if (panel) panel.style.display = "none";
 }
 
 function handleDomainCompletion(data) {

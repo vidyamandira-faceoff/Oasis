@@ -88,6 +88,49 @@
     padding: 18px 24px;
     margin-bottom: 24px;
     box-shadow: 0 4px 16px rgba(249, 115, 22, 0.08);
+    transition: all 0.3s ease;
+  }
+  .progress-card.completed {
+    border-color: rgba(16, 185, 129, 0.4);
+    box-shadow: 0 4px 18px rgba(16, 185, 129, 0.08);
+    background: linear-gradient(180deg, var(--bg-surface) 0%, rgba(16, 185, 129, 0.03) 100%);
+  }
+  .progress-card.error {
+    border-color: rgba(239, 68, 68, 0.4);
+    box-shadow: 0 4px 18px rgba(239, 68, 68, 0.08);
+  }
+  .oasis-recon-bar-track {
+    width: 100%;
+    height: 8px;
+    background: var(--bg-card-subtle);
+    border-radius: 9999px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--border-soft);
+    margin: 12px 0 10px 0;
+  }
+  .oasis-recon-bar-fill {
+    height: 100%;
+    border-radius: 9999px;
+    transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: #ea580c;
+    background-image: linear-gradient(90deg, #f97316 0%, #ea580c 50%, #c2410c 100%);
+  }
+  .oasis-recon-bar-fill.active-anim {
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent);
+    background-size: 1rem 1rem;
+    animation: reconBarStripes 1s linear infinite;
+  }
+  @keyframes reconBarStripes {
+    0% { background-position: 1rem 0; }
+    100% { background-position: 0 0; }
+  }
+  .oasis-recon-bar-fill.completed-fill {
+    background: linear-gradient(90deg, #10b981 0%, #059669 100%) !important;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+  }
+  .oasis-recon-bar-fill.error-fill {
+    background: #ef4444 !important;
   }
   .progress-header {
     display: flex;
@@ -368,7 +411,7 @@
         </div>
 
         <div>
-          <button class="btn-rerun" id="btn-rerun-recon" onclick="startReconnaissance(true)" title="Bypasses local cache and executes fresh scan">
+          <button class="btn-rerun" id="btn-rerun-recon" onclick="startReconnaissance(true)" title="Bypasses internal cache and executes fresh scan">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
             </svg>
@@ -381,15 +424,29 @@
     <!-- 3. Active Telemetry & Progress Stream -->
     <div class="progress-card" id="recon-progress-panel">
       <div class="progress-header">
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <span class="spinner-dot"></span>
-          <span id="recon-live-status-text" style="font-size: 13.5px; font-weight: 700; color: var(--slate-800);">Initiating reconnaissance engine...</span>
+        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+          <span id="recon-status-pill" class="status-pill-online" style="background: rgba(249, 115, 22, 0.12); color: #ea580c; border-color: rgba(249, 115, 22, 0.3); padding: 3px 10px; font-size: 11px; font-weight: 800; letter-spacing: 0.5px;">
+            <span class="dot" style="background: #ea580c; box-shadow: 0 0 6px #ea580c;"></span>
+            <span id="recon-status-pill-text">ACTIVE RECONNAISSANCE</span>
+          </span>
+          <span class="nav-badge" style="font-family: var(--font-mono); font-size: 11px; color: var(--slate-500); background: var(--bg-card-subtle); padding: 2px 8px; font-weight: 600;">⚡ OASIS Internal Engine</span>
         </div>
-        <div style="display: flex; align-items: center; gap: 14px;">
-          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--slate-500);" id="recon-timer-text">Elapsed: 00:00s</span>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--slate-500); font-weight: 700;" id="recon-timer-text">Elapsed: 00:00s</span>
           <span class="nav-badge" style="background: rgba(249, 115, 22, 0.15); color: #ea580c; border: 1px solid rgba(249, 115, 22, 0.3); font-weight: 700;" id="recon-live-count-badge">0 Found</span>
+          <button type="button" onclick="dismissReconProgress()" style="background: transparent; border: none; color: var(--slate-400); cursor: pointer; font-size: 14px; padding: 2px 6px; border-radius: 4px;" title="Dismiss status panel">✕</button>
         </div>
       </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 10px;">
+        <div id="recon-live-status-text" style="font-size: 13px; font-weight: 700; color: var(--slate-800);">Initiating reconnaissance engine...</div>
+        <div id="recon-progress-percent" style="font-family: var(--font-mono); font-size: 12.5px; font-weight: 800; color: var(--slate-700);">15%</div>
+      </div>
+
+      <div class="oasis-recon-bar-track">
+        <div class="oasis-recon-bar-fill active-anim" id="recon-progress-fill" style="width: 15%;"></div>
+      </div>
+
       <div class="progress-stream-chips" id="recon-stream-chips">
         <!-- Live chips appear here as profiles are found -->
       </div>
@@ -677,7 +734,7 @@
           <tbody id="history-table-tbody">
             <tr>
               <td colspan="5" style="text-align: center; color: var(--slate-500); padding: 30px;">
-                Loading local search history...
+                Loading internal search history...
               </td>
             </tr>
           </tbody>
@@ -726,8 +783,26 @@ async function startReconnaissance(force = false) {
   // Show progress panel & reset chips
   const progressPanel = document.getElementById("recon-progress-panel");
   const chipsContainer = document.getElementById("recon-stream-chips");
+  const statusPill = document.getElementById("recon-status-pill");
+  const statusPillText = document.getElementById("recon-status-pill-text");
+  const progressFill = document.getElementById("recon-progress-fill");
+  const progressPercent = document.getElementById("recon-progress-percent");
+
+  progressPanel.className = "progress-card";
   progressPanel.style.display = "block";
   chipsContainer.innerHTML = "";
+  if (statusPill) {
+    statusPill.style.background = "rgba(249, 115, 22, 0.12)";
+    statusPill.style.color = "#ea580c";
+    statusPill.style.borderColor = "rgba(249, 115, 22, 0.3)";
+  }
+  if (statusPillText) statusPillText.innerText = "ACTIVE RECONNAISSANCE";
+  if (progressFill) {
+    progressFill.className = "oasis-recon-bar-fill active-anim";
+    progressFill.style.width = "15%";
+  }
+  if (progressPercent) progressPercent.innerText = "15%";
+
   document.getElementById("recon-live-status-text").innerText = `Connecting to platform registries for handle: ${target}...`;
   document.getElementById("recon-live-count-badge").innerText = "0 Found";
 
@@ -737,10 +812,18 @@ async function startReconnaissance(force = false) {
 
   // Start timer
   scanStartTime = Date.now();
+  let simPercent = 15;
   if (timerInterval) clearInterval(timerInterval);
   timerInterval = setInterval(() => {
     const elapsedSec = ((Date.now() - scanStartTime) / 1000).toFixed(1);
     document.getElementById("recon-timer-text").innerText = `Elapsed: ${elapsedSec}s`;
+
+    if (simPercent < 85) {
+      simPercent += 1.4;
+      const rounded = Math.round(simPercent);
+      if (progressFill) progressFill.style.width = `${rounded}%`;
+      if (progressPercent) progressPercent.innerText = `${rounded}%`;
+    }
   }, 200);
 
   try {
@@ -772,7 +855,19 @@ async function startReconnaissance(force = false) {
     // If cached results were returned immediately
     if (data.status === "COMPLETED" && data.findings && data.findings.length > 0) {
       clearInterval(timerInterval);
-      progressPanel.style.display = "none";
+      progressPanel.className = "progress-card completed";
+      if (statusPill) {
+        statusPill.style.background = "rgba(16, 185, 129, 0.12)";
+        statusPill.style.color = "#059669";
+        statusPill.style.borderColor = "rgba(16, 185, 129, 0.3)";
+      }
+      if (statusPillText) statusPillText.innerText = "RECONNAISSANCE COMPLETED";
+      if (progressFill) {
+        progressFill.className = "oasis-recon-bar-fill completed-fill";
+        progressFill.style.width = "100%";
+      }
+      if (progressPercent) progressPercent.innerText = "100% Complete";
+      document.getElementById("recon-live-status-text").innerText = `Loaded cached intelligence for ${target} (${data.findings.length} profiles).`;
       setSearchButtonState(false);
       handleScanCompletion(data, target);
       return;
@@ -783,7 +878,19 @@ async function startReconnaissance(force = false) {
 
   } catch (err) {
     clearInterval(timerInterval);
-    progressPanel.style.display = "none";
+    progressPanel.className = "progress-card error";
+    if (statusPill) {
+      statusPill.style.background = "rgba(239, 68, 68, 0.12)";
+      statusPill.style.color = "#dc2626";
+      statusPill.style.borderColor = "rgba(239, 68, 68, 0.3)";
+    }
+    if (statusPillText) statusPillText.innerText = "EXECUTION TERMINATED";
+    if (progressFill) {
+      progressFill.className = "oasis-recon-bar-fill error-fill";
+      progressFill.style.width = "100%";
+    }
+    if (progressPercent) progressPercent.innerText = "Failed";
+    document.getElementById("recon-live-status-text").innerText = `Execution error: ${err.message}`;
     setSearchButtonState(false);
     alert("Reconnaissance execution failed: " + err.message);
   }
@@ -792,6 +899,12 @@ async function startReconnaissance(force = false) {
 function startPolling(target) {
   if (pollInterval) clearInterval(pollInterval);
   
+  const progressPanel = document.getElementById("recon-progress-panel");
+  const statusPill = document.getElementById("recon-status-pill");
+  const statusPillText = document.getElementById("recon-status-pill-text");
+  const progressFill = document.getElementById("recon-progress-fill");
+  const progressPercent = document.getElementById("recon-progress-percent");
+
   pollInterval = setInterval(async () => {
     try {
       const res = await fetch(`/api/recon_username/status?target=${encodeURIComponent(target)}`);
@@ -820,13 +933,44 @@ function startPolling(target) {
       if (data.status === "COMPLETED") {
         clearInterval(pollInterval);
         clearInterval(timerInterval);
-        document.getElementById("recon-progress-panel").style.display = "none";
+
+        const totalElapsed = ((Date.now() - scanStartTime) / 1000).toFixed(1);
+        document.getElementById("recon-timer-text").innerText = `Elapsed: ${totalElapsed}s`;
+
+        progressPanel.className = "progress-card completed";
+        if (statusPill) {
+          statusPill.style.background = "rgba(16, 185, 129, 0.12)";
+          statusPill.style.color = "#059669";
+          statusPill.style.borderColor = "rgba(16, 185, 129, 0.3)";
+        }
+        if (statusPillText) statusPillText.innerText = "RECONNAISSANCE COMPLETED";
+        if (progressFill) {
+          progressFill.className = "oasis-recon-bar-fill completed-fill";
+          progressFill.style.width = "100%";
+        }
+        if (progressPercent) progressPercent.innerText = "100% Complete";
+        document.getElementById("recon-live-status-text").innerText = `Reconnaissance finished in ${totalElapsed}s • ${count} registered profiles discovered.`;
+
         setSearchButtonState(false);
         handleScanCompletion(data, target);
       } else if (data.status === "ERROR") {
         clearInterval(pollInterval);
         clearInterval(timerInterval);
-        document.getElementById("recon-progress-panel").style.display = "none";
+
+        progressPanel.className = "progress-card error";
+        if (statusPill) {
+          statusPill.style.background = "rgba(239, 68, 68, 0.12)";
+          statusPill.style.color = "#dc2626";
+          statusPill.style.borderColor = "rgba(239, 68, 68, 0.3)";
+        }
+        if (statusPillText) statusPillText.innerText = "EXECUTION TERMINATED";
+        if (progressFill) {
+          progressFill.className = "oasis-recon-bar-fill error-fill";
+          progressFill.style.width = "100%";
+        }
+        if (progressPercent) progressPercent.innerText = "Failed";
+        document.getElementById("recon-live-status-text").innerText = data.error || "Engine error";
+
         setSearchButtonState(false);
         alert("Execution error: " + (data.error || "Unknown error encountered"));
       }
@@ -834,6 +978,11 @@ function startPolling(target) {
       console.warn("Polling error:", e);
     }
   }, 1000);
+}
+
+function dismissReconProgress() {
+  const panel = document.getElementById("recon-progress-panel");
+  if (panel) panel.style.display = "none";
 }
 
 function handleScanCompletion(data, target) {

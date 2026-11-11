@@ -388,32 +388,166 @@
     transform: none;
   }
 
-  /* Telemetry / Live Status */
-  .ig-live-telemetry {
+  /* Unified OASIS Progress & Status Panel */
+  .oasis-progress-panel {
     display: none;
     background: var(--bg-surface);
-    border: 1px solid var(--border-soft);
+    border: 1px solid rgba(225, 48, 108, 0.3);
     border-radius: var(--radius-md);
-    padding: 16px 20px;
+    padding: 18px 22px;
     margin-bottom: 24px;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
+    box-shadow: 0 4px 18px rgba(225, 48, 108, 0.08);
+    transition: all 0.3s ease;
   }
-  .ig-live-telemetry.active {
+  .oasis-progress-panel.active {
+    display: block;
+    animation: fadeIn 0.25s ease-out;
+  }
+  .oasis-progress-panel.completed {
+    border-color: rgba(16, 185, 129, 0.4);
+    box-shadow: 0 4px 18px rgba(16, 185, 129, 0.08);
+    background: linear-gradient(180deg, var(--bg-surface) 0%, rgba(16, 185, 129, 0.03) 100%);
+  }
+  .oasis-progress-panel.error {
+    border-color: rgba(239, 68, 68, 0.4);
+    box-shadow: 0 4px 18px rgba(239, 68, 68, 0.08);
+  }
+  .oasis-progress-top {
     display: flex;
-    animation: fadeIn 0.2s ease-out;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    gap: 10px;
   }
-  .ig-spinner {
-    width: 20px;
-    height: 20px;
-    border: 3px solid rgba(225, 48, 108, 0.2);
-    border-top-color: #e1306c;
+  .oasis-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .oasis-status-pill.status-active {
+    background: rgba(225, 48, 108, 0.12);
+    color: #e1306c;
+    border: 1px solid rgba(225, 48, 108, 0.3);
+  }
+  .oasis-status-pill.status-completed {
+    background: rgba(16, 185, 129, 0.12);
+    color: #059669;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+  }
+  .oasis-status-pill.status-error {
+    background: rgba(239, 68, 68, 0.12);
+    color: #dc2626;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+  }
+  .oasis-status-dot {
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
-    animation: spin 0.8s linear infinite;
+    background: currentColor;
   }
-  @keyframes spin {
-    to { transform: rotate(360deg); }
+  .oasis-status-dot.pulse {
+    animation: statusPulse 1.2s infinite ease-in-out;
+  }
+  @keyframes statusPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.4); opacity: 0.4; }
+  }
+  .oasis-engine-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--slate-500);
+    background: var(--bg-card-subtle);
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-soft);
+    font-weight: 600;
+  }
+  .oasis-progress-timer {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--slate-600);
+    font-weight: 700;
+  }
+  .oasis-progress-close-btn {
+    background: transparent;
+    border: none;
+    color: var(--slate-400);
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+  }
+  .oasis-progress-close-btn:hover {
+    color: var(--slate-800);
+    background: var(--bg-card-subtle);
+  }
+  .oasis-progress-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 8px;
+    gap: 12px;
+  }
+  .oasis-progress-title {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--slate-900);
+  }
+  .oasis-progress-subtitle {
+    font-size: 12px;
+    color: var(--slate-500);
+    font-family: var(--font-mono);
+    margin-top: 2px;
+  }
+  .oasis-progress-percent {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--slate-700);
+  }
+  .oasis-progress-track {
+    width: 100%;
+    height: 8px;
+    background: var(--bg-card-subtle);
+    border-radius: 9999px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--border-soft);
+  }
+  .oasis-progress-fill {
+    height: 100%;
+    border-radius: 9999px;
+    transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+  }
+  .oasis-progress-fill.active-anim {
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent);
+    background-size: 1rem 1rem;
+    animation: progressBarStripes 1s linear infinite;
+  }
+  @keyframes progressBarStripes {
+    0% { background-position: 1rem 0; }
+    100% { background-position: 0 0; }
+  }
+  .oasis-progress-fill.ig-fill {
+    background-color: #e1306c;
+    background-image: linear-gradient(90deg, #e1306c 0%, #c13584 50%, #833ab4 100%);
+  }
+  .oasis-progress-fill.completed-fill {
+    background: linear-gradient(90deg, #10b981 0%, #059669 100%) !important;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+  }
+  .oasis-progress-fill.error-fill {
+    background: #ef4444 !important;
   }
 
   /* Profile Card Header */
@@ -799,9 +933,9 @@
               <span>⚡ Flash Mode</span>
               <span class="status-pill-online" style="padding: 2px 8px; font-size: 10px;"><span class="dot"></span> In-App Recon</span>
             </span>
-            <span class="ig-mode-sub">Native local engine (OASIS Instagram Engine) &bull; Live telemetry &amp; results on OASIS</span>
+            <span class="ig-mode-sub">Native internal engine (OASIS Instagram Engine) &bull; Live telemetry &amp; results on OASIS</span>
           </div>
-          <span class="ig-mode-badge" style="background: rgba(225, 48, 108, 0.12); color: #e1306c;">Local Engine</span>
+          <span class="ig-mode-badge" style="background: rgba(225, 48, 108, 0.12); color: #e1306c;">Internal Engine</span>
         </button>
 
         <button type="button" class="ig-mode-btn mode-pro" id="btn-mode-pro" onclick="setInstagramMode('pro')">
@@ -816,7 +950,7 @@
         </button>
       </div>
 
-      <!-- 1. Flash Mode Container (Local Engine) -->
+      <!-- 1. Flash Mode Container (Internal Engine) -->
       <div id="ig-flash-container">
         
         <!-- Input & Controls Card -->
@@ -906,21 +1040,32 @@
           </form>
         </div>
 
-        <!-- Live Telemetry Status Strip -->
-        <div id="ig-telemetry-strip" class="ig-live-telemetry">
-          <div style="display: flex; align-items: center; gap: 14px;">
-            <div class="ig-spinner"></div>
-            <div>
-              <div style="font-size: 13.5px; font-weight: 700; color: var(--slate-900);" id="ig-telemetry-title">
-                Executing Instagram Scraper Engine...
-              </div>
-              <div style="font-size: 12px; color: var(--slate-500); font-family: var(--font-mono); margin-top: 2px;" id="ig-telemetry-detail">
-                Spawning headless Chromium instance
-              </div>
+        <!-- Unified OASIS Progress & Status Panel -->
+        <div id="ig-progress-panel" class="oasis-progress-panel">
+          <div class="oasis-progress-top">
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+              <span id="ig-status-pill" class="oasis-status-pill status-active">
+                <span class="oasis-status-dot pulse"></span>
+                <span id="ig-status-pill-text">ACTIVE SCRAPING</span>
+              </span>
+              <span class="oasis-engine-tag">⚡ OASIS Internal Engine</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <span class="oasis-progress-timer" id="ig-progress-timer">Elapsed: 0.0s</span>
+              <button type="button" class="oasis-progress-close-btn" id="ig-progress-close-btn" onclick="dismissInstagramProgress()" title="Dismiss status panel">✕</button>
             </div>
           </div>
-          <div style="font-size: 12px; font-family: var(--font-mono); color: #e1306c; font-weight: 700;" id="ig-telemetry-timer">
-            Elapsed: 0.0s
+
+          <div class="oasis-progress-body">
+            <div class="oasis-progress-info">
+              <div class="oasis-progress-title" id="ig-progress-title">Executing Instagram Internal Engine...</div>
+              <div class="oasis-progress-subtitle" id="ig-progress-subtitle">Spawning internal headless Chromium instance</div>
+            </div>
+            <div class="oasis-progress-percent" id="ig-progress-percent">15%</div>
+          </div>
+
+          <div class="oasis-progress-track">
+            <div class="oasis-progress-fill ig-fill active-anim" id="ig-progress-fill" style="width: 15%;"></div>
           </div>
         </div>
 
@@ -930,7 +1075,7 @@
           <!-- Profile Overview Header Card -->
           <div class="ig-profile-header-card" id="ig-profile-card">
             <div class="ig-avatar-wrapper">
-              <img id="ig-avatar-img" class="ig-avatar-img" src="" alt="Avatar" onerror="this.src='/static/icons/user.svg'">
+              <img id="ig-avatar-img" class="ig-avatar-img" src="" alt="Avatar" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'96\' height=\'96\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%2394a3b8\' stroke-width=\'2\'><path d=\'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\'/><circle cx=\'12\' cy=\'7\' r=\'4\'/></svg>';">
             </div>
             <div class="ig-profile-meta">
               <div class="ig-profile-title-row">
@@ -1022,7 +1167,7 @@
             Ready to Inspect Instagram Target
           </h4>
           <p style="font-size: 13px; color: var(--slate-500); max-width: 520px; margin: 0 auto;">
-            Enter an Instagram username (e.g. <code>@nasa</code>), hashtag, or direct post URL above and click <strong>Launch Flash Recon</strong> to initiate local Chromium harvesting.
+            Enter an Instagram username (e.g. <code>@nasa</code>), hashtag, or direct post URL above and click <strong>Launch Flash Recon</strong> to initiate internal Chromium harvesting.
           </p>
         </div>
 
@@ -1352,15 +1497,40 @@ async function startInstagramFlash() {
   btnSubmit.disabled = true;
   document.getElementById("ig-btn-icon").textContent = "⏳";
   document.getElementById("ig-btn-label").textContent = "OASIS Ingesting...";
-  telemetryStrip.classList.add("active");
   guidanceEl.style.display = "none";
+
+  const progressPanel = document.getElementById("ig-progress-panel");
+  const statusPill = document.getElementById("ig-status-pill");
+  const statusPillText = document.getElementById("ig-status-pill-text");
+  const progressTitle = document.getElementById("ig-progress-title");
+  const progressSubtitle = document.getElementById("ig-progress-subtitle");
+  const progressPercent = document.getElementById("ig-progress-percent");
+  const progressFill = document.getElementById("ig-progress-fill");
+  const timerEl = document.getElementById("ig-progress-timer");
+
+  // Activate Progress Panel
+  progressPanel.className = "oasis-progress-panel active";
+  statusPill.className = "oasis-status-pill status-active";
+  statusPillText.textContent = "ACTIVE SCRAPING";
+  progressTitle.textContent = `Scraping Target: @${target}`;
+  progressSubtitle.textContent = "Spawning internal headless Chromium engine...";
+  progressFill.className = "oasis-progress-fill ig-fill active-anim";
+  progressFill.style.width = "15%";
+  progressPercent.textContent = "15%";
   
   igScanStartTime = Date.now();
-  const timerEl = document.getElementById("ig-telemetry-timer");
+  let simPercent = 15;
   const timerInterval = setInterval(() => {
     const elapsed = ((Date.now() - igScanStartTime) / 1000).toFixed(1);
-    timerEl.textContent = `Elapsed: ${elapsed}s`;
-  }, 100);
+    if (timerEl) timerEl.textContent = `Elapsed: ${elapsed}s`;
+
+    if (simPercent < 85) {
+      simPercent += 1.8;
+      const rounded = Math.round(simPercent);
+      if (progressFill) progressFill.style.width = `${rounded}%`;
+      if (progressPercent) progressPercent.textContent = `${rounded}%`;
+    }
+  }, 200);
 
   try {
     const resp = await fetch("/api/social_media_intelligence/instagram/run", {
@@ -1386,7 +1556,15 @@ async function startInstagramFlash() {
 
     if (data.status === "COMPLETED" && data.cached) {
       clearInterval(timerInterval);
-      telemetryStrip.classList.remove("active");
+      progressPanel.className = "oasis-progress-panel active completed";
+      statusPill.className = "oasis-status-pill status-completed";
+      statusPillText.textContent = "RECONNAISSANCE COMPLETED";
+      progressTitle.textContent = `Loaded Cached Dossier: @${data.target || target}`;
+      progressSubtitle.textContent = `Retrieved from internal OASIS vault • ${(data.posts || []).length} media items available.`;
+      progressFill.className = "oasis-progress-fill ig-fill completed-fill";
+      progressFill.style.width = "100%";
+      progressPercent.textContent = "100% Complete";
+
       renderInstagramResults(data);
       resetSubmitButton();
       return;
@@ -1396,8 +1574,14 @@ async function startInstagramFlash() {
 
   } catch (err) {
     clearInterval(timerInterval);
-    telemetryStrip.classList.remove("active");
-    alert("OASIS Recon Error: " + err.message);
+    progressPanel.className = "oasis-progress-panel active error";
+    statusPill.className = "oasis-status-pill status-error";
+    statusPillText.textContent = "EXECUTION TERMINATED";
+    progressTitle.textContent = `Reconnaissance Failed: @${target}`;
+    progressSubtitle.textContent = err.message;
+    progressFill.className = "oasis-progress-fill error-fill";
+    progressFill.style.width = "100%";
+    progressPercent.textContent = "Failed";
     resetSubmitButton();
   }
 }
@@ -1405,34 +1589,69 @@ async function startInstagramFlash() {
 function pollInstagramStatus(target, timerInterval) {
   if (igPollInterval) clearInterval(igPollInterval);
 
+  const progressPanel = document.getElementById("ig-progress-panel");
+  const statusPill = document.getElementById("ig-status-pill");
+  const statusPillText = document.getElementById("ig-status-pill-text");
+  const progressTitle = document.getElementById("ig-progress-title");
+  const progressSubtitle = document.getElementById("ig-progress-subtitle");
+  const progressPercent = document.getElementById("ig-progress-percent");
+  const progressFill = document.getElementById("ig-progress-fill");
+  const timerEl = document.getElementById("ig-progress-timer");
+
   igPollInterval = setInterval(async () => {
     try {
       const resp = await fetch(`/api/social_media_intelligence/instagram/status?target=${encodeURIComponent(target)}`);
       if (!resp.ok) return;
 
       const data = await resp.json();
-      const detailEl = document.getElementById("ig-telemetry-detail");
-      if (data.progress_msg && detailEl) {
-        detailEl.textContent = data.progress_msg;
+      if (data.progress_msg && progressSubtitle) {
+        progressSubtitle.textContent = data.progress_msg;
       }
 
       if (data.status === "COMPLETED" || data.status === "FINISHED") {
         clearInterval(igPollInterval);
         clearInterval(timerInterval);
         igPollInterval = null;
-        document.getElementById("ig-telemetry-strip").classList.remove("active");
+
+        const totalElapsed = ((Date.now() - igScanStartTime) / 1000).toFixed(1);
+        if (timerEl) timerEl.textContent = `Elapsed: ${totalElapsed}s`;
+
+        progressPanel.className = "oasis-progress-panel active completed";
+        statusPill.className = "oasis-status-pill status-completed";
+        statusPillText.textContent = "RECONNAISSANCE COMPLETED";
+
+        const countHarvested = (data.posts && data.posts.length) || 0;
+        const countComments = (data.stats && data.stats.total_comments) || 0;
+        progressTitle.textContent = `Reconnaissance Complete: @${data.target || target}`;
+        progressSubtitle.textContent = `Harvest finished in ${totalElapsed}s • ${countHarvested} media items & ${countComments} comments ingested.`;
+        progressFill.className = "oasis-progress-fill ig-fill completed-fill";
+        progressFill.style.width = "100%";
+        progressPercent.textContent = "100% Complete";
+
         renderInstagramResults(data);
         resetSubmitButton();
       } else if (data.status === "ERROR") {
         clearInterval(igPollInterval);
         clearInterval(timerInterval);
         igPollInterval = null;
-        document.getElementById("ig-telemetry-strip").classList.remove("active");
-        alert("OASIS Engine Error: " + (data.error || "Execution terminated unexpectedly."));
+
+        progressPanel.className = "oasis-progress-panel active error";
+        statusPill.className = "oasis-status-pill status-error";
+        statusPillText.textContent = "EXECUTION TERMINATED";
+        progressTitle.textContent = `Reconnaissance Failed: @${target}`;
+        progressSubtitle.textContent = data.error || "Scraping engine terminated with error.";
+        progressFill.className = "oasis-progress-fill error-fill";
+        progressFill.style.width = "100%";
+        progressPercent.textContent = "Failed";
         resetSubmitButton();
       }
     } catch (e) {}
   }, 1200);
+}
+
+function dismissInstagramProgress() {
+  const panel = document.getElementById("ig-progress-panel");
+  if (panel) panel.classList.remove("active");
 }
 
 function resetSubmitButton() {
@@ -1562,7 +1781,7 @@ function renderInstagramResults(data) {
 
     card.innerHTML = `
       <div class="ig-post-thumb-wrapper">
-        <img class="ig-post-thumb" src="${thumbSrc}" alt="Media Post" onerror="this.src='/static/icons/image.svg'">
+        <img class="ig-post-thumb" src="${thumbSrc}" alt="Media Post" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'64\' height=\'64\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%2394a3b8\' stroke-width=\'2\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\' ry=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><polyline points=\'21 15 16 10 5 21\'/></svg>';">
         <span class="ig-post-type-badge">${isReel ? "🎬 REEL" : "📸 POST"}</span>
       </div>
       <div class="ig-post-body">
