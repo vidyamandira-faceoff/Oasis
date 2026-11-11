@@ -9,7 +9,7 @@ def get_dashboard_summary():
         "active_investigations": 1,
         "active_modules_count": "1 / 12",
         "connected_engines_count": "1 Ready",
-        "active_engine_name": "Maigret v0.5.0+",
+        "active_engine_name": "Username Intelligence Engine",
         "system_status": "Operational",
         "compliance_tag": "DEMO BUILD — not for casework"
     }

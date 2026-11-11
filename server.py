@@ -17,6 +17,7 @@ from services.vault.backend.router import router as vault_router
 from services.terminal.backend.router import router as terminal_router
 from services.settings.backend.router import router as settings_router
 from services.notifications.backend.router import router as notifications_router
+from services.surface_analysis.backend.router import router as surface_analysis_router
 
 # Active Intelligence Module Routers
 from services.recon_username.backend.router import router as recon_username_router
@@ -55,8 +56,13 @@ async def get_system_status():
         "status": "operational",
         "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
         "active_processes": len(RUNNING_PROCESSES),
-        "active_modules": ["Username Intelligence"],
-        "connected_engines": ["Maigret"]
+        "active_modules": [
+            "Username Intelligence",
+            "Website Surface Intelligence",
+            "Hostname & Subdomain Intelligence",
+            "Web Footprint Intelligence",
+        ],
+        "connected_engines": ["Username Intelligence Engine", "Surface Analysis"],
     }
 
 @app.post("/api/tools/abort-all")
@@ -72,6 +78,7 @@ app.include_router(vault_router)
 app.include_router(terminal_router)
 app.include_router(settings_router)
 app.include_router(notifications_router)
+app.include_router(surface_analysis_router)
 
 # Intelligence Modules
 app.include_router(recon_username_router)

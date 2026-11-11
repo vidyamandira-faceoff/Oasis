@@ -1,0 +1,92 @@
+{% extends "shared/templates/base.html" %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="/static/css/surface-analysis.css">
+{% endblock %}
+
+{% block content %}
+<main class="surface-page" data-module="{{ module }}" data-default-level="{{ module_config.defaults.level }}" data-default-threads="{{ module_config.defaults.threads }}">
+  <section class="surface-hero">
+    <div>
+      <div class="eyebrow">OASIS INTELLIGENCE MODULE <span class="live-badge">READY</span></div>
+      <h1>{{ module_config.title }}</h1>
+      <p>{{ module_config.summary }}</p>
+    </div>
+    <div class="hero-mark" aria-hidden="true">SI</div>
+  </section>
+
+  <section class="surface-grid">
+    <div class="surface-card launch-card">
+      <div class="section-heading">
+        <div>
+          <span class="section-kicker">New analysis</span>
+          <h2>Define a target</h2>
+        </div>
+        <span class="status-chip">Passive collection</span>
+      </div>
+      <form id="surface-form">
+        <label for="surface-target">Target URL or domain</label>
+        <input id="surface-target" name="target" type="text" placeholder="https://example.org" autocomplete="off" required>
+        <div class="control-row">
+          <div>
+            <label for="surface-level">Crawl depth</label>
+            <select id="surface-level" name="level">
+              <option value="1">Focused · 1 level</option>
+              <option value="2" selected>Standard · 2 levels</option>
+              <option value="3">Extended · 3 levels</option>
+              <option value="4">Broad · 4 levels</option>
+            </select>
+          </div>
+          <div>
+            <label for="surface-threads">Concurrency</label>
+            <select id="surface-threads" name="threads">
+              <option value="4">4 workers</option>
+              <option value="6" selected>6 workers</option>
+              <option value="10">10 workers</option>
+              <option value="16">16 workers</option>
+            </select>
+          </div>
+        </div>
+        <div class="option-grid">
+          <label class="check-option"><input id="surface-keys" type="checkbox"><span>Inspect exposed secrets</span></label>
+          <label class="check-option"><input id="surface-wayback" type="checkbox"><span>Include archived seeds</span></label>
+          <label class="check-option"><input id="surface-dns" type="checkbox"><span>Map DNS and subdomains</span></label>
+          <label class="check-option"><input id="surface-urls" type="checkbox"><span>URL inventory only</span></label>
+        </div>
+        <button class="primary-button" type="submit"><span>Start analysis</span><span aria-hidden="true">→</span></button>
+        <p class="form-note">Only publicly reachable resources are requested. Results remain in this Oasis session.</p>
+      </form>
+    </div>
+
+    <div class="surface-card capabilities-card">
+      <div class="section-heading">
+        <div>
+          <span class="section-kicker">Included coverage</span>
+          <h2>What this module provides</h2>
+        </div>
+      </div>
+      <ul class="capability-list">
+        {% for feature in module_config.features %}
+        <li><span class="capability-icon">✓</span><span>{{ feature }}</span></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+
+  <section class="surface-card results-card">
+    <div class="section-heading">
+      <div>
+        <span class="section-kicker">Analysis history</span>
+        <h2>Recent target results</h2>
+      </div>
+      <span id="surface-status" class="status-chip">No active analysis</span>
+    </div>
+    <div id="surface-results" class="results-empty">
+      <div class="empty-icon">◎</div>
+      <h3>Ready when you are</h3>
+      <p>Start an analysis to view collected observations, execution status, and exportable evidence.</p>
+    </div>
+  </section>
+</main>
+<script src="/static/js/surface-analysis.js"></script>
+{% endblock %}

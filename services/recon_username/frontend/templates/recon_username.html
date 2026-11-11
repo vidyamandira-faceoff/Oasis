@@ -2,167 +2,561 @@
 
 {% block head_extra %}
 <link rel="stylesheet" href="/static/services/recon_username/css/dark_mode.css">
+<style>
+  .recon-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-bottom: 40px;
+  }
+  .input-panel {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    box-shadow: var(--shadow-card);
+    margin-bottom: 24px;
+  }
+  .input-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr auto;
+    gap: 16px;
+    align-items: flex-end;
+  }
+  @media (max-width: 1024px) {
+    .input-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (max-width: 640px) {
+    .input-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .btn-search {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 11px 26px;
+    font-weight: 700;
+    font-size: 13.5px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 42px;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(249, 115, 22, 0.25);
+  }
+  .btn-search:hover:not(:disabled) {
+    background: linear-gradient(135deg, #fb923c 0%, #f97316 100%);
+    box-shadow: 0 4px 14px rgba(249, 115, 22, 0.35);
+    transform: translateY(-1px);
+  }
+  .btn-search:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+  }
+  .progress-card {
+    display: none;
+    background: var(--bg-surface);
+    border: 1px solid rgba(249, 115, 22, 0.3);
+    border-radius: var(--radius-md);
+    padding: 18px 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 16px rgba(249, 115, 22, 0.08);
+  }
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .progress-stream-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .chip-discovery {
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    padding: 3px 10px;
+    border-radius: 9999px;
+    font-size: 11.5px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .metrics-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 900px) {
+    .metrics-strip {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .kpi-tile {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    padding: 18px 20px;
+    box-shadow: var(--shadow-subtle);
+  }
+  .kpi-label {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--slate-500);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  .kpi-value {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--slate-900);
+    line-height: 1.1;
+  }
+  .kpi-sub {
+    font-size: 11.5px;
+    color: var(--slate-500);
+    margin-top: 4px;
+  }
+  .filter-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 16px 20px;
+    background: var(--bg-card-subtle);
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .filter-pills {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .pill-filter {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    padding: 5px 12px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--slate-600);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .pill-filter:hover {
+    border-color: var(--ember-400);
+    color: var(--ember-600);
+  }
+  .pill-filter.active {
+    background: var(--ember-500);
+    border-color: var(--ember-500);
+    color: #ffffff;
+  }
+  .profile-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1.5px solid var(--border-soft);
+    background: var(--slate-100);
+  }
+  .profile-avatar-fallback {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--slate-600);
+  }
+  .feature-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    padding: 20px 22px;
+    box-shadow: var(--shadow-subtle);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .feature-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-card);
+    border-color: rgba(249, 115, 22, 0.3);
+  }
+  .feature-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: rgba(249, 115, 22, 0.1);
+    color: var(--ember-600);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+  .feature-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--slate-900);
+    margin-bottom: 6px;
+  }
+  .feature-desc {
+    font-size: 12.5px;
+    color: var(--slate-600);
+    line-height: 1.5;
+  }
+  .tag-badge {
+    background: var(--bg-card-subtle);
+    border: 1px solid var(--border-soft);
+    color: var(--slate-600);
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    display: inline-block;
+    margin: 2px;
+  }
+  .copy-btn {
+    background: transparent;
+    border: 1px solid var(--border-soft);
+    color: var(--slate-600);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .copy-btn:hover {
+    background: var(--slate-100);
+    color: var(--slate-900);
+  }
+  .spinner-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--ember-500);
+    animation: pulse 1.2s infinite ease-in-out;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.3; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.1); }
+  }
+</style>
 {% endblock %}
 
 {% block content %}
 <section class="view-page active-view">
-  <!-- Tool Header Banner -->
-  <div class="tool-header-banner">
-    <div class="tool-header-left">
-      <div class="tool-icon-square" style="background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); font-weight: 800; font-size: 15px;">ID</div>
-      <div class="tool-title-group">
-        <h2>Username Reconnaissance & Identity</h2>
-        <p>Multi-platform alias scanning, digital fingerprint correlation across 100+ platforms, and bio linking.</p>
-      </div>
-    </div>
-    <div class="tool-header-actions">
-      <button class="btn-secondary-action" onclick="exportServiceData()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-          <polyline points="7 10 12 15 17 10"></polyline>
-          <line x1="12" y1="15" x2="12" y2="3"></line>
-        </svg>
-        <span>Export Findings</span>
-      </button>
-      <button class="btn-primary-action" id="btn-launch-recon" onclick="runServiceTask()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-          <polygon points="6 4 19 12 6 20 6 4"></polygon>
-        </svg>
-        <span id="btn-launch-label">Launch Background Engines</span>
-      </button>
-    </div>
-  </div>
+  <div class="recon-container">
 
-  <!-- Recon Query Controls Card -->
-  <div class="control-panel-card" style="margin-bottom: 22px;">
-    <div class="form-grid-3">
-      <div class="form-group" style="grid-column: span 2;">
-        <label class="form-label">Target Username or Handle</label>
-        <div style="display: flex; gap: 10px;">
-          <input type="text" class="form-input" id="target-input-field" placeholder="e.g. dark_sentinel, cyber_shadow, or apex_analyst" value="apex_analyst" style="font-weight: 600;">
-          <button class="btn-primary-action" onclick="runServiceTask()" style="white-space: nowrap; padding: 0 24px;">Start Recon</button>
+    <!-- 1. Header Banner -->
+    <div class="tool-header-banner" style="margin-bottom: 24px;">
+      <div class="tool-header-left">
+        <div class="tool-icon-square" style="background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); font-weight: 800; font-size: 14px; letter-spacing: 0.5px;">ID</div>
+        <div class="tool-title-group">
+          <h2>Username Intelligence &amp; Identity Reconnaissance</h2>
+          <p>Global multi-platform handle enumeration, public account discovery, and profile metadata extraction across 3,000+ registries.</p>
         </div>
       </div>
-      <div class="form-group">
-        <label class="form-label">EXECUTION PROFILE</label>
-        <select class="form-select" id="exec-profile-select">
-          <option value="deep" selected>Deep Surveillance (All Background Engines)</option>
-          <option value="quick">Rapid Passive Query</option>
-          <option value="stealth">Stealth Rate-Limited Scraping</option>
-        </select>
+      <div class="tool-header-actions">
+        <button class="btn-secondary-action" id="btn-export-csv" onclick="downloadExport('csv')" disabled title="Download tabular CSV report">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Export CSV</span>
+        </button>
+        <button class="btn-secondary-action" id="btn-export-json" onclick="downloadExport('json')" disabled title="Download structured JSON dossier">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+          </svg>
+          <span>Export JSON</span>
+        </button>
       </div>
     </div>
 
-    <!-- Background Multi-Tool Selector -->
-    <div style="margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border-ultra-soft);">
-      <div style="font-size: 11.5px; font-weight: 800; color: var(--slate-600); text-transform: uppercase; margin-bottom: 10px;">
-        Background Reconnaissance &amp; Scraping Engines Enabled:
+    <!-- 2. Proper Username Input Section -->
+    <div class="input-panel">
+      <div style="margin-bottom: 16px;">
+        <h3 style="font-size: 15px; font-weight: 700; color: var(--slate-900); margin-bottom: 4px;">Target Identifier &amp; Reconnaissance Scope</h3>
+        <p style="font-size: 12.5px; color: var(--slate-500);">Specify the target username, online handle, or identifier to probe across verified global platforms.</p>
       </div>
-      <div style="display: flex; flex-wrap: wrap; gap: 12px;" id="tools-checkbox-group">
-        <label class="tool-engine-card" style="display: inline-flex; align-items: center; gap: 8px; background: var(--bg-card-subtle); padding: 8px 14px; border-radius: 10px; border: 1px solid var(--border-soft); cursor: pointer; font-size: 13px;">
-          <input type="checkbox" class="tool-engine-chk" value="cross_platform_scanner" checked style="accent-color: var(--ember-500); cursor: pointer;">
-          <span style="font-weight: 700;">Cross-Platform Scanner</span>
-          <span class="role-pill-dark" style="font-size: 10px; padding: 2px 6px;">Profiles</span>
-        </label>
-        <label class="tool-engine-card" style="display: inline-flex; align-items: center; gap: 8px; background: var(--bg-card-subtle); padding: 8px 14px; border-radius: 10px; border: 1px solid var(--border-soft); cursor: pointer; font-size: 13px;">
-          <input type="checkbox" class="tool-engine-chk" value="account_enumerator" checked style="accent-color: var(--ember-500); cursor: pointer;">
-          <span style="font-weight: 700;">Account Profile Enumerator</span>
-          <span class="role-pill-dark" style="font-size: 10px; padding: 2px 6px;">Metadata</span>
-        </label>
-        <label class="tool-engine-card" style="display: inline-flex; align-items: center; gap: 8px; background: var(--bg-card-subtle); padding: 8px 14px; border-radius: 10px; border: 1px solid var(--border-soft); cursor: pointer; font-size: 13px;">
-          <input type="checkbox" class="tool-engine-chk" value="alias_correlator" checked style="accent-color: var(--ember-500); cursor: pointer;">
-          <span style="font-weight: 700;">Alias Correlator</span>
-          <span class="role-pill-dark" style="font-size: 10px; padding: 2px 6px;">Correlation</span>
-        </label>
-      </div>
-    </div>
-  </div>
 
-  <!-- Telemetry & Task Status Banner -->
-  <div class="status-stream-bar" id="recon-status-bar" style="display: none; margin-bottom: 22px; background: rgba(249, 115, 22, 0.08); border: 1px solid rgba(249, 115, 22, 0.3); border-radius: 12px; padding: 14px 20px; align-items: center; justify-content: space-between;">
-    <div style="display: flex; align-items: center; gap: 12px;">
-      <span class="status-indicator-dot" style="background-color: var(--ember-500); animation: pulse 1.5s infinite;"></span>
-      <span id="recon-status-text" style="font-size: 13.5px; font-weight: 700; color: var(--ember-600);">Background engines actively processing query...</span>
-    </div>
-    <span id="recon-progress-pill" style="font-size: 11.5px; font-weight: 800; background: var(--ember-500); color: #fff; padding: 3px 10px; border-radius: 9999px;">PROCESSING</span>
-  </div>
+      <div class="input-grid">
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label" style="font-weight: 700; font-size: 12px;">TARGET USERNAME OR HANDLE</label>
+          <div style="position: relative;">
+            <input 
+              type="text" 
+              class="form-input" 
+              id="recon-target-input" 
+              placeholder="e.g. torvalds, cyber_shadow, or alex_dev" 
+              value="{{ initial_target }}" 
+              style="padding-left: 36px; font-family: var(--font-mono); font-weight: 600;"
+              onkeydown="if(event.key==='Enter'){ startReconnaissance(); }"
+            >
+            <span style="position: absolute; left: 12px; top: 12px; color: var(--slate-400);">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </span>
+          </div>
+        </div>
 
-  <!-- Metrics Overview Row -->
-  <div class="metrics-grid-row" style="margin-bottom: 22px;">
-    <div class="metric-card">
-      <div class="metric-header">
-        <span class="metric-title">TOTAL FINDINGS</span>
-        <div class="metric-badge-icon icon-blue">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label" style="font-weight: 700; font-size: 12px;">SCAN SCOPE</label>
+          <select class="form-select" id="recon-scope-select">
+            <option value="standard" selected>Standard Recon (Top 500 Sites)</option>
+            <option value="quick">Quick Probe (Top 100 Sites)</option>
+            <option value="deep">Comprehensive (All 3,000+ Sites)</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label" style="font-weight: 700; font-size: 12px;">CATEGORY FILTER</label>
+          <select class="form-select" id="recon-category-select">
+            <option value="all" selected>All Categories</option>
+            <option value="coding">Software &amp; Coding</option>
+            <option value="social">Social &amp; Messaging</option>
+            <option value="business">Business &amp; Career</option>
+            <option value="art">Design &amp; Creative</option>
+            <option value="gaming">Gaming &amp; Communities</option>
+          </select>
+        </div>
+
+        <div>
+          <button class="btn-search" id="btn-start-recon" onclick="startReconnaissance()">
+            <svg id="btn-search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <span id="btn-search-text">Execute Reconnaissance</span>
+          </button>
         </div>
       </div>
-      <div class="metric-body">
-        <span class="metric-value" id="stat-total-findings">--</span>
-        <span class="metric-subtext">indexed entities</span>
-      </div>
     </div>
-    <div class="metric-card">
-      <div class="metric-header">
-        <span class="metric-title">ENGINES DEPLOYED</span>
-        <div class="metric-badge-icon icon-green">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline></svg>
-        </div>
-      </div>
-      <div class="metric-body">
-        <span class="metric-value" id="stat-active-engines">3 / 3</span>
-        <span class="metric-subtext">background workers</span>
-      </div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-header">
-        <span class="metric-title">CONFIDENCE SCORE</span>
-        <div class="metric-badge-icon icon-orange">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-        </div>
-      </div>
-      <div class="metric-body">
-        <span class="metric-value" id="stat-confidence">99.4%</span>
-        <span class="metric-subtext">verification index</span>
-      </div>
-    </div>
-  </div>
 
-  <!-- Findings Table Card -->
-  <div class="content-card">
-    <div class="card-title-bar">
-      <div style="display: flex; align-items: center; gap: 14px;">
-        <span class="card-heading">Captured Intelligence Dossier:</span>
-        <span class="card-title-subtext" id="target-summary-label">Target: apex_analyst</span>
+    <!-- 3. Active Telemetry & Progress Stream -->
+    <div class="progress-card" id="recon-progress-panel">
+      <div class="progress-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span class="spinner-dot"></span>
+          <span id="recon-live-status-text" style="font-size: 13.5px; font-weight: 700; color: var(--slate-800);">Initiating reconnaissance engine...</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--slate-500);" id="recon-timer-text">Elapsed: 00:00s</span>
+          <span class="nav-badge" style="background: rgba(249, 115, 22, 0.15); color: #ea580c; border: 1px solid rgba(249, 115, 22, 0.3); font-weight: 700;" id="recon-live-count-badge">0 Found</span>
+        </div>
       </div>
-      <div style="display: flex; gap: 8px;">
-        <input type="text" class="form-input" id="table-filter-input" placeholder="Filter extracted entities..." oninput="filterResultsTable()" style="padding: 6px 12px; font-size: 12px; width: 220px;">
-        <button class="btn-secondary-action" style="padding: 6px 12px; font-size: 12px;" onclick="window.location.href='/vault'">Open Target Vault &rarr;</button>
+      <div class="progress-stream-chips" id="recon-stream-chips">
+        <!-- Live chips will appear here as profiles are found -->
       </div>
     </div>
 
-    <div style="padding: 20px 24px;">
-      <div class="data-table-container">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th style="width: 50px;">#</th>
-              <th style="width: 180px;">Engine / Sub-Tool</th>
-              <th>Extracted Entity / Field</th>
-              <th>Value / Metadata</th>
-              <th style="width: 120px;">Category</th>
-              <th style="width: 90px; text-align: right;">Action</th>
-            </tr>
-          </thead>
-          <tbody id="results-table-tbody">
-            <tr>
-              <td colspan="6" style="text-align: center; color: var(--slate-500); padding: 40px 20px;">
-                Ready to execute query. Enter target and click <strong>Launch Background Engines</strong>.
-              </td>
-            </tr>
-          </tbody>
-        </table>
+    <!-- 4. Results Section -->
+    <div id="recon-results-wrapper">
+
+      <!-- Empty State (Shown before any query) -->
+      <div class="content-card" id="recon-empty-state" style="padding: 60px 20px; text-align: center;">
+        <div style="width: 54px; height: 54px; border-radius: 50%; background: var(--bg-card-subtle); border: 1px solid var(--border-soft); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px; color: var(--slate-400);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+        </div>
+        <h4 style="font-size: 16px; font-weight: 700; color: var(--slate-800); margin-bottom: 6px;">Awaiting Investigation Target</h4>
+        <p style="font-size: 13px; color: var(--slate-500); max-width: 480px; margin: 0 auto;">Enter a target handle in the search bar above and click <strong>Execute Reconnaissance</strong> to begin multi-platform profile discovery and dossier compilation.</p>
+      </div>
+
+      <!-- Active Results Section (Populated upon completion) -->
+      <div id="recon-active-results" style="display: none;">
+        
+        <!-- Metrics Strip -->
+        <div class="metrics-strip">
+          <div class="kpi-tile">
+            <div class="kpi-label">CLAIMED PROFILES</div>
+            <div class="kpi-value" id="kpi-claimed-count" style="color: #059669;">0</div>
+            <div class="kpi-sub">Verified active accounts</div>
+          </div>
+          <div class="kpi-tile">
+            <div class="kpi-label">REGISTRY SCOPE</div>
+            <div class="kpi-value" id="kpi-sites-scanned">0</div>
+            <div class="kpi-sub">Platforms evaluated</div>
+          </div>
+          <div class="kpi-tile">
+            <div class="kpi-label">ENRICHED DOSSIERS</div>
+            <div class="kpi-value" id="kpi-enriched-count" style="color: #6366f1;">0</div>
+            <div class="kpi-sub">Profiles with bio / avatar data</div>
+          </div>
+          <div class="kpi-tile">
+            <div class="kpi-label">SCAN DURATION</div>
+            <div class="kpi-value" id="kpi-duration-text">0.0s</div>
+            <div class="kpi-sub">Total execution time</div>
+          </div>
+        </div>
+
+        <!-- Findings Table Card -->
+        <div class="content-card" style="margin-bottom: 32px;">
+          <!-- Filter & Search Toolbar -->
+          <div class="filter-bar">
+            <div style="display: flex; align-items: center; gap: 12px; flex: 1; max-width: 380px;">
+              <input 
+                type="text" 
+                class="form-input" 
+                id="results-filter-input" 
+                placeholder="Filter by platform, tag, or bio keyword..." 
+                oninput="applyFilter()"
+                style="padding: 7px 12px; font-size: 12.5px;"
+              >
+            </div>
+            
+            <div class="filter-pills" id="category-filter-pills">
+              <button class="pill-filter active" onclick="setCategoryFilter('all', this)">All</button>
+              <button class="pill-filter" onclick="setCategoryFilter('coding', this)">Coding / Dev</button>
+              <button class="pill-filter" onclick="setCategoryFilter('social', this)">Social</button>
+              <button class="pill-filter" onclick="setCategoryFilter('business', this)">Business</button>
+              <button class="pill-filter" onclick="setCategoryFilter('art', this)">Media</button>
+              <button class="pill-filter" onclick="setCategoryFilter('forum', this)">Forums</button>
+            </div>
+
+            <div style="font-size: 12px; font-weight: 700; color: var(--slate-500);" id="results-count-label">
+              Showing 0 findings
+            </div>
+          </div>
+
+          <!-- Table Container -->
+          <div class="data-table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th style="width: 45px;">#</th>
+                  <th style="width: 170px;">Platform</th>
+                  <th style="width: 280px;">Verified Profile URL</th>
+                  <th>Harvested Profile Metadata &amp; Dossier</th>
+                  <th style="width: 160px;">Tags / Vertical</th>
+                  <th style="width: 90px; text-align: right;">Action</th>
+                </tr>
+              </thead>
+              <tbody id="recon-table-tbody">
+                <!-- Dynamically populated rows -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
       </div>
     </div>
+
+    <!-- 5. List of Features Provided Section (Directly below Results Section) -->
+    <div class="content-card" style="padding: 28px; margin-top: 24px;">
+      <div style="margin-bottom: 20px; border-bottom: 1px solid var(--border-soft); padding-bottom: 14px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--ember-600)" stroke-width="2">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+          <h3 style="font-size: 16px; font-weight: 800; color: var(--slate-900); margin: 0;">Capabilities &amp; Features Provided</h3>
+        </div>
+        <p style="font-size: 13px; color: var(--slate-500); margin-top: 4px;">Technical specifications and reconnaissance operations powered by the Username Intelligence module.</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;">
+        <!-- Feature 1 -->
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+          </div>
+          <div class="feature-title">Multi-Platform Account Enumeration</div>
+          <div class="feature-desc">Queries an extensive registry of 3,000+ public platforms, developer portals, code repositories, and niche forums without requiring platform-specific API keys.</div>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+          <div class="feature-title">Deep Profile Metadata &amp; Dossier Extraction</div>
+          <div class="feature-desc">Automatically parses public profile pages to harvest display names, user IDs, biographies, avatar photos, locations, follower counts, and linked external websites.</div>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+            </svg>
+          </div>
+          <div class="feature-title">Granular Category &amp; Scope Scoping</div>
+          <div class="feature-desc">Enables targeted filtering by industry verticals (Coding &amp; Dev, Social Media, Financial Networks, Creative Arts) or site popularity tiers to optimize operational efficiency.</div>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+          </div>
+          <div class="feature-title">Adaptive Concurrency &amp; Anti-Block Resilience</div>
+          <div class="feature-desc">Leverages asynchronous connection pooling, request throttling, and false-positive suppression to maintain high-fidelity verification signals without IP lockout.</div>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+          </div>
+          <div class="feature-title">Forensic Evidence &amp; Multi-Format Archival</div>
+          <div class="feature-desc">Generates standardized JSON dossier schemas and tabular CSV exports for immediate inclusion in case repositories, investigation archives, and legal reports.</div>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <polyline points="9 21 3 21 3 15"></polyline>
+              <line x1="21" y1="3" x2="14" y2="10"></line>
+              <line x1="3" y1="21" x2="10" y2="14"></line>
+            </svg>
+          </div>
+          <div class="feature-title">Cross-Module Intelligence Pivoting</div>
+          <div class="feature-desc">Discovered usernames, URLs, and scraped email identifiers integrate seamlessly with downstream Social Media and Identity Correlation modules.</div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 {% endblock %}
@@ -170,95 +564,324 @@
 {% block scripts %}
 <script>
 let currentFindings = [];
+let currentTarget = "";
+let pollInterval = null;
+let timerInterval = null;
+let scanStartTime = 0;
+let activeCategoryFilter = "all";
 
-async function runServiceTask() {
-  const target = document.getElementById("target-input-field").value.trim();
+function escapeHtml(str) {
+  if (!str) return "";
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+async function startReconnaissance() {
+  const inputEl = document.getElementById("recon-target-input");
+  const target = inputEl.value.trim();
   if (!target) {
-    alert("Please enter a valid target identifier.");
+    inputEl.focus();
+    alert("Please enter a valid target username or identifier.");
     return;
   }
 
-  const selectedTools = [];
-  document.querySelectorAll(".tool-engine-chk:checked").forEach(chk => selectedTools.push(chk.value));
+  const scope = document.getElementById("recon-scope-select").value;
+  const category = document.getElementById("recon-category-select").value;
 
-  const profile = document.getElementById("exec-profile-select").value;
-  const launchBtn = document.getElementById("btn-launch-recon");
-  const launchLabel = document.getElementById("btn-launch-label");
-  const statusBar = document.getElementById("recon-status-bar");
-  const statusText = document.getElementById("recon-status-text");
+  currentTarget = target;
+  setSearchButtonState(true);
 
-  launchBtn.disabled = true;
-  launchLabel.innerText = "Engines Running...";
-  statusBar.style.display = "flex";
-  statusText.innerText = "Background engines active for: " + target;
+  // Show progress panel & reset chips
+  const progressPanel = document.getElementById("recon-progress-panel");
+  const chipsContainer = document.getElementById("recon-stream-chips");
+  progressPanel.style.display = "block";
+  chipsContainer.innerHTML = "";
+  document.getElementById("recon-live-status-text").innerText = `Connecting to platform registries for handle: ${target}...`;
+  document.getElementById("recon-live-count-badge").innerText = "0 Found";
+
+  // Hide empty state and existing results while scanning
+  document.getElementById("recon-empty-state").style.display = "none";
+
+  // Start timer
+  scanStartTime = Date.now();
+  if (timerInterval) clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    const elapsedSec = ((Date.now() - scanStartTime) / 1000).toFixed(1);
+    document.getElementById("recon-timer-text").innerText = `Elapsed: ${elapsedSec}s`;
+  }, 200);
 
   try {
     const res = await fetch("/api/recon_username/run", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ target: target, tools: selectedTools, profile: profile })
+      body: JSON.stringify({
+        target: target,
+        scope: scope,
+        category: category,
+        force: false
+      })
     });
+    
+    if (!res.ok) {
+      const errData = await res.json();
+      throw new Error(errData.detail || "Server failed to initiate task");
+    }
+
     const data = await res.json();
-    currentFindings = data.findings || [];
-    renderFindings(currentFindings, target);
-    statusText.innerText = `Task completed successfully: ${currentFindings.length} entities harvested.`;
-    document.getElementById("recon-progress-pill").innerText = "FINISHED";
-    document.getElementById("recon-progress-pill").style.background = "var(--emerald-500)";
+    
+    // If cached results were returned immediately
+    if (data.status === "COMPLETED" && data.findings && data.findings.length > 0) {
+      clearInterval(timerInterval);
+      progressPanel.style.display = "none";
+      setSearchButtonState(false);
+      handleScanCompletion(data, target);
+      return;
+    }
+
+    // Otherwise, start polling live status
+    startPolling(target);
+
   } catch (err) {
-    statusText.innerText = "Execution error: " + err;
-  } finally {
-    launchBtn.disabled = false;
-    launchLabel.innerText = "Launch Background Engines";
+    clearInterval(timerInterval);
+    progressPanel.style.display = "none";
+    setSearchButtonState(false);
+    alert("Reconnaissance failed: " + err.message);
   }
 }
 
-function renderFindings(findings, target) {
-  const tbody = document.getElementById("results-table-tbody");
-  document.getElementById("stat-total-findings").innerText = findings.length;
-  document.getElementById("target-summary-label").innerText = "Target: " + target;
+function startPolling(target) {
+  if (pollInterval) clearInterval(pollInterval);
+  
+  pollInterval = setInterval(async () => {
+    try {
+      const res = await fetch(`/api/recon_username/status?target=${encodeURIComponent(target)}`);
+      if (!res.ok) return;
+      const data = await res.json();
 
-  if (!findings || findings.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 30px; color: var(--slate-500);">No entities captured for this target.</td></tr>';
+      // Update live status text
+      if (data.progress_msg) {
+        document.getElementById("recon-live-status-text").innerText = data.progress_msg;
+      }
+      
+      const count = data.discovered_count || 0;
+      document.getElementById("recon-live-count-badge").innerText = `${count} Found`;
+
+      // Update discovery chips stream
+      if (data.discovered_items && data.discovered_items.length > 0) {
+        const chipsContainer = document.getElementById("recon-stream-chips");
+        chipsContainer.innerHTML = data.discovered_items.map(item => `
+          <span class="chip-discovery">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            ${escapeHtml(item.platform)}
+          </span>
+        `).join("");
+      }
+
+      if (data.status === "COMPLETED") {
+        clearInterval(pollInterval);
+        clearInterval(timerInterval);
+        document.getElementById("recon-progress-panel").style.display = "none";
+        setSearchButtonState(false);
+        handleScanCompletion(data, target);
+      } else if (data.status === "ERROR") {
+        clearInterval(pollInterval);
+        clearInterval(timerInterval);
+        document.getElementById("recon-progress-panel").style.display = "none";
+        setSearchButtonState(false);
+        alert("Execution error: " + (data.error || "Unknown error encountered"));
+      }
+    } catch (e) {
+      console.warn("Polling error:", e);
+    }
+  }, 1000);
+}
+
+function handleScanCompletion(data, target) {
+  currentFindings = data.findings || [];
+  
+  // Enable export buttons
+  document.getElementById("btn-export-csv").disabled = currentFindings.length === 0;
+  document.getElementById("btn-export-json").disabled = currentFindings.length === 0;
+
+  // Update KPI metrics
+  const stats = data.stats || {};
+  document.getElementById("kpi-claimed-count").innerText = stats.total_claimed || currentFindings.length;
+  document.getElementById("kpi-sites-scanned").innerText = stats.total_checked || data.total_sites || 500;
+  document.getElementById("kpi-enriched-count").innerText = stats.enriched_count || currentFindings.filter(f => f.bio || f.fullname || f.avatar).length;
+  document.getElementById("kpi-duration-text").innerText = (data.elapsed || data.duration || 0) + "s";
+
+  // Show active results section
+  document.getElementById("recon-empty-state").style.display = "none";
+  document.getElementById("recon-active-results").style.display = "block";
+
+  renderFindingsTable();
+}
+
+function renderFindingsTable() {
+  const tbody = document.getElementById("recon-table-tbody");
+  const query = (document.getElementById("results-filter-input").value || "").toLowerCase().trim();
+
+  let filtered = currentFindings.filter(f => {
+    // Category filter
+    if (activeCategoryFilter !== "all") {
+      const tagsStr = (f.tags || []).join(" ").toLowerCase();
+      if (!tagsStr.includes(activeCategoryFilter)) {
+        return false;
+      }
+    }
+    // Search text filter
+    if (query) {
+      const matchPlatform = (f.platform || "").toLowerCase().includes(query);
+      const matchUrl = (f.url || "").toLowerCase().includes(query);
+      const matchBio = (f.bio || "").toLowerCase().includes(query);
+      const matchName = (f.fullname || "").toLowerCase().includes(query);
+      const matchTags = (f.tags || []).some(t => t.toLowerCase().includes(query));
+      return matchPlatform || matchUrl || matchBio || matchName || matchTags;
+    }
+    return true;
+  });
+
+  document.getElementById("results-count-label").innerText = `Showing ${filtered.length} of ${currentFindings.length} findings`;
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6" style="text-align: center; padding: 40px 20px; color: var(--slate-500);">
+          No matching profiles found for current filter criteria.
+        </td>
+      </tr>
+    `;
     return;
   }
 
-  tbody.innerHTML = findings.map((f, i) => `
-    <tr>
-      <td style="color: var(--slate-500); font-weight: 700;">${i + 1}</td>
-      <td><span class="nav-badge" style="background: rgba(249, 115, 22, 0.12); color: #fb923c; border-color: rgba(249, 115, 22, 0.3); font-weight: 700;">${escapeHtml(f.engine)}</span></td>
-      <td style="font-weight: 700; color: var(--slate-900);">${escapeHtml(f.field)}</td>
-      <td style="font-family: var(--font-mono); font-size: 12.5px; color: var(--slate-800); word-break: break-all;">${escapeHtml(f.value)}</td>
-      <td><span class="role-pill-dark" style="font-size: 11px;">${escapeHtml(f.category || 'Recon')}</span></td>
-      <td style="text-align: right;"><button class="btn-inspect" style="padding: 4px 10px; font-size: 11px;" onclick="copyToClipboard('${escapeHtml(f.value)}')">Copy</button></td>
-    </tr>
-  `).join("");
+  tbody.innerHTML = filtered.map((f, idx) => {
+    const avatarHtml = f.avatar 
+      ? `<img src="${escapeHtml(f.avatar)}" class="profile-avatar" onerror="this.outerHTML='<div class=\\'profile-avatar-fallback\\'>${escapeHtml(f.platform.charAt(0))}</div>'" alt="Avatar">`
+      : `<div class="profile-avatar-fallback">${escapeHtml(f.platform.charAt(0))}</div>`;
+
+    const bioHtml = f.bio ? `<div style="font-size: 12px; color: var(--slate-700); margin-top: 4px; line-height: 1.4;">${escapeHtml(f.bio)}</div>` : "";
+    const nameHtml = f.fullname ? `<div style="font-weight: 700; color: var(--slate-900); font-size: 12.5px;">${escapeHtml(f.fullname)}</div>` : "";
+    const locHtml = f.location ? `<span style="font-size: 11px; color: var(--slate-500); margin-right: 8px;">📍 ${escapeHtml(f.location)}</span>` : "";
+    const followersHtml = f.followers ? `<span style="font-size: 11px; color: var(--slate-500); margin-right: 8px;">👥 ${escapeHtml(f.followers)} followers</span>` : "";
+    
+    let linksHtml = "";
+    if (f.links && f.links.length > 0) {
+      linksHtml = `<div style="margin-top: 4px; font-size: 11px;">
+        <span style="color: var(--slate-400);">Outbound:</span> 
+        ${f.links.map(l => `<a href="${escapeHtml(l)}" target="_blank" rel="noopener noreferrer" style="color: var(--ember-600); margin-right: 6px; text-decoration: underline;">${escapeHtml(l)}</a>`).join("")}
+      </div>`;
+    }
+
+    const hasDossier = nameHtml || bioHtml || locHtml || followersHtml || linksHtml;
+
+    const tagsHtml = (f.tags || []).slice(0, 4).map(t => `<span class="tag-badge">${escapeHtml(t)}</span>`).join("");
+
+    return `
+      <tr>
+        <td style="color: var(--slate-400); font-weight: 700; font-size: 12px;">${idx + 1}</td>
+        
+        <td>
+          <div style="font-weight: 800; color: var(--slate-900); font-size: 13.5px;">${escapeHtml(f.platform)}</div>
+          ${f.alexa_rank && f.alexa_rank < 99999 ? `<span style="font-size: 10px; color: var(--slate-400); font-family: var(--font-mono);">Rank #${f.alexa_rank}</span>` : ""}
+        </td>
+
+        <td>
+          <a href="${escapeHtml(f.url)}" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 5px; color: #2563eb; font-weight: 600; font-size: 12.5px; text-decoration: none; word-break: break-all;">
+            <span>${escapeHtml(f.url)}</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink: 0;">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+          </a>
+          <div style="margin-top: 4px;">
+            <span class="nav-badge" style="background: rgba(16, 185, 129, 0.12); color: #059669; border-color: rgba(16, 185, 129, 0.3); font-size: 10px; padding: 2px 7px;">Claimed</span>
+          </div>
+        </td>
+
+        <td>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            ${avatarHtml}
+            <div style="flex: 1;">
+              ${nameHtml}
+              ${bioHtml}
+              <div style="margin-top: 4px;">
+                ${locHtml}
+                ${followersHtml}
+              </div>
+              ${linksHtml}
+              ${!hasDossier ? `<span style="font-size: 11.5px; color: var(--slate-400); font-style: italic;">Account active. No public bio description indexed.</span>` : ""}
+            </div>
+          </div>
+        </td>
+
+        <td>
+          ${tagsHtml || '<span style="color: var(--slate-400); font-size: 11px;">General</span>'}
+        </td>
+
+        <td style="text-align: right;">
+          <div style="display: inline-flex; gap: 4px;">
+            <button class="copy-btn" onclick="copyText('${escapeHtml(f.url)}', this)">Copy</button>
+            <a href="${escapeHtml(f.url)}" target="_blank" rel="noopener noreferrer" class="copy-btn" style="text-decoration: none;">Open</a>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join("");
 }
 
-function filterResultsTable() {
-  const q = document.getElementById("table-filter-input").value.toLowerCase();
-  const rows = document.querySelectorAll("#results-table-tbody tr");
-  rows.forEach(r => {
-    const text = r.innerText.toLowerCase();
-    r.style.display = text.includes(q) ? "" : "none";
+function applyFilter() {
+  renderFindingsTable();
+}
+
+function setCategoryFilter(category, buttonEl) {
+  activeCategoryFilter = category;
+  document.querySelectorAll(".pill-filter").forEach(b => b.classList.remove("active"));
+  buttonEl.classList.add("active");
+  renderFindingsTable();
+}
+
+function setSearchButtonState(isSearching) {
+  const btn = document.getElementById("btn-start-recon");
+  const text = document.getElementById("btn-search-text");
+  const icon = document.getElementById("btn-search-icon");
+
+  btn.disabled = isSearching;
+  if (isSearching) {
+    text.innerText = "Recon in Progress...";
+    icon.innerHTML = `<circle cx="12" cy="12" r="10" stroke-dasharray="32" stroke-dashoffset="12"><animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/></circle>`;
+  } else {
+    text.innerText = "Execute Reconnaissance";
+    icon.innerHTML = `<circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>`;
+  }
+}
+
+function copyText(text, btnEl) {
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btnEl.innerText;
+    btnEl.innerText = "Copied!";
+    setTimeout(() => { btnEl.innerText = orig; }, 1500);
   });
 }
 
-function exportServiceData() {
-  if (!currentFindings || currentFindings.length === 0) {
-    alert("No findings to export. Run an extraction task first.");
-    return;
-  }
-  const blob = new Blob([JSON.stringify(currentFindings, null, 2)], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `oasis_recon_username_${Date.now()}.json`;
-  a.click();
+function downloadExport(format) {
+  if (!currentTarget) return;
+  const url = `/api/recon_username/download?target=${encodeURIComponent(currentTarget)}&format=${format}`;
+  window.open(url, "_blank");
 }
 
-// Initial default run on page load if history exists
+// If page loaded with target query param, auto-execute or load
 document.addEventListener("DOMContentLoaded", () => {
-  runServiceTask();
+  const initial = document.getElementById("recon-target-input").value.trim();
+  if (initial) {
+    startReconnaissance();
+  }
 });
 </script>
 {% endblock %}
