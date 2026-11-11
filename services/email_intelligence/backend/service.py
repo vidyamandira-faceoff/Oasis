@@ -10,7 +10,7 @@ from typing import Dict, Any, List, Optional
 
 from core.logger import add_log
 from core.notifications import update_tool_notification
-from services.email_intelligence.backend.engine_worker import execute_holehe_scan, is_valid_email
+from services.email_intelligence.backend.engine_worker import execute_holehe_scan, is_valid_email, parse_target_emails
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 REPORTS_DIR = BASE_DIR / "reports"
@@ -29,6 +29,8 @@ def sanitize_email_key(email: str) -> str:
 def _save_dossier_files(clean_key: str, data: Dict[str, Any]):
     """Saves structured JSON, formatted Markdown, and CSV dossiers with full OASIS branding."""
     email = data.get("target", clean_key)
+    no_pw = data.get("no_password_recovery", False)
+    mode_str = "Passive Registration Only (-NP)" if no_pw else "Standard (Registration & Password-Recovery)"
     
     # 1. JSON Report
     json_path = REPORTS_DIR / f"email_{clean_key}.json"
@@ -39,6 +41,7 @@ def _save_dossier_files(clean_key: str, data: Dict[str, Any]):
         add_log("OASIS Email Intelligence Engine", f"Failed saving JSON report: {e}", "warning")
 
     findings = data.get("findings", [])
+    all_services = data.get("all_services", [])
     domain = data.get("domain", "")
 
     # 2. Markdown Dossier
@@ -56,9 +59,12 @@ def _save_dossier_files(clean_key: str, data: Dict[str, Any]):
             "## 1. Executive Summary",
             "",
             f"- **Target Identifier:** `{email}`",
-            f"- **Platforms Surveyed:** {data.get('total_checked', 0)} online services",
+            f"- **Reconnaissance Mode:** `{mode_str}`",
+            f"- **Total Platforms Surveyed:** {data.get('total_checked', len(all_services))} online services",
             f"- **Confirmed Registrations:** **{len(findings)} accounts**",
-            f"- **Rate Limits Encounted:** {data.get('total_rate_limited', 0)}",
+            f"- **Unregistered / Not Found:** {data.get('total_not_registered', 0)}",
+            f"- **Rate Limits Encountered:** {data.get('total_rate_limited', 0)}",
+            f"- **Platform Errors:** {data.get('total_errors', 0)}",
             f"- **Triage Duration:** {data.get('duration', 0)} seconds",
             "",
             "---",
@@ -69,33 +75,69 @@ def _save_dossier_files(clean_key: str, data: Dict[str, Any]):
             "|---|---|---|---|---|---|"
         ]
 
-        for idx, f in enumerate(findings, 1):
-            name = f.get("name", "").capitalize()
-            pdomain = f.get("domain", "")
-            cat = f.get("category", "general").capitalize()
-            method = f.get("method", "register")
-            
-            leak_parts = []
-            if f.get("email_recovery"):
-                leak_parts.append(f"Email: `{f['email_recovery']}`")
-            if f.get("phone_number"):
-                leak_parts.append(f"Phone: `{f['phone_number']}`")
-            if f.get("others"):
-                for k, v in f["others"].items():
-                    leak_parts.append(f"{k}: `{v}`")
-            leak_str = "<br>".join(leak_parts) if leak_parts else "None"
+        if findings:
+            for idx, f in enumerate(findings, 1):
+                name = f.get("name", "").capitalize()
+                pdomain = f.get("domain", "")
+                cat = f.get("category", "general").capitalize()
+                method = f.get("method", "register")
+                
+                leak_parts = []
+                if f.get("email_recovery"):
+                    leak_parts.append(f"Email: `{f['email_recovery']}`")
+                if f.get("phone_number"):
+                    leak_parts.append(f"Phone: `{f['phone_number']}`")
+                if f.get("others"):
+                    for k, v in f["others"].items():
+                        leak_parts.append(f"{k}: `{v}`")
+                leak_str = "<br>".join(leak_parts) if leak_parts else "None"
 
-            md_lines.append(f"| {idx} | **{name}** | [{pdomain}](https://{pdomain}) | `{cat}` | {method} | {leak_str} |")
+                md_lines.append(f"| {idx} | **{name}** | [{pdomain}](https://{pdomain}) | `{cat}` | {method} | {leak_str} |")
+        else:
+            md_lines.append("| - | *No confirmed accounts detected* | - | - | - | - |")
 
         md_lines.extend([
             "",
             "---",
             "",
-            "## 3. Investigation Integrity & Evidence Details",
+            "## 3. Complete Platform Reconnaissance Audit Matrix",
+            "",
+            "| Platform | Domain | Category | Status | Details |",
+            "|---|---|---|---|---|"
+        ])
+
+        for s in all_services:
+            s_name = s.get("name", "").capitalize()
+            s_domain = s.get("domain", "")
+            s_cat = s.get("category", "general").capitalize()
+            s_status = s.get("status", "not_registered")
+            if s_status == "registered":
+                badge = "**[+] REGISTERED**"
+            elif s_status == "rate_limited":
+                badge = "[x] RATE LIMITED"
+            elif s_status == "error":
+                badge = "[!] ERROR"
+            else:
+                badge = "[-] Not Registered"
+
+            s_details = []
+            if s.get("email_recovery"):
+                s_details.append(f"Email: {s['email_recovery']}")
+            if s.get("phone_number"):
+                s_details.append(f"Phone: {s['phone_number']}")
+            det_str = "; ".join(s_details) if s_details else "-"
+
+            md_lines.append(f"| {s_name} | {s_domain} | {s_cat} | {badge} | {det_str} |")
+
+        md_lines.extend([
+            "",
+            "---",
+            "",
+            "## 4. Investigation Integrity & Evidence Details",
             "",
             f"- **Engine:** OASIS Email Intelligence Engine v1.0.0",
             f"- **Platform Core:** Trio Asynchronous HTTP/2 Pipeline",
-            "- **Integrity:** Non-destructive passive credential-recovery interrogation",
+            f"- **Integrity:** Non-destructive passive credential-recovery interrogation",
             ""
         ])
 
@@ -104,28 +146,29 @@ def _save_dossier_files(clean_key: str, data: Dict[str, Any]):
     except Exception as e:
         add_log("OASIS Email Intelligence Engine", f"Failed saving Markdown report: {e}", "warning")
 
-    # 3. CSV Report
+    # 3. CSV Report (Complete Audit with Status Column)
     try:
         csv_path = REPORTS_DIR / f"email_{clean_key}.csv"
         with open(csv_path, "w", newline="", encoding="utf-8") as f:
             writer = csv.writer(f)
-            writer.writerow(["OASIS_Index", "Target_Email", "Platform", "Domain", "Category", "Method", "Email_Recovery", "Phone_Recovery", "Other_Details"])
-            for idx, f in enumerate(findings, 1):
+            writer.writerow(["OASIS_Index", "Target_Email", "Platform", "Domain", "Category", "Status", "Method", "Email_Recovery", "Phone_Recovery", "Other_Details"])
+            for idx, s in enumerate(all_services, 1):
                 writer.writerow([
                     idx,
                     email,
-                    f.get("name", ""),
-                    f.get("domain", ""),
-                    f.get("category", ""),
-                    f.get("method", ""),
-                    f.get("email_recovery") or "",
-                    f.get("phone_number") or "",
-                    json.dumps(f.get("others") or {}) if f.get("others") else ""
+                    s.get("name", ""),
+                    s.get("domain", ""),
+                    s.get("category", ""),
+                    s.get("status", ""),
+                    s.get("method", ""),
+                    s.get("email_recovery") or "",
+                    s.get("phone_number") or "",
+                    json.dumps(s.get("others") or {}) if s.get("others") else ""
                 ])
     except Exception as e:
         add_log("OASIS Email Intelligence Engine", f"Failed saving CSV report: {e}", "warning")
 
-def _background_scan_worker(email: str, clean_key: str, timeout: int):
+def _background_scan_worker(email: str, clean_key: str, timeout: int, no_password_recovery: bool):
     """Background worker executing holehe scan with live streaming telemetry."""
     task = _TASKS[clean_key]
 
@@ -140,6 +183,7 @@ def _background_scan_worker(email: str, clean_key: str, timeout: int):
                 "name": latest.get("name", ""),
                 "domain": latest.get("domain", ""),
                 "category": latest.get("category", "general"),
+                "status": "registered",
                 "method": latest.get("method", "register"),
                 "email_recovery": latest.get("emailrecovery"),
                 "phone_number": latest.get("phoneNumber"),
@@ -155,6 +199,7 @@ def _background_scan_worker(email: str, clean_key: str, timeout: int):
         results = execute_holehe_scan(
             email=email,
             timeout=timeout,
+            no_password_recovery=no_password_recovery,
             progress_callback=progress_callback
         )
 
@@ -164,8 +209,10 @@ def _background_scan_worker(email: str, clean_key: str, timeout: int):
             task["status"] = "COMPLETED"
             task["duration"] = results.get("duration", 0)
             task["findings"] = results.get("findings", [])
+            task["all_services"] = results.get("all_services", [])
             task["total_checked"] = results.get("total_checked", 0)
             task["total_registered"] = results.get("total_registered", len(task["discovered_items"]))
+            task["total_not_registered"] = results.get("total_not_registered", 0)
             task["total_rate_limited"] = results.get("total_rate_limited", 0)
             task["total_errors"] = results.get("total_errors", 0)
             task["progress_pct"] = 100
@@ -192,7 +239,12 @@ def _background_scan_worker(email: str, clean_key: str, timeout: int):
             details=f"Engine error: {e}"
         )
 
-def execute_email_recon(email: str, force: bool = False, timeout: int = 10) -> Dict[str, Any]:
+def execute_email_recon(
+    email: str,
+    force: bool = False,
+    timeout: int = 10,
+    no_password_recovery: bool = False
+) -> Dict[str, Any]:
     """Dispatches asynchronous email intelligence scan or serves from local vault cache."""
     email_clean = email.strip()
     if not is_valid_email(email_clean):
@@ -213,9 +265,14 @@ def execute_email_recon(email: str, force: bool = False, timeout: int = 10) -> D
                     "target": email_clean,
                     "domain": cached_data.get("domain", ""),
                     "duration": 0.1,
+                    "no_password_recovery": cached_data.get("no_password_recovery", False),
                     "findings": cached_data.get("findings", []),
+                    "all_services": cached_data.get("all_services", cached_data.get("findings", [])),
                     "total_checked": cached_data.get("total_checked", 0),
-                    "total_registered": cached_data.get("total_registered", 0),
+                    "total_registered": cached_data.get("total_registered", len(cached_data.get("findings", []))),
+                    "total_not_registered": cached_data.get("total_not_registered", 0),
+                    "total_rate_limited": cached_data.get("total_rate_limited", 0),
+                    "total_errors": cached_data.get("total_errors", 0),
                     "progress_msg": f"Loaded cached OASIS Email dossier ({len(cached_data.get('findings', []))} accounts confirmed)."
                 }
             except Exception:
@@ -238,20 +295,22 @@ def execute_email_recon(email: str, force: bool = False, timeout: int = 10) -> D
             "status": "RUNNING",
             "start_time": time.time(),
             "duration": 0,
+            "no_password_recovery": no_password_recovery,
             "progress_pct": 10,
-            "progress_msg": f"Connecting to 120+ registries for {email_clean}...",
+            "progress_msg": f"Connecting to platforms for {email_clean}...",
             "discovered_items": [],
             "findings": [],
+            "all_services": [],
             "error": None
         }
         _TASKS[clean_key] = task_record
 
-    add_log("OASIS Email Intelligence Engine", f"Starting email reconnaissance on: {email_clean}", "info")
+    add_log("OASIS Email Intelligence Engine", f"Starting email reconnaissance on: {email_clean} (Passive Only: {no_password_recovery})", "info")
     update_tool_notification("OASIS Email Intelligence Engine", email_clean, "PROCESSING", details="Surveying online platforms...")
 
     worker = threading.Thread(
         target=_background_scan_worker,
-        args=(email_clean, clean_key, timeout),
+        args=(email_clean, clean_key, timeout, no_password_recovery),
         daemon=True
     )
     worker.start()
@@ -279,8 +338,12 @@ def get_email_status(email: str) -> Dict[str, Any]:
             "progress_msg": t.get("progress_msg", ""),
             "discovered_items": t.get("discovered_items", []),
             "findings": t.get("findings", []),
+            "all_services": t.get("all_services", []),
             "total_checked": t.get("total_checked", 0),
             "total_registered": t.get("total_registered", len(t.get("discovered_items", []))),
+            "total_not_registered": t.get("total_not_registered", 0),
+            "total_rate_limited": t.get("total_rate_limited", 0),
+            "total_errors": t.get("total_errors", 0),
             "error": t.get("error")
         }
 
@@ -298,8 +361,12 @@ def get_email_status(email: str) -> Dict[str, Any]:
                 "progress_msg": f"Retrieved from internal OASIS vault ({len(data.get('findings', []))} accounts).",
                 "discovered_items": data.get("findings", []),
                 "findings": data.get("findings", []),
+                "all_services": data.get("all_services", data.get("findings", [])),
                 "total_checked": data.get("total_checked", 0),
-                "total_registered": data.get("total_registered", 0),
+                "total_registered": data.get("total_registered", len(data.get("findings", []))),
+                "total_not_registered": data.get("total_not_registered", 0),
+                "total_rate_limited": data.get("total_rate_limited", 0),
+                "total_errors": data.get("total_errors", 0),
                 "error": None
             }
         except Exception:
@@ -313,6 +380,7 @@ def get_email_status(email: str) -> Dict[str, Any]:
         "progress_msg": "Ready to scan.",
         "discovered_items": [],
         "findings": [],
+        "all_services": [],
         "error": None
     }
 
@@ -341,6 +409,7 @@ def get_recent_email_scans() -> List[Dict[str, Any]]:
             history.append({
                 "target": data.get("target", f.stem.replace("email_", "")),
                 "total_registered": len(data.get("findings", [])),
+                "total_checked": data.get("total_checked", 0),
                 "duration": data.get("duration", 0),
                 "timestamp": data.get("timestamp", "")
             })

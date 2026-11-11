@@ -4,6 +4,7 @@ import time
 import re
 from datetime import datetime
 from pathlib import Path
+from types import SimpleNamespace
 from typing import Dict, Any, List, Optional, Callable
 
 # Add holehe_OSINT to sys.path so we can import holehe components
@@ -60,8 +61,24 @@ def get_platform_category(name: str) -> str:
     return "general"
 
 def is_valid_email(email: str) -> bool:
-    """Validates email format."""
+    """Validates single email format."""
     return bool(re.match(EMAIL_REGEX, email.strip()))
+
+def parse_target_emails(text: str) -> List[str]:
+    """Extracts unique valid emails from multi-line or comma/space-separated strings."""
+    if not text:
+        return []
+    tokens = re.split(r'[\r\n,;\s]+', text.strip())
+    unique_emails = []
+    seen = set()
+    for t in tokens:
+        cleaned = t.strip()
+        if is_valid_email(cleaned):
+            lower = cleaned.lower()
+            if lower not in seen:
+                seen.add(lower)
+                unique_emails.append(cleaned)
+    return unique_emails
 
 async def _wrapped_launch(module, email: str, client: httpx.AsyncClient, out: list, lock: trio.Lock, total: int, callback: Optional[Callable]):
     """Wraps module launch to stream real-time progress callbacks safely."""
@@ -78,13 +95,16 @@ async def _wrapped_launch(module, email: str, client: httpx.AsyncClient, out: li
 async def _run_holehe_async(
     email: str,
     timeout: int = 10,
-    categories: Optional[List[str]] = None,
+    no_password_recovery: bool = False,
     progress_callback: Optional[Callable[[int, int, Optional[Dict[str, Any]]], None]] = None
 ) -> Dict[str, Any]:
     """Asynchronous engine runner executing holehe triage across target websites."""
     start_time = time.time()
     modules = import_submodules("holehe.modules")
-    websites = get_functions(modules)
+    
+    # Pass SimpleNamespace with nopasswordrecovery flag to get_functions
+    args_ns = SimpleNamespace(nopasswordrecovery=no_password_recovery)
+    websites = get_functions(modules, args_ns)
     total_sites = len(websites)
     
     out: List[Dict[str, Any]] = []
@@ -100,9 +120,11 @@ async def _run_holehe_async(
 
     duration = round(time.time() - start_time, 2)
     
-    # Process and classify findings
+    # Process and classify findings and complete audit list
     findings = []
+    all_services = []
     registered_count = 0
+    not_registered_count = 0
     rate_limited_count = 0
     error_count = 0
 
@@ -117,23 +139,63 @@ async def _run_holehe_async(
         item["category"] = category
 
         if exists is True:
+            status = "registered"
             registered_count += 1
-            findings.append({
+            entry = {
                 "name": name,
                 "domain": domain,
                 "category": category,
+                "status": "registered",
                 "method": item.get("method", "register"),
                 "email_recovery": item.get("emailrecovery"),
                 "phone_number": item.get("phoneNumber"),
                 "others": item.get("others")
-            })
+            }
+            findings.append(entry)
+            all_services.append(entry)
         elif rate_limit:
+            status = "rate_limited"
             rate_limited_count += 1
+            all_services.append({
+                "name": name,
+                "domain": domain,
+                "category": category,
+                "status": "rate_limited",
+                "method": item.get("method", "register"),
+                "email_recovery": None,
+                "phone_number": None,
+                "others": None
+            })
         elif error:
+            status = "error"
             error_count += 1
+            all_services.append({
+                "name": name,
+                "domain": domain,
+                "category": category,
+                "status": "error",
+                "method": item.get("method", "register"),
+                "email_recovery": None,
+                "phone_number": None,
+                "others": None
+            })
+        else:
+            status = "not_registered"
+            not_registered_count += 1
+            all_services.append({
+                "name": name,
+                "domain": domain,
+                "category": category,
+                "status": "not_registered",
+                "method": item.get("method", "register"),
+                "email_recovery": None,
+                "phone_number": None,
+                "others": None
+            })
 
-    # Sort findings alphabetically by name
+    # Sort findings & all_services alphabetically by platform name
     findings = sorted(findings, key=lambda x: x["name"])
+    all_services = sorted(all_services, key=lambda x: x["name"])
 
     # Extract target domain
     domain_part = email.split("@")[-1] if "@" in email else ""
@@ -145,21 +207,24 @@ async def _run_holehe_async(
         "status": "COMPLETED",
         "target": email,
         "domain": domain_part,
+        "no_password_recovery": no_password_recovery,
         "total_checked": len(out),
         "total_registered": registered_count,
+        "total_not_registered": not_registered_count,
         "total_rate_limited": rate_limited_count,
         "total_errors": error_count,
         "duration": duration,
         "timestamp": datetime.utcnow().isoformat() + "Z",
         "findings": findings,
+        "all_services": all_services,
         "raw_results": out
     }
 
 def execute_holehe_scan(
     email: str,
     timeout: int = 10,
-    categories: Optional[List[str]] = None,
+    no_password_recovery: bool = False,
     progress_callback: Optional[Callable[[int, int, Optional[Dict[str, Any]]], None]] = None
 ) -> Dict[str, Any]:
     """Synchronous entry point that runs the Trio event loop."""
-    return trio.run(_run_holehe_async, email, timeout, categories, progress_callback)
+    return trio.run(_run_holehe_async, email, timeout, no_password_recovery, progress_callback)
