@@ -4,9 +4,40 @@
 <link rel="stylesheet" href="/static/services/recon_username/css/dark_mode.css">
 <style>
   .email-container {
-    max-width: 1300px;
+    max-width: 1440px;
     margin: 0 auto;
     padding-bottom: 60px;
+  }
+
+  /* Two-column operational workspace layout */
+  .email-workspace-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 330px;
+    gap: 22px;
+    align-items: start;
+  }
+  @media (max-width: 1120px) {
+    .email-workspace-layout {
+      grid-template-columns: minmax(0, 1fr) 290px;
+      gap: 16px;
+    }
+  }
+  @media (max-width: 960px) {
+    .email-workspace-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .email-main-column {
+    min-width: 0;
+  }
+
+  .email-side-column {
+    position: sticky;
+    top: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
 
   /* Form Input Card */
@@ -15,7 +46,7 @@
     border: 1px solid var(--border-soft);
     border-radius: var(--radius-md);
     padding: 24px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     box-shadow: var(--shadow-card);
   }
   .recon-mode-tabs {
@@ -199,17 +230,16 @@
     100% { transform: scale(1); opacity: 1; }
   }
 
-  /* Capabilities Guide Card */
+  /* Capabilities Guide Card inside Right Sidebar */
   .email-guide-card {
     background: var(--bg-surface);
     border: 1px solid var(--border-soft);
     border-radius: var(--radius-md);
-    margin-bottom: 24px;
     box-shadow: var(--shadow-card);
     overflow: hidden;
   }
   .email-guide-header {
-    padding: 14px 20px;
+    padding: 14px 18px;
     background: var(--bg-card-subtle);
     border-bottom: 1px solid var(--border-soft);
     display: flex;
@@ -218,25 +248,35 @@
     cursor: pointer;
     user-select: none;
   }
-  .email-guide-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 16px;
-    padding: 20px;
+  .email-guide-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px;
   }
   .email-guide-tile {
     display: flex;
     gap: 12px;
     align-items: flex-start;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-card-subtle);
+    border: 1px solid var(--border-soft);
+    transition: all 0.2s ease;
+  }
+  .email-guide-tile:hover {
+    background: var(--bg-surface);
+    border-color: rgba(99, 102, 241, 0.35);
+    transform: translateX(2px);
   }
   .email-guide-icon {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border-radius: var(--radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
+    font-size: 13px;
     flex-shrink: 0;
   }
 
@@ -494,291 +534,308 @@
       </div>
     </div>
 
-    <!-- 2. Target Email Input Card -->
-    <div class="email-input-card">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
-        <div class="recon-mode-tabs">
-          <button type="button" class="recon-mode-tab active" id="tab-mode-single" onclick="setReconInputMode('single')">
-            ✉️ Single Target Recon
-          </button>
-          <button type="button" class="recon-mode-tab" id="tab-mode-batch" onclick="setReconInputMode('batch')">
-            📑 Batch Email Survey
-          </button>
-        </div>
-        <div style="font-size: 11.5px; color: var(--slate-500); font-family: var(--font-mono);">
-          Engine: <span style="color: #6366f1; font-weight: 700;">OASIS Email Intelligence Engine</span>
-        </div>
-      </div>
+    <!-- Workspace Layout: Operations (Left) & Capabilities Panel (Right) -->
+    <div class="email-workspace-layout">
 
-      <form id="email-recon-form" onsubmit="event.preventDefault(); startEmailRecon();">
-        
-        <!-- Single Input Mode -->
-        <div id="wrapper-single-input">
-          <div class="email-input-row">
-            <input type="email" id="email-target-input" class="email-input-field" placeholder="Enter target email (e.g. target@example.com or user@protonmail.com)..." value="{{ initial_target }}">
+      <!-- Left Column: Operations Workspace (Input, Progress, Results) -->
+      <div class="email-main-column">
+
+        <!-- 2. Target Email Input Card -->
+        <div class="email-input-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+            <div class="recon-mode-tabs">
+              <button type="button" class="recon-mode-tab active" id="tab-mode-single" onclick="setReconInputMode('single')">
+                ✉️ Single Target Recon
+              </button>
+              <button type="button" class="recon-mode-tab" id="tab-mode-batch" onclick="setReconInputMode('batch')">
+                📑 Batch Email Survey
+              </button>
+            </div>
+            <div style="font-size: 11.5px; color: var(--slate-500); font-family: var(--font-mono);">
+              Engine: <span style="color: #6366f1; font-weight: 700;">OASIS Email Intelligence Engine</span>
+            </div>
+          </div>
+
+          <form id="email-recon-form" onsubmit="event.preventDefault(); startEmailRecon();">
             
-            <select id="email-timeout-select" class="email-select" title="Request timeout per registry">
-              <option value="6">Fast (6s timeout)</option>
-              <option value="10" selected>Standard (10s timeout)</option>
-              <option value="15">Thorough (15s timeout)</option>
-            </select>
+            <!-- Single Input Mode -->
+            <div id="wrapper-single-input">
+              <div class="email-input-row">
+                <input type="email" id="email-target-input" class="email-input-field" placeholder="Enter target email (e.g. target@example.com or user@protonmail.com)..." value="{{ initial_target }}">
+                
+                <select id="email-timeout-select" class="email-select" title="Request timeout per registry">
+                  <option value="6">Fast (6s timeout)</option>
+                  <option value="10" selected>Standard (10s timeout)</option>
+                  <option value="15">Thorough (15s timeout)</option>
+                </select>
 
-            <button type="submit" id="btn-email-submit" class="btn-email-recon">
-              <span id="email-btn-icon">⚡</span>
-              <span id="email-btn-label">Execute Email Recon</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Batch Input Mode -->
-        <div id="wrapper-batch-input" style="display: none;">
-          <textarea id="email-batch-input" class="email-textarea-field" placeholder="Enter multiple target emails separated by commas, newlines, or spaces&#10;e.g.:&#10;target1@gmail.com&#10;target2@company.org, lead@domain.io"></textarea>
-          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 8px;">
-            <div style="font-size: 12px; color: var(--slate-600);" id="batch-counter-text">
-              Target Queue: <strong>0 valid email addresses</strong>
+                <button type="submit" id="btn-email-submit" class="btn-email-recon">
+                  <span id="email-btn-icon">⚡</span>
+                  <span id="email-btn-label">Execute Email Recon</span>
+                </button>
+              </div>
             </div>
-            <button type="submit" id="btn-email-batch-submit" class="btn-email-recon">
-              <span id="email-batch-btn-icon">⚡</span>
-              <span id="email-batch-btn-label">Launch Batch Recon</span>
-            </button>
-          </div>
+
+            <!-- Batch Input Mode -->
+            <div id="wrapper-batch-input" style="display: none;">
+              <textarea id="email-batch-input" class="email-textarea-field" placeholder="Enter multiple target emails separated by commas, newlines, or spaces&#10;e.g.:&#10;target1@gmail.com&#10;target2@company.org, lead@domain.io"></textarea>
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 8px;">
+                <div style="font-size: 12px; color: var(--slate-600);" id="batch-counter-text">
+                  Target Queue: <strong>0 valid email addresses</strong>
+                </div>
+                <button type="submit" id="btn-email-batch-submit" class="btn-email-recon">
+                  <span id="email-batch-btn-icon">⚡</span>
+                  <span id="email-batch-btn-label">Launch Batch Recon</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Advanced Switches & Configuration -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border-soft); flex-wrap: wrap; gap: 14px;">
+              <div style="display: flex; gap: 18px; align-items: center; flex-wrap: wrap;">
+                <label style="display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--slate-700); cursor: pointer;" title="Excludes password-recovery probes on Adobe, Mail.ru, Odnoklassniki, and Samsung">
+                  <input type="checkbox" id="email-check-nopassword" style="accent-color: #6366f1;">
+                  <span>🔒 <strong>Passive Registration Only</strong> (Skip password-recovery tests on Adobe, Mail.ru, Odnoklassniki, Samsung) <code style="font-size: 10.5px; color: #6366f1;">-NP</code></span>
+                </label>
+                <label style="display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--slate-600); cursor: pointer;">
+                  <input type="checkbox" id="email-check-force" style="accent-color: #6366f1;">
+                  <span>Bypass vault cache &amp; execute fresh probe</span>
+                </label>
+              </div>
+              <span style="font-size: 11.5px; color: var(--slate-500); font-family: var(--font-mono);">
+                Target Platforms: <strong id="platforms-count-label">124 Services</strong>
+              </span>
+            </div>
+          </form>
         </div>
 
-        <!-- Advanced Switches & Configuration -->
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border-soft); flex-wrap: wrap; gap: 14px;">
-          <div style="display: flex; gap: 18px; align-items: center; flex-wrap: wrap;">
-            <label style="display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--slate-700); cursor: pointer;" title="Excludes password-recovery probes on Adobe, Mail.ru, Odnoklassniki, and Samsung">
-              <input type="checkbox" id="email-check-nopassword" style="accent-color: #6366f1;">
-              <span>🔒 <strong>Passive Registration Only</strong> (Skip password-recovery tests on Adobe, Mail.ru, Odnoklassniki, Samsung) <code style="font-size: 10.5px; color: #6366f1;">-NP</code></span>
-            </label>
-            <label style="display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--slate-600); cursor: pointer;">
-              <input type="checkbox" id="email-check-force" style="accent-color: #6366f1;">
-              <span>Bypass vault cache &amp; execute fresh probe</span>
-            </label>
-          </div>
-          <span style="font-size: 11.5px; color: var(--slate-500); font-family: var(--font-mono);">
-            Target Platforms: <strong id="platforms-count-label">124 Services</strong>
-          </span>
-        </div>
-      </form>
-    </div>
-
-    <!-- 3. Capabilities & Feature Guide Card -->
-    <div class="email-guide-card">
-      <div class="email-guide-header" onclick="toggleEmailGuide()">
-        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-          <span style="font-size: 16px;">⚡</span>
-          <span style="font-size: 13.5px; font-weight: 800; color: var(--slate-900);">
-            OASIS Email Intelligence Capabilities &amp; Feature Guide
-          </span>
-          <span class="status-pill-online" style="padding: 2px 8px; font-size: 10.5px; background: rgba(99, 102, 241, 0.1); color: #6366f1; border-color: rgba(99, 102, 241, 0.25);">
-            124 Service Registries Covered
-          </span>
-        </div>
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <span style="font-size: 11.5px; color: var(--slate-500); font-family: var(--font-mono);" id="email-guide-toggle-label">Hide Guide ▲</span>
-        </div>
-      </div>
-
-      <div id="email-guide-body">
-        <div class="email-guide-grid">
-          <div class="email-guide-tile">
-            <div class="email-guide-icon" style="background: rgba(99, 102, 241, 0.1); color: #6366f1;">🔍</div>
-            <div>
-              <div style="font-size: 12.5px; font-weight: 800; color: var(--slate-900); margin-bottom: 3px;">124 Platform Coverage</div>
-              <div style="font-size: 11.5px; color: var(--slate-500); line-height: 1.45;">Checks Twitter, Instagram, GitHub, Discord, Spotify, Google, Office365, Amazon, eBay, and 115+ more.</div>
+        <!-- 3. Unified OASIS Progress & Status Panel (Directly Below Input) -->
+        <div id="email-progress-panel" class="email-progress-panel">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+              <span id="email-status-pill" class="status-pill-online" style="background: rgba(99, 102, 241, 0.12); color: #6366f1; border-color: rgba(99, 102, 241, 0.3); padding: 3px 10px; font-size: 11px; font-weight: 800; letter-spacing: 0.5px;">
+                <span class="dot" style="background: #6366f1; box-shadow: 0 0 6px #6366f1;"></span>
+                <span id="email-status-pill-text">ACTIVE RECONNAISSANCE</span>
+              </span>
+              <span class="nav-badge" style="font-family: var(--font-mono); font-size: 11px; color: var(--slate-500); background: var(--bg-card-subtle); padding: 2px 8px; font-weight: 600;">⚡ OASIS Internal Engine</span>
+              <span id="email-batch-indicator" class="nav-badge" style="display: none; background: rgba(139, 92, 246, 0.15); color: #8b5cf6; font-weight: 700; border: 1px solid rgba(139, 92, 246, 0.3);">
+                Batch Mode
+              </span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <span style="font-family: var(--font-mono); font-size: 12px; color: var(--slate-500); font-weight: 700;" id="email-timer-text">Elapsed: 00:00s</span>
+              <span class="nav-badge" style="background: rgba(99, 102, 241, 0.15); color: #6366f1; border: 1px solid rgba(99, 102, 241, 0.3); font-weight: 700;" id="email-live-count-badge">0 Found</span>
+              <button type="button" onclick="dismissEmailProgress()" style="background: transparent; border: none; color: var(--slate-400); cursor: pointer; font-size: 14px; padding: 2px 6px; border-radius: 4px;" title="Dismiss status panel">✕</button>
             </div>
           </div>
 
-          <div class="email-guide-tile">
-            <div class="email-guide-icon" style="background: rgba(245, 158, 11, 0.1); color: #d97706;">🛡️</div>
-            <div>
-              <div style="font-size: 12.5px; font-weight: 800; color: var(--slate-900); margin-bottom: 3px;">Masked Data Harvesting</div>
-              <div style="font-size: 11.5px; color: var(--slate-500); line-height: 1.45;">Extracts leaked phone numbers (<code>+1 *****42</code>) and secondary recovery email hints without contacting the target.</div>
+          <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 10px;">
+            <div id="email-live-status-text" style="font-size: 13px; font-weight: 700; color: var(--slate-800);">Initiating Trio asynchronous pipeline...</div>
+            <div id="email-progress-percent" style="font-family: var(--font-mono); font-size: 12.5px; font-weight: 800; color: var(--slate-700);">10%</div>
+          </div>
+
+          <div class="oasis-email-bar-track">
+            <div class="oasis-email-bar-fill active-anim" id="email-progress-fill" style="width: 10%;"></div>
+          </div>
+
+          <div class="email-stream-chips" id="email-stream-chips">
+            <!-- Live discovered accounts stream here -->
+          </div>
+        </div>
+
+        <!-- 4. Empty State Awaiting Target -->
+        <div id="email-empty-state" class="content-card" style="padding: 60px 20px; text-align: center;">
+          <div style="width: 54px; height: 54px; border-radius: 50%; background: var(--bg-card-subtle); border: 1px solid var(--border-soft); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px; color: var(--slate-400);">
+            ✉️
+          </div>
+          <h4 style="font-size: 16px; font-weight: 800; color: var(--slate-800); margin-bottom: 6px;">Awaiting Target Email</h4>
+          <p style="font-size: 13px; color: var(--slate-500); max-width: 500px; margin: 0 auto;">
+            Enter a target email address or batch list above and click <strong>Execute Email Recon</strong> to identify associated accounts across 124 online platforms.
+          </p>
+        </div>
+
+        <!-- 5. Results Section (Directly Visible) -->
+        <div id="email-results-container" style="display: none;">
+
+          <!-- KPI Metrics Strip -->
+          <div class="email-kpi-grid">
+            <div class="email-kpi-tile">
+              <div class="email-kpi-val" id="kpi-registered">0</div>
+              <div class="email-kpi-lbl">Confirmed Accounts</div>
+            </div>
+            <div class="email-kpi-tile">
+              <div class="email-kpi-val" id="kpi-checked">0</div>
+              <div class="email-kpi-lbl">Platforms Checked</div>
+            </div>
+            <div class="email-kpi-tile">
+              <div class="email-kpi-val" id="kpi-leaks">0</div>
+              <div class="email-kpi-lbl">Leaked Data Points</div>
+            </div>
+            <div class="email-kpi-tile">
+              <div class="email-kpi-val" id="kpi-duration">0.0s</div>
+              <div class="email-kpi-lbl">Execution Duration</div>
             </div>
           </div>
 
-          <div class="email-guide-tile">
-            <div class="email-guide-icon" style="background: rgba(16, 185, 129, 0.1); color: #059669;">🔒</div>
-            <div>
-              <div style="font-size: 12.5px; font-weight: 800; color: var(--slate-900); margin-bottom: 3px;">Passive Mode (-NP)</div>
-              <div style="font-size: 11.5px; color: var(--slate-500); line-height: 1.45;">Disables password-recovery checks on Adobe, Mail.ru, Odnoklassniki, and Samsung for 100% passive profiling.</div>
+          <!-- Main Results Card -->
+          <div class="email-results-card">
+            <div class="email-filter-bar">
+              <div>
+                <h3 style="font-size: 16px; font-weight: 800; color: var(--slate-900); margin: 0 0 4px 0;" id="results-target-title">
+                  Account Footprint: target@example.com
+                </h3>
+                <span style="font-size: 12px; color: var(--slate-500);" id="results-count-summary">
+                  Discovered 0 accounts
+                </span>
+              </div>
+
+              <!-- View Mode Switcher: Confirmed Only vs Complete Audit -->
+              <div class="view-switcher-group">
+                <button type="button" class="view-switch-btn active" id="btn-view-confirmed" onclick="switchResultView('confirmed')">
+                  ● Confirmed Accounts Only (<span id="switch-count-confirmed">0</span>)
+                </button>
+                <button type="button" class="view-switch-btn" id="btn-view-audit" onclick="switchResultView('audit')">
+                  ○ Complete Platform Audit (<span id="switch-count-audit">124</span>)
+                </button>
+              </div>
+
+              <!-- Export Toolbar -->
+              <div class="email-export-bar">
+                <a href="#" id="btn-export-json" class="email-export-btn" target="_blank">
+                  <span>💾 OASIS JSON</span>
+                </a>
+                <a href="#" id="btn-export-md" class="email-export-btn" target="_blank">
+                  <span>📄 Markdown Dossier</span>
+                </a>
+                <a href="#" id="btn-export-csv" class="email-export-btn" target="_blank">
+                  <span>📊 CSV Export</span>
+                </a>
+              </div>
             </div>
+
+            <!-- VIEW 1: Confirmed Accounts View (Category Filters & Grid) -->
+            <div id="view-confirmed-container">
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
+                <div class="email-cat-pills" id="email-category-filters">
+                  <button type="button" class="email-cat-btn active" onclick="filterCategory('all')">All Platforms (<span id="cat-count-all">0</span>)</button>
+                  <button type="button" class="email-cat-btn" onclick="filterCategory('social')">Social (<span id="cat-count-social">0</span>)</button>
+                  <button type="button" class="email-cat-btn" onclick="filterCategory('tech')">Tech &amp; Dev (<span id="cat-count-tech">0</span>)</button>
+                  <button type="button" class="email-cat-btn" onclick="filterCategory('business')">Enterprise (<span id="cat-count-business">0</span>)</button>
+                  <button type="button" class="email-cat-btn" onclick="filterCategory('media')">Media (<span id="cat-count-media">0</span>)</button>
+                  <button type="button" class="email-cat-btn" onclick="filterCategory('retail')">Retail (<span id="cat-count-retail">0</span>)</button>
+                  <button type="button" class="email-cat-btn" onclick="filterCategory('gaming')">Gaming (<span id="cat-count-gaming">0</span>)</button>
+                  <button type="button" class="email-cat-btn" onclick="filterCategory('adult')">Adult (<span id="cat-count-adult">0</span>)</button>
+                </div>
+
+                <input type="text" id="email-search-filter" oninput="renderFindingsGrid()" placeholder="Filter findings by name or domain..." style="padding: 6px 12px; font-size: 12px; border: 1px solid var(--border-soft); border-radius: var(--radius-sm); outline: none; background: var(--bg-surface);">
+              </div>
+
+              <!-- Account Cards Grid -->
+              <div class="email-findings-grid" id="email-findings-grid">
+                <!-- Dynamically populated cards -->
+              </div>
+            </div>
+
+            <!-- VIEW 2: Complete Platform Audit View -->
+            <div id="view-audit-container" style="display: none;">
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
+                <div class="email-cat-pills">
+                  <button type="button" class="email-cat-btn active" id="audit-filter-all" onclick="filterAuditStatus('all')">All (<span id="audit-count-all">124</span>)</button>
+                  <button type="button" class="email-cat-btn" id="audit-filter-registered" onclick="filterAuditStatus('registered')">[+] Registered (<span id="audit-count-registered">0</span>)</button>
+                  <button type="button" class="email-cat-btn" id="audit-filter-not_registered" onclick="filterAuditStatus('not_registered')">[-] Not Registered (<span id="audit-count-not_registered">0</span>)</button>
+                  <button type="button" class="email-cat-btn" id="audit-filter-rate_limited" onclick="filterAuditStatus('rate_limited')">[x] Rate Limited (<span id="audit-count-rate_limited">0</span>)</button>
+                  <button type="button" class="email-cat-btn" id="audit-filter-error" onclick="filterAuditStatus('error')">[!] Errors (<span id="audit-count-error">0</span>)</button>
+                </div>
+
+                <input type="text" id="audit-search-filter" oninput="renderAuditTable()" placeholder="Search platform audit..." style="padding: 6px 12px; font-size: 12px; border: 1px solid var(--border-soft); border-radius: var(--radius-sm); outline: none; background: var(--bg-surface);">
+              </div>
+
+              <div class="audit-table-wrapper">
+                <table class="audit-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 40px;">#</th>
+                      <th>Platform Name</th>
+                      <th>Service Domain</th>
+                      <th>Category</th>
+                      <th>Discovery Status</th>
+                      <th>Method &amp; Leaked Data</th>
+                      <th style="text-align: right;">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="audit-table-body">
+                    <!-- Dynamically populated table rows -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
           </div>
 
-          <div class="email-guide-tile">
-            <div class="email-guide-icon" style="background: rgba(236, 72, 153, 0.1); color: #db2777;">📋</div>
-            <div>
-              <div style="font-size: 12.5px; font-weight: 800; color: var(--slate-900); margin-bottom: 3px;">Full Survey Audit &amp; Batch</div>
-              <div style="font-size: 11.5px; color: var(--slate-500); line-height: 1.45;">Switch seamlessly between Confirmed Accounts and the Complete 124-Service Audit Matrix, or survey email batches.</div>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Capabilities & Feature Guide Sidebar -->
+      <aside class="email-side-column">
+        <div class="email-guide-card">
+          <div class="email-guide-header" onclick="toggleEmailGuide()">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 15px;">⚡</span>
+              <span style="font-size: 13px; font-weight: 800; color: var(--slate-900);">
+                Engine Capabilities
+              </span>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 4. Unified OASIS Progress & Status Panel -->
-    <div id="email-progress-panel" class="email-progress-panel">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
-        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-          <span id="email-status-pill" class="status-pill-online" style="background: rgba(99, 102, 241, 0.12); color: #6366f1; border-color: rgba(99, 102, 241, 0.3); padding: 3px 10px; font-size: 11px; font-weight: 800; letter-spacing: 0.5px;">
-            <span class="dot" style="background: #6366f1; box-shadow: 0 0 6px #6366f1;"></span>
-            <span id="email-status-pill-text">ACTIVE RECONNAISSANCE</span>
-          </span>
-          <span class="nav-badge" style="font-family: var(--font-mono); font-size: 11px; color: var(--slate-500); background: var(--bg-card-subtle); padding: 2px 8px; font-weight: 600;">⚡ OASIS Internal Engine</span>
-          <span id="email-batch-indicator" class="nav-badge" style="display: none; background: rgba(139, 92, 246, 0.15); color: #8b5cf6; font-weight: 700; border: 1px solid rgba(139, 92, 246, 0.3);">
-            Batch Mode
-          </span>
-        </div>
-        <div style="display: flex; align-items: center; gap: 12px;">
-          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--slate-500); font-weight: 700;" id="email-timer-text">Elapsed: 00:00s</span>
-          <span class="nav-badge" style="background: rgba(99, 102, 241, 0.15); color: #6366f1; border: 1px solid rgba(99, 102, 241, 0.3); font-weight: 700;" id="email-live-count-badge">0 Found</span>
-          <button type="button" onclick="dismissEmailProgress()" style="background: transparent; border: none; color: var(--slate-400); cursor: pointer; font-size: 14px; padding: 2px 6px; border-radius: 4px;" title="Dismiss status panel">✕</button>
-        </div>
-      </div>
-
-      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 10px;">
-        <div id="email-live-status-text" style="font-size: 13px; font-weight: 700; color: var(--slate-800);">Initiating Trio asynchronous pipeline...</div>
-        <div id="email-progress-percent" style="font-family: var(--font-mono); font-size: 12.5px; font-weight: 800; color: var(--slate-700);">10%</div>
-      </div>
-
-      <div class="oasis-email-bar-track">
-        <div class="oasis-email-bar-fill active-anim" id="email-progress-fill" style="width: 10%;"></div>
-      </div>
-
-      <div class="email-stream-chips" id="email-stream-chips">
-        <!-- Live discovered accounts stream here -->
-      </div>
-    </div>
-
-    <!-- 5. Empty State Awaiting Target -->
-    <div id="email-empty-state" class="content-card" style="padding: 60px 20px; text-align: center;">
-      <div style="width: 54px; height: 54px; border-radius: 50%; background: var(--bg-card-subtle); border: 1px solid var(--border-soft); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px; color: var(--slate-400);">
-        ✉️
-      </div>
-      <h4 style="font-size: 16px; font-weight: 800; color: var(--slate-800); margin-bottom: 6px;">Awaiting Target Email</h4>
-      <p style="font-size: 13px; color: var(--slate-500); max-width: 500px; margin: 0 auto;">
-        Enter a target email address or batch list above and click <strong>Execute Email Recon</strong> to identify associated accounts across 124 online platforms.
-      </p>
-    </div>
-
-    <!-- 6. Results Section -->
-    <div id="email-results-container" style="display: none;">
-
-      <!-- KPI Metrics Strip -->
-      <div class="email-kpi-grid">
-        <div class="email-kpi-tile">
-          <div class="email-kpi-val" id="kpi-registered">0</div>
-          <div class="email-kpi-lbl">Confirmed Accounts</div>
-        </div>
-        <div class="email-kpi-tile">
-          <div class="email-kpi-val" id="kpi-checked">0</div>
-          <div class="email-kpi-lbl">Platforms Checked</div>
-        </div>
-        <div class="email-kpi-tile">
-          <div class="email-kpi-val" id="kpi-leaks">0</div>
-          <div class="email-kpi-lbl">Leaked Data Points</div>
-        </div>
-        <div class="email-kpi-tile">
-          <div class="email-kpi-val" id="kpi-duration">0.0s</div>
-          <div class="email-kpi-lbl">Execution Duration</div>
-        </div>
-      </div>
-
-      <!-- Main Results Card -->
-      <div class="email-results-card">
-        <div class="email-filter-bar">
-          <div>
-            <h3 style="font-size: 16px; font-weight: 800; color: var(--slate-900); margin: 0 0 4px 0;" id="results-target-title">
-              Account Footprint: target@example.com
-            </h3>
-            <span style="font-size: 12px; color: var(--slate-500);" id="results-count-summary">
-              Discovered 0 accounts
+            <span class="status-pill-online" style="padding: 2px 7px; font-size: 10px; background: rgba(99, 102, 241, 0.1); color: #6366f1; border-color: rgba(99, 102, 241, 0.25);">
+              124 Registries
             </span>
           </div>
 
-          <!-- View Mode Switcher: Confirmed Only vs Complete Audit -->
-          <div class="view-switcher-group">
-            <button type="button" class="view-switch-btn active" id="btn-view-confirmed" onclick="switchResultView('confirmed')">
-              ● Confirmed Accounts Only (<span id="switch-count-confirmed">0</span>)
-            </button>
-            <button type="button" class="view-switch-btn" id="btn-view-audit" onclick="switchResultView('audit')">
-              ○ Complete Platform Audit (<span id="switch-count-audit">124</span>)
-            </button>
-          </div>
+          <div id="email-guide-body">
+            <div class="email-guide-list">
+              <div class="email-guide-tile">
+                <div class="email-guide-icon" style="background: rgba(99, 102, 241, 0.1); color: #6366f1;">🔍</div>
+                <div>
+                  <div style="font-size: 12px; font-weight: 800; color: var(--slate-900); margin-bottom: 2px;">124 Platform Coverage</div>
+                  <div style="font-size: 11px; color: var(--slate-500); line-height: 1.4;">Twitter, Instagram, GitHub, Discord, Spotify, Google, Office365, Amazon, and 115+ more.</div>
+                </div>
+              </div>
 
-          <!-- Export Toolbar -->
-          <div class="email-export-bar">
-            <a href="#" id="btn-export-json" class="email-export-btn" target="_blank">
-              <span>💾 OASIS JSON</span>
-            </a>
-            <a href="#" id="btn-export-md" class="email-export-btn" target="_blank">
-              <span>📄 Markdown Dossier</span>
-            </a>
-            <a href="#" id="btn-export-csv" class="email-export-btn" target="_blank">
-              <span>📊 CSV Export</span>
-            </a>
-          </div>
-        </div>
+              <div class="email-guide-tile">
+                <div class="email-guide-icon" style="background: rgba(245, 158, 11, 0.1); color: #d97706;">🛡️</div>
+                <div>
+                  <div style="font-size: 12px; font-weight: 800; color: var(--slate-900); margin-bottom: 2px;">Masked Data Harvesting</div>
+                  <div style="font-size: 11px; color: var(--slate-500); line-height: 1.4;">Extracts phone hints (<code>+1 *****42</code>) and secondary recovery email hints passively.</div>
+                </div>
+              </div>
 
-        <!-- VIEW 1: Confirmed Accounts View (Category Filters & Grid) -->
-        <div id="view-confirmed-container">
-          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
-            <div class="email-cat-pills" id="email-category-filters">
-              <button type="button" class="email-cat-btn active" onclick="filterCategory('all')">All Platforms (<span id="cat-count-all">0</span>)</button>
-              <button type="button" class="email-cat-btn" onclick="filterCategory('social')">Social (<span id="cat-count-social">0</span>)</button>
-              <button type="button" class="email-cat-btn" onclick="filterCategory('tech')">Tech &amp; Dev (<span id="cat-count-tech">0</span>)</button>
-              <button type="button" class="email-cat-btn" onclick="filterCategory('business')">Enterprise (<span id="cat-count-business">0</span>)</button>
-              <button type="button" class="email-cat-btn" onclick="filterCategory('media')">Media (<span id="cat-count-media">0</span>)</button>
-              <button type="button" class="email-cat-btn" onclick="filterCategory('retail')">Retail (<span id="cat-count-retail">0</span>)</button>
-              <button type="button" class="email-cat-btn" onclick="filterCategory('gaming')">Gaming (<span id="cat-count-gaming">0</span>)</button>
-              <button type="button" class="email-cat-btn" onclick="filterCategory('adult')">Adult (<span id="cat-count-adult">0</span>)</button>
+              <div class="email-guide-tile">
+                <div class="email-guide-icon" style="background: rgba(16, 185, 129, 0.1); color: #059669;">🔒</div>
+                <div>
+                  <div style="font-size: 12px; font-weight: 800; color: var(--slate-900); margin-bottom: 2px;">Passive Mode (-NP)</div>
+                  <div style="font-size: 11px; color: var(--slate-500); line-height: 1.4;">Excludes password-recovery checks on Adobe, Mail.ru, Odnoklassniki, and Samsung.</div>
+                </div>
+              </div>
+
+              <div class="email-guide-tile">
+                <div class="email-guide-icon" style="background: rgba(236, 72, 153, 0.1); color: #db2777;">📋</div>
+                <div>
+                  <div style="font-size: 12px; font-weight: 800; color: var(--slate-900); margin-bottom: 2px;">Audit Matrix &amp; Batch</div>
+                  <div style="font-size: 11px; color: var(--slate-500); line-height: 1.4;">View all 124 registry responses (Registered, Not Registered, Rate Limited) or survey email batches.</div>
+                </div>
+              </div>
+
+              <div class="email-guide-tile">
+                <div class="email-guide-icon" style="background: rgba(139, 92, 246, 0.1); color: #8b5cf6;">💾</div>
+                <div>
+                  <div style="font-size: 12px; font-weight: 800; color: var(--slate-900); margin-bottom: 2px;">Dossier Vault Artifacts</div>
+                  <div style="font-size: 11px; color: var(--slate-500); line-height: 1.4;">Auto-generates structured OASIS JSON, Markdown incident reports, and spreadsheet CSVs.</div>
+                </div>
+              </div>
             </div>
-
-            <input type="text" id="email-search-filter" oninput="renderFindingsGrid()" placeholder="Filter findings by name or domain..." style="padding: 6px 12px; font-size: 12px; border: 1px solid var(--border-soft); border-radius: var(--radius-sm); outline: none; background: var(--bg-surface);">
-          </div>
-
-          <!-- Account Cards Grid -->
-          <div class="email-findings-grid" id="email-findings-grid">
-            <!-- Dynamically populated cards -->
           </div>
         </div>
-
-        <!-- VIEW 2: Complete Platform Audit View -->
-        <div id="view-audit-container" style="display: none;">
-          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
-            <div class="email-cat-pills">
-              <button type="button" class="email-cat-btn active" id="audit-filter-all" onclick="filterAuditStatus('all')">All (<span id="audit-count-all">124</span>)</button>
-              <button type="button" class="email-cat-btn" id="audit-filter-registered" onclick="filterAuditStatus('registered')">[+] Registered (<span id="audit-count-registered">0</span>)</button>
-              <button type="button" class="email-cat-btn" id="audit-filter-not_registered" onclick="filterAuditStatus('not_registered')">[-] Not Registered (<span id="audit-count-not_registered">0</span>)</button>
-              <button type="button" class="email-cat-btn" id="audit-filter-rate_limited" onclick="filterAuditStatus('rate_limited')">[x] Rate Limited (<span id="audit-count-rate_limited">0</span>)</button>
-              <button type="button" class="email-cat-btn" id="audit-filter-error" onclick="filterAuditStatus('error')">[!] Errors (<span id="audit-count-error">0</span>)</button>
-            </div>
-
-            <input type="text" id="audit-search-filter" oninput="renderAuditTable()" placeholder="Search platform audit..." style="padding: 6px 12px; font-size: 12px; border: 1px solid var(--border-soft); border-radius: var(--radius-sm); outline: none; background: var(--bg-surface);">
-          </div>
-
-          <div class="audit-table-wrapper">
-            <table class="audit-table">
-              <thead>
-                <tr>
-                  <th style="width: 40px;">#</th>
-                  <th>Platform Name</th>
-                  <th>Service Domain</th>
-                  <th>Category</th>
-                  <th>Discovery Status</th>
-                  <th>Method &amp; Leaked Data</th>
-                  <th style="text-align: right;">Action</th>
-                </tr>
-              </thead>
-              <tbody id="audit-table-body">
-                <!-- Dynamically populated table rows -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-      </div>
+      </aside>
 
     </div>
 

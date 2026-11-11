@@ -4,10 +4,88 @@
 <link rel="stylesheet" href="/static/services/recon_username/css/dark_mode.css">
 <style>
   .recon-container {
-    max-width: 1400px;
+    max-width: 1440px;
     margin: 0 auto;
     padding-bottom: 40px;
   }
+  /* Two-column operational workspace layout */
+  .username-workspace-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 330px;
+    gap: 22px;
+    align-items: start;
+  }
+  @media (max-width: 1120px) {
+    .username-workspace-layout {
+      grid-template-columns: minmax(0, 1fr) 290px;
+      gap: 16px;
+    }
+  }
+  @media (max-width: 960px) {
+    .username-workspace-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+  .username-main-column {
+    min-width: 0;
+  }
+  .username-side-column {
+    position: sticky;
+    top: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .username-capabilities-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+  }
+  .username-capabilities-header {
+    padding: 14px 18px;
+    background: var(--bg-card-subtle);
+    border-bottom: 1px solid var(--border-soft);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .username-capabilities-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px;
+    max-height: calc(100vh - 160px);
+    overflow-y: auto;
+  }
+  .username-cap-tile {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-card-subtle);
+    border: 1px solid var(--border-soft);
+    transition: all 0.2s ease;
+  }
+  .username-cap-tile:hover {
+    background: var(--bg-surface);
+    border-color: rgba(249, 115, 22, 0.35);
+    transform: translateX(2px);
+  }
+  .username-cap-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: var(--radius-sm);
+    background: rgba(249, 115, 22, 0.1);
+    color: #f97316;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
   .input-panel {
     background: var(--bg-surface);
     border: 1px solid var(--border-soft);
@@ -339,7 +417,7 @@
     <!-- 1. Header Banner -->
     <div class="tool-header-banner" style="margin-bottom: 24px;">
       <div class="tool-header-left">
-<div class="tool-title-group">
+        <div class="tool-title-group">
           <h2>Username Intelligence &amp; Identity Reconnaissance</h2>
           <p>Global multi-platform handle enumeration, public account discovery, and profile metadata extraction across 3,000+ registries.</p>
         </div>
@@ -349,7 +427,13 @@
       </div>
     </div>
 
-    <!-- 2. Proper Username Input Section -->
+    <!-- Operational Two-Column Workspace Layout -->
+    <div class="username-workspace-layout">
+
+      <!-- Left Column: Operations Workspace & Investigation History -->
+      <div class="username-main-column">
+
+        <!-- 2. Proper Username Input Section -->
     <div class="input-panel">
       <div style="margin-bottom: 16px;">
         <h3 style="font-size: 15px; font-weight: 700; color: var(--slate-900); margin-bottom: 4px;">Target Identifier &amp; Reconnaissance Scope</h3>
@@ -618,93 +702,8 @@
       </div>
     </div>
 
-    <!-- 5. List of Features Provided Section -->
-    <div class="content-card" style="padding: 28px; margin-top: 24px;">
-      <div style="margin-bottom: 20px; border-bottom: 1px solid var(--border-soft); padding-bottom: 14px;">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--ember-600)" stroke-width="2">
-            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-          </svg>
-          <h3 style="font-size: 16px; font-weight: 800; color: var(--slate-900); margin: 0;">Capabilities &amp; Features Provided</h3>
-        </div>
-        <p style="font-size: 13px; color: var(--slate-500); margin-top: 4px;">Technical specifications and reconnaissance operations powered by the Username Intelligence module.</p>
-      </div>
-
-      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;">
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="2" y1="12" x2="22" y2="12"></line>
-              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-            </svg>
-          </div>
-          <div class="feature-title">Multi-Platform Account Enumeration</div>
-          <div class="feature-desc">Queries an extensive registry of 3,000+ public platforms, developer portals, code repositories, and niche forums without requiring platform-specific API keys.</div>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-              <circle cx="12" cy="7" r="4"></circle>
-            </svg>
-          </div>
-          <div class="feature-title">Deep Profile Metadata &amp; Dossier Extraction</div>
-          <div class="feature-desc">Automatically parses public profile pages to harvest display names, user IDs, biographies, avatar photos, locations, follower counts, and linked external websites.</div>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-            </svg>
-          </div>
-          <div class="feature-title">Granular Category &amp; Scope Scoping</div>
-          <div class="feature-desc">Enables targeted filtering by industry verticals (Coding &amp; Dev, Social Media, Financial Networks, Creative Arts) or site popularity tiers to optimize operational efficiency.</div>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-            </svg>
-          </div>
-          <div class="feature-title">Adaptive Concurrency &amp; Anti-Block Resilience</div>
-          <div class="feature-desc">Leverages asynchronous connection pooling, request throttling, and false-positive suppression to maintain high-fidelity verification signals without IP lockout.</div>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line x1="16" y1="13" x2="8" y2="13"></line>
-              <line x1="16" y1="17" x2="8" y2="17"></line>
-              <polyline points="10 9 9 9 8 9"></polyline>
-            </svg>
-          </div>
-          <div class="feature-title">Forensic Evidence &amp; Multi-Format Archival</div>
-          <div class="feature-desc">Generates standardized JSON dossier schemas and tabular CSV exports for immediate inclusion in case repositories, investigation archives, and legal reports.</div>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="15 3 21 3 21 9"></polyline>
-              <polyline points="9 21 3 21 3 15"></polyline>
-              <line x1="21" y1="3" x2="14" y2="10"></line>
-              <line x1="3" y1="21" x2="10" y2="14"></line>
-            </svg>
-          </div>
-          <div class="feature-title">Cross-Module Intelligence Pivoting</div>
-          <div class="feature-desc">Discovered usernames, URLs, and scraped email identifiers integrate seamlessly with downstream Social Media and Identity Correlation modules.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 6. Investigation & Search History (At the very bottom) -->
-    <div class="content-card" style="padding: 28px; margin-top: 24px;">
+    <!-- 5. Investigation & Search History (Directly Accessible) -->
+    <div class="content-card" style="padding: 24px; margin-top: 20px;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border-soft); padding-bottom: 14px;">
         <div>
           <div style="display: flex; align-items: center; gap: 8px;">
@@ -740,6 +739,108 @@
         </table>
       </div>
     </div>
+
+  </div>
+
+  <!-- Right Column: Capabilities & Features Sidebar -->
+  <aside class="username-side-column">
+    <div class="username-capabilities-card">
+      <div class="username-capabilities-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ember-600)" stroke-width="2">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+          <h4 style="font-size: 13px; font-weight: 800; color: var(--slate-900); margin: 0;">Capabilities &amp; Features</h4>
+        </div>
+        <span class="status-pill-online" style="padding: 2px 7px; font-size: 10px; background: rgba(249, 115, 22, 0.1); color: #ea580c; border-color: rgba(249, 115, 22, 0.25);">
+          3,000+ Registries
+        </span>
+      </div>
+
+      <div class="username-capabilities-list">
+        <div class="username-cap-tile">
+          <div class="username-cap-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+          </div>
+          <div>
+            <div style="font-size: 12px; font-weight: 800; color: var(--slate-900); margin-bottom: 2px;">Account Enumeration</div>
+            <div style="font-size: 11px; color: var(--slate-500); line-height: 1.4;">Queries 3,000+ public registries, code repos, and forums without API key dependencies.</div>
+          </div>
+        </div>
+
+        <div class="username-cap-tile">
+          <div class="username-cap-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+          <div>
+            <div style="font-size: 12px; font-weight: 800; color: var(--slate-900); margin-bottom: 2px;">Deep Profile Metadata</div>
+            <div style="font-size: 11px; color: var(--slate-500); line-height: 1.4;">Harvests display names, user IDs, biographies, avatar photos, locations, and links.</div>
+          </div>
+        </div>
+
+        <div class="username-cap-tile">
+          <div class="username-cap-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+            </svg>
+          </div>
+          <div>
+            <div style="font-size: 12px; font-weight: 800; color: var(--slate-900); margin-bottom: 2px;">Granular Category Scoping</div>
+            <div style="font-size: 11px; color: var(--slate-500); line-height: 1.4;">Filters by verticals (Coding, Social, Financial, Creative Arts) to streamline triage.</div>
+          </div>
+        </div>
+
+        <div class="username-cap-tile">
+          <div class="username-cap-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+          </div>
+          <div>
+            <div style="font-size: 12px; font-weight: 800; color: var(--slate-900); margin-bottom: 2px;">Adaptive Concurrency</div>
+            <div style="font-size: 11px; color: var(--slate-500); line-height: 1.4;">Connection pooling, rate throttling, and false-positive suppression without IP lockouts.</div>
+          </div>
+        </div>
+
+        <div class="username-cap-tile">
+          <div class="username-cap-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+            </svg>
+          </div>
+          <div>
+            <div style="font-size: 12px; font-weight: 800; color: var(--slate-900); margin-bottom: 2px;">Forensic Multi-Format Archival</div>
+            <div style="font-size: 11px; color: var(--slate-500); line-height: 1.4;">Generates JSON schemas and tabular CSV exports for inclusion in case repositories.</div>
+          </div>
+        </div>
+
+        <div class="username-cap-tile">
+          <div class="username-cap-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <polyline points="9 21 3 21 3 15"></polyline>
+              <line x1="21" y1="3" x2="14" y2="10"></line>
+              <line x1="3" y1="21" x2="10" y2="14"></line>
+            </svg>
+          </div>
+          <div>
+            <div style="font-size: 12px; font-weight: 800; color: var(--slate-900); margin-bottom: 2px;">Intelligence Pivoting</div>
+            <div style="font-size: 11px; color: var(--slate-500); line-height: 1.4;">Pivot handles and URLs directly into Social Media and Email reconnaissance pipelines.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+</div>
 
   </div>
 </section>
