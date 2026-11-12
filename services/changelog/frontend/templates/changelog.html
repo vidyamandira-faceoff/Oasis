@@ -48,7 +48,10 @@
         <span>Raw CHANGELOG.md</span>
       </a>
       <button type="button" class="cl-btn-secondary" onclick="toggleAllTechDrawers()" id="btn-toggle-tech">
-        <span id="toggle-tech-icon">⚙️</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="toggle-tech-icon">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
         <span id="toggle-tech-text">Expand All Technical Notes</span>
       </button>
     </div>
@@ -59,28 +62,47 @@
        ========================================================================= -->
   <div class="cl-metrics-grid">
     <div class="cl-metric-card">
-      <div class="cl-metric-icon" style="background: rgba(249, 115, 22, 0.12); color: #ea580c;">🏷️</div>
+      <div class="cl-metric-icon" style="background: rgba(249, 115, 22, 0.12); color: #ea580c;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+          <line x1="7" y1="7" x2="7.01" y2="7"></line>
+        </svg>
+      </div>
       <div>
         <div class="cl-metric-value">{{ total_releases }}</div>
         <div class="cl-metric-label">Documented SemVer Releases</div>
       </div>
     </div>
     <div class="cl-metric-card">
-      <div class="cl-metric-icon" style="background: rgba(16, 185, 129, 0.12); color: #059669;">⚡</div>
+      <div class="cl-metric-icon" style="background: rgba(16, 185, 129, 0.12); color: #059669;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+        </svg>
+      </div>
       <div>
         <div class="cl-metric-value">6 Engines</div>
         <div class="cl-metric-label">Native &amp; Cluster OSINT Engines</div>
       </div>
     </div>
     <div class="cl-metric-card">
-      <div class="cl-metric-icon" style="background: rgba(99, 102, 241, 0.12); color: #6366f1;">🌐</div>
+      <div class="cl-metric-icon" style="background: rgba(99, 102, 241, 0.12); color: #6366f1;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+      </div>
       <div>
         <div class="cl-metric-value">3,124+</div>
         <div class="cl-metric-label">Platforms &amp; Registries Covered</div>
       </div>
     </div>
     <div class="cl-metric-card">
-      <div class="cl-metric-icon" style="background: rgba(14, 165, 233, 0.12); color: #0284c7;">🛡️</div>
+      <div class="cl-metric-icon" style="background: rgba(14, 165, 233, 0.12); color: #0284c7;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+        </svg>
+      </div>
       <div>
         <div class="cl-metric-value">100%</div>
         <div class="cl-metric-label">Strict OASIS Brand Isolation</div>
@@ -150,7 +172,9 @@
       <!-- User-Centric Features Section -->
       <div class="cl-section-heading">
         <div style="display: flex; align-items: center; gap: 6px;">
-          <span style="font-size: 15px;">🌟</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--ember-500)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
           <span style="font-size: 13px; font-weight: 800; color: var(--slate-900); text-transform: uppercase; letter-spacing: 0.04em;">
             User-Centric Capabilities Added
           </span>
@@ -163,7 +187,7 @@
       <div class="cl-features-grid">
         {% for feat in rel.user_features %}
         <div class="cl-feature-tile" data-category="{{ feat.category }}">
-          <div class="cl-feature-icon-box">{{ feat.icon }}</div>
+          <div class="cl-feature-icon-box">{{ feat.icon | safe }}</div>
           <div class="cl-feature-body">
             <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 4px; flex-wrap: wrap;">
               <h4 class="cl-feature-title">{{ feat.title }}</h4>
@@ -180,7 +204,10 @@
         <details class="cl-tech-details">
           <summary class="cl-tech-summary">
             <div style="display: flex; align-items: center; gap: 8px;">
-              <span class="cl-tech-gear">⚙️</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="cl-tech-gear">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+              </svg>
               <span style="font-weight: 700; font-size: 12.5px; color: var(--slate-800);">
                 Technical &amp; Engine Implementation Details
               </span>
@@ -219,7 +246,12 @@
   </div>
 
   <div id="cl-no-results" style="display: none; text-align: center; padding: 60px 20px; background: var(--bg-surface); border: 1px dashed var(--border-soft); border-radius: var(--radius-lg); margin-top: 20px;">
-    <div style="font-size: 36px; margin-bottom: 10px;">🔍</div>
+    <div style="margin-bottom: 12px; color: var(--slate-400);">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </div>
     <h4 style="font-size: 16px; font-weight: 800; color: var(--slate-800); margin-bottom: 6px;">No Matching Features Found</h4>
     <p style="font-size: 13px; color: var(--slate-500); margin-bottom: 14px;">Try searching for a different keyword or resetting your filter category.</p>
     <button type="button" class="cl-btn-secondary" onclick="clearChangelogSearch()">Reset Filters</button>

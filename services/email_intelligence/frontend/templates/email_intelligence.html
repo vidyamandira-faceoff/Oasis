@@ -653,12 +653,12 @@
     <!-- 2. Suite Mode Switcher -->
     <div class="email-suite-nav">
       <button type="button" class="email-suite-tab active" id="btn-suite-footprint" onclick="switchSuiteView('footprint')">
-        <span style="font-size: 15px;">🔍</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <span>Reverse Account Footprint</span>
         <span class="pill">Email → 124 Platforms</span>
       </button>
       <button type="button" class="email-suite-tab" id="btn-suite-mailbox" onclick="switchSuiteView('mailbox')">
-        <span style="font-size: 15px;">📫</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         <span>Mailbox Discovery by Handle</span>
         <span class="pill">Username → 26+ Email Providers</span>
       </button>
@@ -679,10 +679,10 @@
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
               <div class="recon-mode-tabs">
                 <button type="button" class="recon-mode-tab active" id="tab-mode-single" onclick="setReconInputMode('single')">
-                  ✉️ Single Target Recon
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -1px; margin-right: 4px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Single Target Recon
                 </button>
                 <button type="button" class="recon-mode-tab" id="tab-mode-batch" onclick="setReconInputMode('batch')">
-                  📑 Batch Email Survey
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -1px; margin-right: 4px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Batch Email Survey
                 </button>
               </div>
               <div style="font-size: 11.5px; color: var(--slate-500); font-family: var(--font-mono);">
@@ -704,7 +704,9 @@
                   </select>
 
                   <button type="submit" id="btn-email-submit" class="btn-email-recon">
-                    <span id="email-btn-icon">⚡</span>
+                    <span id="email-btn-icon">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    </span>
                     <span id="email-btn-label">Execute Email Recon</span>
                   </button>
                 </div>
@@ -718,7 +720,9 @@
                     Target Queue: <strong>0 valid email addresses</strong>
                   </div>
                   <button type="submit" id="btn-email-batch-submit" class="btn-email-recon">
-                    <span id="email-batch-btn-icon">⚡</span>
+                    <span id="email-batch-btn-icon">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    </span>
                     <span id="email-batch-btn-label">Launch Batch Recon</span>
                   </button>
                 </div>
@@ -729,7 +733,10 @@
                 <div style="display: flex; gap: 18px; align-items: center; flex-wrap: wrap;">
                   <label style="display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--slate-700); cursor: pointer;" title="Excludes password-recovery probes on Adobe, Mail.ru, Odnoklassniki, and Samsung">
                     <input type="checkbox" id="email-check-nopassword" style="accent-color: #6366f1;">
-                    <span>🔒 <strong>Passive Registration Only</strong> (Skip password-recovery tests on Adobe, Mail.ru, Odnoklassniki, Samsung) <code style="font-size: 10.5px; color: #6366f1;">-NP</code></span>
+                    <span style="display: inline-flex; align-items: center; gap: 5px;">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                      <strong>Passive Registration Only</strong> (Skip password-recovery tests on Adobe, Mail.ru, Odnoklassniki, Samsung) <code style="font-size: 10.5px; color: #6366f1;">-NP</code>
+                    </span>
                   </label>
                   <label style="display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--slate-600); cursor: pointer;">
                     <input type="checkbox" id="email-check-force" style="accent-color: #6366f1;">
@@ -751,7 +758,10 @@
                   <span class="dot" style="background: #6366f1; box-shadow: 0 0 6px #6366f1;"></span>
                   <span id="email-status-pill-text">ACTIVE RECONNAISSANCE</span>
                 </span>
-                <span class="nav-badge" style="font-family: var(--font-mono); font-size: 11px; color: var(--slate-500); background: var(--bg-card-subtle); padding: 2px 8px; font-weight: 600;">⚡ OASIS Internal Engine</span>
+                <span class="nav-badge" style="font-family: var(--font-mono); font-size: 11px; color: var(--slate-500); background: var(--bg-card-subtle); padding: 2px 8px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                  OASIS Internal Engine
+                </span>
                 <span id="email-batch-indicator" class="nav-badge" style="display: none; background: rgba(139, 92, 246, 0.15); color: #8b5cf6; font-weight: 700; border: 1px solid rgba(139, 92, 246, 0.3);">
                   Batch Mode
                 </span>
@@ -759,7 +769,7 @@
               <div style="display: flex; align-items: center; gap: 12px;">
                 <span style="font-family: var(--font-mono); font-size: 12px; color: var(--slate-500); font-weight: 700;" id="email-timer-text">Elapsed: 00:00s</span>
                 <span class="nav-badge" style="background: rgba(99, 102, 241, 0.15); color: #6366f1; border: 1px solid rgba(99, 102, 241, 0.3); font-weight: 700;" id="email-live-count-badge">0 Found</span>
-                <button type="button" onclick="dismissEmailProgress()" style="background: transparent; border: none; color: var(--slate-400); cursor: pointer; font-size: 14px; padding: 2px 6px; border-radius: 4px;" title="Dismiss status panel">✕</button>
+                <button type="button" onclick="dismissEmailProgress()" style="background: transparent; border: none; color: var(--slate-400); cursor: pointer; font-size: 14px; padding: 2px 6px; border-radius: 4px;" title="Dismiss status panel">&times;</button>
               </div>
             </div>
 
@@ -779,8 +789,8 @@
 
           <!-- Empty State Awaiting Target -->
           <div id="email-empty-state" class="content-card" style="padding: 60px 20px; text-align: center;">
-            <div style="width: 54px; height: 54px; border-radius: 50%; background: var(--bg-card-subtle); border: 1px solid var(--border-soft); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px; color: var(--slate-400); font-size: 24px;">
-              ✉️
+            <div style="width: 54px; height: 54px; border-radius: 50%; background: var(--bg-card-subtle); border: 1px solid var(--border-soft); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px; color: var(--slate-400);">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             </div>
             <h4 style="font-size: 16px; font-weight: 800; color: var(--slate-800); margin-bottom: 6px;">Awaiting Target Email</h4>
             <p style="font-size: 13px; color: var(--slate-500); max-width: 500px; margin: 0 auto;">
@@ -835,13 +845,16 @@
                 <!-- Export Toolbar -->
                 <div class="email-export-bar">
                   <a href="#" id="btn-export-json" class="email-export-btn" target="_blank">
-                    <span>💾 OASIS JSON</span>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                    <span>OASIS JSON</span>
                   </a>
                   <a href="#" id="btn-export-md" class="email-export-btn" target="_blank">
-                    <span>📄 Markdown Dossier</span>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    <span>Markdown Dossier</span>
                   </a>
                   <a href="#" id="btn-export-csv" class="email-export-btn" target="_blank">
-                    <span>📊 CSV Export</span>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                    <span>CSV Export</span>
                   </a>
                 </div>
               </div>
@@ -939,7 +952,9 @@
                 </select>
 
                 <button type="submit" id="btn-mailbox-submit" class="btn-mailbox-recon">
-                  <span id="mailbox-btn-icon">⚡</span>
+                  <span id="mailbox-btn-icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                  </span>
                   <span id="mailbox-btn-label">Discover Mailboxes</span>
                 </button>
               </div>
@@ -965,12 +980,15 @@
                   <span class="dot" style="background: #0ea5e9; box-shadow: 0 0 6px #0ea5e9;"></span>
                   <span id="mailbox-status-pill-text">PROBING PROVIDERS</span>
                 </span>
-                <span class="nav-badge" style="font-family: var(--font-mono); font-size: 11px; color: var(--slate-500); background: var(--bg-card-subtle); padding: 2px 8px; font-weight: 600;">⚡ OASIS Internal Engine</span>
+                <span class="nav-badge" style="font-family: var(--font-mono); font-size: 11px; color: var(--slate-500); background: var(--bg-card-subtle); padding: 2px 8px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                  OASIS Internal Engine
+                </span>
               </div>
               <div style="display: flex; align-items: center; gap: 12px;">
                 <span style="font-family: var(--font-mono); font-size: 12px; color: var(--slate-500); font-weight: 700;" id="mailbox-timer-text">Elapsed: 00:00s</span>
                 <span class="nav-badge" style="background: rgba(14, 165, 233, 0.15); color: #0284c7; border: 1px solid rgba(14, 165, 233, 0.3); font-weight: 700;" id="mailbox-live-count-badge">0 Found</span>
-                <button type="button" onclick="dismissMailboxProgress()" style="background: transparent; border: none; color: var(--slate-400); cursor: pointer; font-size: 14px; padding: 2px 6px; border-radius: 4px;" title="Dismiss status panel">✕</button>
+                <button type="button" onclick="dismissMailboxProgress()" style="background: transparent; border: none; color: var(--slate-400); cursor: pointer; font-size: 14px; padding: 2px 6px; border-radius: 4px;" title="Dismiss status panel">&times;</button>
               </div>
             </div>
 
@@ -990,8 +1008,8 @@
 
           <!-- Empty State Awaiting Handle -->
           <div id="mailbox-empty-state" class="content-card" style="padding: 60px 20px; text-align: center;">
-            <div style="width: 54px; height: 54px; border-radius: 50%; background: var(--bg-card-subtle); border: 1px solid var(--border-soft); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px; color: var(--slate-400); font-size: 24px;">
-              📫
+            <div style="width: 54px; height: 54px; border-radius: 50%; background: var(--bg-card-subtle); border: 1px solid var(--border-soft); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px; color: var(--slate-400);">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
             </div>
             <h4 style="font-size: 16px; font-weight: 800; color: var(--slate-800); margin-bottom: 6px;">Awaiting Target Handle</h4>
             <p style="font-size: 13px; color: var(--slate-500); max-width: 500px; margin: 0 auto;">
@@ -1036,13 +1054,16 @@
                 <!-- Export Toolbar -->
                 <div class="email-export-bar">
                   <a href="#" id="btn-mailbox-export-json" class="email-export-btn" target="_blank">
-                    <span>💾 OASIS JSON</span>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    <span>OASIS JSON</span>
                   </a>
                   <a href="#" id="btn-mailbox-export-md" class="email-export-btn" target="_blank">
-                    <span>📄 Markdown Dossier</span>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                    <span>Markdown Dossier</span>
                   </a>
                   <a href="#" id="btn-mailbox-export-csv" class="email-export-btn" target="_blank">
-                    <span>📊 CSV Export</span>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"></path><path d="M12 20V4"></path><path d="M6 20v-6"></path></svg>
+                    <span>CSV Export</span>
                   </a>
                 </div>
               </div>
@@ -1108,7 +1129,7 @@
         <div class="email-guide-card">
           <div class="email-guide-header" onclick="toggleEmailGuide()">
             <div style="display: flex; align-items: center; gap: 8px;">
-              <span style="font-size: 15px;">⚡</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--ember-500)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
               <span style="font-size: 13px; font-weight: 800; color: var(--slate-900);">
                 Email Suite Capabilities
               </span>
@@ -1122,7 +1143,9 @@
             <div class="email-guide-list">
               <!-- Feature 1 -->
               <div class="email-guide-tile">
-                <div class="email-guide-icon" style="background: rgba(99, 102, 241, 0.1); color: #6366f1;">🔍</div>
+                <div class="email-guide-icon" style="background: rgba(99, 102, 241, 0.1); color: #6366f1;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                </div>
                 <div>
                   <div style="font-size: 12px; font-weight: 800; color: var(--slate-900); margin-bottom: 2px;">124 Platform Coverage</div>
                   <div style="font-size: 11px; color: var(--slate-500); line-height: 1.4;">Reverse account enumeration on Twitter, Instagram, GitHub, Spotify, Google, Office365, Amazon, and 115+ more.</div>
@@ -1131,7 +1154,9 @@
 
               <!-- Feature 2 -->
               <div class="email-guide-tile">
-                <div class="email-guide-icon" style="background: rgba(14, 165, 233, 0.1); color: #0284c7;">📫</div>
+                <div class="email-guide-icon" style="background: rgba(14, 165, 233, 0.1); color: #0284c7;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </div>
                 <div>
                   <div style="font-size: 12px; font-weight: 800; color: var(--slate-900); margin-bottom: 2px;">26+ Mailbox Probes</div>
                   <div style="font-size: 11px; color: var(--slate-500); line-height: 1.4;">Proactively checks active inboxes across Gmail, Outlook, Proton, DuckDuckGo, Yahoo, Posteo, Fastmail, and Zoho.</div>
@@ -1140,7 +1165,9 @@
 
               <!-- Feature 3 -->
               <div class="email-guide-tile">
-                <div class="email-guide-icon" style="background: rgba(245, 158, 11, 0.1); color: #d97706;">🛡️</div>
+                <div class="email-guide-icon" style="background: rgba(245, 158, 11, 0.1); color: #d97706;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
                 <div>
                   <div style="font-size: 12px; font-weight: 800; color: var(--slate-900); margin-bottom: 2px;">Masked Data Harvesting</div>
                   <div style="font-size: 11px; color: var(--slate-500); line-height: 1.4;">Passively harvests leaked recovery phone hints (<code>+1 *****42</code>) and secondary email hints without alerting targets.</div>
@@ -1149,7 +1176,9 @@
 
               <!-- Feature 4 -->
               <div class="email-guide-tile">
-                <div class="email-guide-icon" style="background: rgba(16, 185, 129, 0.1); color: #059669;">🔒</div>
+                <div class="email-guide-icon" style="background: rgba(16, 185, 129, 0.1); color: #059669;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </div>
                 <div>
                   <div style="font-size: 12px; font-weight: 800; color: var(--slate-900); margin-bottom: 2px;">Passive Mode (-NP)</div>
                   <div style="font-size: 11px; color: var(--slate-500); line-height: 1.4;">Excludes password-recovery checks on Adobe, Mail.ru, Odnoklassniki, and Samsung for zero-contact ops.</div>
@@ -1158,7 +1187,9 @@
 
               <!-- Feature 5 -->
               <div class="email-guide-tile">
-                <div class="email-guide-icon" style="background: rgba(236, 72, 153, 0.1); color: #db2777;">⚡</div>
+                <div class="email-guide-icon" style="background: rgba(236, 72, 153, 0.1); color: #db2777;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                </div>
                 <div>
                   <div style="font-size: 12px; font-weight: 800; color: var(--slate-900); margin-bottom: 2px;">Cross-Engine 1-Click Pivot</div>
                   <div style="font-size: 11px; color: var(--slate-500); line-height: 1.4;">Pivot directly from any discovered mailbox into the 124-platform account footprint interrogation in 1 click.</div>
@@ -1167,7 +1198,9 @@
 
               <!-- Feature 6 -->
               <div class="email-guide-tile">
-                <div class="email-guide-icon" style="background: rgba(139, 92, 246, 0.1); color: #8b5cf6;">💾</div>
+                <div class="email-guide-icon" style="background: rgba(139, 92, 246, 0.1); color: #8b5cf6;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                </div>
                 <div>
                   <div style="font-size: 12px; font-weight: 800; color: var(--slate-900); margin-bottom: 2px;">Forensic Evidence Vault</div>
                   <div style="font-size: 11px; color: var(--slate-500); line-height: 1.4;">Auto-compiles standardized OASIS JSON, formatted Markdown investigation dossiers, and audit CSV spreadsheets.</div>
@@ -1478,16 +1511,17 @@ function pollEmailStatus(email) {
 }
 
 function resetEmailButton() {
+  const zapSvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>';
   const btn = document.getElementById("btn-email-submit");
   if (btn) {
     btn.disabled = false;
-    document.getElementById("email-btn-icon").textContent = "⚡";
+    document.getElementById("email-btn-icon").innerHTML = zapSvg;
     document.getElementById("email-btn-label").textContent = "Execute Email Recon";
   }
   const batchBtn = document.getElementById("btn-email-batch-submit");
   if (batchBtn) {
     batchBtn.disabled = false;
-    document.getElementById("email-batch-btn-icon").textContent = "⚡";
+    document.getElementById("email-batch-btn-icon").innerHTML = zapSvg;
     document.getElementById("email-batch-btn-label").textContent = "Launch Batch Recon";
   }
 }
@@ -1600,14 +1634,14 @@ function renderFindingsGrid() {
 
     let leaksHtml = "";
     if (f.email_recovery) {
-      leaksHtml += `<div class="email-leak-box">📧 Leaked Email: <strong>${escapeHtml(f.email_recovery)}</strong></div>`;
+      leaksHtml += `<div class="email-leak-box"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px; margin-right:4px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Leaked Email: <strong>${escapeHtml(f.email_recovery)}</strong></div>`;
     }
     if (f.phone_number) {
-      leaksHtml += `<div class="email-leak-box" style="margin-top: 4px;">📱 Leaked Phone: <strong>${escapeHtml(f.phone_number)}</strong></div>`;
+      leaksHtml += `<div class="email-leak-box" style="margin-top: 4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px; margin-right:4px;"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>Leaked Phone: <strong>${escapeHtml(f.phone_number)}</strong></div>`;
     }
     if (f.others) {
       for (const [k, v] of Object.entries(f.others)) {
-        leaksHtml += `<div class="email-leak-box" style="margin-top: 4px;">ℹ️ ${escapeHtml(k)}: <strong>${escapeHtml(String(v))}</strong></div>`;
+        leaksHtml += `<div class="email-leak-box" style="margin-top: 4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px; margin-right:4px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>${escapeHtml(k)}: <strong>${escapeHtml(String(v))}</strong></div>`;
       }
     }
 
@@ -1689,11 +1723,11 @@ function renderAuditTable() {
 
     let badgeHtml = "";
     if (status === "registered") {
-      badgeHtml = `<span class="status-badge badge-registered">✓ REGISTERED</span>`;
+      badgeHtml = `<span class="status-badge badge-registered">REGISTERED</span>`;
     } else if (status === "rate_limited") {
-      badgeHtml = `<span class="status-badge badge-rate-limited">⚠ RATE LIMITED</span>`;
+      badgeHtml = `<span class="status-badge badge-rate-limited">RATE LIMITED</span>`;
     } else if (status === "error") {
-      badgeHtml = `<span class="status-badge badge-error">✕ ERROR</span>`;
+      badgeHtml = `<span class="status-badge badge-error">ERROR</span>`;
     } else {
       badgeHtml = `<span class="status-badge badge-not-registered">— Not Registered</span>`;
     }
@@ -1869,8 +1903,9 @@ function pollMailboxStatus(username) {
       if (data.discovered_inboxes && data.discovered_inboxes.length > 0) {
         const chipsContainer = document.getElementById("mailbox-stream-chips");
         chipsContainer.innerHTML = data.discovered_inboxes.map(item => `
-          <span class="chip-email-found" style="color: #0284c7; background: rgba(14, 165, 233, 0.1); border-color: rgba(14, 165, 233, 0.25);">
-            📫 ${escapeHtml(item.email)}
+          <span class="chip-email-found" style="color: #0284c7; background: rgba(14, 165, 233, 0.1); border-color: rgba(14, 165, 233, 0.25); display: inline-flex; align-items: center; gap: 4px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            ${escapeHtml(item.email)}
           </span>
         `).join("");
       }
@@ -1898,7 +1933,7 @@ function resetMailboxButton() {
   const btn = document.getElementById("btn-mailbox-submit");
   if (btn) {
     btn.disabled = false;
-    document.getElementById("mailbox-btn-icon").textContent = "⚡";
+    document.getElementById("mailbox-btn-icon").innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>';
     document.getElementById("mailbox-btn-label").textContent = "Discover Mailboxes";
   }
 }
@@ -1979,7 +2014,7 @@ function renderMailboxInboxesGrid() {
               ${prov}
             </span>
             <span class="status-badge badge-registered">
-              ✓ ACTIVE
+              ACTIVE
             </span>
           </div>
           <div class="mailbox-inbox-title">
@@ -1993,7 +2028,10 @@ function renderMailboxInboxesGrid() {
         <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-soft); padding-top: 10px; margin-top: 4px;">
           <span style="font-size: 11px; color: var(--slate-500);">Pivot to footprint:</span>
           <button type="button" class="btn-pivot-footprint" onclick="pivotToEmailFootprint('${email}')" title="Interrogate 124 websites for this discovered email">
-            <span>⚡ Pivot ↗</span>
+            <span style="display: inline-flex; align-items: center; gap: 4px;">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Pivot ↗
+            </span>
           </button>
         </div>
       </div>
@@ -2078,11 +2116,11 @@ function renderMailboxAuditTable() {
 
     let badgeHtml = "";
     if (status === "found") {
-      badgeHtml = `<span class="status-badge badge-registered">✓ ACTIVE</span>`;
+      badgeHtml = `<span class="status-badge badge-registered">ACTIVE</span>`;
     } else if (status === "timeout") {
-      badgeHtml = `<span class="status-badge badge-rate-limited">⚠ TIMEOUT</span>`;
+      badgeHtml = `<span class="status-badge badge-rate-limited">TIMEOUT</span>`;
     } else if (status === "error") {
-      badgeHtml = `<span class="status-badge badge-error">✕ ERROR</span>`;
+      badgeHtml = `<span class="status-badge badge-error">ERROR</span>`;
     } else {
       badgeHtml = `<span class="status-badge badge-not-registered">— Not Found</span>`;
     }
@@ -2092,7 +2130,7 @@ function renderMailboxAuditTable() {
       : `<span style="color:var(--slate-400); font-size:11.5px;">—</span>`;
 
     const pivotButton = (emails.length > 0)
-      ? `<button type="button" class="btn-pivot-footprint" onclick="pivotToEmailFootprint('${escapeHtml(emails[0])}')">⚡ Pivot</button>`
+      ? `<button type="button" class="btn-pivot-footprint" onclick="pivotToEmailFootprint('${escapeHtml(emails[0])}')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px; margin-right:3px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Pivot</button>`
       : `<span style="color:var(--slate-300); font-size:11px;">—</span>`;
 
     return `

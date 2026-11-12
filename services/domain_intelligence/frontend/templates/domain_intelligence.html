@@ -459,12 +459,15 @@
             <span class="dot" style="background: #0284c7; box-shadow: 0 0 6px #0284c7;"></span>
             <span id="domain-status-pill-text">ACTIVE SURFACE CRAWL</span>
           </span>
-          <span class="nav-badge" style="font-family: var(--font-mono); font-size: 11px; color: var(--slate-500); background: var(--bg-card-subtle); padding: 2px 8px; font-weight: 600;">⚡ OASIS Internal Engine</span>
+          <span class="nav-badge" style="font-family: var(--font-mono); font-size: 11px; color: var(--slate-500); background: var(--bg-card-subtle); padding: 2px 8px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            OASIS Internal Engine
+          </span>
         </div>
         <div style="display: flex; align-items: center; gap: 12px;">
           <span style="font-family: var(--font-mono); font-size: 12px; color: var(--slate-500); font-weight: 700;" id="domain-timer-text">Elapsed: 00:00s</span>
           <span class="nav-badge" style="background: rgba(14, 165, 233, 0.15); color: #0284c7; border: 1px solid rgba(14, 165, 233, 0.3); font-weight: 700;" id="domain-live-count-badge">Active</span>
-          <button type="button" onclick="dismissDomainProgress()" style="background: transparent; border: none; color: var(--slate-400); cursor: pointer; font-size: 14px; padding: 2px 6px; border-radius: 4px;" title="Dismiss status panel">✕</button>
+          <button type="button" onclick="dismissDomainProgress()" style="background: transparent; border: none; color: var(--slate-400); cursor: pointer; font-size: 14px; padding: 2px 6px; border-radius: 4px;" title="Dismiss status panel">&times;</button>
         </div>
       </div>
 

@@ -285,7 +285,7 @@
     overflow: hidden;
   }
 
-  /* ⚡ Flash Mode Card (Warm Rose / Amber / Internal Engine Theme) */
+  /* Flash Mode Card (Warm Rose / Amber / Internal Engine Theme) */
   .ig-mode-btn.mode-flash {
     background: linear-gradient(135deg, rgba(225, 48, 108, 0.05) 0%, rgba(249, 115, 22, 0.04) 100%);
     border: 1.5px solid rgba(225, 48, 108, 0.25);
@@ -315,7 +315,7 @@
     background: linear-gradient(90deg, #e1306c, #f43f5e, #fb923c);
   }
 
-  /* 🚀 Pro Mode Card (High-Tech Royal Indigo / Purple / Cluster Theme) */
+  /* Pro Mode Card (High-Tech Royal Indigo / Purple / Cluster Theme) */
   .ig-mode-btn.mode-pro {
     background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(131, 58, 180, 0.04) 100%);
     border: 1.5px solid rgba(99, 102, 241, 0.25);
@@ -1248,19 +1248,31 @@
     <!-- 2. Platform Navigation Tabs -->
     <div class="platform-nav-tabs">
       <button class="platform-tab-btn active tab-instagram" id="tab-btn-instagram" onclick="switchPlatformTab('instagram')">
-        <span>📸 Instagram</span>
+        <span style="display: inline-flex; align-items: center; gap: 6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          Instagram
+        </span>
         <span class="platform-tab-badge" style="background: rgba(225, 48, 108, 0.12); color: #e1306c;">Native Scraper</span>
       </button>
       <button class="platform-tab-btn tab-facebook" id="tab-btn-facebook" onclick="switchPlatformTab('facebook')">
-        <span>📘 Facebook</span>
+        <span style="display: inline-flex; align-items: center; gap: 6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+          Facebook
+        </span>
         <span class="platform-tab-badge" style="background: rgba(24, 119, 242, 0.12); color: #1877f2;">Native Scraper</span>
       </button>
       <button class="platform-tab-btn tab-twitter" id="tab-btn-twitter" onclick="switchPlatformTab('twitter')">
-        <span>🐦 X / Twitter</span>
+        <span style="display: inline-flex; align-items: center; gap: 6px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          X / Twitter
+        </span>
         <span class="platform-tab-badge" style="background: rgba(15, 23, 42, 0.1); color: var(--slate-800);">Native Scraper</span>
       </button>
       <button class="platform-tab-btn tab-linkedin" id="tab-btn-linkedin" onclick="switchPlatformTab('linkedin')">
-        <span>💼 LinkedIn</span>
+        <span style="display: inline-flex; align-items: center; gap: 6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+          LinkedIn
+        </span>
         <span class="platform-tab-badge" style="background: rgba(10, 102, 194, 0.12); color: #0a66c2;">Enterprise Node</span>
       </button>
     </div>
@@ -1275,7 +1287,10 @@
         <button type="button" class="ig-mode-btn active mode-flash" id="btn-mode-flash" onclick="setInstagramMode('flash')">
           <div class="ig-mode-info">
             <span class="ig-mode-title">
-              <span>⚡ Flash Mode</span>
+              <span style="display: inline-flex; align-items: center; gap: 5px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                Flash Mode
+              </span>
               <span class="status-pill-online" style="padding: 2px 8px; font-size: 10px; background: rgba(225, 48, 108, 0.12); color: #e1306c; border-color: rgba(225, 48, 108, 0.3);"><span class="dot" style="background: #e1306c; box-shadow: 0 0 6px #e1306c;"></span> In-App Recon</span>
             </span>
             <span class="ig-mode-sub">Native internal engine (OASIS Instagram Engine) &bull; Live telemetry &amp; in-platform dossier</span>
@@ -1286,7 +1301,10 @@
         <button type="button" class="ig-mode-btn mode-pro" id="btn-mode-pro" onclick="setInstagramMode('pro')">
           <div class="ig-mode-info">
             <span class="ig-mode-title">
-              <span>🚀 Pro Mode</span>
+              <span style="display: inline-flex; align-items: center; gap: 5px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path><path d="M12 9V4s3.03.55 4 2c1.08 1.62 0 5 0 5"></path></svg>
+                Pro Mode
+              </span>
               <span class="status-pill-online" style="padding: 2px 8px; font-size: 10px; background: rgba(99, 102, 241, 0.12); color: #6366f1; border-color: rgba(99, 102, 241, 0.3);"><span class="dot" style="background: #6366f1; box-shadow: 0 0 6px #6366f1;"></span> Cluster Online</span>
             </span>
             <span class="ig-mode-sub">High-capacity scraper cluster at <code style="font-family: var(--font-mono); color: #6366f1; font-weight: 700;">instagramintel.rkmvcse.in</code></span>
@@ -1306,8 +1324,9 @@
             <div class="ig-flash-input-card">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
             <div>
-              <h4 style="font-size: 15px; font-weight: 800; color: var(--slate-900); margin: 0 0 4px 0;">
-                ⚡ Instagram Flash Reconnaissance
+              <h4 style="font-size: 15px; font-weight: 800; color: var(--slate-900); margin: 0 0 4px 0; display: flex; align-items: center; gap: 6px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#e1306c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                Instagram Flash Reconnaissance
               </h4>
               <p style="font-size: 12.5px; color: var(--slate-500); margin: 0;">
                 Extract target profile metrics, bio information, and post thumbnails directly within the OASIS investigation workspace.
@@ -1321,16 +1340,16 @@
           <!-- Scope Selector Bar -->
           <div class="ig-scope-bar">
             <button type="button" class="ig-scope-pill active" id="pill-user" onclick="setTargetScope('user')">
-              👤 User Profile &amp; Media Feed
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px; margin-right:4px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>User Profile &amp; Media Feed
             </button>
             <button type="button" class="ig-scope-pill" id="pill-post" onclick="setTargetScope('post')">
-              🔗 Direct Post &amp; Comments
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px; margin-right:4px;"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>Direct Post &amp; Comments
             </button>
             <button type="button" class="ig-scope-pill" id="pill-hashtag" onclick="setTargetScope('hashtag')">
-              🏷️ Hashtag Stream Discovery
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px; margin-right:4px;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>Hashtag Stream Discovery
             </button>
             <button type="button" class="ig-scope-pill" id="pill-location" onclick="setTargetScope('location')">
-              📍 Location Geotag ID
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px; margin-right:4px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>Location Geotag ID
             </button>
           </div>
 
@@ -1347,7 +1366,9 @@
               </select>
 
               <button type="submit" id="btn-ig-flash-submit" class="btn-ig-flash">
-                <span id="ig-btn-icon">⚡</span>
+                <span id="ig-btn-icon">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                </span>
                 <span id="ig-btn-label">Launch OASIS Recon</span>
               </button>
             </div>
@@ -1356,19 +1377,26 @@
             <div class="ig-checkbox-row">
               <label class="ig-check-label">
                 <input type="checkbox" id="ig-check-comments" checked>
-                <span>💬 Deep Comments Extraction per Post</span>
+                <span style="display: inline-flex; align-items: center; gap: 5px;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                  Deep Comments Extraction per Post
+                </span>
               </label>
 
               <label class="ig-check-label">
                 <input type="checkbox" id="ig-check-zip" checked>
-                <span>📦 Auto-Compile Media ZIP Archive</span>
+                <span style="display: inline-flex; align-items: center; gap: 5px;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                  Auto-Compile Media ZIP Archive
+                </span>
               </label>
             </div>
 
             <!-- Advanced Config: Session Cookie & Custom Proxy -->
             <details style="font-size: 12.5px; color: var(--slate-600); margin-top: 14px;">
-              <summary style="cursor: pointer; font-weight: 700; color: var(--slate-800);">
-                ⚙️ Advanced Configuration (Session Cookie, Proxy Server)
+              <summary style="cursor: pointer; font-weight: 700; color: var(--slate-800); display: inline-flex; align-items: center; gap: 6px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                Advanced Configuration (Session Cookie, Proxy Server)
               </summary>
               <div style="margin-top: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
                 <div>
@@ -1397,11 +1425,14 @@
                 <span class="oasis-status-dot pulse"></span>
                 <span id="ig-status-pill-text">ACTIVE SCRAPING</span>
               </span>
-              <span class="oasis-engine-tag">⚡ OASIS Internal Engine</span>
+              <span class="oasis-engine-tag" style="display: inline-flex; align-items: center; gap: 4px;">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                OASIS Internal Engine
+              </span>
             </div>
             <div style="display: flex; align-items: center; gap: 12px;">
               <span class="oasis-progress-timer" id="ig-progress-timer">Elapsed: 0.0s</span>
-              <button type="button" class="oasis-progress-close-btn" id="ig-progress-close-btn" onclick="dismissInstagramProgress()" title="Dismiss status panel">✕</button>
+              <button type="button" class="oasis-progress-close-btn" id="ig-progress-close-btn" onclick="dismissInstagramProgress()" title="Dismiss status panel">&times;</button>
             </div>
           </div>
 
@@ -1467,10 +1498,11 @@
               <!-- Profile External Link & Direct Action -->
               <div style="margin-top: 14px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
                 <a id="ig-link-external" href="#" target="_blank" rel="noopener" style="font-size: 12px; color: #0284c7; text-decoration: none; font-weight: 700; display: none;">
-                  🔗 External Website ↗
+                  External Website ↗
                 </a>
-                <a id="ig-link-profile" href="#" target="_blank" rel="noopener" class="ig-export-btn" style="color: #e1306c; border-color: rgba(225, 48, 108, 0.3);">
-                  <span>📸 Open Profile on Instagram ↗</span>
+                <a id="ig-link-profile" href="#" target="_blank" rel="noopener" class="ig-export-btn" style="color: #e1306c; border-color: rgba(225, 48, 108, 0.3); display: inline-flex; align-items: center; gap: 5px;">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                  <span>Open Profile on Instagram ↗</span>
                 </a>
               </div>
             </div>
@@ -1488,16 +1520,20 @@
             <!-- Export Toolbar -->
             <div class="ig-export-bar">
               <a href="#" id="ig-download-json" class="ig-export-btn" download>
-                <span>💾 OASIS JSON</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                <span>OASIS JSON</span>
               </a>
               <a href="#" id="ig-download-md" class="ig-export-btn" download>
-                <span>📄 Markdown Dossier</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                <span>Markdown Dossier</span>
               </a>
               <a href="#" id="ig-download-csv" class="ig-export-btn" download>
-                <span>📊 CSV Export</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+                <span>CSV Export</span>
               </a>
               <a href="#" id="ig-download-zip" class="ig-export-btn" style="border-color: rgba(225, 48, 108, 0.4); color: #e1306c;" download>
-                <span>📦 Media ZIP Package</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                <span>Media ZIP Package</span>
               </a>
             </div>
           </div>
@@ -1511,12 +1547,14 @@
 
         <!-- Empty Guidance State (Initial) -->
         <div id="ig-empty-guidance" style="text-align: center; padding: 40px 20px; background: var(--bg-card-subtle); border: 1px dashed var(--border-soft); border-radius: var(--radius-md);">
-          <div style="font-size: 36px; margin-bottom: 12px;">📸</div>
+          <div style="width: 54px; height: 54px; border-radius: 50%; background: var(--bg-card-subtle); border: 1px solid var(--border-soft); display: inline-flex; align-items: center; justify-content: center; margin: 0 auto 12px auto; color: var(--slate-400);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          </div>
           <h4 style="font-size: 15px; font-weight: 800; color: var(--slate-800); margin-bottom: 6px;">
             Ready to Inspect Instagram Target
           </h4>
           <p style="font-size: 13px; color: var(--slate-500); max-width: 520px; margin: 0 auto;">
-            Enter an Instagram username (e.g. <code>@nasa</code>), hashtag, or direct post URL above and click <strong>Launch Flash Recon</strong> to initiate internal Chromium harvesting.
+            Enter an Instagram username (e.g. <code>@nasa</code>), hashtag, or direct post URL above and click <strong>Launch OASIS Recon</strong> to initiate internal Chromium harvesting.
           </p>
         </div>
 
@@ -1527,7 +1565,7 @@
         <div class="ig-features-guide-card">
           <div class="ig-features-guide-header" onclick="toggleFlashFeaturesGuide()">
             <div style="display: flex; align-items: center; gap: 8px;">
-              <span style="font-size: 15px;">⚡</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--ember-500)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
               <span style="font-size: 13px; font-weight: 800; color: var(--slate-900);">
                 Flash Capabilities
               </span>
@@ -1541,7 +1579,9 @@
             <div class="ig-feature-grid">
               <!-- Feature 1 -->
               <div class="ig-feature-tile">
-                <div class="ig-feature-icon" style="background: rgba(225, 48, 108, 0.1); color: #e1306c;">👤</div>
+                <div class="ig-feature-icon" style="background: rgba(225, 48, 108, 0.1); color: #e1306c;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
                 <div class="ig-feature-content">
                   <div class="ig-feature-title">Multi-Scope Targeting</div>
                   <div class="ig-feature-desc">Recon on handles (<code>@target</code>), direct posts (<code>/p/...</code>), hashtags (<code>#osint</code>), or geotags.</div>
@@ -1550,7 +1590,9 @@
 
               <!-- Feature 2 -->
               <div class="ig-feature-tile">
-                <div class="ig-feature-icon" style="background: rgba(249, 115, 22, 0.1); color: #ea580c;">💬</div>
+                <div class="ig-feature-icon" style="background: rgba(249, 115, 22, 0.1); color: #ea580c;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                </div>
                 <div class="ig-feature-content">
                   <div class="ig-feature-title">Per-Post Deep Comments</div>
                   <div class="ig-feature-desc">Automated extraction of author handles, comment text, and timestamps in an expandable drawer.</div>
@@ -1559,7 +1601,9 @@
 
               <!-- Feature 3 -->
               <div class="ig-feature-tile">
-                <div class="ig-feature-icon" style="background: rgba(16, 185, 129, 0.1); color: #059669;">📦</div>
+                <div class="ig-feature-icon" style="background: rgba(16, 185, 129, 0.1); color: #059669;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                </div>
                 <div class="ig-feature-content">
                   <div class="ig-feature-title">Offline Media ZIP Packaging</div>
                   <div class="ig-feature-desc">Downloads avatars and thumbnails directly from CDNs into an offline evidence ZIP package.</div>
@@ -1568,7 +1612,9 @@
 
               <!-- Feature 4 -->
               <div class="ig-feature-tile">
-                <div class="ig-feature-icon" style="background: rgba(14, 165, 233, 0.1); color: #0284c7;">🍪</div>
+                <div class="ig-feature-icon" style="background: rgba(14, 165, 233, 0.1); color: #0284c7;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                </div>
                 <div class="ig-feature-content">
                   <div class="ig-feature-title">Session Cookie Injection</div>
                   <div class="ig-feature-desc">Supply active <code>sessionid</code> cookie to bypass rate-limits and access age-restricted profiles.</div>
@@ -1577,7 +1623,9 @@
 
               <!-- Feature 5 -->
               <div class="ig-feature-tile">
-                <div class="ig-feature-icon" style="background: rgba(139, 92, 246, 0.1); color: #7c3aed;">🛡️</div>
+                <div class="ig-feature-icon" style="background: rgba(139, 92, 246, 0.1); color: #7c3aed;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
                 <div class="ig-feature-content">
                   <div class="ig-feature-title">Custom Proxy Routing</div>
                   <div class="ig-feature-desc">Route Chromium headless scraping traffic through custom HTTP or SOCKS5 proxies for anonymity.</div>
@@ -1586,7 +1634,9 @@
 
               <!-- Feature 6 -->
               <div class="ig-feature-tile">
-                <div class="ig-feature-icon" style="background: rgba(236, 72, 153, 0.1); color: #db2777;">💾</div>
+                <div class="ig-feature-icon" style="background: rgba(236, 72, 153, 0.1); color: #db2777;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                </div>
                 <div class="ig-feature-content">
                   <div class="ig-feature-title">Multi-Format Dossier Vault</div>
                   <div class="ig-feature-desc">1-click export to structured <strong>JSON</strong>, incident <strong>Markdown</strong>, tabular <strong>CSV</strong>, and <strong>ZIP</strong>.</div>
@@ -1595,7 +1645,9 @@
 
               <!-- Feature 7 -->
               <div class="ig-feature-tile">
-                <div class="ig-feature-icon" style="background: rgba(100, 116, 139, 0.1); color: #475569;">📊</div>
+                <div class="ig-feature-icon" style="background: rgba(100, 116, 139, 0.1); color: #475569;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+                </div>
                 <div class="ig-feature-content">
                   <div class="ig-feature-title">Profile Metrics &amp; Bio</div>
                   <div class="ig-feature-desc">Follower/following/post counts, full account bio, external link, and verification status.</div>
@@ -1604,7 +1656,9 @@
 
               <!-- Feature 8 -->
               <div class="ig-feature-tile">
-                <div class="ig-feature-icon" style="background: rgba(245, 158, 11, 0.1); color: #d97706;">⚡</div>
+                <div class="ig-feature-icon" style="background: rgba(245, 158, 11, 0.1); color: #d97706;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                </div>
                 <div class="ig-feature-content">
                   <div class="ig-feature-title">Zero-Latency In-App Engine</div>
                   <div class="ig-feature-desc">No external redirections. Live progress bar and UI visualizer directly within OASIS.</div>
@@ -1625,7 +1679,7 @@
           <div class="platform-header-row">
             <div class="platform-title-group">
               <div class="platform-icon-box" style="background: rgba(131, 58, 180, 0.12); color: #833ab4;">
-                🚀
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path><path d="M12 9V4s3.03.55 4 2c1.08 1.62 0 5 0 5"></path></svg>
               </div>
               <div>
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
@@ -1649,27 +1703,40 @@
             <p>
               Direct access to our dedicated Vidyamandira Instagram scraping cluster for mass profile extraction, full follower/following network mapping, complete reel ingestion, and bulk post comment archival with automated residential proxy rotation.
             </p>
-            <a href="http://instagramintel.rkmvcse.in/" target="_blank" rel="noopener noreferrer" class="btn-launch-native" style="background: linear-gradient(135deg, #833ab4 0%, #5851db 100%);">
-              <span>🚀 Launch Pro Instagram Scraper ↗</span>
+            <a href="http://instagramintel.rkmvcse.in/" target="_blank" rel="noopener noreferrer" class="btn-launch-native" style="background: linear-gradient(135deg, #833ab4 0%, #5851db 100%); display: inline-flex; align-items: center; gap: 6px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path><path d="M12 9V4s3.03.55 4 2c1.08 1.62 0 5 0 5"></path></svg>
+              <span>Launch Pro Instagram Scraper ↗</span>
             </a>
           </div>
 
           <!-- Capabilities Grid -->
           <div class="capabilities-mini-grid">
             <div class="cap-box">
-              <div class="cap-box-title">🎬 Bulk Reels &amp; Posts</div>
+              <div class="cap-box-title" style="display: flex; align-items: center; gap: 6px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#833ab4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>
+                Bulk Reels &amp; Posts
+              </div>
               <p class="cap-box-desc">Deep extraction of high-volume feeds, view counts, and engagement velocity.</p>
             </div>
             <div class="cap-box">
-              <div class="cap-box-title">👥 Full Follower Network</div>
+              <div class="cap-box-title" style="display: flex; align-items: center; gap: 6px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#833ab4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                Full Follower Network
+              </div>
               <p class="cap-box-desc">Graph mapping of complete follower rosters and reciprocal associations.</p>
             </div>
             <div class="cap-box">
-              <div class="cap-box-title">💬 Deep Comment Threads</div>
+              <div class="cap-box-title" style="display: flex; align-items: center; gap: 6px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#833ab4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                Deep Comment Threads
+              </div>
               <p class="cap-box-desc">Indexes complete comment history, sentiment scores, and frequent commentators.</p>
             </div>
             <div class="cap-box">
-              <div class="cap-box-title">🛡️ Residential Proxy Pool</div>
+              <div class="cap-box-title" style="display: flex; align-items: center; gap: 6px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#833ab4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                Residential Proxy Pool
+              </div>
               <p class="cap-box-desc">Zero rate-limit bans through distributed residential IP rotation.</p>
             </div>
           </div>
@@ -1685,7 +1752,7 @@
         <div class="platform-header-row">
           <div class="platform-title-group">
             <div class="platform-icon-box" style="background: rgba(24, 119, 242, 0.12); color: #1877f2;">
-              📘
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
             </div>
             <div>
               <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
@@ -1717,19 +1784,31 @@
         <!-- Capabilities Grid -->
         <div class="capabilities-mini-grid">
           <div class="cap-box">
-            <div class="cap-box-title">📰 Timeline &amp; Public Posts</div>
+            <div class="cap-box-title" style="display: flex; align-items: center; gap: 6px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1877f2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              Timeline &amp; Public Posts
+            </div>
             <p class="cap-box-desc">Historical timeline harvesting, status updates, shared content, and likes.</p>
           </div>
           <div class="cap-box">
-            <div class="cap-box-title">🏢 Pages &amp; Groups Intelligence</div>
+            <div class="cap-box-title" style="display: flex; align-items: center; gap: 6px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1877f2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              Pages &amp; Groups Intelligence
+            </div>
             <p class="cap-box-desc">Cross-references public group memberships and managed public pages.</p>
           </div>
           <div class="cap-box">
-            <div class="cap-box-title">🖼️ Photo Albums &amp; Metadata</div>
+            <div class="cap-box-title" style="display: flex; align-items: center; gap: 6px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1877f2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              Photo Albums &amp; Metadata
+            </div>
             <p class="cap-box-desc">Downloads high-res uploads with tag identification and location data.</p>
           </div>
           <div class="cap-box">
-            <div class="cap-box-title">🎓 Education &amp; Work Footprint</div>
+            <div class="cap-box-title" style="display: flex; align-items: center; gap: 6px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1877f2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 3 3 6 3s6-1 6-3v-5"/></svg>
+              Education &amp; Work Footprint
+            </div>
             <p class="cap-box-desc">Discovers self-reported workplace, colleges, hometown, and contact info.</p>
           </div>
         </div>
@@ -1744,7 +1823,10 @@
         <button type="button" class="ig-mode-btn mode-flash active" id="btn-tw-mode-flash" onclick="setTwitterMode('flash')">
           <div class="ig-mode-info">
             <span class="ig-mode-title">
-              <span>⚡ Flash Mode</span>
+              <span style="display: inline-flex; align-items: center; gap: 5px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                Flash Mode
+              </span>
               <span class="status-pill-online" style="padding: 2px 8px; font-size: 10px; background: rgba(15, 23, 42, 0.1); color: var(--slate-900); border-color: rgba(15, 23, 42, 0.25);"><span class="dot" style="background: var(--slate-900); box-shadow: 0 0 6px var(--slate-900);"></span> In-App Recon</span>
             </span>
             <span class="ig-mode-sub">Native internal engine (OASIS X / Twitter Engine) &bull; Live in-platform profile &amp; tweet extraction</span>
@@ -1755,7 +1837,10 @@
         <button type="button" class="ig-mode-btn mode-pro" id="btn-tw-mode-pro" onclick="setTwitterMode('pro')">
           <div class="ig-mode-info">
             <span class="ig-mode-title">
-              <span>🚀 Pro Mode</span>
+              <span style="display: inline-flex; align-items: center; gap: 5px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path><path d="M12 9V4s3.03.55 4 2c1.08 1.62 0 5 0 5"></path></svg>
+                Pro Mode
+              </span>
               <span class="status-pill-online" style="padding: 2px 8px; font-size: 10px; background: rgba(99, 102, 241, 0.12); color: #6366f1; border-color: rgba(99, 102, 241, 0.3);"><span class="dot" style="background: #6366f1; box-shadow: 0 0 6px #6366f1;"></span> Cluster Online</span>
             </span>
             <span class="ig-mode-sub">High-capacity scraper cluster at <code style="font-family: var(--font-mono); color: #6366f1; font-weight: 700;">xintel.rkmvcse.in</code></span>
@@ -1775,8 +1860,9 @@
             <div class="ig-flash-input-card">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
                 <div>
-                  <h4 style="font-size: 15px; font-weight: 800; color: var(--slate-900); margin: 0 0 4px 0;">
-                    ⚡ X / Twitter Flash Reconnaissance
+                  <h4 style="font-size: 15px; font-weight: 800; color: var(--slate-900); margin: 0 0 4px 0; display: flex; align-items: center; gap: 6px;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    X / Twitter Flash Reconnaissance
                   </h4>
                   <p style="font-size: 12.5px; color: var(--slate-500); margin: 0;">
                     Extract user profile metrics, bio information, and recent tweet timelines directly within the OASIS workspace.
@@ -1790,13 +1876,13 @@
               <!-- Scope Selector Bar -->
               <div class="tw-scope-bar">
                 <button type="button" class="tw-scope-pill active" id="pill-tw-user" onclick="setTwitterScope('user')">
-                  👤 User Profile &amp; Tweets
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px; margin-right:4px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>User Profile &amp; Tweets
                 </button>
                 <button type="button" class="tw-scope-pill" id="pill-tw-search" onclick="setTwitterScope('search')">
-                  🔍 Keyword &amp; Hashtag Search
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px; margin-right:4px;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>Keyword &amp; Hashtag Search
                 </button>
                 <button type="button" class="tw-scope-pill" id="pill-tw-tweet" onclick="setTwitterScope('tweet')">
-                  🔗 Direct Tweet &amp; Replies
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px; margin-right:4px;"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>Direct Tweet &amp; Replies
                 </button>
               </div>
 
@@ -1812,15 +1898,18 @@
                   </select>
 
                   <button type="submit" id="btn-tw-flash-submit" class="btn-tw-flash">
-                    <span id="tw-btn-icon">⚡</span>
+                    <span id="tw-btn-icon">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    </span>
                     <span id="tw-btn-label">Launch OASIS Recon</span>
                   </button>
                 </div>
 
                 <!-- Advanced Config: Session Cookie & Custom Proxy -->
                 <details style="font-size: 12.5px; color: var(--slate-600); margin-top: 14px;">
-                  <summary style="cursor: pointer; font-weight: 700; color: var(--slate-800);">
-                    ⚙️ Advanced Configuration (X Session Cookie, Proxy Server)
+                  <summary style="cursor: pointer; font-weight: 700; color: var(--slate-800); display: inline-flex; align-items: center; gap: 6px;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    Advanced Configuration (X Session Cookie, Proxy Server)
                   </summary>
                   <div style="margin-top: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
                     <div>
@@ -1855,18 +1944,21 @@
                     <span class="oasis-status-dot pulse" style="background: #0ea5e9;"></span>
                     <span id="tw-status-pill-text">ACTIVE SCRAPING</span>
                   </span>
-                  <span class="oasis-engine-tag">⚡ OASIS Internal Engine</span>
+                  <span class="oasis-engine-tag" style="display: inline-flex; align-items: center; gap: 4px;">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    OASIS Internal Engine
+                  </span>
                 </div>
                 <div style="display: flex; align-items: center; gap: 12px;">
                   <span class="oasis-progress-timer" id="tw-progress-timer">Elapsed: 0.0s</span>
-                  <button type="button" class="oasis-progress-close-btn" id="tw-progress-close-btn" onclick="dismissTwitterProgress()" title="Dismiss status panel">✕</button>
+                  <button type="button" class="oasis-progress-close-btn" id="tw-progress-close-btn" onclick="dismissTwitterProgress()" title="Dismiss status panel">&times;</button>
                 </div>
               </div>
 
               <div class="oasis-progress-body">
                 <div class="oasis-progress-info">
                   <div class="oasis-progress-title" id="tw-progress-title">Executing X / Twitter Engine...</div>
-                  <div class="oasis-progress-subtitle" id="tw-progress-subtitle">Connecting to X GraphQL endpoints via twscrape</div>
+                  <div class="oasis-progress-subtitle" id="tw-progress-subtitle">Connecting to X GraphQL endpoints via native engine</div>
                 </div>
                 <div class="oasis-progress-percent" id="tw-progress-percent" style="color: #0284c7;">15%</div>
               </div>
@@ -1924,10 +2016,17 @@
 
                   <!-- Metadata Strip & Direct Profile Link -->
                   <div style="margin-top: 12px; display: flex; gap: 14px; align-items: center; flex-wrap: wrap; font-size: 12px; color: var(--slate-500);">
-                    <span id="tw-res-location">📍 Location: Unspecified</span>
-                    <span id="tw-res-created">📅 Joined: N/A</span>
-                    <a id="tw-link-profile" href="#" target="_blank" rel="noopener" class="ig-export-btn" style="color: #0284c7; border-color: rgba(14, 165, 233, 0.3);">
-                      <span>🐦 Open on X / Twitter ↗</span>
+                    <span id="tw-res-location" style="display: inline-flex; align-items: center; gap: 4px;">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                      Location: Unspecified
+                    </span>
+                    <span id="tw-res-created" style="display: inline-flex; align-items: center; gap: 4px;">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                      Joined: N/A
+                    </span>
+                    <a id="tw-link-profile" href="#" target="_blank" rel="noopener" class="ig-export-btn" style="color: #0284c7; border-color: rgba(14, 165, 233, 0.3); display: inline-flex; align-items: center; gap: 5px;">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                      <span>Open on X / Twitter ↗</span>
                     </a>
                   </div>
                 </div>
@@ -1945,13 +2044,16 @@
                 <!-- Export Toolbar -->
                 <div class="ig-export-bar">
                   <a href="#" id="tw-download-json" class="ig-export-btn" download>
-                    <span>💾 OASIS JSON</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                    <span>OASIS JSON</span>
                   </a>
                   <a href="#" id="tw-download-md" class="ig-export-btn" download>
-                    <span>📄 Markdown Dossier</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    <span>Markdown Dossier</span>
                   </a>
                   <a href="#" id="tw-download-csv" class="ig-export-btn" download>
-                    <span>📊 CSV Export</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+                    <span>CSV Export</span>
                   </a>
                 </div>
               </div>
@@ -1965,7 +2067,9 @@
 
             <!-- Empty Guidance State -->
             <div id="tw-empty-guidance" style="text-align: center; padding: 40px 20px; background: var(--bg-card-subtle); border: 1px dashed var(--border-soft); border-radius: var(--radius-md);">
-              <div style="font-size: 36px; margin-bottom: 12px;">🐦</div>
+              <div style="width: 54px; height: 54px; border-radius: 50%; background: var(--bg-card-subtle); border: 1px solid var(--border-soft); display: inline-flex; align-items: center; justify-content: center; margin: 0 auto 12px auto; color: var(--slate-400);">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              </div>
               <h4 style="font-size: 15px; font-weight: 800; color: var(--slate-800); margin-bottom: 6px;">
                 Ready to Inspect X / Twitter Target
               </h4>
@@ -1981,7 +2085,7 @@
             <div class="ig-sidebar-card">
               <div class="ig-sidebar-header">
                 <div style="display: flex; align-items: center; gap: 8px;">
-                  <span style="font-size: 15px;">⚡</span>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--ember-500)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                   <span style="font-size: 13px; font-weight: 800; color: var(--slate-900);">Twitter Engine Features</span>
                 </div>
                 <span class="status-pill-online" style="padding: 2px 7px; font-size: 10px; background: rgba(14, 165, 233, 0.1); color: #0284c7; border-color: rgba(14, 165, 233, 0.25);">
@@ -1991,7 +2095,9 @@
 
               <div class="ig-features-list">
                 <div class="ig-feature-tile">
-                  <div class="ig-feature-icon" style="background: rgba(15, 23, 42, 0.08); color: var(--slate-900);">👤</div>
+                  <div class="ig-feature-icon" style="background: rgba(15, 23, 42, 0.08); color: var(--slate-900);">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                  </div>
                   <div>
                     <div class="ig-feature-title">Profile &amp; Bio Triage</div>
                     <div class="ig-feature-desc">Harvests handle, display name, bio description, location, verification status, and join date.</div>
@@ -1999,7 +2105,9 @@
                 </div>
 
                 <div class="ig-feature-tile">
-                  <div class="ig-feature-icon" style="background: rgba(14, 165, 233, 0.1); color: #0284c7;">📜</div>
+                  <div class="ig-feature-icon" style="background: rgba(14, 165, 233, 0.1); color: #0284c7;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                  </div>
                   <div>
                     <div class="ig-feature-title">Timeline Tweets &amp; Metrics</div>
                     <div class="ig-feature-desc">Extracts recent tweets with likes, retweets, replies, quote counts, and impression views.</div>
@@ -2007,7 +2115,9 @@
                 </div>
 
                 <div class="ig-feature-tile">
-                  <div class="ig-feature-icon" style="background: rgba(139, 92, 246, 0.1); color: #8b5cf6;">🔍</div>
+                  <div class="ig-feature-icon" style="background: rgba(139, 92, 246, 0.1); color: #8b5cf6;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  </div>
                   <div>
                     <div class="ig-feature-title">Search &amp; Hashtag Velocity</div>
                     <div class="ig-feature-desc">Performs live keyword queries, hashtag tracking (<code>#osint</code>), and mention monitoring.</div>
@@ -2015,7 +2125,9 @@
                 </div>
 
                 <div class="ig-feature-tile">
-                  <div class="ig-feature-icon" style="background: rgba(16, 185, 129, 0.1); color: #059669;">📸</div>
+                  <div class="ig-feature-icon" style="background: rgba(16, 185, 129, 0.1); color: #059669;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                  </div>
                   <div>
                     <div class="ig-feature-title">Media &amp; CDN Links</div>
                     <div class="ig-feature-desc">Extracts signed CDN image and video links directly from tweet media cards.</div>
@@ -2023,7 +2135,9 @@
                 </div>
 
                 <div class="ig-feature-tile">
-                  <div class="ig-feature-icon" style="background: rgba(245, 158, 11, 0.1); color: #d97706;">📱</div>
+                  <div class="ig-feature-icon" style="background: rgba(245, 158, 11, 0.1); color: #d97706;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                  </div>
                   <div>
                     <div class="ig-feature-title">Client Application Auditing</div>
                     <div class="ig-feature-desc">Audits publishing sources (<code>Twitter for iPhone</code>, <code>Twitter Web App</code>).</div>
@@ -2031,7 +2145,9 @@
                 </div>
 
                 <div class="ig-feature-tile">
-                  <div class="ig-feature-icon" style="background: rgba(236, 72, 153, 0.1); color: #db2777;">💾</div>
+                  <div class="ig-feature-icon" style="background: rgba(236, 72, 153, 0.1); color: #db2777;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                  </div>
                   <div>
                     <div class="ig-feature-title">Multi-Format Dossiers</div>
                     <div class="ig-feature-desc">1-click export to OASIS JSON, Markdown incident reports, and spreadsheet CSVs.</div>
@@ -2050,7 +2166,7 @@
           <div class="platform-header-row">
             <div class="platform-title-group">
               <div class="platform-icon-box" style="background: rgba(15, 23, 42, 0.1); color: var(--slate-900);">
-                🐦
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
               </div>
               <div>
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
@@ -2089,7 +2205,7 @@
         <div class="platform-header-row">
           <div class="platform-title-group">
             <div class="platform-icon-box" style="background: rgba(10, 102, 194, 0.12); color: #0a66c2;">
-              💼
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
             </div>
             <div>
               <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
@@ -2121,19 +2237,31 @@
         <!-- Capabilities Grid -->
         <div class="capabilities-mini-grid">
           <div class="cap-box">
-            <div class="cap-box-title">🏢 Career &amp; Role History</div>
+            <div class="cap-box-title" style="display: flex; align-items: center; gap: 6px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0a66c2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+              Career &amp; Role History
+            </div>
             <p class="cap-box-desc">Reconstructs employment timelines, organizational positions, and tenures.</p>
           </div>
           <div class="cap-box">
-            <div class="cap-box-title">🌐 Company Affiliations</div>
+            <div class="cap-box-title" style="display: flex; align-items: center; gap: 6px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0a66c2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+              Company Affiliations
+            </div>
             <p class="cap-box-desc">Maps company structures, past employers, and professional associations.</p>
           </div>
           <div class="cap-box">
-            <div class="cap-box-title">🧠 Skill &amp; Endorsement Tags</div>
+            <div class="cap-box-title" style="display: flex; align-items: center; gap: 6px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0a66c2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+              Skill &amp; Endorsement Tags
+            </div>
             <p class="cap-box-desc">Catalogs verified technical skills, certifications, and peer endorsements.</p>
           </div>
           <div class="cap-box">
-            <div class="cap-box-title">🤝 Connection Graphs</div>
+            <div class="cap-box-title" style="display: flex; align-items: center; gap: 6px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0a66c2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+              Connection Graphs
+            </div>
             <p class="cap-box-desc">Evaluates professional circles, alumni networks, and industry cohorts.</p>
           </div>
         </div>
@@ -2403,7 +2531,7 @@ function dismissInstagramProgress() {
 function resetSubmitButton() {
   const btnSubmit = document.getElementById("btn-ig-flash-submit");
   btnSubmit.disabled = false;
-  document.getElementById("ig-btn-icon").textContent = "⚡";
+  document.getElementById("ig-btn-icon").innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>';
   document.getElementById("ig-btn-label").textContent = "Launch OASIS Recon";
 }
 
@@ -2466,7 +2594,7 @@ function renderInstagramResults(data) {
   const extLinkEl = document.getElementById("ig-link-external");
   if (profile.external_url) {
     extLinkEl.href = profile.external_url.startsWith("http") ? profile.external_url : `https://${profile.external_url}`;
-    extLinkEl.textContent = `🔗 ${profile.external_url} ↗`;
+    extLinkEl.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px; margin-right:3px;"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>${escapeHtml(profile.external_url)} ↗`;
     extLinkEl.style.display = "inline";
   } else {
     extLinkEl.style.display = "none";
@@ -2517,7 +2645,10 @@ function renderInstagramResults(data) {
 
       commentsHtml = `
         <button type="button" class="ig-comments-toggle-btn" onclick="toggleCommentsDrawer('${shortcode}')">
-          <span>💬 View Comments (${commentsList.length})</span>
+          <span style="display: inline-flex; align-items: center; gap: 4px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            View Comments (${commentsList.length})
+          </span>
         </button>
         <div class="ig-comments-drawer" id="comments-drawer-${shortcode}">
           ${itemsHtml}
@@ -2528,7 +2659,7 @@ function renderInstagramResults(data) {
     card.innerHTML = `
       <div class="ig-post-thumb-wrapper">
         <img class="ig-post-thumb" src="${thumbSrc}" alt="Media Post" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'64\' height=\'64\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%2394a3b8\' stroke-width=\'2\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\' ry=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><polyline points=\'21 15 16 10 5 21\'/></svg>';">
-        <span class="ig-post-type-badge">${isReel ? "🎬 REEL" : "📸 POST"}</span>
+        <span class="ig-post-type-badge">${isReel ? "REEL" : "POST"}</span>
       </div>
       <div class="ig-post-body">
         <div class="ig-post-caption" title="${caption.replace(/"/g, '&quot;')}">${caption}</div>
@@ -2596,7 +2727,7 @@ function resetTwitterButton() {
   const btn = document.getElementById("btn-tw-flash-submit");
   if (btn) {
     btn.disabled = false;
-    document.getElementById("tw-btn-icon").textContent = "⚡";
+    document.getElementById("tw-btn-icon").innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>';
     document.getElementById("tw-btn-label").textContent = "Launch OASIS Recon";
   }
 }
@@ -2643,7 +2774,7 @@ async function startTwitterFlash() {
   statusPillText.textContent = "ACTIVE HARVESTING";
 
   progressTitle.textContent = `Scraping X / Twitter target: ${target}`;
-  progressSubtitle.textContent = `Connecting to Twitter GraphQL via twscrape (Type: ${currentTwitterScope.toUpperCase()})...`;
+  progressSubtitle.textContent = `Connecting to Twitter GraphQL via native engine (Type: ${currentTwitterScope.toUpperCase()})...`;
   progressFill.className = "oasis-progress-fill active-anim";
   progressFill.style.width = "12%";
   progressFill.style.background = "linear-gradient(90deg, #0f172a 0%, #0284c7 100%)";
@@ -2809,8 +2940,8 @@ function handleTwitterCompletion(data) {
   document.getElementById("tw-metric-harvested").textContent = tweets.length;
 
   document.getElementById("tw-res-bio").textContent = profile.bio || "No biography description available.";
-  document.getElementById("tw-res-location").textContent = `📍 Location: ${profile.location || 'Unspecified'}`;
-  document.getElementById("tw-res-created").textContent = `📅 Joined: ${profile.created || 'N/A'}`;
+  document.getElementById("tw-res-location").innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px; margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Location: ${escapeHtml(profile.location || 'Unspecified')}`;
+  document.getElementById("tw-res-created").innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px; margin-right:3px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Joined: ${escapeHtml(profile.created || 'N/A')}`;
   document.getElementById("tw-link-profile").href = profile.url || `https://x.com/${cleanTarget}`;
 
   // 2. Export Links
@@ -2874,10 +3005,10 @@ function renderTwitterFeed(tweets, profile) {
 
         <div class="tw-tweet-footer">
           <div class="tw-metrics-pills">
-            <span class="tw-metric-pill" title="Likes">❤️ ${likes}</span>
-            <span class="tw-metric-pill" title="Retweets">🔁 ${rts}</span>
-            <span class="tw-metric-pill" title="Replies">💬 ${replies}</span>
-            ${views ? `<span class="tw-metric-pill" title="Impressions">👁️ ${views}</span>` : ''}
+            <span class="tw-metric-pill" title="Likes"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px; margin-right:3px;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>${likes}</span>
+            <span class="tw-metric-pill" title="Retweets"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px; margin-right:3px;"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>${rts}</span>
+            <span class="tw-metric-pill" title="Replies"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px; margin-right:3px;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>${replies}</span>
+            ${views ? `<span class="tw-metric-pill" title="Impressions"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px; margin-right:3px;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>${views}</span>` : ''}
           </div>
 
           <div style="display: flex; align-items: center; gap: 10px;">

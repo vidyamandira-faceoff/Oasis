@@ -1119,7 +1119,7 @@ def _save_twitter_dossier_files(clean_target: str, data: Dict[str, Any]):
                 replies = tw.get("reply_count", 0)
                 src = tw.get("source", "Web")
                 url = tw.get("url", f"https://x.com/i/status/{tw.get('id', '')}")
-                md_lines.append(f"| {idx} | {dt} | {txt} | ❤️ {likes} • 🔁 {rts} • 💬 {replies} | `{src}` | [View ↗]({url}) |")
+                md_lines.append(f"| {idx} | {dt} | {txt} | Likes: {likes} • RTs: {rts} • Replies: {replies} | `{src}` | [View ↗]({url}) |")
         else:
             md_lines.append("| - | - | *No tweets extracted* | - | - | - |")
 
@@ -1129,7 +1129,7 @@ def _save_twitter_dossier_files(clean_target: str, data: Dict[str, Any]):
             "",
             "## 3. Investigation Integrity & Evidence Details",
             "",
-            "- **Engine:** OASIS X / Twitter Intelligence Engine (Flash Mode via twscrape)",
+            "- **Engine:** OASIS X / Twitter Intelligence Engine (Flash Mode)",
             "- **Target Ecosystem:** X / Twitter GraphQL Endpoints",
             "- **Harvested Artifacts:** Profile metadata, tweet engagement metrics, client applications, media links",
             ""

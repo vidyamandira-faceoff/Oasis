@@ -9,6 +9,30 @@ from core.config import BASE_DIR
 
 CHANGELOG_MD_PATH = BASE_DIR / "CHANGELOG.md"
 
+# Reusable SVG Icons for Release Feature Cards
+SVG_TWITTER = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16z"/><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/></svg>'
+SVG_IMAGE = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'
+SVG_SEARCH = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>'
+SVG_ZAP = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>'
+SVG_SCROLL = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="1.05" y1="12" x2="7" y2="12"/><line x1="17.01" y1="12" x2="22.96" y2="12"/></svg>'
+SVG_LAYOUT = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="15" y1="3" x2="15" y2="21"/></svg>'
+SVG_VECTOR = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>'
+SVG_MAIL = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>'
+SVG_PIVOT = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>'
+SVG_LOCK = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>'
+SVG_BATCH = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>'
+SVG_INSTAGRAM = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>'
+SVG_COMMENTS = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>'
+SVG_SHIELD = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>'
+SVG_DOSSIER = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>'
+SVG_GLOBE = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>'
+SVG_SPEED = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>'
+SVG_SERVER = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>'
+SVG_USER = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>'
+SVG_THEME = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/></svg>'
+SVG_SCAFFOLD = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>'
+SVG_PHONE = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>'
+
 RELEASES_DATA: List[Dict[str, Any]] = [
     {
         "version": "v1.4.0",
@@ -20,43 +44,43 @@ RELEASES_DATA: List[Dict[str, Any]] = [
         "summary": "Full integration of native X / Twitter Flash Reconnaissance, dual-tier Pro Mode clusters, responsive two-column workspace overhaul across all intelligence modules, professional SVG vector iconography across the dashboard, and this dedicated Changelog Hub.",
         "user_features": [
             {
-                "icon": "🐦",
+                "icon": SVG_TWITTER,
                 "title": "X / Twitter Flash Reconnaissance Mode",
                 "category": "Social Media Intelligence",
                 "desc": "Inspect public X / Twitter profiles, user bios, join dates, follower metrics, and recent timeline tweets without external redirects. Full post metrics include Likes, Retweets, Replies, and Impression Views."
             },
             {
-                "icon": "📸",
+                "icon": SVG_IMAGE,
                 "title": "Inline Media Gallery & Video Previews",
                 "category": "Social Media Intelligence",
                 "desc": "High-resolution photo and media previews extracted directly from tweet payloads, displayed in an interactive gallery with instant CDN links."
             },
             {
-                "icon": "🔍",
+                "icon": SVG_SEARCH,
                 "title": "Live Keyword & Hashtag Velocity Tracking",
                 "category": "Social Media Intelligence",
                 "desc": "Run real-time keyword queries and track hashtag velocity (#osint, @target) across Twitter with source client auditing (Web, iPhone, Android, API)."
             },
             {
-                "icon": "⚡",
+                "icon": SVG_ZAP,
                 "title": "Dual-Tier Mode Switcher (Flash vs Pro)",
                 "category": "Platform Architecture",
                 "desc": "Unified mode selection across Instagram and Twitter: switch between instant zero-latency internal Flash Mode and dedicated high-capacity Pro scraping clusters."
             },
             {
-                "icon": "📜",
+                "icon": SVG_SCROLL,
                 "title": "Dedicated System Changelog & Versioning Hub",
                 "category": "Core Platform",
                 "desc": "Added an interactive release history portal at /changelog and persistent header/sidebar indicators tracking platform upgrades and intelligence capabilities."
             },
             {
-                "icon": "📐",
+                "icon": SVG_LAYOUT,
                 "title": "Two-Column Sticky Workspace Redesign",
                 "category": "UI & Ergonomics",
                 "desc": "Eliminated central scrolling constraints across Username, Domain, Email, and Social Media modules by docking capability guides into persistent, sticky right-side sidebars."
             },
             {
-                "icon": "🎨",
+                "icon": SVG_VECTOR,
                 "title": "Professional SVG Vector Iconography",
                 "category": "UI & Ergonomics",
                 "desc": "Modernized the entire Mission Control Dashboard, replacing informal emojis with clean, high-precision vector SVG badges and operational status indicators."
@@ -83,25 +107,25 @@ RELEASES_DATA: List[Dict[str, Any]] = [
         "summary": "Completed the dual-engine Email Intelligence suite featuring 26-provider Mailbox Discovery alongside 124-registry Reverse Account Footprinting with seamless 1-click cross-module pivoting.",
         "user_features": [
             {
-                "icon": "📫",
+                "icon": SVG_MAIL,
                 "title": "Mailbox Discovery by Handle",
                 "category": "Email Intelligence",
                 "desc": "Given an alias or handle, dynamically enumerates and checks active mailboxes across 26+ major email providers including Gmail, ProtonMail, Yahoo, Outlook, and iCloud."
             },
             {
-                "icon": "🔄",
+                "icon": SVG_PIVOT,
                 "title": "1-Click Cross-Module Identity Pivoting",
                 "category": "Identity Correlation",
                 "desc": "Discovered email addresses can be forwarded directly into the Reverse Account Footprint engine with one click to harvest linked social and developer accounts."
             },
             {
-                "icon": "🔐",
+                "icon": SVG_LOCK,
                 "title": "Masked Credential Leakage Harvester",
                 "category": "Email Intelligence",
                 "desc": "Passive extraction of partially obfuscated phone numbers (+1 *****42) and secondary recovery email domains revealed by authentication endpoints without contacting targets."
             },
             {
-                "icon": "📑",
+                "icon": SVG_BATCH,
                 "title": "Single & Batch Email Reconnaissance",
                 "category": "Email Intelligence",
                 "desc": "Flexible operational modes: survey a single target or paste multi-line email lists to scan entire corporate domains or threat actor groups in parallel."
@@ -126,25 +150,25 @@ RELEASES_DATA: List[Dict[str, Any]] = [
         "summary": "Introduced the native Instagram Flash Mode engine, passive non-intrusive email triage (-NP mode), and the initial two-column sticky sidebar redesign to declutter central workspaces.",
         "user_features": [
             {
-                "icon": "📸",
+                "icon": SVG_INSTAGRAM,
                 "title": "Instagram Flash Mode (Native In-App Engine)",
                 "category": "Social Media Intelligence",
                 "desc": "In-app reconnaissance on target handles, bio metadata, follower counts, and recent media thumbnails with automated offline media ZIP packaging."
             },
             {
-                "icon": "💬",
+                "icon": SVG_COMMENTS,
                 "title": "Per-Post Deep Comments Extraction",
                 "category": "Social Media Intelligence",
                 "desc": "Harvests author handles, comment strings, and timestamps directly from post permalinks into an interactive drawer."
             },
             {
-                "icon": "🛡️",
+                "icon": SVG_SHIELD,
                 "title": "Passive Non-Intrusive Email Recon (-NP Mode)",
                 "category": "Email Intelligence",
                 "desc": "Safe enumeration mode that validates registered accounts while completely suppressing password reset triggers or target notifications."
             },
             {
-                "icon": "📊",
+                "icon": SVG_SEARCH,
                 "title": "Audit Survey Registry Grid",
                 "category": "Email Intelligence",
                 "desc": "Categorizes platform scan results into Confirmed Registrations, Free Targets, and Platform Errors with instant search filtering."
@@ -168,31 +192,31 @@ RELEASES_DATA: List[Dict[str, Any]] = [
         "summary": "Introduced Domain & Website Intelligence, standardized multi-format forensic evidence exports (Markdown, JSON, CSV), dynamic real-time progress bars, and strict enterprise brand isolation.",
         "user_features": [
             {
-                "icon": "🌐",
+                "icon": SVG_GLOBE,
                 "title": "Domain & Website Intelligence Module",
                 "category": "Surface Intelligence",
                 "desc": "Deep web surface analysis crawling DNS records (A, MX, NS, TXT), WHOIS registrar records, SSL certificates, external endpoints, and hidden URL parameters."
             },
             {
-                "icon": "💾",
+                "icon": SVG_DOSSIER,
                 "title": "Multi-Format Evidence Dossiers",
                 "category": "Forensic Archival",
                 "desc": "1-click forensic archival providing Incident Markdown (.md), Structured Data (.json), and Tabular Spreadsheets (.csv) across all intelligence modules."
             },
             {
-                "icon": "🛡️",
+                "icon": SVG_SHIELD,
                 "title": "Strict OASIS Enterprise Brand Isolation",
                 "category": "Enterprise Compliance",
                 "desc": "Standardized all internal engines and telemetry indicators under pure OASIS branding, removing internal tool leakages from user-facing screens."
             },
             {
-                "icon": "⏱️",
+                "icon": SVG_SPEED,
                 "title": "Dynamic Multi-Stage Progress Telemetry",
                 "category": "Live Telemetry",
                 "desc": "Real-time animated progress bars with live elapsed timers, percentage indicators, and platform-by-platform audit feedback replacing static spinners."
             },
             {
-                "icon": "🚀",
+                "icon": SVG_SERVER,
                 "title": "Interactive Server Control Daemon (oasis.sh)",
                 "category": "Platform Operations",
                 "desc": "Interactive shell control tool featuring dynamic port prompts, automated logging, and graceful background PID management."
@@ -217,25 +241,25 @@ RELEASES_DATA: List[Dict[str, Any]] = [
         "summary": "Major architectural overhaul by Oushnik Bhaduri consolidating 250+ loose legacy prototype files into a standardized, modern microservice suite with unified tactical navigation.",
         "user_features": [
             {
-                "icon": "🏛️",
+                "icon": SVG_SCAFFOLD,
                 "title": "OASIS Structural Overhaul (Version 1 Genesis)",
                 "category": "Core Platform",
                 "desc": "Comprehensive restructuring by Oushnik Bhaduri consolidating loose prototype files into an enterprise-grade modular architecture."
             },
             {
-                "icon": "🧭",
+                "icon": SVG_LAYOUT,
                 "title": "Unified Tactical Navigation Sidebar",
                 "category": "Core Platform",
                 "desc": "Introduced the permanent tactical left-side navigation sidebar, establishing unified access across Mission Briefing, Target Vault, and Intelligence Modules."
             },
             {
-                "icon": "👤",
+                "icon": SVG_USER,
                 "title": "Username & Identity Intelligence",
                 "category": "Username Intelligence",
                 "desc": "Multi-platform username reconnaissance surveying 3,000+ public registries, code repositories, forums, and developer networks without API keys."
             },
             {
-                "icon": "🌓",
+                "icon": SVG_THEME,
                 "title": "Tactical Dark / Light Theme System",
                 "category": "UI & Ergonomics",
                 "desc": "Instant theme toggling between High-Contrast Dark Operations mode and Crisp Light mode with persistent state storage."
@@ -260,13 +284,13 @@ RELEASES_DATA: List[Dict[str, Any]] = [
         "summary": "Foundational initial commit by Atig Singh establishing the preliminary repository scaffold for the OSINT aggregation system incubated at Ramakrishna Mission Vidyamandira.",
         "user_features": [
             {
-                "icon": "🌱",
+                "icon": SVG_SCAFFOLD,
                 "title": "Initial Platform Prototype",
                 "category": "Core Platform",
                 "desc": "Initial platform codebase by Atig Singh establishing the directory hierarchy and foundational concept incubated at Ramakrishna Mission Vidyamandira."
             },
             {
-                "icon": "📁",
+                "icon": SVG_BATCH,
                 "title": "Initial Reconnaissance Scaffolds",
                 "category": "Core Platform",
                 "desc": "Early prototype drafts and folder structures for multi-module intelligence gathering."
