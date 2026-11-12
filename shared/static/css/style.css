@@ -534,6 +534,86 @@ body {
   border-color: rgba(255, 255, 255, 0.06);
 }
 
+/* Nav Badge Version in Sidebar */
+.nav-badge-version {
+  margin-left: auto;
+  font-size: 10px;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  background: rgba(249, 115, 22, 0.12);
+  color: var(--ember-600);
+  border: 1px solid rgba(249, 115, 22, 0.25);
+  padding: 1px 7px;
+  border-radius: var(--radius-pill);
+}
+[data-theme="dark"] .nav-badge-version {
+  background: rgba(249, 115, 22, 0.2);
+  color: #fb923c;
+  border-color: rgba(249, 115, 22, 0.4);
+}
+
+/* Version Pill in Header */
+.header-version-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 13px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-card-subtle);
+  border: 1px solid var(--border-main);
+  color: var(--slate-700);
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: var(--shadow-subtle);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.header-version-pill:hover {
+  background: var(--bg-surface);
+  border-color: var(--ember-400);
+  color: var(--ember-600);
+  transform: translateY(-1px);
+}
+.header-version-pill.active-version-pill {
+  background: var(--ember-50);
+  border-color: var(--ember-500);
+  color: var(--ember-700);
+  box-shadow: 0 0 0 2px var(--ember-glow);
+}
+.version-pill-tag {
+  font-family: var(--font-mono);
+  font-weight: 800;
+  color: #ffffff;
+  background: var(--ember-500);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 10.5px;
+  letter-spacing: -0.01em;
+}
+.version-pill-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--slate-700);
+}
+[data-theme="dark"] .header-version-pill {
+  background: #1e293b;
+  border-color: #334155;
+  color: #e2e8f0;
+}
+[data-theme="dark"] .header-version-pill:hover {
+  background: #25334d;
+  border-color: var(--ember-400);
+}
+[data-theme="dark"] .header-version-pill.active-version-pill {
+  background: rgba(249, 115, 22, 0.15);
+  border-color: var(--ember-500);
+  color: #fb923c;
+}
+[data-theme="dark"] .version-pill-label {
+  color: #e2e8f0;
+}
+
 /* Sidebar Bottom ID Card */
 .sidebar-footer {
   padding: 16px;

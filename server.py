@@ -17,6 +17,7 @@ from services.vault.backend.router import router as vault_router
 from services.terminal.backend.router import router as terminal_router
 from services.settings.backend.router import router as settings_router
 from services.notifications.backend.router import router as notifications_router
+from services.changelog.backend.router import router as changelog_router
 # Active Intelligence Module Routers
 from services.recon_username.backend.router import router as recon_username_router
 from services.domain_intelligence.backend.router import router as domain_intelligence_router
@@ -88,6 +89,7 @@ app.include_router(vault_router)
 app.include_router(terminal_router)
 app.include_router(settings_router)
 app.include_router(notifications_router)
+app.include_router(changelog_router)
 
 # Intelligence Modules
 app.include_router(recon_username_router)

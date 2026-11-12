@@ -1,0 +1,770 @@
+{% extends "shared/templates/base.html" %}
+
+{% block content %}
+<section class="view-page active-view" style="max-width: 1240px; margin: 0 auto; padding-bottom: 60px;">
+
+  <!-- =========================================================================
+       1. HERO HEADER BANNER
+       ========================================================================= -->
+  <div class="cl-hero-banner">
+    <div class="cl-hero-left">
+      <div class="cl-hero-icon-box">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="4"></circle>
+          <line x1="1.05" y1="12" x2="7" y2="12"></line>
+          <line x1="17.01" y1="12" x2="22.96" y2="12"></line>
+          <line x1="12" y1="1.05" x2="12" y2="7"></line>
+          <line x1="12" y1="17.01" x2="12" y2="22.96"></line>
+        </svg>
+      </div>
+      <div>
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap;">
+          <h2 style="font-size: 22px; font-weight: 800; color: var(--slate-900); margin: 0; letter-spacing: -0.02em;">
+            System Changelog &amp; Release History
+          </h2>
+          <span class="cl-version-pill-latest">
+            <span class="cl-pulse-dot"></span>
+            Current: {{ latest_version }}
+          </span>
+          <span class="status-pill-online" style="padding: 2px 8px; font-size: 11px;">
+            SemVer 2.0.0
+          </span>
+        </div>
+        <p style="font-size: 13.5px; color: var(--slate-600); margin: 0; max-width: 720px; line-height: 1.5;">
+          Chronological record of all user-centric intelligence capabilities, scraping engine integrations, and platform updates. Non-technical features are highlighted up-front, while deep architectural notes are available in expandable drawers.
+        </p>
+      </div>
+    </div>
+
+    <div class="cl-hero-actions">
+      <a href="/api/changelog/raw" target="_blank" rel="noopener noreferrer" class="cl-btn-secondary" title="View or download raw CHANGELOG.md">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        <span>Raw CHANGELOG.md</span>
+      </a>
+      <button type="button" class="cl-btn-secondary" onclick="toggleAllTechDrawers()" id="btn-toggle-tech">
+        <span id="toggle-tech-icon">⚙️</span>
+        <span id="toggle-tech-text">Expand All Technical Notes</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       2. PLATFORM RELEASE METRICS
+       ========================================================================= -->
+  <div class="cl-metrics-grid">
+    <div class="cl-metric-card">
+      <div class="cl-metric-icon" style="background: rgba(249, 115, 22, 0.12); color: #ea580c;">🏷️</div>
+      <div>
+        <div class="cl-metric-value">{{ total_releases }}</div>
+        <div class="cl-metric-label">Documented SemVer Releases</div>
+      </div>
+    </div>
+    <div class="cl-metric-card">
+      <div class="cl-metric-icon" style="background: rgba(16, 185, 129, 0.12); color: #059669;">⚡</div>
+      <div>
+        <div class="cl-metric-value">6 Engines</div>
+        <div class="cl-metric-label">Native &amp; Cluster OSINT Engines</div>
+      </div>
+    </div>
+    <div class="cl-metric-card">
+      <div class="cl-metric-icon" style="background: rgba(99, 102, 241, 0.12); color: #6366f1;">🌐</div>
+      <div>
+        <div class="cl-metric-value">3,124+</div>
+        <div class="cl-metric-label">Platforms &amp; Registries Covered</div>
+      </div>
+    </div>
+    <div class="cl-metric-card">
+      <div class="cl-metric-icon" style="background: rgba(14, 165, 233, 0.12); color: #0284c7;">🛡️</div>
+      <div>
+        <div class="cl-metric-value">100%</div>
+        <div class="cl-metric-label">Strict OASIS Brand Isolation</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       3. SEARCH & CATEGORY FILTERS
+       ========================================================================= -->
+  <div class="cl-filter-bar">
+    <div class="cl-search-box">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--slate-400); margin-left: 12px;">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="text" id="cl-search-input" placeholder="Search features, tools, or version updates (e.g. 'twitter', 'email', 'batch', 'export')..." oninput="filterChangelogFeatures()">
+      <button type="button" class="cl-clear-search-btn" id="cl-clear-search" onclick="clearChangelogSearch()" style="display: none;">&times;</button>
+    </div>
+
+    <div class="cl-category-pills">
+      <button type="button" class="cl-cat-pill active" onclick="setCategoryFilter('ALL', this)">All Releases</button>
+      <button type="button" class="cl-cat-pill" onclick="setCategoryFilter('Social Media', this)">Social Media</button>
+      <button type="button" class="cl-cat-pill" onclick="setCategoryFilter('Email Intelligence', this)">Email Suite</button>
+      <button type="button" class="cl-cat-pill" onclick="setCategoryFilter('Username Intelligence', this)">Username Recon</button>
+      <button type="button" class="cl-cat-pill" onclick="setCategoryFilter('Surface Intelligence', this)">Surface Intel</button>
+      <button type="button" class="cl-cat-pill" onclick="setCategoryFilter('UI & Ergonomics', this)">UI &amp; Ergonomics</button>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       4. CHRONOLOGICAL RELEASES TIMELINE
+       ========================================================================= -->
+  <div class="cl-timeline-container" id="cl-timeline-container">
+
+    {% for rel in releases %}
+    <article class="cl-release-card {% if rel.is_latest %}cl-release-latest{% endif %}" data-version="{{ rel.version }}">
+
+      <!-- Release Header Row -->
+      <div class="cl-release-header">
+        <div class="cl-release-title-row">
+          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <span class="cl-version-tag">{{ rel.version }}</span>
+            <span class="cl-badge" style="background: {{ rel.badge_color }}15; color: {{ rel.badge_color }}; border: 1px solid {{ rel.badge_color }}35;">
+              {{ rel.badge }}
+            </span>
+            <h3 class="cl-codename">{{ rel.codename }}</h3>
+          </div>
+          <div class="cl-release-meta">
+            <span class="cl-date-pill">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              {{ rel.date }}
+            </span>
+          </div>
+        </div>
+
+        <p class="cl-release-summary">
+          {{ rel.summary }}
+        </p>
+      </div>
+
+      <!-- User-Centric Features Section -->
+      <div class="cl-section-heading">
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <span style="font-size: 15px;">🌟</span>
+          <span style="font-size: 13px; font-weight: 800; color: var(--slate-900); text-transform: uppercase; letter-spacing: 0.04em;">
+            User-Centric Capabilities Added
+          </span>
+        </div>
+        <span style="font-size: 11.5px; color: var(--slate-500); font-weight: 600;">
+          {{ rel.user_features | length }} New Features
+        </span>
+      </div>
+
+      <div class="cl-features-grid">
+        {% for feat in rel.user_features %}
+        <div class="cl-feature-tile" data-category="{{ feat.category }}">
+          <div class="cl-feature-icon-box">{{ feat.icon }}</div>
+          <div class="cl-feature-body">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 4px; flex-wrap: wrap;">
+              <h4 class="cl-feature-title">{{ feat.title }}</h4>
+              <span class="cl-feature-cat-badge">{{ feat.category }}</span>
+            </div>
+            <p class="cl-feature-desc">{{ feat.desc }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- Collapsible Technical & Architectural Details Drawer -->
+      <div class="cl-tech-drawer-wrapper">
+        <details class="cl-tech-details">
+          <summary class="cl-tech-summary">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="cl-tech-gear">⚙️</span>
+              <span style="font-weight: 700; font-size: 12.5px; color: var(--slate-800);">
+                Technical &amp; Engine Implementation Details
+              </span>
+              <span style="font-size: 11px; color: var(--slate-500); font-family: var(--font-mono);">
+                ({{ rel.technical_details | length }} items)
+              </span>
+            </div>
+            <span class="cl-drawer-chevron">▾</span>
+          </summary>
+
+          <div class="cl-tech-content">
+            <ul class="cl-tech-list">
+              {% for item in rel.technical_details %}
+              <li>{{ item }}</li>
+              {% endfor %}
+            </ul>
+
+            <div class="cl-tech-footer">
+              <span style="font-size: 11px; color: var(--slate-500); font-family: var(--font-mono);">
+                Git Commits: 
+                {% for c in rel.commit_refs %}
+                <code class="cl-commit-hash">{{ c }}</code>
+                {% endfor %}
+              </span>
+              <span style="font-size: 11px; color: var(--slate-500);">
+                Active Modules: <strong>{{ rel.metrics.modules_active }}</strong> &bull; Registries: <strong>{{ rel.metrics.registries }}</strong>
+              </span>
+            </div>
+          </div>
+        </details>
+      </div>
+
+    </article>
+    {% endfor %}
+
+  </div>
+
+  <div id="cl-no-results" style="display: none; text-align: center; padding: 60px 20px; background: var(--bg-surface); border: 1px dashed var(--border-soft); border-radius: var(--radius-lg); margin-top: 20px;">
+    <div style="font-size: 36px; margin-bottom: 10px;">🔍</div>
+    <h4 style="font-size: 16px; font-weight: 800; color: var(--slate-800); margin-bottom: 6px;">No Matching Features Found</h4>
+    <p style="font-size: 13px; color: var(--slate-500); margin-bottom: 14px;">Try searching for a different keyword or resetting your filter category.</p>
+    <button type="button" class="cl-btn-secondary" onclick="clearChangelogSearch()">Reset Filters</button>
+  </div>
+
+</section>
+
+<!-- =========================================================================
+     STYLES FOR CHANGELOG PORTAL
+     ========================================================================= -->
+<style>
+  /* 1. Hero Banner */
+  .cl-hero-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);
+    flex-wrap: wrap;
+    gap: 18px;
+  }
+  .cl-hero-left {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    max-width: 820px;
+  }
+  .cl-hero-icon-box {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(249, 115, 22, 0.15) 0%, rgba(234, 88, 12, 0.25) 100%);
+    color: var(--ember-600);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .cl-version-pill-latest {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    padding: 2px 10px;
+    border-radius: 9999px;
+    font-size: 11.5px;
+    font-weight: 800;
+    font-family: var(--font-mono);
+  }
+  .cl-pulse-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #10b981;
+    animation: clPulse 1.8s infinite;
+  }
+  @keyframes clPulse {
+    0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+    70% { transform: scale(1.1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+    100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+  }
+  .cl-hero-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .cl-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--bg-card-subtle);
+    border: 1px solid var(--border-main);
+    color: var(--slate-700);
+    padding: 8px 14px;
+    border-radius: var(--radius-md);
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .cl-btn-secondary:hover {
+    background: var(--bg-surface);
+    border-color: var(--ember-400);
+    color: var(--ember-600);
+    transform: translateY(-1px);
+  }
+
+  /* 2. Platform Metrics */
+  .cl-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  @media (max-width: 900px) {
+    .cl-metrics-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  .cl-metric-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.02);
+  }
+  .cl-metric-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .cl-metric-value {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--slate-900);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+  .cl-metric-label {
+    font-size: 11.5px;
+    color: var(--slate-500);
+    font-weight: 600;
+  }
+
+  /* 3. Search & Filter Bar */
+  .cl-filter-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-md);
+    padding: 12px 18px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .cl-search-box {
+    display: flex;
+    align-items: center;
+    background: var(--bg-card-subtle);
+    border: 1px solid var(--border-main);
+    border-radius: var(--radius-md);
+    flex: 1;
+    min-width: 260px;
+    position: relative;
+  }
+  .cl-search-box input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: var(--slate-800);
+    outline: none;
+  }
+  .cl-clear-search-btn {
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    color: var(--slate-400);
+    cursor: pointer;
+    padding: 0 10px;
+  }
+  .cl-category-pills {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .cl-cat-pill {
+    background: var(--bg-card-subtle);
+    border: 1px solid var(--border-soft);
+    color: var(--slate-600);
+    padding: 5px 12px;
+    border-radius: 9999px;
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .cl-cat-pill:hover {
+    border-color: var(--ember-400);
+    color: var(--ember-600);
+  }
+  .cl-cat-pill.active {
+    background: var(--ember-500);
+    border-color: var(--ember-600);
+    color: #ffffff;
+    box-shadow: 0 2px 6px rgba(249, 115, 22, 0.3);
+  }
+
+  /* 4. Release Cards & Timeline */
+  .cl-timeline-container {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  .cl-release-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);
+    position: relative;
+    transition: all 0.2s ease;
+  }
+  .cl-release-card:hover {
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  }
+  .cl-release-latest {
+    border-left: 4px solid var(--ember-500);
+  }
+  .cl-release-header {
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .cl-release-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .cl-version-tag {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--slate-900);
+    font-family: var(--font-mono);
+    letter-spacing: -0.02em;
+  }
+  .cl-badge {
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .cl-codename {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--slate-700);
+    margin: 0;
+  }
+  .cl-date-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11.5px;
+    color: var(--slate-500);
+    font-family: var(--font-mono);
+    background: var(--bg-card-subtle);
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border-soft);
+  }
+  .cl-release-summary {
+    font-size: 13.5px;
+    color: var(--slate-600);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  /* 5. Features Grid */
+  .cl-section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .cl-features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  @media (max-width: 820px) {
+    .cl-features-grid { grid-template-columns: 1fr; }
+  }
+  .cl-feature-tile {
+    background: var(--bg-card-subtle);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    transition: all 0.15s ease;
+  }
+  .cl-feature-tile:hover {
+    border-color: var(--border-main);
+    background: var(--bg-surface);
+  }
+  .cl-feature-icon-box {
+    font-size: 20px;
+    line-height: 1;
+    padding-top: 2px;
+    flex-shrink: 0;
+  }
+  .cl-feature-body {
+    flex: 1;
+    min-width: 0;
+  }
+  .cl-feature-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--slate-900);
+    margin: 0;
+  }
+  .cl-feature-cat-badge {
+    font-size: 10px;
+    font-weight: 700;
+    background: var(--bg-pill);
+    color: var(--slate-500);
+    padding: 1px 6px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .cl-feature-desc {
+    font-size: 12px;
+    color: var(--slate-600);
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  /* 6. Technical Drawer */
+  .cl-tech-drawer-wrapper {
+    margin-top: 14px;
+    border-top: 1px dashed var(--border-soft);
+    padding-top: 12px;
+  }
+  .cl-tech-details {
+    background: var(--bg-card-subtle);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+  .cl-tech-summary {
+    padding: 10px 14px;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-card-subtle);
+    user-select: none;
+    transition: background 0.15s ease;
+  }
+  .cl-tech-summary::-webkit-details-marker { display: none; }
+  .cl-tech-summary:hover {
+    background: var(--bg-surface);
+  }
+  .cl-tech-gear {
+    font-size: 14px;
+  }
+  .cl-drawer-chevron {
+    font-size: 12px;
+    color: var(--slate-400);
+    transition: transform 0.2s ease;
+  }
+  .cl-tech-details[open] .cl-drawer-chevron {
+    transform: rotate(180deg);
+  }
+  .cl-tech-content {
+    padding: 14px 18px;
+    border-top: 1px solid var(--border-soft);
+    background: var(--bg-surface);
+  }
+  .cl-tech-list {
+    margin: 0 0 12px 18px;
+    padding: 0;
+    font-size: 12px;
+    color: var(--slate-700);
+    line-height: 1.6;
+  }
+  .cl-tech-list li {
+    margin-bottom: 4px;
+  }
+  .cl-tech-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    border-top: 1px dashed var(--border-soft);
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .cl-commit-hash {
+    background: var(--bg-card-subtle);
+    border: 1px solid var(--border-soft);
+    color: var(--ember-600);
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  /* Dark Theme Overrides */
+  [data-theme="dark"] .cl-hero-banner,
+  [data-theme="dark"] .cl-release-card,
+  [data-theme="dark"] .cl-metric-card,
+  [data-theme="dark"] .cl-filter-bar {
+    background: #111827;
+    border-color: #1f2937;
+  }
+  [data-theme="dark"] .cl-feature-tile,
+  [data-theme="dark"] .cl-tech-details,
+  [data-theme="dark"] .cl-tech-summary {
+    background: #162033;
+    border-color: #1f2937;
+  }
+  [data-theme="dark"] .cl-tech-content {
+    background: #0f172a;
+    border-color: #1f2937;
+  }
+  [data-theme="dark"] .cl-version-tag,
+  [data-theme="dark"] .cl-feature-title,
+  [data-theme="dark"] .cl-metric-value,
+  [data-theme="dark"] .cl-codename {
+    color: #f3f4f6 !important;
+  }
+  [data-theme="dark"] .cl-release-summary,
+  [data-theme="dark"] .cl-feature-desc,
+  [data-theme="dark"] .cl-tech-list {
+    color: #9ca3af !important;
+  }
+  [data-theme="dark"] .cl-search-box {
+    background: #0f172a;
+    border-color: #1f2937;
+  }
+  [data-theme="dark"] .cl-search-box input {
+    color: #f3f4f6;
+  }
+  [data-theme="dark"] .cl-cat-pill,
+  [data-theme="dark"] .cl-btn-secondary {
+    background: #162033;
+    border-color: #1f2937;
+    color: #d1d5db;
+  }
+</style>
+
+<!-- =========================================================================
+     INTERACTIVE JAVASCRIPT CONTROLLER
+     ========================================================================= -->
+<script>
+  let activeCategory = 'ALL';
+  let allDrawersExpanded = false;
+
+  function setCategoryFilter(category, btnElement) {
+    activeCategory = category;
+    document.querySelectorAll('.cl-cat-pill').forEach(pill => pill.classList.remove('active'));
+    if (btnElement) btnElement.classList.add('active');
+    applyChangelogFilters();
+  }
+
+  function filterChangelogFeatures() {
+    const searchVal = document.getElementById('cl-search-input').value.trim();
+    const clearBtn = document.getElementById('cl-clear-search');
+    clearBtn.style.display = searchVal ? 'block' : 'none';
+    applyChangelogFilters();
+  }
+
+  function clearChangelogSearch() {
+    document.getElementById('cl-search-input').value = '';
+    document.getElementById('cl-clear-search').style.display = 'none';
+    setCategoryFilter('ALL', document.querySelector('.cl-cat-pill'));
+    applyChangelogFilters();
+  }
+
+  function applyChangelogFilters() {
+    const query = document.getElementById('cl-search-input').value.toLowerCase().trim();
+    const cards = document.querySelectorAll('.cl-release-card');
+    let visibleCardsCount = 0;
+
+    cards.forEach(card => {
+      let cardMatches = false;
+      const tiles = card.querySelectorAll('.cl-feature-tile');
+
+      tiles.forEach(tile => {
+        const cat = tile.getAttribute('data-category') || '';
+        const title = tile.querySelector('.cl-feature-title')?.textContent.toLowerCase() || '';
+        const desc = tile.querySelector('.cl-feature-desc')?.textContent.toLowerCase() || '';
+
+        const matchesCat = (activeCategory === 'ALL' || cat === activeCategory);
+        const matchesQuery = (!query || title.includes(query) || desc.includes(query) || cat.toLowerCase().includes(query));
+
+        if (matchesCat && matchesQuery) {
+          tile.style.display = 'flex';
+          cardMatches = true;
+        } else {
+          tile.style.display = 'none';
+        }
+      });
+
+      // Also check release version or summary against query
+      const versionText = card.getAttribute('data-version')?.toLowerCase() || '';
+      const summaryText = card.querySelector('.cl-release-summary')?.textContent.toLowerCase() || '';
+      const codenameText = card.querySelector('.cl-codename')?.textContent.toLowerCase() || '';
+      if (!cardMatches && query && (versionText.includes(query) || summaryText.includes(query) || codenameText.includes(query))) {
+        cardMatches = true;
+        // show all tiles for this release if the release itself matched
+        tiles.forEach(tile => tile.style.display = 'flex');
+      }
+
+      if (cardMatches) {
+        card.style.display = 'block';
+        visibleCardsCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    const noResults = document.getElementById('cl-no-results');
+    if (noResults) {
+      noResults.style.display = visibleCardsCount === 0 ? 'block' : 'none';
+    }
+  }
+
+  function toggleAllTechDrawers() {
+    allDrawersExpanded = !allDrawersExpanded;
+    const details = document.querySelectorAll('.cl-tech-details');
+    details.forEach(d => {
+      d.open = allDrawersExpanded;
+    });
+
+    const btnText = document.getElementById('toggle-tech-text');
+    if (btnText) {
+      btnText.textContent = allDrawersExpanded ? 'Collapse All Technical Notes' : 'Expand All Technical Notes';
+    }
+  }
+</script>
+{% endblock %}

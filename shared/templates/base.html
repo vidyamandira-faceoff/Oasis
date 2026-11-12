@@ -58,6 +58,12 @@
         <span id="global-status-text">Recon Engine Ready</span>
       </div>
 
+      <!-- Version & Changelog Pill in Header -->
+      <a href="/changelog" class="header-version-pill {% if active_view == 'changelog' %}active-version-pill{% endif %}" title="View System Changelog & Releases (v0.6.0)">
+        <span class="version-pill-tag">v0.6.0</span>
+        <span class="version-pill-label">Changelog</span>
+      </a>
+
       <!-- Theme Changing Button (Dark / Light Mode Toggle) -->
       <button class="header-icon-btn theme-toggle-btn" id="theme-toggle-btn" title="Toggle Theme (Dark / Light)" aria-label="Toggle Theme (Dark / Light)" onclick="toggleOasisTheme()">
         <svg class="theme-toggle-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -150,6 +156,19 @@
           <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
         </svg>
         <span>Event Notifications</span>
+      </a>
+
+      <!-- System Changelog -->
+      <a href="/changelog" class="nav-item {% if active_view == 'changelog' %}active{% endif %}" title="View System Releases & Changelog">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <circle cx="12" cy="12" r="4"></circle>
+          <line x1="1.05" y1="12" x2="7" y2="12"></line>
+          <line x1="17.01" y1="12" x2="22.96" y2="12"></line>
+          <line x1="12" y1="1.05" x2="12" y2="7"></line>
+          <line x1="12" y1="17.01" x2="12" y2="22.96"></line>
+        </svg>
+        <span>System Changelog</span>
+        <span class="nav-badge-version">v0.6.0</span>
       </a>
 
       <!-- Section: Intelligence Modules -->
