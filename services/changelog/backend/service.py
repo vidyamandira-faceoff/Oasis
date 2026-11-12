@@ -11,13 +11,13 @@ CHANGELOG_MD_PATH = BASE_DIR / "CHANGELOG.md"
 
 RELEASES_DATA: List[Dict[str, Any]] = [
     {
-        "version": "v0.6.0",
+        "version": "v1.4.0",
         "codename": "Multi-Platform Social Expansion & System Transparency",
         "date": "2026-11-12",
         "is_latest": True,
         "badge": "LATEST STABLE",
         "badge_color": "#10b981",
-        "summary": "Full integration of native X / Twitter Flash Reconnaissance, dual-tier Pro Mode clusters, responsive two-column workspace overhaul across all intelligence modules, and the release of this dedicated Changelog Hub.",
+        "summary": "Full integration of native X / Twitter Flash Reconnaissance, dual-tier Pro Mode clusters, responsive two-column workspace overhaul across all intelligence modules, professional SVG vector iconography across the dashboard, and this dedicated Changelog Hub.",
         "user_features": [
             {
                 "icon": "🐦",
@@ -27,7 +27,7 @@ RELEASES_DATA: List[Dict[str, Any]] = [
             },
             {
                 "icon": "📸",
-                "title": "Inline Media Grid & Video Previews",
+                "title": "Inline Media Gallery & Video Previews",
                 "category": "Social Media Intelligence",
                 "desc": "High-resolution photo and media previews extracted directly from tweet payloads, displayed in an interactive gallery with instant CDN links."
             },
@@ -45,40 +45,46 @@ RELEASES_DATA: List[Dict[str, Any]] = [
             },
             {
                 "icon": "📜",
-                "title": "Dedicated System Changelog & Versioning Portal",
+                "title": "Dedicated System Changelog & Versioning Hub",
                 "category": "Core Platform",
-                "desc": "Added an interactive release history portal at /changelog and persistent header/sidebar indicators tracking platform upgrades, tool integrations, and forensic capabilities."
+                "desc": "Added an interactive release history portal at /changelog and persistent header/sidebar indicators tracking platform upgrades and intelligence capabilities."
             },
             {
                 "icon": "📐",
                 "title": "Two-Column Sticky Workspace Redesign",
                 "category": "UI & Ergonomics",
                 "desc": "Eliminated central scrolling constraints across Username, Domain, Email, and Social Media modules by docking capability guides into persistent, sticky right-side sidebars."
+            },
+            {
+                "icon": "🎨",
+                "title": "Professional SVG Vector Iconography",
+                "category": "UI & Ergonomics",
+                "desc": "Modernized the entire Mission Control Dashboard, replacing informal emojis with clean, high-precision vector SVG badges and operational status indicators."
             }
         ],
         "technical_details": [
-            "Bound twscrape_OSINT into virtual environment with aiosqlite, curl-cffi, and loguru.",
-            "Created services/social_media_intelligence/backend/twitter_worker.py with SQLite account pool management (twscrape_accounts.db).",
-            "Implemented direct bindings against Twitter GraphQL endpoints: OP_UserByScreenName, OP_UserTweets, OP_SearchTimeline.",
-            "Added graceful session handling for user-supplied auth_token and ct0 session cookies with clear fallback alerts.",
+            "Implemented asynchronous SQLite credential vault with automatic account pool rotation and proxy cycling.",
+            "Created services/social_media_intelligence/backend/twitter_worker.py handling async task scheduling.",
+            "Implemented direct query pipelines against user profile endpoints and timeline feeds.",
+            "Added graceful session handling for user-supplied session cookies (auth_token and ct0) with clear fallback error guidance.",
             "Added API endpoints: POST /api/social_media_intelligence/twitter/run, GET /twitter/status, and GET /twitter/download.",
             "Integrated automatic multi-format report exports (.json, .md, .csv) into services/social_media_intelligence/reports/."
         ],
-        "commit_refs": ["adcd376"],
+        "commit_refs": ["adcd376", "725c384", "7db3952"],
         "metrics": {"modules_active": 5, "engines_connected": 6, "registries": "3,124+"}
     },
     {
-        "version": "v0.5.0",
+        "version": "v1.3.0",
         "codename": "Dual-Engine Email Intelligence & Identity Pivoting",
         "date": "2026-11-11",
         "is_latest": False,
         "badge": "STABLE",
         "badge_color": "#6366f1",
-        "summary": "Completed the dual-engine Email Intelligence suite featuring 26-provider Mailbox Discovery (Mailcat) alongside 124-registry Reverse Account Footprinting (Holehe) with seamless 1-click cross-module pivoting.",
+        "summary": "Completed the dual-engine Email Intelligence suite featuring 26-provider Mailbox Discovery alongside 124-registry Reverse Account Footprinting with seamless 1-click cross-module pivoting.",
         "user_features": [
             {
                 "icon": "📫",
-                "title": "Mailbox Discovery by Handle (Mailcat Engine)",
+                "title": "Mailbox Discovery by Handle",
                 "category": "Email Intelligence",
                 "desc": "Given an alias or handle, dynamically enumerates and checks active mailboxes across 26+ major email providers including Gmail, ProtonMail, Yahoo, Outlook, and iCloud."
             },
@@ -102,17 +108,17 @@ RELEASES_DATA: List[Dict[str, Any]] = [
             }
         ],
         "technical_details": [
-            "Linked holehe_OSINT and mailcat_OSINT into OASIS backend architecture.",
-            "Built Trio asynchronous nursery worker (engine_worker.py) auditing 124 platform registries concurrently in 5-8 seconds.",
-            "Integrated async DNS MX verification and direct passive SMTP handshake checking in mailbox_worker.py.",
-            "Added standardized dossier generation (.json, .md, .csv) under services/email_intelligence/reports/."
+            "Integrated native email reconnaissance modules into OASIS backend.",
+            "Built high-concurrency async nursery worker (engine_worker.py) querying 124 platform registries concurrently in 5-8 seconds.",
+            "Added asynchronous MX record resolution and passive handshake validation in mailbox_worker.py.",
+            "Generated comprehensive dossiers (email_{target}.json, .md, .csv) under services/email_intelligence/reports/."
         ],
         "commit_refs": ["b4f4d7c", "53dce08"],
         "metrics": {"modules_active": 5, "engines_connected": 5, "registries": "124+"}
     },
     {
-        "version": "v0.4.0",
-        "codename": "High-Velocity Flash Engines & Ergonomic Workspace",
+        "version": "v1.2.0",
+        "codename": "High-Velocity Flash Engines & Ergonomic Workspace Redesign",
         "date": "2026-11-11",
         "is_latest": False,
         "badge": "STABLE",
@@ -121,7 +127,7 @@ RELEASES_DATA: List[Dict[str, Any]] = [
         "user_features": [
             {
                 "icon": "📸",
-                "title": "Instagram Flash Mode (Native Chromium)",
+                "title": "Instagram Flash Mode (Native In-App Engine)",
                 "category": "Social Media Intelligence",
                 "desc": "In-app reconnaissance on target handles, bio metadata, follower counts, and recent media thumbnails with automated offline media ZIP packaging."
             },
@@ -145,63 +151,21 @@ RELEASES_DATA: List[Dict[str, Any]] = [
             }
         ],
         "technical_details": [
-            "Refactored single-column viewports into two-column CSS Grid layouts (.email-workspace-layout, .username-workspace-layout, .ig-flash-layout).",
-            "Integrated Pyppeteer headless Chromium automation for dynamic Instagram client-side DOM scraping.",
-            "Fixed CSS vendor prefixes and multi-line clamps across modern browsers."
+            "Replaced single-column viewports with responsive CSS Grid layouts (.email-workspace-layout, .username-workspace-layout, .ig-flash-layout).",
+            "Implemented internal headless browser automation for dynamic client-side rendered DOM harvesting.",
+            "Cleaned up syntax warnings and normalized -webkit-line-clamp standard properties across all modern browsers."
         ],
         "commit_refs": ["ae5dded", "3ba35c3", "e797ac3", "5a1f3ff", "9cd7a3d"],
         "metrics": {"modules_active": 4, "engines_connected": 4, "registries": "120+"}
     },
     {
-        "version": "v0.3.0",
-        "codename": "Multi-Format Forensic Archival & Telemetry Feedback",
+        "version": "v1.1.0",
+        "codename": "Web Surface Analysis & Forensic Evidence Dossiers",
         "date": "2026-11-11",
         "is_latest": False,
         "badge": "STABLE",
         "badge_color": "#8b5cf6",
-        "summary": "Added standard multi-format forensic exports (Markdown, JSON, CSV), dynamic real-time progress bars with stage-by-stage feedback, and phone number scraper integration.",
-        "user_features": [
-            {
-                "icon": "💾",
-                "title": "Multi-Format Evidence Dossiers",
-                "category": "Forensic Archival",
-                "desc": "1-click forensic archival providing Incident Markdown (.md), Structured Data (.json), and Tabular Spreadsheets (.csv) across all intelligence modules."
-            },
-            {
-                "icon": "⏱️",
-                "title": "Dynamic Multi-Stage Progress Telemetry",
-                "category": "Live Telemetry",
-                "desc": "Real-time animated progress bars with live elapsed timers, percentage indicators, and platform-by-platform audit feedback replacing static spinners."
-            },
-            {
-                "icon": "📱",
-                "title": "Phone Number Intelligence Launchpad",
-                "category": "Phone Intelligence",
-                "desc": "Direct integration linking to dedicated telecom carrier resolution, regional circle tracking, and line type validation cluster."
-            },
-            {
-                "icon": "🧹",
-                "title": "Streamlined Navigation & Header Bars",
-                "category": "UI & Ergonomics",
-                "desc": "Cleaned up visual clutter, unified status pills, and removed redundant tool icons across all active viewports."
-            }
-        ],
-        "technical_details": [
-            "Standardized report compilers in service.py with filesystem write sanitation and automatic report directory bootstrapping.",
-            "Added unified progress polling callbacks between long-running workers and REST API endpoints.",
-            "Purged legacy mock files and sanitized target records."
-        ],
-        "commit_refs": ["57c0c20", "c90eeb1", "13738a0", "d1de006", "3e0607b", "984ab0d"],
-        "metrics": {"modules_active": 4, "engines_connected": 3, "registries": "3,000+"}
-    },
-    {
-        "version": "v0.2.0",
-        "codename": "Surface Analysis & Enterprise Brand Isolation",
-        "date": "2026-11-11",
-        "is_latest": False,
-        "badge": "STABLE",
-        "badge_color": "#f59e0b",
-        "summary": "Introduced Domain & Website Intelligence (Photon integration), complete enterprise brand isolation (purging tool name leaks), and the interactive oasis.sh server daemon.",
+        "summary": "Introduced Domain & Website Intelligence, standardized multi-format forensic evidence exports (Markdown, JSON, CSV), dynamic real-time progress bars, and strict enterprise brand isolation.",
         "user_features": [
             {
                 "icon": "🌐",
@@ -210,16 +174,22 @@ RELEASES_DATA: List[Dict[str, Any]] = [
                 "desc": "Deep web surface analysis crawling DNS records (A, MX, NS, TXT), WHOIS registrar records, SSL certificates, external endpoints, and hidden URL parameters."
             },
             {
-                "icon": "🛡️",
-                "title": "Strict OASIS Brand Isolation",
-                "category": "Enterprise Compliance",
-                "desc": "Purged internal third-party engine names from user-facing screens, telemetry, and reports; all capabilities presented under unified OASIS platform branding."
+                "icon": "💾",
+                "title": "Multi-Format Evidence Dossiers",
+                "category": "Forensic Archival",
+                "desc": "1-click forensic archival providing Incident Markdown (.md), Structured Data (.json), and Tabular Spreadsheets (.csv) across all intelligence modules."
             },
             {
-                "icon": "🧭",
-                "title": "Revamped Mission Briefing Dashboard",
-                "category": "Core Platform",
-                "desc": "Redesigned overview dashboard displaying live intelligence module counts, active background processes, and local IST clocks."
+                "icon": "🛡️",
+                "title": "Strict OASIS Enterprise Brand Isolation",
+                "category": "Enterprise Compliance",
+                "desc": "Standardized all internal engines and telemetry indicators under pure OASIS branding, removing internal tool leakages from user-facing screens."
+            },
+            {
+                "icon": "⏱️",
+                "title": "Dynamic Multi-Stage Progress Telemetry",
+                "category": "Live Telemetry",
+                "desc": "Real-time animated progress bars with live elapsed timers, percentage indicators, and platform-by-platform audit feedback replacing static spinners."
             },
             {
                 "icon": "🚀",
@@ -229,54 +199,85 @@ RELEASES_DATA: List[Dict[str, Any]] = [
             }
         ],
         "technical_details": [
-            "Integrated Photon_osint_url web crawler with asynchronous HTTP and URL parameter parsers.",
-            "Fixed Python engine sys.path resolution for external tool sandboxes (maigret, photon).",
+            "Integrated high-speed asynchronous web crawler with URL parameter extraction and regex parsers.",
+            "Standardized report compilers in service.py with filesystem write sanitation and automatic report directory bootstrapping.",
+            "Built unified progress polling callbacks between long-running workers and REST API endpoints.",
             "Added comprehensive .gitignore untracking Python bytecode, virtual environments, and temporary scan output."
         ],
-        "commit_refs": ["e1f6eb8", "b9b38d3", "25e078c", "fb03210", "c6ccabe", "82b7bdb", "9d0b125", "0b4fe49"],
-        "metrics": {"modules_active": 3, "engines_connected": 2, "registries": "3,000+"}
+        "commit_refs": ["c6ccabe", "82b7bdb", "9d0b125", "0b4fe49", "e1f6eb8", "b9b38d3", "25e078c", "fb03210", "d1de006", "13738a0", "c90eeb1", "57c0c20"],
+        "metrics": {"modules_active": 4, "engines_connected": 3, "registries": "3,000+"}
     },
     {
-        "version": "v0.1.0",
-        "codename": "Platform Genesis & Tactical Operations Shell",
+        "version": "v1.0.0",
+        "codename": "OASIS Structural Overhaul & Navigation Shell (Version 1 Genesis)",
         "date": "2026-11-10",
         "is_latest": False,
-        "badge": "FOUNDATION",
-        "badge_color": "#64748b",
-        "summary": "The initial genesis release of the OSINT Aggregation and Strategic Intelligence System (OASIS), incubated at Ramakrishna Mission Vidyamandira.",
+        "badge": "MILESTONE",
+        "badge_color": "#ea580c",
+        "summary": "Major architectural overhaul by Oushnik Bhaduri consolidating 250+ loose legacy prototype files into a standardized, modern microservice suite with unified tactical navigation.",
         "user_features": [
             {
                 "icon": "🏛️",
-                "title": "OASIS Platform Genesis",
+                "title": "OASIS Structural Overhaul (Version 1 Genesis)",
                 "category": "Core Platform",
-                "desc": "Foundational deployment of the intelligence hub incubated at Ramakrishna Mission Vidyamandira."
+                "desc": "Comprehensive restructuring by Oushnik Bhaduri consolidating loose prototype files into an enterprise-grade modular architecture."
+            },
+            {
+                "icon": "🧭",
+                "title": "Unified Tactical Navigation Sidebar",
+                "category": "Core Platform",
+                "desc": "Introduced the permanent tactical left-side navigation sidebar, establishing unified access across Mission Briefing, Target Vault, and Intelligence Modules."
             },
             {
                 "icon": "👤",
-                "title": "Username Intelligence Module",
+                "title": "Username & Identity Intelligence",
                 "category": "Username Intelligence",
-                "desc": "Multi-platform username reconnaissance surveying 3,000+ public registries, code repositories, and developer networks without API keys."
+                "desc": "Multi-platform username reconnaissance surveying 3,000+ public registries, code repositories, forums, and developer networks without API keys."
             },
             {
                 "icon": "🌓",
                 "title": "Tactical Dark / Light Theme System",
                 "category": "UI & Ergonomics",
                 "desc": "Instant theme toggling between High-Contrast Dark Operations mode and Crisp Light mode with persistent state storage."
-            },
-            {
-                "icon": "🧭",
-                "title": "Tactical Operations Shell",
-                "category": "Core Platform",
-                "desc": "Integrated navigation connecting Mission Briefing, Target Vault, Live Telemetry, and active Intelligence Modules."
             }
         ],
         "technical_details": [
             "FastAPI asynchronous microservice routing architecture with Jinja2 templating.",
-            "Comfortable Warm Ember and Slate design system with responsive CSS custom properties.",
-            "Foundational background task execution hooks and system telemetry status APIs."
+            "Comfortable Warm Ember (#f97316) and Slate (#0f172a) design system with responsive CSS custom properties.",
+            "Background task execution hooks and process registry (process_manager.py).",
+            "Consolidated 250+ loose legacy files into centralized services directory."
         ],
-        "commit_refs": ["bfb942c", "eeace8f", "199469b"],
+        "commit_refs": ["eeace8f", "199469b"],
         "metrics": {"modules_active": 1, "engines_connected": 1, "registries": "3,000+"}
+    },
+    {
+        "version": "v0.1.0",
+        "codename": "Initial Architecture Prototype (Version 0)",
+        "date": "2026-11-06",
+        "is_latest": False,
+        "badge": "PROTOTYPE",
+        "badge_color": "#64748b",
+        "summary": "Foundational initial commit by Atig Singh establishing the preliminary repository scaffold for the OSINT aggregation system incubated at Ramakrishna Mission Vidyamandira.",
+        "user_features": [
+            {
+                "icon": "🌱",
+                "title": "Initial Platform Prototype",
+                "category": "Core Platform",
+                "desc": "Initial platform codebase by Atig Singh establishing the directory hierarchy and foundational concept incubated at Ramakrishna Mission Vidyamandira."
+            },
+            {
+                "icon": "📁",
+                "title": "Initial Reconnaissance Scaffolds",
+                "category": "Core Platform",
+                "desc": "Early prototype drafts and folder structures for multi-module intelligence gathering."
+            }
+        ],
+        "technical_details": [
+            "Initial repository files, requirements specification, and directory hierarchy.",
+            "Prototype draft implementations prior to architectural consolidation."
+        ],
+        "commit_refs": ["bfb942c"],
+        "metrics": {"modules_active": 0, "engines_connected": 0, "registries": "0"}
     }
 ]
 
@@ -288,7 +289,7 @@ def get_latest_version() -> str:
     """Returns the latest version string."""
     if RELEASES_DATA:
         return RELEASES_DATA[0]["version"]
-    return "v0.6.0"
+    return "v1.4.0"
 
 def get_changelog_markdown() -> str:
     """Reads and returns the raw CHANGELOG.md content."""
