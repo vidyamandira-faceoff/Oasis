@@ -15,6 +15,9 @@ from services.social_media_intelligence.backend.service import (
     execute_instagram_task,
     get_instagram_status,
     ensure_instagram_report_file,
+    execute_twitter_task,
+    get_twitter_status,
+    ensure_twitter_report_file,
     NATIVE_SCRAPER_ENDPOINTS,
     REPORTS_DIR
 )
@@ -171,4 +174,70 @@ async def download_instagram_report(target: str, format: str = "json"):
         filename=filename,
         headers={"Content-Disposition": f'attachment; filename="{filename}"'}
     )
+
+
+# -----------------------------------------------------------------------------
+# Dedicated OASIS X / Twitter Scraper Routes (Flash vs Pro Modes)
+# -----------------------------------------------------------------------------
+class TwitterRunRequest(BaseModel):
+    target: str = Field(min_length=1, max_length=200)
+    mode: Optional[str] = "flash"              # "flash" (twscrape) or "pro" (native cluster)
+    count: Optional[int] = 10
+    target_type: Optional[str] = "user"        # "user", "search", "hashtag", "tweet"
+    session: Optional[str] = ""               # Optional auth_token=...; ct0=...
+    proxy: Optional[str] = ""                 # Optional HTTP/SOCKS5 proxy
+    force: Optional[bool] = False
+
+@router.post("/api/social_media_intelligence/twitter/run")
+async def run_twitter_task(req: TwitterRunRequest):
+    target = req.target.strip()
+    if not target:
+        raise HTTPException(status_code=400, detail="Target X / Twitter handle, query, or URL cannot be blank.")
+    
+    result = execute_twitter_task(
+        target=target,
+        mode=req.mode or "flash",
+        count=req.count or 10,
+        target_type=req.target_type or "user",
+        session=req.session or "",
+        proxy=req.proxy or "",
+        force=bool(req.force)
+    )
+    return result
+
+@router.get("/api/social_media_intelligence/twitter/status")
+async def check_twitter_status(target: str):
+    clean_target = target.strip()
+    if not clean_target:
+        raise HTTPException(status_code=400, detail="Target parameter required.")
+    return get_twitter_status(clean_target)
+
+@router.get("/api/social_media_intelligence/twitter/download")
+async def download_twitter_report(target: str, format: str = "json"):
+    clean_target = target.strip()
+    if not clean_target:
+        raise HTTPException(status_code=400, detail="Target parameter required.")
+
+    fmt = format.lower().strip()
+    file_path = ensure_twitter_report_file(clean_target, fmt)
+    if not file_path or not file_path.exists():
+        raise HTTPException(status_code=404, detail="Requested OASIS Twitter report file does not exist.")
+
+    media_map = {
+        "csv": "text/csv",
+        "json": "application/json",
+        "md": "text/markdown",
+        "txt": "text/plain"
+    }
+    media_type = media_map.get(fmt, "application/octet-stream")
+    clean_file_key = clean_target.replace('@', '').replace('/', '_')
+    filename = f"OASIS_twitter_{clean_file_key}_dossier.{fmt}"
+
+    return FileResponse(
+        path=str(file_path),
+        media_type=media_type,
+        filename=filename,
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'}
+    )
+
 

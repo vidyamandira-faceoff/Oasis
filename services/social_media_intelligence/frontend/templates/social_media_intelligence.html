@@ -1069,6 +1069,162 @@
     color: #e1306c;
   }
 
+  /* Twitter Flash Mode Enhancements */
+  .tw-scope-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .tw-scope-pill {
+    padding: 6px 14px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid var(--border-soft);
+    background: var(--bg-surface);
+    color: var(--slate-700);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .tw-scope-pill:hover {
+    border-color: #0284c7;
+    color: #0284c7;
+  }
+  .tw-scope-pill.active {
+    background: #0f172a;
+    color: #ffffff;
+    border-color: #0f172a;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.3);
+  }
+  .btn-tw-flash {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 800;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.3);
+    transition: all 0.2s ease;
+  }
+  .btn-tw-flash:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.4);
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  }
+  .btn-tw-flash:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+  .tw-tweets-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .tw-tweet-card {
+    background: var(--bg-card-subtle);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    padding: 18px 20px;
+    transition: all 0.2s ease;
+  }
+  .tw-tweet-card:hover {
+    border-color: rgba(14, 165, 233, 0.4);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+    transform: translateY(-1px);
+  }
+  .tw-tweet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .tw-author-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .tw-author-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--border-soft);
+  }
+  .tw-author-name {
+    font-size: 13.5px;
+    font-weight: 800;
+    color: var(--slate-900);
+  }
+  .tw-author-handle {
+    font-size: 12px;
+    color: var(--slate-500);
+    font-family: var(--font-mono);
+  }
+  .tw-tweet-date {
+    font-size: 11.5px;
+    color: var(--slate-400);
+    font-family: var(--font-mono);
+  }
+  .tw-tweet-body {
+    font-size: 14px;
+    color: var(--slate-900);
+    line-height: 1.55;
+    margin-bottom: 12px;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .tw-tweet-media-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .tw-tweet-media-img {
+    width: 100%;
+    max-height: 280px;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-soft);
+  }
+  .tw-tweet-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border-soft);
+    padding-top: 10px;
+    font-size: 12px;
+    color: var(--slate-500);
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .tw-metrics-pills {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .tw-metric-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 8px;
+    border-radius: 9999px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--slate-700);
+  }
 </style>
 {% endblock %}
 
@@ -1582,59 +1738,349 @@
 
     <!-- Pane 3: X / Twitter Intelligence -->
     <div class="platform-pane" id="pane-twitter">
-      <div class="platform-hero-card card-twitter">
-        <div class="platform-header-row">
-          <div class="platform-title-group">
-            <div class="platform-icon-box" style="background: rgba(15, 23, 42, 0.1); color: var(--slate-900);">
-              🐦
-            </div>
-            <div>
-              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
-                <h3 style="font-size: 18px; font-weight: 800; color: var(--slate-900); margin: 0;">X (Twitter) Intelligence Platform</h3>
-                <span class="status-pill-online"><span class="dot"></span> Native Scraper Online</span>
+
+      <!-- Mode Switcher: Flash Mode (In-App) vs Pro Mode (Cluster) -->
+      <div class="ig-mode-switcher" style="margin-bottom: 24px;">
+        <button type="button" class="ig-mode-btn mode-flash active" id="btn-tw-mode-flash" onclick="setTwitterMode('flash')">
+          <div class="ig-mode-info">
+            <span class="ig-mode-title">
+              <span>⚡ Flash Mode</span>
+              <span class="status-pill-online" style="padding: 2px 8px; font-size: 10px; background: rgba(15, 23, 42, 0.1); color: var(--slate-900); border-color: rgba(15, 23, 42, 0.25);"><span class="dot" style="background: var(--slate-900); box-shadow: 0 0 6px var(--slate-900);"></span> In-App Recon</span>
+            </span>
+            <span class="ig-mode-sub">Native internal engine (OASIS X / Twitter Engine) &bull; Live in-platform profile &amp; tweet extraction</span>
+          </div>
+          <span class="ig-mode-badge" style="background: var(--slate-900); color: #ffffff; border-color: var(--slate-900);">Internal Engine</span>
+        </button>
+
+        <button type="button" class="ig-mode-btn mode-pro" id="btn-tw-mode-pro" onclick="setTwitterMode('pro')">
+          <div class="ig-mode-info">
+            <span class="ig-mode-title">
+              <span>🚀 Pro Mode</span>
+              <span class="status-pill-online" style="padding: 2px 8px; font-size: 10px; background: rgba(99, 102, 241, 0.12); color: #6366f1; border-color: rgba(99, 102, 241, 0.3);"><span class="dot" style="background: #6366f1; box-shadow: 0 0 6px #6366f1;"></span> Cluster Online</span>
+            </span>
+            <span class="ig-mode-sub">High-capacity scraper cluster at <code style="font-family: var(--font-mono); color: #6366f1; font-weight: 700;">xintel.rkmvcse.in</code></span>
+          </div>
+          <span class="ig-mode-badge">External Redirect</span>
+        </button>
+      </div>
+
+      <!-- 1. Flash Mode Container (Internal Engine) -->
+      <div id="tw-flash-container">
+        <div class="ig-flash-layout">
+
+          <!-- Left Column: Operations Workspace -->
+          <div class="ig-main-ops">
+
+            <!-- Input & Controls Card -->
+            <div class="ig-flash-input-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+                <div>
+                  <h4 style="font-size: 15px; font-weight: 800; color: var(--slate-900); margin: 0 0 4px 0;">
+                    ⚡ X / Twitter Flash Reconnaissance
+                  </h4>
+                  <p style="font-size: 12.5px; color: var(--slate-500); margin: 0;">
+                    Extract user profile metrics, bio information, and recent tweet timelines directly within the OASIS workspace.
+                  </p>
+                </div>
+                <div style="font-size: 11.5px; color: var(--slate-500); font-family: var(--font-mono);">
+                  Engine: <span style="color: #0284c7; font-weight: 700;">OASIS Twitter Engine</span>
+                </div>
               </div>
-              <p style="font-size: 13px; color: var(--slate-500); margin: 0;">
-                High-capacity tweet scraper engine deployed at <code style="font-family: var(--font-mono); color: var(--slate-800); font-weight: 700;">http://xintel.rkmvcse.in/</code>
+
+              <!-- Scope Selector Bar -->
+              <div class="tw-scope-bar">
+                <button type="button" class="tw-scope-pill active" id="pill-tw-user" onclick="setTwitterScope('user')">
+                  👤 User Profile &amp; Tweets
+                </button>
+                <button type="button" class="tw-scope-pill" id="pill-tw-search" onclick="setTwitterScope('search')">
+                  🔍 Keyword &amp; Hashtag Search
+                </button>
+                <button type="button" class="tw-scope-pill" id="pill-tw-tweet" onclick="setTwitterScope('tweet')">
+                  🔗 Direct Tweet &amp; Replies
+                </button>
+              </div>
+
+              <form id="tw-flash-form" onsubmit="event.preventDefault(); startTwitterFlash();">
+                <div class="ig-input-row">
+                  <input type="text" id="tw-target-input" class="ig-input-field" placeholder="Enter target handle (e.g. @nasa or nasa)..." required>
+                  
+                  <select id="tw-count-select" class="ig-count-select" title="Number of tweets to extract">
+                    <option value="5">5 Tweets</option>
+                    <option value="10" selected>10 Tweets</option>
+                    <option value="20">20 Tweets</option>
+                    <option value="50">50 Tweets (Deep)</option>
+                  </select>
+
+                  <button type="submit" id="btn-tw-flash-submit" class="btn-tw-flash">
+                    <span id="tw-btn-icon">⚡</span>
+                    <span id="tw-btn-label">Launch OASIS Recon</span>
+                  </button>
+                </div>
+
+                <!-- Advanced Config: Session Cookie & Custom Proxy -->
+                <details style="font-size: 12.5px; color: var(--slate-600); margin-top: 14px;">
+                  <summary style="cursor: pointer; font-weight: 700; color: var(--slate-800);">
+                    ⚙️ Advanced Configuration (X Session Cookie, Proxy Server)
+                  </summary>
+                  <div style="margin-top: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                    <div>
+                      <label style="display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--slate-500); margin-bottom: 4px;">
+                        Session Cookie (auth_token &amp; ct0)
+                      </label>
+                      <input type="text" id="tw-session-input" class="ig-input-field" style="padding: 8px 12px; font-size: 12.5px; width: 100%;" placeholder="auth_token=...; ct0=...">
+                      <span style="display: block; font-size: 11px; color: var(--slate-500); margin-top: 3px;">
+                        Paste your X.com cookies to query Twitter GraphQL directly in Flash Mode.
+                      </span>
+                    </div>
+
+                    <div>
+                      <label style="display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--slate-500); margin-bottom: 4px;">
+                        Custom Proxy Server (HTTP / SOCKS5)
+                      </label>
+                      <input type="text" id="tw-proxy-input" class="ig-input-field" style="padding: 8px 12px; font-size: 12.5px; width: 100%;" placeholder="e.g. http://127.0.0.1:8080 or socks5://...">
+                      <span style="display: block; font-size: 11px; color: var(--slate-500); margin-top: 3px;">
+                        Optional proxy to route outbound X requests.
+                      </span>
+                    </div>
+                  </div>
+                </details>
+              </form>
+            </div>
+
+            <!-- Progress & Status Panel -->
+            <div id="tw-progress-panel" class="oasis-progress-panel" style="border-color: rgba(14, 165, 233, 0.3);">
+              <div class="oasis-progress-top">
+                <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                  <span id="tw-status-pill" class="oasis-status-pill status-active" style="background: rgba(14, 165, 233, 0.12); color: #0284c7; border-color: rgba(14, 165, 233, 0.3);">
+                    <span class="oasis-status-dot pulse" style="background: #0ea5e9;"></span>
+                    <span id="tw-status-pill-text">ACTIVE SCRAPING</span>
+                  </span>
+                  <span class="oasis-engine-tag">⚡ OASIS Internal Engine</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <span class="oasis-progress-timer" id="tw-progress-timer">Elapsed: 0.0s</span>
+                  <button type="button" class="oasis-progress-close-btn" id="tw-progress-close-btn" onclick="dismissTwitterProgress()" title="Dismiss status panel">✕</button>
+                </div>
+              </div>
+
+              <div class="oasis-progress-body">
+                <div class="oasis-progress-info">
+                  <div class="oasis-progress-title" id="tw-progress-title">Executing X / Twitter Engine...</div>
+                  <div class="oasis-progress-subtitle" id="tw-progress-subtitle">Connecting to X GraphQL endpoints via twscrape</div>
+                </div>
+                <div class="oasis-progress-percent" id="tw-progress-percent" style="color: #0284c7;">15%</div>
+              </div>
+
+              <div class="oasis-progress-track">
+                <div class="oasis-progress-fill active-anim" id="tw-progress-fill" style="width: 15%; background: linear-gradient(90deg, #0f172a 0%, #0284c7 100%);"></div>
+              </div>
+            </div>
+
+            <!-- Results Display Container -->
+            <div id="tw-results-container" style="display: none;">
+              
+              <!-- Profile Overview Header Card -->
+              <div class="ig-profile-header-card" id="tw-profile-card">
+                <div class="ig-avatar-wrapper">
+                  <img id="tw-avatar-img" class="ig-avatar-img" src="" alt="Avatar" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'96\' height=\'96\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%2394a3b8\' stroke-width=\'2\'><path d=\'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\'/><circle cx=\'12\' cy=\'7\' r=\'4\'/></svg>';">
+                </div>
+                <div class="ig-profile-meta">
+                  <div class="ig-profile-title-row">
+                    <h3 class="ig-profile-handle" id="tw-res-handle">@target</h3>
+                    <span id="tw-res-verified" class="ig-verified-badge" style="display: none; background: rgba(14, 165, 233, 0.12); color: #0284c7; border-color: rgba(14, 165, 233, 0.3);">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg> Verified
+                    </span>
+                    <span class="status-pill-online" id="tw-res-visibility">Active on X</span>
+                  </div>
+                  
+                  <div class="ig-profile-fullname" id="tw-res-fullname">Target Display Name</div>
+
+                  <!-- Metrics Grid -->
+                  <div class="ig-metrics-grid">
+                    <div class="ig-metric-box">
+                      <div class="ig-metric-val" id="tw-metric-followers" style="color: #0284c7;">0</div>
+                      <div class="ig-metric-lbl">Followers</div>
+                    </div>
+                    <div class="ig-metric-box">
+                      <div class="ig-metric-val" id="tw-metric-following">0</div>
+                      <div class="ig-metric-lbl">Following</div>
+                    </div>
+                    <div class="ig-metric-box">
+                      <div class="ig-metric-val" id="tw-metric-tweets">0</div>
+                      <div class="ig-metric-lbl">Total Posts</div>
+                    </div>
+                    <div class="ig-metric-box">
+                      <div class="ig-metric-val" id="tw-metric-harvested">0</div>
+                      <div class="ig-metric-lbl">Harvested Tweets</div>
+                    </div>
+                  </div>
+
+                  <!-- Bio -->
+                  <div class="ig-profile-bio" id="tw-res-bio">
+                    No bio available.
+                  </div>
+
+                  <!-- Metadata Strip & Direct Profile Link -->
+                  <div style="margin-top: 12px; display: flex; gap: 14px; align-items: center; flex-wrap: wrap; font-size: 12px; color: var(--slate-500);">
+                    <span id="tw-res-location">📍 Location: Unspecified</span>
+                    <span id="tw-res-created">📅 Joined: N/A</span>
+                    <a id="tw-link-profile" href="#" target="_blank" rel="noopener" class="ig-export-btn" style="color: #0284c7; border-color: rgba(14, 165, 233, 0.3);">
+                      <span>🐦 Open on X / Twitter ↗</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Section: Harvested Tweets -->
+              <div class="ig-posts-section-header">
+                <div>
+                  <h4 style="font-size: 16px; font-weight: 800; color: var(--slate-900); margin: 0 0 4px 0;">
+                    Harvested Timeline Tweets (<span id="tw-tweets-count-label">0</span>)
+                  </h4>
+                  <span style="font-size: 12px; color: var(--slate-500);">Extracted tweet messages, engagement metrics, media previews, and links</span>
+                </div>
+
+                <!-- Export Toolbar -->
+                <div class="ig-export-bar">
+                  <a href="#" id="tw-download-json" class="ig-export-btn" download>
+                    <span>💾 OASIS JSON</span>
+                  </a>
+                  <a href="#" id="tw-download-md" class="ig-export-btn" download>
+                    <span>📄 Markdown Dossier</span>
+                  </a>
+                  <a href="#" id="tw-download-csv" class="ig-export-btn" download>
+                    <span>📊 CSV Export</span>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Tweets List Feed -->
+              <div class="tw-tweets-list" id="tw-tweets-grid">
+                <!-- Injected dynamically -->
+              </div>
+
+            </div>
+
+            <!-- Empty Guidance State -->
+            <div id="tw-empty-guidance" style="text-align: center; padding: 40px 20px; background: var(--bg-card-subtle); border: 1px dashed var(--border-soft); border-radius: var(--radius-md);">
+              <div style="font-size: 36px; margin-bottom: 12px;">🐦</div>
+              <h4 style="font-size: 15px; font-weight: 800; color: var(--slate-800); margin-bottom: 6px;">
+                Ready to Inspect X / Twitter Target
+              </h4>
+              <p style="font-size: 13px; color: var(--slate-500); max-width: 520px; margin: 0 auto;">
+                Enter an X handle (e.g. <code>@nasa</code> or <code>@elonmusk</code>), a search hashtag, or a tweet URL above and click <strong>Launch OASIS Recon</strong>.
               </p>
             </div>
+
           </div>
 
-          <a href="http://xintel.rkmvcse.in/" target="_blank" rel="noopener noreferrer" class="btn-launch-native btn-launch-x">
-            <span>Go to X / Twitter Scraper ↗</span>
-          </a>
+          <!-- Right Column: Capabilities Sidebar -->
+          <aside class="ig-sidebar-panel">
+            <div class="ig-sidebar-card">
+              <div class="ig-sidebar-header">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="font-size: 15px;">⚡</span>
+                  <span style="font-size: 13px; font-weight: 800; color: var(--slate-900);">Twitter Engine Features</span>
+                </div>
+                <span class="status-pill-online" style="padding: 2px 7px; font-size: 10px; background: rgba(14, 165, 233, 0.1); color: #0284c7; border-color: rgba(14, 165, 233, 0.25);">
+                  Native Engine
+                </span>
+              </div>
+
+              <div class="ig-features-list">
+                <div class="ig-feature-tile">
+                  <div class="ig-feature-icon" style="background: rgba(15, 23, 42, 0.08); color: var(--slate-900);">👤</div>
+                  <div>
+                    <div class="ig-feature-title">Profile &amp; Bio Triage</div>
+                    <div class="ig-feature-desc">Harvests handle, display name, bio description, location, verification status, and join date.</div>
+                  </div>
+                </div>
+
+                <div class="ig-feature-tile">
+                  <div class="ig-feature-icon" style="background: rgba(14, 165, 233, 0.1); color: #0284c7;">📜</div>
+                  <div>
+                    <div class="ig-feature-title">Timeline Tweets &amp; Metrics</div>
+                    <div class="ig-feature-desc">Extracts recent tweets with likes, retweets, replies, quote counts, and impression views.</div>
+                  </div>
+                </div>
+
+                <div class="ig-feature-tile">
+                  <div class="ig-feature-icon" style="background: rgba(139, 92, 246, 0.1); color: #8b5cf6;">🔍</div>
+                  <div>
+                    <div class="ig-feature-title">Search &amp; Hashtag Velocity</div>
+                    <div class="ig-feature-desc">Performs live keyword queries, hashtag tracking (<code>#osint</code>), and mention monitoring.</div>
+                  </div>
+                </div>
+
+                <div class="ig-feature-tile">
+                  <div class="ig-feature-icon" style="background: rgba(16, 185, 129, 0.1); color: #059669;">📸</div>
+                  <div>
+                    <div class="ig-feature-title">Media &amp; CDN Links</div>
+                    <div class="ig-feature-desc">Extracts signed CDN image and video links directly from tweet media cards.</div>
+                  </div>
+                </div>
+
+                <div class="ig-feature-tile">
+                  <div class="ig-feature-icon" style="background: rgba(245, 158, 11, 0.1); color: #d97706;">📱</div>
+                  <div>
+                    <div class="ig-feature-title">Client Application Auditing</div>
+                    <div class="ig-feature-desc">Audits publishing sources (<code>Twitter for iPhone</code>, <code>Twitter Web App</code>).</div>
+                  </div>
+                </div>
+
+                <div class="ig-feature-tile">
+                  <div class="ig-feature-icon" style="background: rgba(236, 72, 153, 0.1); color: #db2777;">💾</div>
+                  <div>
+                    <div class="ig-feature-title">Multi-Format Dossiers</div>
+                    <div class="ig-feature-desc">1-click export to OASIS JSON, Markdown incident reports, and spreadsheet CSVs.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </aside>
+
         </div>
+      </div>
 
-        <!-- Launchpad Action Box -->
-        <div class="launchpad-action-box">
-          <h4>X / Twitter Velocity Scraping &amp; Timeline Harvester</h4>
-          <p>
-            Direct access to our dedicated real-time tweet harvester for scraping complete account archives, quote/reply interaction clusters, geolocation tags, client applications, and CDN media streams.
-          </p>
-          <a href="http://xintel.rkmvcse.in/" target="_blank" rel="noopener noreferrer" class="btn-launch-native btn-launch-x">
-            <span>Go to X / Twitter Scraper ↗</span>
-          </a>
-        </div>
+      <!-- 2. Pro Mode Container (External Cluster Redirect) -->
+      <div id="tw-pro-container" style="display: none;">
+        <div class="platform-hero-card card-twitter">
+          <div class="platform-header-row">
+            <div class="platform-title-group">
+              <div class="platform-icon-box" style="background: rgba(15, 23, 42, 0.1); color: var(--slate-900);">
+                🐦
+              </div>
+              <div>
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+                  <h3 style="font-size: 18px; font-weight: 800; color: var(--slate-900); margin: 0;">X (Twitter) Pro Scraper Cluster</h3>
+                  <span class="status-pill-online"><span class="dot"></span> Cluster Online</span>
+                </div>
+                <p style="font-size: 13px; color: var(--slate-500); margin: 0;">
+                  High-capacity tweet scraper engine deployed at <code style="font-family: var(--font-mono); color: var(--slate-800); font-weight: 700;">http://xintel.rkmvcse.in/</code>
+                </p>
+              </div>
+            </div>
 
-        <!-- Capabilities Grid -->
-        <div class="capabilities-mini-grid">
-          <div class="cap-box">
-            <div class="cap-box-title">📜 Full Tweet Archive</div>
-            <p class="cap-box-desc">Historical timeline scraping including replies, quotes, and pinned posts.</p>
+            <a href="http://xintel.rkmvcse.in/" target="_blank" rel="noopener noreferrer" class="btn-launch-native btn-launch-x">
+              <span>Go to X / Twitter Scraper ↗</span>
+            </a>
           </div>
-          <div class="cap-box">
-            <div class="cap-box-title">🔁 Retweet &amp; Reply Networks</div>
-            <p class="cap-box-desc">Identifies echo-chambers, bot engagement clusters, and retweet syndicates.</p>
-          </div>
-          <div class="cap-box">
-            <div class="cap-box-title">📍 Geolocation &amp; Client Apps</div>
-            <p class="cap-box-desc">Audits device sources (Twitter for iPhone, Web, API) and coordinate metadata.</p>
-          </div>
-          <div class="cap-box">
-            <div class="cap-box-title">📸 Media &amp; Video Streams</div>
-            <p class="cap-box-desc">Extracts direct CDN links for all photos, video recordings, and cards.</p>
+
+          <!-- Launchpad Action Box -->
+          <div class="launchpad-action-box">
+            <h4>X / Twitter Velocity Scraping &amp; Timeline Harvester</h4>
+            <p>
+              Direct access to our dedicated real-time tweet harvester for scraping complete account archives, quote/reply interaction clusters, geolocation tags, client applications, and CDN media streams through distributed IP pools.
+            </p>
+            <a href="http://xintel.rkmvcse.in/" target="_blank" rel="noopener noreferrer" class="btn-launch-native btn-launch-x">
+              <span>Launch Pro Scraper Cluster ↗</span>
+            </a>
           </div>
         </div>
       </div>
+
     </div>
 
     <!-- Pane 4: LinkedIn Intelligence -->
@@ -2097,6 +2543,363 @@ function renderInstagramResults(data) {
     `;
     gridEl.appendChild(card);
   });
+}
+
+// -----------------------------------------------------------------------------
+// OASIS X / Twitter Intelligence Engine Controller
+// -----------------------------------------------------------------------------
+let twPollInterval = null;
+let twScanStartTime = 0;
+let currentTwitterScope = "user";
+
+function setTwitterScope(scope) {
+  currentTwitterScope = scope;
+  document.querySelectorAll(".tw-scope-pill").forEach(p => p.classList.remove("active"));
+  const btn = document.getElementById(`pill-tw-${scope}`);
+  if (btn) btn.classList.add("active");
+
+  const inputEl = document.getElementById("tw-target-input");
+  if (scope === "user") {
+    inputEl.placeholder = "Enter target handle (e.g. @nasa or elonmusk)...";
+  } else if (scope === "search") {
+    inputEl.placeholder = "Enter search keyword or hashtag (e.g. #osint, from:nasa)...";
+  } else if (scope === "tweet") {
+    inputEl.placeholder = "Enter direct tweet ID or status URL (e.g. https://x.com/user/status/123...)...";
+  }
+}
+
+function setTwitterMode(mode) {
+  const flashBtn = document.getElementById("btn-tw-mode-flash");
+  const proBtn = document.getElementById("btn-tw-mode-pro");
+  const flashContainer = document.getElementById("tw-flash-container");
+  const proContainer = document.getElementById("tw-pro-container");
+
+  if (mode === "flash") {
+    flashBtn.classList.add("active");
+    proBtn.classList.remove("active");
+    flashContainer.style.display = "block";
+    proContainer.style.display = "none";
+  } else {
+    proBtn.classList.add("active");
+    flashBtn.classList.remove("active");
+    flashContainer.style.display = "none";
+    proContainer.style.display = "block";
+  }
+}
+
+function dismissTwitterProgress() {
+  const panel = document.getElementById("tw-progress-panel");
+  if (panel) panel.classList.remove("active");
+}
+
+function resetTwitterButton() {
+  const btn = document.getElementById("btn-tw-flash-submit");
+  if (btn) {
+    btn.disabled = false;
+    document.getElementById("tw-btn-icon").textContent = "⚡";
+    document.getElementById("tw-btn-label").textContent = "Launch OASIS Recon";
+  }
+}
+
+async function startTwitterFlash() {
+  const inputEl = document.getElementById("tw-target-input");
+  const countEl = document.getElementById("tw-count-select");
+  const sessionEl = document.getElementById("tw-session-input");
+  const proxyEl = document.getElementById("tw-proxy-input");
+
+  const btnSubmit = document.getElementById("btn-tw-flash-submit");
+  const guidanceEl = document.getElementById("tw-empty-guidance");
+  const resultsContainer = document.getElementById("tw-results-container");
+
+  const target = (inputEl.value || "").trim();
+  if (!target) {
+    alert("Please enter a valid target X handle, query, or tweet URL.");
+    return;
+  }
+
+  const count = parseInt(countEl.value, 10) || 10;
+  const session = sessionEl ? (sessionEl.value || "").trim() : "";
+  const proxy = proxyEl ? (proxyEl.value || "").trim() : "";
+
+  btnSubmit.disabled = true;
+  document.getElementById("tw-btn-icon").textContent = "⏳";
+  document.getElementById("tw-btn-label").textContent = "OASIS Ingesting...";
+  guidanceEl.style.display = "none";
+
+  const progressPanel = document.getElementById("tw-progress-panel");
+  const statusPill = document.getElementById("tw-status-pill");
+  const statusPillText = document.getElementById("tw-status-pill-text");
+  const progressTitle = document.getElementById("tw-progress-title");
+  const progressSubtitle = document.getElementById("tw-progress-subtitle");
+  const progressPercent = document.getElementById("tw-progress-percent");
+  const progressFill = document.getElementById("tw-progress-fill");
+  const timerEl = document.getElementById("tw-progress-timer");
+
+  progressPanel.className = "oasis-progress-panel active";
+  statusPill.className = "oasis-status-pill status-active";
+  statusPill.style.background = "rgba(14, 165, 233, 0.12)";
+  statusPill.style.color = "#0284c7";
+  statusPill.style.borderColor = "rgba(14, 165, 233, 0.3)";
+  statusPillText.textContent = "ACTIVE HARVESTING";
+
+  progressTitle.textContent = `Scraping X / Twitter target: ${target}`;
+  progressSubtitle.textContent = `Connecting to Twitter GraphQL via twscrape (Type: ${currentTwitterScope.toUpperCase()})...`;
+  progressFill.className = "oasis-progress-fill active-anim";
+  progressFill.style.width = "12%";
+  progressFill.style.background = "linear-gradient(90deg, #0f172a 0%, #0284c7 100%)";
+  progressPercent.textContent = "12%";
+
+  twScanStartTime = Date.now();
+  let simPercent = 12;
+  const timerInterval = setInterval(() => {
+    const elapsed = ((Date.now() - twScanStartTime) / 1000).toFixed(1);
+    timerEl.textContent = `Elapsed: ${elapsed}s`;
+
+    if (simPercent < 88) {
+      simPercent += 1.8;
+      const rounded = Math.round(simPercent);
+      progressFill.style.width = `${rounded}%`;
+      progressPercent.textContent = `${rounded}%`;
+    }
+  }, 250);
+
+  try {
+    const res = await fetch("/api/social_media_intelligence/twitter/run", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        target: target,
+        mode: "flash",
+        count: count,
+        target_type: currentTwitterScope,
+        session: session,
+        proxy: proxy,
+        force: false
+      })
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.detail || "Server error");
+    }
+
+    const data = await res.json();
+
+    if (data.status === "COMPLETED" && data.cached) {
+      clearInterval(timerInterval);
+      handleTwitterCompletion(data);
+      resetTwitterButton();
+      return;
+    }
+
+    pollTwitterStatus(data.target || target, timerInterval);
+
+  } catch (err) {
+    clearInterval(timerInterval);
+    progressPanel.className = "oasis-progress-panel active error";
+    statusPill.className = "oasis-status-pill status-error";
+    statusPill.style.background = "rgba(239, 68, 68, 0.12)";
+    statusPill.style.color = "#dc2626";
+    statusPillText.textContent = "EXECUTION TERMINATED";
+    progressTitle.textContent = `Twitter Recon Failed: ${target}`;
+    progressSubtitle.textContent = err.message;
+    progressFill.className = "oasis-progress-fill error-fill";
+    progressFill.style.width = "100%";
+    progressPercent.textContent = "Failed";
+    resetTwitterButton();
+    alert("Twitter Flash Recon error: " + err.message);
+  }
+}
+
+function pollTwitterStatus(target, timerInterval) {
+  if (twPollInterval) clearInterval(twPollInterval);
+
+  twPollInterval = setInterval(async () => {
+    try {
+      const res = await fetch(`/api/social_media_intelligence/twitter/status?target=${encodeURIComponent(target)}`);
+      if (!res.ok) return;
+      const data = await res.json();
+
+      const progressTitle = document.getElementById("tw-progress-title");
+      const progressSubtitle = document.getElementById("tw-progress-subtitle");
+      const progressFill = document.getElementById("tw-progress-fill");
+      const progressPercent = document.getElementById("tw-progress-percent");
+      const statusPill = document.getElementById("tw-status-pill");
+      const statusPillText = document.getElementById("tw-status-pill-text");
+      const progressPanel = document.getElementById("tw-progress-panel");
+
+      if (data.progress_msg) {
+        progressSubtitle.textContent = data.progress_msg;
+      }
+
+      if (data.status === "COMPLETED") {
+        clearInterval(twPollInterval);
+        clearInterval(timerInterval);
+        twPollInterval = null;
+
+        const totalElapsed = ((Date.now() - twScanStartTime) / 1000).toFixed(1);
+        progressPanel.className = "oasis-progress-panel active completed";
+        statusPill.className = "oasis-status-pill status-success";
+        statusPill.style.background = "rgba(16, 185, 129, 0.12)";
+        statusPill.style.color = "#059669";
+        statusPillText.textContent = "HARVEST COMPLETED";
+        
+        const countTweets = (data.tweets && data.tweets.length) || 0;
+        progressTitle.textContent = `Reconnaissance Complete: @${data.target || target}`;
+        progressSubtitle.textContent = `Finished in ${totalElapsed}s • Profile & ${countTweets} timeline tweets ingested.`;
+        progressFill.className = "oasis-progress-fill completed-fill";
+        progressFill.style.width = "100%";
+        progressFill.style.background = "linear-gradient(90deg, #10b981 0%, #059669 100%)";
+        progressPercent.textContent = "100% Complete";
+
+        handleTwitterCompletion(data);
+        resetTwitterButton();
+
+      } else if (data.status === "ERROR") {
+        clearInterval(twPollInterval);
+        clearInterval(timerInterval);
+        twPollInterval = null;
+
+        progressPanel.className = "oasis-progress-panel active error";
+        statusPill.className = "oasis-status-pill status-error";
+        statusPill.style.background = "rgba(239, 68, 68, 0.12)";
+        statusPill.style.color = "#dc2626";
+        statusPillText.textContent = "EXECUTION TERMINATED";
+        progressTitle.textContent = `Reconnaissance Failed: @${target}`;
+        progressSubtitle.textContent = data.error || "Twitter engine error.";
+        progressFill.className = "oasis-progress-fill error-fill";
+        progressFill.style.width = "100%";
+        progressPercent.textContent = "Failed";
+        resetTwitterButton();
+      }
+    } catch (e) {
+      console.warn("Twitter status poll error:", e);
+    }
+  }, 1000);
+}
+
+function handleTwitterCompletion(data) {
+  const resultsContainer = document.getElementById("tw-results-container");
+  const guidanceEl = document.getElementById("tw-empty-guidance");
+  resultsContainer.style.display = "block";
+  guidanceEl.style.display = "none";
+
+  const profile = data.profile || {};
+  const tweets = data.tweets || [];
+  const cleanTarget = data.target || "";
+
+  // 1. Populate Profile Card
+  const avatarImg = document.getElementById("tw-avatar-img");
+  if (profile.profile_image_url) {
+    avatarImg.src = profile.profile_image_url;
+  }
+  document.getElementById("tw-res-handle").textContent = `@${profile.username || cleanTarget}`;
+  document.getElementById("tw-res-fullname").textContent = profile.displayname || profile.username || cleanTarget;
+  
+  const verifiedBadge = document.getElementById("tw-res-verified");
+  if (profile.verified || profile.is_blue) {
+    verifiedBadge.style.display = "inline-flex";
+  } else {
+    verifiedBadge.style.display = "none";
+  }
+
+  document.getElementById("tw-metric-followers").textContent = (profile.followers_count || 0).toLocaleString();
+  document.getElementById("tw-metric-following").textContent = (profile.following_count || 0).toLocaleString();
+  document.getElementById("tw-metric-tweets").textContent = (profile.statuses_count || 0).toLocaleString();
+  document.getElementById("tw-metric-harvested").textContent = tweets.length;
+
+  document.getElementById("tw-res-bio").textContent = profile.bio || "No biography description available.";
+  document.getElementById("tw-res-location").textContent = `📍 Location: ${profile.location || 'Unspecified'}`;
+  document.getElementById("tw-res-created").textContent = `📅 Joined: ${profile.created || 'N/A'}`;
+  document.getElementById("tw-link-profile").href = profile.url || `https://x.com/${cleanTarget}`;
+
+  // 2. Export Links
+  document.getElementById("tw-tweets-count-label").textContent = tweets.length;
+  document.getElementById("tw-download-json").href = `/api/social_media_intelligence/twitter/download?target=${encodeURIComponent(cleanTarget)}&format=json`;
+  document.getElementById("tw-download-md").href = `/api/social_media_intelligence/twitter/download?target=${encodeURIComponent(cleanTarget)}&format=md`;
+  document.getElementById("tw-download-csv").href = `/api/social_media_intelligence/twitter/download?target=${encodeURIComponent(cleanTarget)}&format=csv`;
+
+  // 3. Render Tweets Grid
+  renderTwitterFeed(tweets, profile);
+}
+
+function renderTwitterFeed(tweets, profile) {
+  const container = document.getElementById("tw-tweets-grid");
+  if (!tweets || tweets.length === 0) {
+    container.innerHTML = `
+      <div style="padding: 30px 20px; text-align: center; color: var(--slate-400); background: var(--bg-card-subtle); border-radius: var(--radius-sm); border: 1px dashed var(--border-soft);">
+        No tweets extracted for this criteria.
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = tweets.map((t, idx) => {
+    const authorName = escapeHtml(t.user?.displayname || profile.displayname || profile.username || "X User");
+    const authorHandle = escapeHtml(t.user?.username || profile.username || "user");
+    const avatar = t.user?.profile_image_url || profile.profile_image_url || "";
+    const tweetText = escapeHtml(t.text || "");
+    const dateStr = escapeHtml(t.date || "N/A");
+    const likes = (t.like_count || 0).toLocaleString();
+    const rts = (t.retweet_count || 0).toLocaleString();
+    const replies = (t.reply_count || 0).toLocaleString();
+    const views = t.view_count ? (t.view_count).toLocaleString() : null;
+    const client = escapeHtml(t.source || "Web");
+    const url = t.url || `https://x.com/i/status/${t.id || ''}`;
+
+    let mediaHtml = "";
+    if (t.media && t.media.length > 0) {
+      const imgs = t.media.map(m => `
+        <img class="tw-tweet-media-img" src="${m.url || m.thumbnail}" alt="Media thumbnail" onerror="this.style.display='none';">
+      `).join("");
+      mediaHtml = `<div class="tw-tweet-media-grid">${imgs}</div>`;
+    }
+
+    return `
+      <div class="tw-tweet-card">
+        <div class="tw-tweet-header">
+          <div class="tw-author-info">
+            <img class="tw-author-avatar" src="${avatar}" alt="Avatar" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'38\' height=\'38\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%2394a3b8\' stroke-width=\'2\'><circle cx=\'12\' cy=\'7\' r=\'4\'/><path d=\'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\'/></svg>';">
+            <div>
+              <div class="tw-author-name">${authorName}</div>
+              <div class="tw-author-handle">@${authorHandle}</div>
+            </div>
+          </div>
+          <span class="tw-tweet-date">${dateStr}</span>
+        </div>
+
+        <div class="tw-tweet-body">${tweetText}</div>
+
+        ${mediaHtml}
+
+        <div class="tw-tweet-footer">
+          <div class="tw-metrics-pills">
+            <span class="tw-metric-pill" title="Likes">❤️ ${likes}</span>
+            <span class="tw-metric-pill" title="Retweets">🔁 ${rts}</span>
+            <span class="tw-metric-pill" title="Replies">💬 ${replies}</span>
+            ${views ? `<span class="tw-metric-pill" title="Impressions">👁️ ${views}</span>` : ''}
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 11px; color: var(--slate-400);">via ${client}</span>
+            <a href="${url}" target="_blank" rel="noopener noreferrer" style="color: #0284c7; font-weight: 700; text-decoration: none; font-size: 11.5px;">
+              View on X ↗
+            </a>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
 }
 
 // Auto-run if target was provided via query parameter
