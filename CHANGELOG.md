@@ -9,6 +9,46 @@ The project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html
 
 ---
 
+## [v1.6.0] - 2026-11-13
+### Codename: IP & Network Intelligence Suite, Tactical Port Triage & TLS Certificate Inspection
+*Commit References: `49d8f96`, `HEAD`*
+
+#### User-Centric Capabilities & Feature Releases
+- **IP & Network Intelligence Suite Activation**:
+  - Full operational activation of the IP & Network Intelligence module, transforming the formerly reserved sidebar item into a fully active reconnaissance workspace.
+  - Interactive two-column layout: left operational workspace with live telemetry and results; right sticky capabilities reference and architectural guide.
+- **GeoIP Physical Geolocation & Coordinate Mapping**:
+  - Pinpoints target host physical nation, territory, administrative region, city, postal code, and local timezone.
+  - Generates precise GPS coordinates (Latitude / Longitude) with zero transmission of intrusive host probe packets.
+- **Autonomous System (ASN) & BGP Route Tracing**:
+  - Resolves upstream Internet Service Provider (ISP), autonomous system routing origin (ASN number and registered name), and enterprise network allocation.
+- **Reverse DNS (PTR) Resolution with 1-Click Domain Pivot**:
+  - Automatically queries `in-addr.arpa` authoritative PTR records to reveal co-hosted domains, aliases, and infrastructure hostnames.
+  - Clickable interactive tags provide instant 1-click pivoting into Domain & Website Intelligence.
+- **Non-Intrusive Tactical Port Triage**:
+  - Concurrently audits 16 critical tactical network ports (HTTP 80, HTTPS 443, SSH 22, Telnet 23, FTP 21, DNS 53, RDP 3389, SMB 445, MySQL 3306, Postgres 5432, Redis 6379, MongoDB 27017, etc.).
+  - Displays socket open/closed status, service identity, transport layer, millisecond latency measurements, and operational risk descriptions.
+- **TLS/SSL Cryptographic Certificate & SANs Discovery**:
+  - Performs non-destructive TLS handshakes to extract Subject Common Name (CN), Certificate Authority (CA) issuer, validity timelines, and active cipher suites.
+  - Parses Subject Alternative Names (SANs) to uncover associated subdomains and co-hosted infrastructure entities with 1-click pivot badges.
+- **HTTP / HTTPS Security Architecture & Defensive Audit**:
+  - Audits essential defensive web headers including HTTP Strict Transport Security (HSTS), Content Security Policy (CSP), X-Frame-Options, X-Content-Type-Options, Referrer-Policy, and Permissions-Policy with pass/fail evaluation.
+  - Audits remote server disclosure banners.
+- **Multi-Format Forensic Evidence Archival**:
+  - Generates standardized OASIS JSON evidence schemas, detailed Markdown incident dossiers, and CSV port triage spreadsheets with instant one-click download and clipboard summary export.
+
+<details>
+<summary>Technical & Architectural Details (Click to Expand)</summary>
+
+- **High-Concurrency Port Worker**: Engineered `services/ip_network_intelligence/backend/ip_worker.py` utilizing Python socket and threading concurrency for rapid tactical port triage.
+- **Zero-Dependency TLS Decryption**: Built standard library `ssl.create_default_context()` handshake inspection to decode x509 certificates and SANs without heavy external binaries.
+- **Authoritative GeoIP Resolution**: Integrated resilient public GeoIP/BGP route querying with zero API key dependencies and fallback handling.
+- **Microservice Architecture**: Created `services/ip_network_intelligence/backend/service.py` and `router.py` with endpoints `GET /services/ip-network-intelligence`, `POST /api/ip_network_intelligence/run`, `GET /status`, `GET /history`, and `GET /download`.
+- **System Integration**: Registered router in `server.py`, activated navigation item in `base.html`, updated dashboard intelligence metrics to 6 active modules, and upgraded version to `v1.6.0`.
+</details>
+
+---
+
 ## [v1.5.0] - 2026-11-13
 ### Codename: LinkedIn Workforce Intelligence & Advanced Social Reconnaissance
 *Commit References: `6888898`, `HEAD`*

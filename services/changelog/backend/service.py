@@ -36,12 +36,83 @@ SVG_LINKEDIN = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stro
 
 RELEASES_DATA: List[Dict[str, Any]] = [
     {
-        "version": "v1.5.0",
-        "codename": "LinkedIn Workforce Intelligence & Advanced Social Reconnaissance",
+        "version": "v1.6.0",
+        "codename": "IP & Network Intelligence Suite, Tactical Port Triage & TLS Certificate Inspection",
         "date": "2026-11-13",
         "is_latest": True,
         "badge": "LATEST STABLE",
         "badge_color": "#10b981",
+        "summary": "Full activation of the IP & Network Intelligence suite: authoritative physical GeoIP geolocation, Autonomous System (ASN) and BGP route tracing, reverse DNS (PTR) with 1-click pivoting, 16-service non-intrusive tactical port triage, TLS/SSL certificate decoding with Subject Alternative Names (SANs) discovery, and HTTP security header hardening audit.",
+        "user_features": [
+            {
+                "icon": SVG_SERVER,
+                "title": "IP & Network Perimeter Intelligence",
+                "category": "IP & Network Intelligence",
+                "desc": "Activated comprehensive IP & Network reconnaissance suite with responsive two-column operational workspace, dual-mode Flash vs Pro execution, and live investigation telemetry."
+            },
+            {
+                "icon": SVG_GLOBE,
+                "title": "GeoIP Physical Geolocation & Coordinate Mapping",
+                "category": "IP & Network Intelligence",
+                "desc": "Pinpoint target host nation, region, city, postal code, local timezone, and physical GPS latitude/longitude without transmitting active probe packets."
+            },
+            {
+                "icon": SVG_SPEED,
+                "title": "Autonomous System (ASN) & BGP Route Tracing",
+                "category": "IP & Network Intelligence",
+                "desc": "Resolve carrier routing origin, autonomous system number (ASN), ISP name, and upstream organization infrastructure."
+            },
+            {
+                "icon": SVG_PIVOT,
+                "title": "Reverse DNS (PTR) Resolution with 1-Click Pivot",
+                "category": "IP & Network Intelligence",
+                "desc": "Expose co-hosted domain names and internal server identifiers via reverse in-addr.arpa queries with direct 1-click pivoting into Domain & Website Intelligence."
+            },
+            {
+                "icon": SVG_SHIELD,
+                "title": "Non-Intrusive Tactical Port Triage",
+                "category": "IP & Network Intelligence",
+                "desc": "Concurrently audit 16 critical tactical service listeners (HTTP, HTTPS, SSH, DNS, RDP, MySQL, PostgreSQL, FTP, Telnet, SMTP) with millisecond latency telemetry."
+            },
+            {
+                "icon": SVG_LOCK,
+                "title": "TLS/SSL Certificate & SANs Cryptographic Discovery",
+                "category": "IP & Network Intelligence",
+                "desc": "Perform TLS cryptographic handshakes to decode Subject Common Name, Certificate Authority issuer, validity periods, cipher suites, and discover co-hosted subdomains via Subject Alternative Names (SANs)."
+            },
+            {
+                "icon": SVG_LAYOUT,
+                "title": "HTTP / HTTPS Security Architecture Audit",
+                "category": "IP & Network Intelligence",
+                "desc": "Analyze defensive security headers including HSTS, Content-Security-Policy (CSP), X-Frame-Options, X-Content-Type-Options, and server disclosure banners."
+            },
+            {
+                "icon": SVG_DOSSIER,
+                "title": "Multi-Format Evidence Archival & Export",
+                "category": "Investigation Workflow",
+                "desc": "Generate standardized JSON schemas, structured Markdown incident dossiers, and tabular CSV spreadsheets with instant download and clipboard export."
+            }
+        ],
+        "technical_details": [
+            "Engineered services/ip_network_intelligence/backend/ip_worker.py utilizing high-concurrency non-intrusive TCP socket triage.",
+            "Built zero-credential GeoIP and BGP ASN resolver with fallback multi-registry querying.",
+            "Decoded TLS/SSL cryptographic handshakes using standard library ssl context to extract x509 Subject Alternative Names (SANs).",
+            "Implemented reverse DNS in-addr.arpa PTR lookup and HTTP security header inspection.",
+            "Integrated background worker service with thread safety, cached results, and automated evidence file persistence in services/ip_network_intelligence/reports/.",
+            "Added FastAPI router endpoints: GET /services/ip-network-intelligence, POST /api/ip_network_intelligence/run, GET /status, GET /history, and GET /download.",
+            "Designed modern two-column responsive UI layout with live progress bar, KPI metric strip, interactive port table, and SANs tag cloud pivoting.",
+            "Activated sidebar navigation link and updated dashboard intelligence module metrics to 6 active suites."
+        ],
+        "commit_refs": ["49d8f96", "HEAD"],
+        "metrics": {"modules_active": 6, "engines_connected": 8, "registries": "3,124+"}
+    },
+    {
+        "version": "v1.5.0",
+        "codename": "LinkedIn Workforce Intelligence & Advanced Social Reconnaissance",
+        "date": "2026-11-13",
+        "is_latest": False,
+        "badge": "STABLE RELEASE",
+        "badge_color": "#64748b",
         "summary": "Integration of zero-credential LinkedIn Flash Workforce Reconnaissance, algorithmic corporate email synthesis, advanced X/Twitter multi-scope search & metric filters, universal UI alignment, and complete emoji purge.",
         "user_features": [
             {
