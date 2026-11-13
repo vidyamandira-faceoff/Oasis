@@ -26,7 +26,6 @@ templates = Jinja2Templates(directory=str(BASE_DIR))
 
 class IPRunRequest(BaseModel):
     target: str = Field(min_length=1, max_length=256)
-    mode: Optional[str] = "flash"
     probe_ports: Optional[bool] = True
     probe_tls: Optional[bool] = True
     probe_headers: Optional[bool] = True

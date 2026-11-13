@@ -48,7 +48,7 @@ RELEASES_DATA: List[Dict[str, Any]] = [
                 "icon": SVG_SERVER,
                 "title": "IP & Network Perimeter Intelligence",
                 "category": "IP & Network Intelligence",
-                "desc": "Activated comprehensive IP & Network reconnaissance suite with responsive two-column operational workspace, dual-mode Flash vs Pro execution, and live investigation telemetry."
+                "desc": "Activated comprehensive native IP & Network reconnaissance suite with responsive two-column operational workspace, unified in-platform execution, and live investigation telemetry."
             },
             {
                 "icon": SVG_GLOBE,

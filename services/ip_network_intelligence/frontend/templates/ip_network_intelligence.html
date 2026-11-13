@@ -86,79 +86,6 @@
     box-shadow: 0 0 6px #10b981;
   }
 
-  /* Dual Mode Switcher */
-  .mode-selection-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 24px;
-  }
-  @media (max-width: 720px) {
-    .mode-selection-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-  .mode-card {
-    background: var(--bg-surface);
-    border: 1.5px solid var(--border-soft);
-    border-radius: var(--radius-md);
-    padding: 18px 20px;
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    box-shadow: var(--shadow-subtle);
-  }
-  .mode-card:hover {
-    border-color: #0284c7;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-card);
-  }
-  .mode-card.active-mode {
-    border-color: #0284c7;
-    background: linear-gradient(135deg, var(--bg-surface) 0%, rgba(14, 165, 233, 0.04) 100%);
-    box-shadow: 0 0 0 1px #0284c7, var(--shadow-card);
-  }
-  .mode-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-  }
-  .mode-title-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14.5px;
-    font-weight: 700;
-    color: var(--slate-900);
-  }
-  .mode-badge {
-    padding: 3px 8px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.3px;
-    text-transform: uppercase;
-  }
-  .mode-badge.in-app {
-    background: rgba(14, 165, 233, 0.12);
-    color: #0284c7;
-    border: 1px solid rgba(14, 165, 233, 0.3);
-  }
-  .mode-badge.cluster {
-    background: rgba(99, 102, 241, 0.12);
-    color: #4f46e5;
-    border: 1px solid rgba(99, 102, 241, 0.3);
-  }
-  .mode-desc {
-    font-size: 12.5px;
-    color: var(--slate-600);
-    line-height: 1.45;
-  }
-
   /* Input Panel */
   .input-panel {
     background: var(--bg-surface);
@@ -651,41 +578,7 @@
       </div>
     </div>
     <div>
-      <span style="font-size: 12px; font-weight: 700; color: var(--slate-500);">ENGINE: OASIS Network Recon Engine</span>
-    </div>
-  </div>
-
-  <!-- Dual Mode Switcher -->
-  <div class="mode-selection-grid">
-    <div class="mode-card active-mode" id="cardModeFlash" onclick="selectEngineMode('flash')">
-      <div class="mode-header">
-        <div class="mode-title-row">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#0284c7" stroke-width="2">
-            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-          </svg>
-          <span>Flash Mode</span>
-        </div>
-        <span class="mode-badge in-app">Internal Engine</span>
-      </div>
-      <div class="mode-desc">
-        Native OASIS internal probe: Instant GeoIP lookup, PTR reverse DNS, 16 standard tactical ports audit, TLS certificate discovery, and HTTP security header analysis.
-      </div>
-    </div>
-
-    <div class="mode-card" id="cardModePro" onclick="selectEngineMode('pro')">
-      <div class="mode-header">
-        <div class="mode-title-row">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#4f46e5" stroke-width="2">
-            <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
-            <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path>
-          </svg>
-          <span>Pro Mode</span>
-        </div>
-        <span class="mode-badge cluster">External Cluster</span>
-      </div>
-      <div class="mode-desc">
-        High-capacity dedicated distributed network scanning cluster. Connects to enterprise probe workers for full-range port sweeps (1-65535) and traceroute topology mapping.
-      </div>
+      <span style="font-size: 12px; font-weight: 700; color: var(--slate-500);">ENGINE: OASIS Native Network Engine</span>
     </div>
   </div>
 
@@ -799,7 +692,7 @@
         </div>
         <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--slate-500);">
           <span id="progressStatusMsg">Contacting authoritative GeoIP and ASN route registries...</span>
-          <span>Flash In-App Recon</span>
+          <span>OASIS Native Engine</span>
         </div>
       </div>
 
@@ -1203,23 +1096,10 @@
 
 {% block scripts %}
 <script>
-  let activeEngineMode = 'flash';
   let pollInterval = null;
   let currentTarget = '';
   let reconStartTime = null;
   let currentDossier = null;
-
-  function selectEngineMode(mode) {
-    if (mode === 'pro') {
-      const target = document.getElementById('targetInput').value.trim();
-      const targetParam = target ? `?target=${encodeURIComponent(target)}` : '';
-      window.open(`https://networkintel.rkmvcse.in${targetParam}`, '_blank');
-      return;
-    }
-    activeEngineMode = 'flash';
-    document.getElementById('cardModeFlash').classList.add('active-mode');
-    document.getElementById('cardModePro').classList.remove('active-mode');
-  }
 
   function applyPreset(target) {
     document.getElementById('targetInput').value = target;
@@ -1259,7 +1139,6 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           target: target,
-          mode: activeEngineMode,
           probe_ports: probePorts,
           probe_tls: probeTls,
           probe_headers: probeHeaders,
