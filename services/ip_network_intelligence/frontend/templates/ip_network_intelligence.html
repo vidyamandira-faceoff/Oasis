@@ -1496,18 +1496,6 @@
         `;
         headerContainer.appendChild(div);
       });
-            <div style="font-size: 11.5px; color: var(--slate-500); margin-top: 2px;">
-              ${present ? `<span style="font-family: monospace; color: var(--slate-700);">${val}</span>` : item.desc}
-            </div>
-          </div>
-          <div>
-            <span class="${present ? 'badge-sec-pass' : 'badge-sec-fail'}">
-              ${present ? 'Present' : 'Missing'}
-            </span>
-          </div>
-        `;
-        headerContainer.appendChild(div);
-      });
 
       if (http.server) {
         const srvDiv = document.createElement('div');
