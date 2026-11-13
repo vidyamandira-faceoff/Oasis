@@ -138,7 +138,7 @@ async def download_email_report(target: str, format: str = "json"):
 
 
 # ============================================================================
-# Mailbox Discovery Endpoints (Mailcat Engine)
+# Mailbox Discovery Endpoints (OASIS Mailbox Engine)
 # ============================================================================
 
 @router.post("/api/email_intelligence/mailbox/run")

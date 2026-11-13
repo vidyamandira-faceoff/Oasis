@@ -9,6 +9,46 @@ The project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html
 
 ---
 
+## [v1.5.0] - 2026-11-13
+### Codename: LinkedIn Workforce Intelligence & Advanced Social Reconnaissance
+*Commit References: `6888898`, `HEAD`*
+
+#### User-Centric Capabilities & Feature Releases
+- **LinkedIn Corporate Workforce Flash Mode**:
+  - Full in-app corporate personnel discovery across organizations without requiring LinkedIn authentication or credentials.
+  - Harvests verified employee full names, job titles, and clickable public profile URLs via multi-engine public indexation.
+  - Department and role filtering (Engineering & Dev, Security & OSINT, Leadership & Execs, AI & Research, Product & Design).
+  - Algorithmic corporate email synthesis supporting standard naming formats (`{first}.{last}@domain`, `{f}{last}@domain`, `{first}@domain`) with domain auto-detection.
+  - 1-click clipboard copy for synthesized corporate email addresses.
+  - Interactive workforce findings table with direct cross-engine pivots into Email Intelligence and Username Intelligence.
+- **Advanced X / Twitter Intelligence & Filtering**:
+  - Expanded feed scopes: User Profile & Tweets, Tweets & Conversation Replies, Media Gallery Only, Keyword & Hashtag Search, and Direct Tweet & Thread extraction.
+  - Advanced query filters: Minimum Likes (`min_faves`), Minimum Retweets (`min_retweets`), Date Range boundaries (`since` / `until`), Language selection (`lang:en`, `lang:es`, `lang:ja`, etc.), Media-only flags, and Links-only filtering.
+  - Responsive multi-column layout for advanced query parameters.
+- **Unified Dual-Tier Architecture for All Platforms**:
+  - Completed Flash Mode vs Pro Mode dual-tier design across all three major platforms: Instagram, Twitter, and LinkedIn.
+- **UI Ergonomics & Button Overflow Fixes**:
+  - Restructured Username Intelligence input grid into an ergonomic two-tier layout, ensuring `Execute Reconnaissance` and `Re-run Fresh Scan` action buttons never overflow card borders.
+  - Restored Social Media Intelligence Mode Switcher cards into a responsive two-column grid on desktop, eliminating single-column vertical stacking.
+- **Universal Platform-Wide Emoji Purge**:
+  - Replaced remaining informal emoji icons across all templates with sharp, responsive SVG vectors matching the platform palette.
+- **Decommissioning Legacy Views**:
+  - Decommissioned obsolete Live Telemetry and Target Vault views, replacing them with focused System Changelog navigation and automatic 302 redirects.
+
+<details>
+<summary>Technical & Architectural Details (Click to Expand)</summary>
+
+- **Workforce Engine**: Created `services/social_media_intelligence/backend/linkedin_worker.py` utilizing public search indexation engines (Yahoo, Bing, Google).
+- **Email Synthesizer**: Engineered multi-variable corporate email synthesis supporting `{first}`, `{last}`, `{f}`, `{l}`, and `{domain}` template strings.
+- **Microservice Routing**: Added `POST /api/social_media_intelligence/linkedin/run`, `GET /linkedin/status`, and `GET /linkedin/download`.
+- **Twitter Engine Extensions**: Extended Twitter worker and router with advanced filter parameters: `min_likes`, `min_retweets`, `since_date`, `until_date`, `lang`, `media_only`, `links_only`.
+- **UI Grid Refactoring**: Replaced `input-grid` 5-column layout with 2-row ergonomic flex design in `recon_username.html`.
+- **Legacy Route Deprecation**: Decommissioned `/terminal` and `/vault` routes in `server.py` and navigation in `base.html` with graceful HTTP 302 redirects.
+- **Forensic Dossiers**: Automated multi-format forensic dossiers (`.json`, `.md`, `.csv`) for corporate workforce discoveries.
+</details>
+
+---
+
 ## [v1.4.0] - 2026-11-12
 ### Codename: Multi-Platform Social Expansion & System Transparency
 *Commit References: `adcd376`, `725c384`, `7db3952`*

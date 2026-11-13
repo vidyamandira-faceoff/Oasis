@@ -18,6 +18,10 @@ from services.social_media_intelligence.backend.twitter_worker import (
     get_accounts_pool_info,
     add_session_cookies_to_pool
 )
+from services.social_media_intelligence.backend.linkedin_worker import (
+    scrape_linkedin_workforce,
+    clean_company_name
+)
 
 # Reports and Output Storage Directory
 REPORTS_DIR = BASE_DIR / "services" / "social_media_intelligence" / "reports"
@@ -1051,7 +1055,7 @@ def ensure_instagram_report_file(target: str, fmt: str = "json") -> Optional[Pat
 
 
 # -----------------------------------------------------------------------------
-# OASIS X / Twitter Intelligence Engine (Flash Mode: twscrape / Pro Mode: Cluster)
+# OASIS X / Twitter Intelligence Engine (Flash Mode / Pro Mode)
 # -----------------------------------------------------------------------------
 _TW_TASKS: Dict[str, Dict[str, Any]] = {}
 _TW_CACHED_RESULTS: Dict[str, Dict[str, Any]] = {}
@@ -1174,9 +1178,16 @@ def _background_twitter_worker(
     count: int,
     target_type: str,
     session: str,
-    proxy: str
+    proxy: str,
+    min_likes: int = 0,
+    min_retweets: int = 0,
+    since_date: str = "",
+    until_date: str = "",
+    lang: str = "",
+    media_only: bool = False,
+    links_only: bool = False
 ):
-    """Background worker thread executing twscrape GraphQL queries with live status."""
+    """Background worker thread executing native X/Twitter GraphQL queries with live status."""
     task = _TW_TASKS[clean_target]
 
     add_log("OASIS Twitter Engine", f"Launching Flash Twitter Recon on: @{clean_target} (Type: {target_type.upper()}, Items: {count})", "info")
@@ -1196,7 +1207,14 @@ def _background_twitter_worker(
             count=count,
             target_type=target_type,
             session_cookie=session,
-            proxy=proxy
+            proxy=proxy,
+            min_likes=min_likes,
+            min_retweets=min_retweets,
+            since_date=since_date,
+            until_date=until_date,
+            lang=lang,
+            media_only=media_only,
+            links_only=links_only
         )
 
         _save_twitter_dossier_files(clean_target, result)
@@ -1236,9 +1254,16 @@ def execute_twitter_task(
     target_type: str = "user",
     session: str = "",
     proxy: str = "",
-    force: bool = False
+    force: bool = False,
+    min_likes: int = 0,
+    min_retweets: int = 0,
+    since_date: str = "",
+    until_date: str = "",
+    lang: str = "",
+    media_only: bool = False,
+    links_only: bool = False
 ) -> Dict[str, Any]:
-    """Dispatches either Twitter Flash Mode (local twscrape engine) or Pro Mode (cluster redirect)."""
+    """Dispatches either Twitter Flash Mode (native GraphQL engine) or Pro Mode (cluster redirect)."""
     clean_target = _sanitize_tw_key(target)
 
     if mode.lower() == "pro":
@@ -1250,7 +1275,7 @@ def execute_twitter_task(
             "message": "Redirecting to OASIS high-capacity X / Twitter native scraper cluster."
         }
 
-    # Flash Mode (twscrape)
+    # Flash Mode (native GraphQL engine)
     if not force:
         cached_file = REPORTS_DIR / f"twitter_{clean_target}.json"
         if cached_file.exists():
@@ -1302,7 +1327,7 @@ def execute_twitter_task(
 
     worker = threading.Thread(
         target=_background_twitter_worker,
-        args=(target, clean_target, count, target_type, session, proxy),
+        args=(target, clean_target, count, target_type, session, proxy, min_likes, min_retweets, since_date, until_date, lang, media_only, links_only),
         daemon=True
     )
     worker.start()
@@ -1379,4 +1404,330 @@ def ensure_twitter_report_file(target: str, fmt: str = "json") -> Optional[Path]
         p = REPORTS_DIR / f"twitter_{clean_target}.json"
         if p.exists(): return p
     return None
+
+# -----------------------------------------------------------------------------
+# Dedicated OASIS LinkedIn Intelligence Engine (Flash & Pro Modes)
+# -----------------------------------------------------------------------------
+_LI_TASKS: Dict[str, Dict[str, Any]] = {}
+_LI_CACHED_RESULTS: Dict[str, Dict[str, Any]] = {}
+_LI_LOCK = threading.Lock()
+
+def _sanitize_li_key(company: str) -> str:
+    cleaned = clean_company_name(company)
+    return re.sub(r'[^a-zA-Z0-9_\-\.]', '_', cleaned).lower()
+
+def _save_linkedin_dossier_files(clean_company: str, data: Dict[str, Any]):
+    """Persists JSON, Markdown, and CSV dossiers for LinkedIn workforce reconnaissance."""
+    # 1. JSON Report
+    json_path = REPORTS_DIR / f"linkedin_{clean_company}.json"
+    try:
+        with open(json_path, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2)
+    except Exception as e:
+        add_log("OASIS LinkedIn Engine", f"Failed saving JSON report: {e}", "warning")
+
+    personnel = data.get("personnel", [])
+
+    # 2. Markdown Incident Dossier
+    try:
+        md_path = REPORTS_DIR / f"linkedin_{clean_company}.md"
+        md_lines = [
+            "# OASIS Intelligence Dossier: LinkedIn Corporate Workforce Reconnaissance",
+            "",
+            "> **CONFIDENTIAL INVESTIGATION PRODUCT**  ",
+            "> Generated by OASIS Strategic OSINT Suite — LinkedIn Flash Workforce Engine  ",
+            f"> **Target Corporation:** `{data.get('company', clean_company)}` | **Investigation Timestamp:** {data.get('timestamp')}",
+            "",
+            "---",
+            "",
+            "## 1. Executive Summary & Scope",
+            "",
+            f"- **Target Corporation:** `{data.get('company', clean_company)}`",
+            f"- **Identified Corporate Domain:** `{data.get('domain', 'N/A')}`",
+            f"- **Total Discovered Personnel:** {len(personnel)} verified profiles",
+            f"- **Email Inference Formula:** `{data.get('email_pattern', 'N/A')}`",
+            f"- **Department / Role Filter:** `{data.get('title_filter') or 'All Roles'}`",
+            f"- **Search Index Providers:** {', '.join(data.get('engines_queried', []))}",
+            "",
+            "---",
+            "",
+            f"## 2. Identified Corporate Personnel ({len(personnel)})",
+            "",
+            "| # | Name | Professional Role / Title | Inferred Email | LinkedIn Profile |",
+            "|---|---|---|---|---|"
+        ]
+
+        if personnel:
+            for idx, p in enumerate(personnel, 1):
+                name = p.get("name", "Unknown Individual")
+                title = p.get("title", "N/A").replace("|", "\\|")
+                email = p.get("inferred_email", "N/A")
+                url = p.get("profile_url", "#")
+                md_lines.append(f"| {idx} | **{name}** | {title} | `{email}` | [View Profile ↗]({url}) |")
+        else:
+            md_lines.append("| - | *No corporate personnel discovered* | - | - | - |")
+
+        md_lines.extend([
+            "",
+            "---",
+            "",
+            "## 3. Investigation Integrity & Evidence Details",
+            "",
+            "- **Engine:** OASIS LinkedIn Workforce Engine (Flash Mode)",
+            "- **Target Ecosystem:** LinkedIn Public Indexation & Corporate Identity Graph",
+            "- **Discovery Mode:** Zero-credential non-intrusive index harvesting",
+            ""
+        ])
+
+        with open(md_path, "w", encoding="utf-8") as f:
+            f.write("\n".join(md_lines))
+    except Exception as e:
+        add_log("OASIS LinkedIn Engine", f"Failed saving Markdown report: {e}", "warning")
+
+    # 3. CSV Report
+    try:
+        import csv
+        csv_path = REPORTS_DIR / f"linkedin_{clean_company}.csv"
+        with open(csv_path, "w", newline="", encoding="utf-8") as f:
+            writer = csv.writer(f)
+            writer.writerow([
+                "OASIS_Index", "Target_Company", "Person_Name", "Job_Title",
+                "Inferred_Email", "LinkedIn_Profile_URL", "Search_Engine"
+            ])
+            for idx, p in enumerate(personnel, 1):
+                writer.writerow([
+                    idx,
+                    data.get("company", clean_company),
+                    p.get("name", ""),
+                    p.get("title", ""),
+                    p.get("inferred_email", ""),
+                    p.get("profile_url", ""),
+                    p.get("source_engine", "")
+                ])
+    except Exception as e:
+        add_log("OASIS LinkedIn Engine", f"Failed saving CSV report: {e}", "warning")
+
+def _background_linkedin_worker(
+    company: str,
+    clean_company: str,
+    title_filter: str,
+    engine: str,
+    domain: str,
+    pattern: str,
+    timeout: float,
+    jitter: float,
+    max_results: int,
+    proxy: str
+):
+    """Background worker thread executing LinkedIn workforce scraping with live status."""
+    task = _LI_TASKS[clean_company]
+
+    add_log("OASIS LinkedIn Engine", f"Launching Flash LinkedIn Workforce Recon on: {clean_company} (Filter: {title_filter or 'ALL'})", "info")
+    add_recon_notification(
+        tool="OASIS LinkedIn Intelligence Engine",
+        status="PROCESSING",
+        title="OASIS LinkedIn Recon Initiated",
+        details=f"Harvesting corporate personnel directory for: {clean_company}",
+        target=clean_company,
+        action_url="/services/social-media-intelligence"
+    )
+
+    try:
+        task["progress_msg"] = f"Harvesting public LinkedIn personnel index for {clean_company}..."
+        result = scrape_linkedin_workforce(
+            company_name=clean_company,
+            title_filter=title_filter,
+            engine=engine,
+            domain=domain,
+            pattern=pattern,
+            timeout=timeout,
+            jitter=jitter,
+            max_results=max_results,
+            proxy=proxy
+        )
+
+        _save_linkedin_dossier_files(clean_company, result)
+
+        with _LI_LOCK:
+            task["status"] = "COMPLETED"
+            task["duration"] = result.get("duration", round(time.time() - task["start_time"], 1))
+            task["company"] = result.get("company", clean_company)
+            task["domain"] = result.get("domain", "")
+            task["personnel"] = result.get("personnel", [])
+            task["total_discovered"] = result.get("total_discovered", len(task["personnel"]))
+            task["progress_msg"] = f"Corporate workforce harvested: {len(task['personnel'])} profiles identified in {task['duration']}s."
+            _LI_CACHED_RESULTS[clean_company] = result
+
+        add_log("OASIS LinkedIn Engine", f"LinkedIn Workforce Dossier ready for {clean_company}: {len(task['personnel'])} profiles harvested in {task['duration']}s.", "success")
+        update_tool_notification(
+            "OASIS LinkedIn Intelligence Engine",
+            clean_company,
+            "FINISHED",
+            title="OASIS LinkedIn Recon Completed",
+            details=f"Extracted {len(task['personnel'])} corporate personnel for {clean_company}",
+            metrics=f"{len(task['personnel'])} Personnel • Domain: {task['domain']}"
+        )
+
+    except Exception as e:
+        err_msg = str(e)
+        with _LI_LOCK:
+            task["status"] = "ERROR"
+            task["error"] = err_msg
+            task["progress_msg"] = f"Error: {err_msg}"
+        add_log("OASIS LinkedIn Engine", f"Execution error for {clean_company}: {err_msg}", "error")
+        update_tool_notification("OASIS LinkedIn Intelligence Engine", clean_company, "ERROR", details=f"LinkedIn engine error: {err_msg}")
+
+def execute_linkedin_task(
+    company: str,
+    mode: str = "flash",
+    title_filter: str = "",
+    engine: str = "yahoo,bing,google",
+    domain: str = "",
+    pattern: str = "{first}.{last}@{domain}",
+    timeout: float = 15.0,
+    jitter: float = 0.5,
+    max_results: int = 50,
+    proxy: str = "",
+    force: bool = False
+) -> Dict[str, Any]:
+    """Dispatches either LinkedIn Flash Mode (public search indexation) or Pro Mode (enterprise cluster)."""
+    clean_company = _sanitize_li_key(company)
+
+    if mode.lower() == "pro":
+        return {
+            "mode": "pro",
+            "redirect_url": NATIVE_SCRAPER_ENDPOINTS.get("linkedin", {}).get("url", "https://www.linkedin.com/"),
+            "target": clean_company,
+            "status": "REDIRECT",
+            "message": "Redirecting to OASIS enterprise LinkedIn crawler cluster."
+        }
+
+    # Flash Mode
+    if not force:
+        cached_file = REPORTS_DIR / f"linkedin_{clean_company}.json"
+        if cached_file.exists():
+            try:
+                with open(cached_file, "r", encoding="utf-8") as f:
+                    cached_data = json.load(f)
+                return {
+                    "mode": "flash",
+                    "status": "COMPLETED",
+                    "cached": True,
+                    "company": cached_data.get("company", clean_company),
+                    "domain": cached_data.get("domain", ""),
+                    "elapsed": 0.1,
+                    "duration": cached_data.get("duration", 0.1),
+                    "personnel": cached_data.get("personnel", []),
+                    "total_discovered": cached_data.get("total_discovered", len(cached_data.get("personnel", []))),
+                    "progress_msg": f"Retrieved from internal OASIS dossier vault ({len(cached_data.get('personnel', []))} personnel)."
+                }
+            except Exception:
+                pass
+
+    with _LI_LOCK:
+        if clean_company in _LI_TASKS and _LI_TASKS[clean_company].get("status") == "RUNNING":
+            t = _LI_TASKS[clean_company]
+            return {
+                "mode": "flash",
+                "status": "RUNNING",
+                "company": clean_company,
+                "elapsed": round(time.time() - t["start_time"], 1),
+                "progress_msg": t.get("progress_msg", "Workforce discovery in progress..."),
+                "personnel": t.get("personnel", []),
+                "total_discovered": len(t.get("personnel", []))
+            }
+
+        task_record = {
+            "company": clean_company,
+            "mode": "flash",
+            "status": "RUNNING",
+            "start_time": time.time(),
+            "duration": 0,
+            "progress_msg": f"Dispatching OASIS LinkedIn Workforce Engine for {clean_company}...",
+            "personnel": [],
+            "total_discovered": 0,
+            "error": None
+        }
+        _LI_TASKS[clean_company] = task_record
+
+    worker = threading.Thread(
+        target=_background_linkedin_worker,
+        args=(company, clean_company, title_filter, engine, domain, pattern, timeout, jitter, max_results, proxy),
+        daemon=True
+    )
+    worker.start()
+
+    return {
+        "mode": "flash",
+        "status": "RUNNING",
+        "company": clean_company,
+        "elapsed": 0,
+        "progress_msg": f"OASIS LinkedIn Workforce Engine dispatched to background worker for {clean_company}."
+    }
+
+def get_linkedin_status(company: str) -> Dict[str, Any]:
+    """Retrieves live execution status or cached dossier for a LinkedIn corporate target."""
+    clean_company = _sanitize_li_key(company)
+    if clean_company in _LI_TASKS:
+        t = _LI_TASKS[clean_company]
+        elapsed = round(time.time() - t["start_time"], 1) if t["status"] == "RUNNING" else t.get("duration", 0)
+        return {
+            "company": clean_company,
+            "mode": "flash",
+            "status": t["status"],
+            "elapsed": elapsed,
+            "progress_msg": t.get("progress_msg", ""),
+            "domain": t.get("domain", ""),
+            "personnel": t.get("personnel", []),
+            "total_discovered": t.get("total_discovered", len(t.get("personnel", []))),
+            "error": t.get("error")
+        }
+
+    cached_file = REPORTS_DIR / f"linkedin_{clean_company}.json"
+    if cached_file.exists():
+        try:
+            with open(cached_file, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            return {
+                "company": clean_company,
+                "mode": "flash",
+                "status": "COMPLETED",
+                "cached": True,
+                "elapsed": 0,
+                "progress_msg": "Retrieved from internal OASIS dossier vault.",
+                "domain": data.get("domain", ""),
+                "personnel": data.get("personnel", []),
+                "total_discovered": data.get("total_discovered", len(data.get("personnel", []))),
+                "error": None
+            }
+        except Exception:
+            pass
+
+    return {
+        "company": clean_company,
+        "mode": "flash",
+        "status": "IDLE",
+        "elapsed": 0,
+        "progress_msg": "Ready to scan.",
+        "domain": "",
+        "personnel": [],
+        "total_discovered": 0,
+        "error": None
+    }
+
+def ensure_linkedin_report_file(company: str, fmt: str = "json") -> Optional[Path]:
+    """Returns path to cached OASIS LinkedIn report format (JSON, MD, CSV)."""
+    clean_company = _sanitize_li_key(company)
+    fmt = fmt.lower().strip()
+    if fmt == "csv":
+        p = REPORTS_DIR / f"linkedin_{clean_company}.csv"
+        if p.exists(): return p
+    elif fmt == "md":
+        p = REPORTS_DIR / f"linkedin_{clean_company}.md"
+        if p.exists(): return p
+    else:
+        p = REPORTS_DIR / f"linkedin_{clean_company}.json"
+        if p.exists(): return p
+    return None
+
 

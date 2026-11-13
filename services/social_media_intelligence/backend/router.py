@@ -18,6 +18,9 @@ from services.social_media_intelligence.backend.service import (
     execute_twitter_task,
     get_twitter_status,
     ensure_twitter_report_file,
+    execute_linkedin_task,
+    get_linkedin_status,
+    ensure_linkedin_report_file,
     NATIVE_SCRAPER_ENDPOINTS,
     REPORTS_DIR
 )
@@ -181,12 +184,19 @@ async def download_instagram_report(target: str, format: str = "json"):
 # -----------------------------------------------------------------------------
 class TwitterRunRequest(BaseModel):
     target: str = Field(min_length=1, max_length=200)
-    mode: Optional[str] = "flash"              # "flash" (twscrape) or "pro" (native cluster)
+    mode: Optional[str] = "flash"              # "flash" or "pro"
     count: Optional[int] = 10
-    target_type: Optional[str] = "user"        # "user", "search", "hashtag", "tweet"
+    target_type: Optional[str] = "user"        # "user", "replies", "media", "search", "hashtag", "tweet"
     session: Optional[str] = ""               # Optional auth_token=...; ct0=...
     proxy: Optional[str] = ""                 # Optional HTTP/SOCKS5 proxy
     force: Optional[bool] = False
+    min_likes: Optional[int] = 0
+    min_retweets: Optional[int] = 0
+    since_date: Optional[str] = ""
+    until_date: Optional[str] = ""
+    lang: Optional[str] = "all"
+    media_only: Optional[bool] = False
+    links_only: Optional[bool] = False
 
 @router.post("/api/social_media_intelligence/twitter/run")
 async def run_twitter_task(req: TwitterRunRequest):
@@ -201,7 +211,14 @@ async def run_twitter_task(req: TwitterRunRequest):
         target_type=req.target_type or "user",
         session=req.session or "",
         proxy=req.proxy or "",
-        force=bool(req.force)
+        force=bool(req.force),
+        min_likes=req.min_likes or 0,
+        min_retweets=req.min_retweets or 0,
+        since_date=req.since_date or "",
+        until_date=req.until_date or "",
+        lang=req.lang or "all",
+        media_only=bool(req.media_only),
+        links_only=bool(req.links_only)
     )
     return result
 
@@ -232,6 +249,78 @@ async def download_twitter_report(target: str, format: str = "json"):
     media_type = media_map.get(fmt, "application/octet-stream")
     clean_file_key = clean_target.replace('@', '').replace('/', '_')
     filename = f"OASIS_twitter_{clean_file_key}_dossier.{fmt}"
+
+    return FileResponse(
+        path=str(file_path),
+        media_type=media_type,
+        filename=filename,
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'}
+    )
+
+# -----------------------------------------------------------------------------
+# Dedicated OASIS LinkedIn Intelligence Routes (Flash vs Pro Modes)
+# -----------------------------------------------------------------------------
+class LinkedInRunRequest(BaseModel):
+    company: str = Field(min_length=1, max_length=200)
+    mode: Optional[str] = "flash"              # "flash" (workforce indexation) or "pro" (cluster)
+    title_filter: Optional[str] = ""
+    engine: Optional[str] = "yahoo,bing,google"
+    domain: Optional[str] = ""
+    pattern: Optional[str] = "{first}.{last}@{domain}"
+    timeout: Optional[float] = 15.0
+    jitter: Optional[float] = 0.5
+    max_results: Optional[int] = 50
+    proxy: Optional[str] = ""
+    force: Optional[bool] = False
+
+@router.post("/api/social_media_intelligence/linkedin/run")
+async def run_linkedin_task(req: LinkedInRunRequest):
+    company = req.company.strip()
+    if not company:
+        raise HTTPException(status_code=400, detail="Target company name cannot be blank.")
+    
+    result = execute_linkedin_task(
+        company=company,
+        mode=req.mode or "flash",
+        title_filter=req.title_filter or "",
+        engine=req.engine or "yahoo,bing,google",
+        domain=req.domain or "",
+        pattern=req.pattern or "{first}.{last}@{domain}",
+        timeout=float(req.timeout or 15.0),
+        jitter=float(req.jitter or 0.5),
+        max_results=int(req.max_results or 50),
+        proxy=req.proxy or "",
+        force=bool(req.force)
+    )
+    return result
+
+@router.get("/api/social_media_intelligence/linkedin/status")
+async def check_linkedin_status(company: str):
+    clean_company = company.strip()
+    if not clean_company:
+        raise HTTPException(status_code=400, detail="Company parameter required.")
+    return get_linkedin_status(clean_company)
+
+@router.get("/api/social_media_intelligence/linkedin/download")
+async def download_linkedin_report(company: str, format: str = "json"):
+    clean_company = company.strip()
+    if not clean_company:
+        raise HTTPException(status_code=400, detail="Company parameter required.")
+
+    fmt = format.lower().strip()
+    file_path = ensure_linkedin_report_file(clean_company, fmt)
+    if not file_path or not file_path.exists():
+        raise HTTPException(status_code=404, detail="Requested OASIS LinkedIn report file does not exist.")
+
+    media_map = {
+        "csv": "text/csv",
+        "json": "application/json",
+        "md": "text/markdown",
+        "txt": "text/plain"
+    }
+    media_type = media_map.get(fmt, "application/octet-stream")
+    clean_file_key = clean_company.replace('@', '').replace('/', '_')
+    filename = f"OASIS_linkedin_{clean_file_key}_dossier.{fmt}"
 
     return FileResponse(
         path=str(file_path),

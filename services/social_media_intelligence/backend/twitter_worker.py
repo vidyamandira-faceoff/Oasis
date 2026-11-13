@@ -136,10 +136,19 @@ async def scrape_twitter_async(
     count: int = 10,
     target_type: str = "user",
     session_cookie: str = "",
-    proxy: str = ""
+    proxy: str = "",
+    min_likes: int = 0,
+    min_retweets: int = 0,
+    since_date: str = "",
+    until_date: str = "",
+    lang: str = "",
+    media_only: bool = False,
+    links_only: bool = False
 ) -> Dict[str, Any]:
     """
-    Executes async Twitter/X reconnaissance via twscrape.
+    Executes async Twitter/X reconnaissance via native GraphQL engine.
+    Supports user timeline, user replies, user media, keyword search, hashtags,
+    direct tweet thread extraction, and advanced metric/date filters.
     """
     clean_target = sanitize_x_target(target)
     start_t = time.time()
@@ -161,6 +170,17 @@ async def scrape_twitter_async(
     profile_data = {}
     tweets_data = []
 
+    # Check if advanced search filters are active
+    has_advanced_filters = bool(
+        min_likes > 0 or 
+        min_retweets > 0 or 
+        since_date or 
+        until_date or 
+        (lang and lang.lower() not in ["all", ""]) or 
+        media_only or 
+        links_only
+    )
+
     # 3. Route according to target_type
     if target_type == "user":
         # Profile lookup
@@ -169,26 +189,68 @@ async def scrape_twitter_async(
             raise ValueError(f"User @{clean_target} not found on X/Twitter.")
         profile_data = format_user_dict(user_obj)
 
-        # Timeline tweets
-        raw_tweets = await gather(api.user_tweets(user_obj.id, limit=count))
+        if has_advanced_filters:
+            # Query via search API filtered to author
+            q = f"from:{clean_target}"
+            if min_likes > 0: q += f" min_faves:{min_likes}"
+            if min_retweets > 0: q += f" min_retweets:{min_retweets}"
+            if since_date: q += f" since:{since_date}"
+            if until_date: q += f" until:{until_date}"
+            if lang and lang.lower() not in ["all", ""]: q += f" lang:{lang}"
+            if media_only: q += " filter:images"
+            if links_only: q += " filter:links"
+
+            raw_tweets = await gather(api.search(q, limit=count))
+            tweets_data = [format_tweet_dict(t) for t in raw_tweets if t]
+        else:
+            # Standard timeline tweets
+            raw_tweets = await gather(api.user_tweets(user_obj.id, limit=count))
+            tweets_data = [format_tweet_dict(t) for t in raw_tweets if t]
+
+    elif target_type in ["replies", "user_replies"]:
+        # Profile lookup & tweets including public replies
+        user_obj = await api.user_by_login(clean_target)
+        if not user_obj:
+            raise ValueError(f"User @{clean_target} not found on X/Twitter.")
+        profile_data = format_user_dict(user_obj)
+
+        raw_tweets = await gather(api.user_tweets_and_replies(user_obj.id, limit=count))
+        tweets_data = [format_tweet_dict(t) for t in raw_tweets if t]
+
+    elif target_type in ["media", "user_media"]:
+        # Profile lookup & media items only
+        user_obj = await api.user_by_login(clean_target)
+        if not user_obj:
+            raise ValueError(f"User @{clean_target} not found on X/Twitter.")
+        profile_data = format_user_dict(user_obj)
+
+        raw_tweets = await gather(api.user_media(user_obj.id, limit=count))
         tweets_data = [format_tweet_dict(t) for t in raw_tweets if t]
 
     elif target_type in ["search", "hashtag"]:
-        # Search query
-        query = clean_target if target_type == "search" else f"#{clean_target.lstrip('#')}"
-        raw_tweets = await gather(api.search(query, limit=count))
+        # Search query with advanced operator composition
+        q = clean_target if target_type == "search" else f"#{clean_target.lstrip('#')}"
+        if min_likes > 0: q += f" min_faves:{min_likes}"
+        if min_retweets > 0: q += f" min_retweets:{min_retweets}"
+        if since_date: q += f" since:{since_date}"
+        if until_date: q += f" until:{until_date}"
+        if lang and lang.lower() not in ["all", ""]: q += f" lang:{lang}"
+        if media_only: q += " filter:images"
+        if links_only: q += " filter:links"
+
+        raw_tweets = await gather(api.search(q, limit=count))
         tweets_data = [format_tweet_dict(t) for t in raw_tweets if t]
         if tweets_data and tweets_data[0].get("user"):
             profile_data = {
-                "username": query,
-                "displayname": f"Search Query: {query}",
-                "bio": f"Extracted {len(tweets_data)} live tweets matching search criteria.",
+                "username": query if 'query' in locals() else clean_target,
+                "displayname": f"Search Query: {q}",
+                "bio": f"Extracted {len(tweets_data)} live tweets matching filtered criteria.",
                 "followers_count": len(tweets_data),
-                "url": f"https://x.com/search?q={query}"
+                "url": f"https://x.com/search?q={q}"
             }
 
     elif target_type == "tweet":
-        # Tweet ID details and replies
+        # Tweet ID details and conversation thread
         tweet_id = int(re.sub(r'\D', '', clean_target))
         main_tweet = await api.tweet_details(tweet_id)
         if main_tweet:
@@ -202,7 +264,7 @@ async def scrape_twitter_async(
                 tweets_data.append(format_tweet_dict(r))
 
     else:
-        raise ValueError(f"Unsupported Twitter target type: '{target_type}'. Use 'user', 'search', or 'tweet'.")
+        raise ValueError(f"Unsupported Twitter target type: '{target_type}'. Use 'user', 'replies', 'media', 'search', or 'tweet'.")
 
     elapsed = round(time.time() - start_t, 2)
 
@@ -230,7 +292,14 @@ def scrape_twitter(
     count: int = 10,
     target_type: str = "user",
     session_cookie: str = "",
-    proxy: str = ""
+    proxy: str = "",
+    min_likes: int = 0,
+    min_retweets: int = 0,
+    since_date: str = "",
+    until_date: str = "",
+    lang: str = "",
+    media_only: bool = False,
+    links_only: bool = False
 ) -> Dict[str, Any]:
     """Synchronous entry point that runs scrape_twitter_async in an event loop."""
     loop = asyncio.new_event_loop()
@@ -241,7 +310,14 @@ def scrape_twitter(
             count=count,
             target_type=target_type,
             session_cookie=session_cookie,
-            proxy=proxy
+            proxy=proxy,
+            min_likes=min_likes,
+            min_retweets=min_retweets,
+            since_date=since_date,
+            until_date=until_date,
+            lang=lang,
+            media_only=media_only,
+            links_only=links_only
         ))
     finally:
         loop.close()

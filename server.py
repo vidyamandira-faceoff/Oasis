@@ -2,6 +2,7 @@ import time
 from pathlib import Path
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import RedirectResponse
 
 from core.config import (
     BASE_DIR,
@@ -13,8 +14,6 @@ from core.process_manager import RUNNING_PROCESSES, terminate_all_tasks
 
 # Core Services Routers
 from services.dashboard.backend.router import router as dashboard_router
-from services.vault.backend.router import router as vault_router
-from services.terminal.backend.router import router as terminal_router
 from services.settings.backend.router import router as settings_router
 from services.notifications.backend.router import router as notifications_router
 from services.changelog.backend.router import router as changelog_router
@@ -85,11 +84,18 @@ async def abort_all_tasks():
 # -----------------------------------------------------------------------------
 # Core Platform Modules
 app.include_router(dashboard_router)
-app.include_router(vault_router)
-app.include_router(terminal_router)
 app.include_router(settings_router)
 app.include_router(notifications_router)
 app.include_router(changelog_router)
+
+# Legacy view redirects (decommissioned /vault and /terminal)
+@app.get("/vault")
+async def redirect_vault():
+    return RedirectResponse(url="/changelog", status_code=302)
+
+@app.get("/terminal")
+async def redirect_terminal():
+    return RedirectResponse(url="/changelog", status_code=302)
 
 # Intelligence Modules
 app.include_router(recon_username_router)

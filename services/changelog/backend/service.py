@@ -32,15 +32,86 @@ SVG_USER = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="
 SVG_THEME = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/></svg>'
 SVG_SCAFFOLD = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>'
 SVG_PHONE = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>'
+SVG_LINKEDIN = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>'
 
 RELEASES_DATA: List[Dict[str, Any]] = [
+    {
+        "version": "v1.5.0",
+        "codename": "LinkedIn Workforce Intelligence & Advanced Social Reconnaissance",
+        "date": "2026-11-13",
+        "is_latest": True,
+        "badge": "LATEST STABLE",
+        "badge_color": "#10b981",
+        "summary": "Integration of zero-credential LinkedIn Flash Workforce Reconnaissance, algorithmic corporate email synthesis, advanced X/Twitter multi-scope search & metric filters, universal UI alignment, and complete emoji purge.",
+        "user_features": [
+            {
+                "icon": SVG_LINKEDIN,
+                "title": "LinkedIn Flash Workforce Reconnaissance",
+                "category": "Social Media Intelligence",
+                "desc": "Discover verified corporate employee directories, professional roles, and LinkedIn profile URLs without account credentials using non-intrusive public indexation."
+            },
+            {
+                "icon": SVG_MAIL,
+                "title": "Algorithmic Corporate Email Synthesis",
+                "category": "Social Media Intelligence",
+                "desc": "Automatically synthesize probable corporate email addresses ({first}.{last}@domain, {f}{last}@domain) from discovered employee names with domain auto-detection and 1-click clipboard copy."
+            },
+            {
+                "icon": SVG_TWITTER,
+                "title": "Advanced X / Twitter Intelligence & Filtering",
+                "category": "Social Media Intelligence",
+                "desc": "Added granular feed scopes (User Profile, Tweets & Replies, Media Only, Search, and Direct Tweet Threads) and advanced query filters (Min Likes, Min Retweets, Since/Until dates, Language, Media-only)."
+            },
+            {
+                "icon": SVG_ZAP,
+                "title": "Full Dual-Tier Mode Switcher for All Platforms",
+                "category": "Platform Architecture",
+                "desc": "Unified Flash Mode vs Pro Mode architecture across all three major platforms: Instagram, Twitter, and LinkedIn, with zero UI disruption."
+            },
+            {
+                "icon": SVG_PIVOT,
+                "title": "1-Click Cross-Platform Intelligence Pivots",
+                "category": "Investigation Workflow",
+                "desc": "Pivot instantly from discovered corporate personnel into Email Intelligence to verify active inboxes or into Username Intelligence to uncover external online handles."
+            },
+            {
+                "icon": SVG_LAYOUT,
+                "title": "UI Ergonomic Alignment & Button Fixes",
+                "category": "UI & Ergonomics",
+                "desc": "Fixed input grid button overflow in Username Intelligence and restored Social Media Mode Switcher cards into a responsive two-column grid on desktop."
+            },
+            {
+                "icon": SVG_VECTOR,
+                "title": "Platform-Wide Emoji Purge & Vector Icons",
+                "category": "UI & Ergonomics",
+                "desc": "Replaced remaining informal emoji icons across all templates with sharp, responsive SVG vectors matching the platform palette."
+            },
+            {
+                "icon": SVG_SHIELD,
+                "title": "Retirement of Redundant Telemetry & Vault Views",
+                "category": "Core Platform",
+                "desc": "Decommissioned legacy Live Telemetry and Target Vault views, replacing them with focused System Changelog navigation and 302 redirects."
+            }
+        ],
+        "technical_details": [
+            "Engineered services/social_media_intelligence/backend/linkedin_worker.py utilizing public search indexation engines (Yahoo, Bing, Google).",
+            "Implemented multi-variable corporate email synthesis supporting {first}, {last}, {f}, {l}, and {domain} template strings.",
+            "Added API endpoints: POST /api/social_media_intelligence/linkedin/run, GET /linkedin/status, and GET /linkedin/download.",
+            "Extended Twitter worker and router with advanced filter parameters: min_likes, min_retweets, since_date, until_date, lang, media_only, links_only.",
+            "Replaced input-grid 5-column layout with 2-row ergonomic flex design in recon_username.html.",
+            "Decommissioned /terminal and /vault routes in server.py and navigation in base.html.",
+            "Automated multi-format forensic dossiers (.json, .md, .csv) for corporate workforce discoveries."
+        ],
+        "commit_refs": ["6888898", "HEAD"],
+        "metrics": {"modules_active": 5, "engines_connected": 7, "registries": "3,124+"}
+    },
     {
         "version": "v1.4.0",
         "codename": "Multi-Platform Social Expansion & System Transparency",
         "date": "2026-11-12",
-        "is_latest": True,
-        "badge": "LATEST STABLE",
-        "badge_color": "#10b981",
+        "is_latest": False,
+        "badge": "STABLE RELEASE",
+        "badge_color": "#64748b",
         "summary": "Full integration of native X / Twitter Flash Reconnaissance, dual-tier Pro Mode clusters, responsive two-column workspace overhaul across all intelligence modules, professional SVG vector iconography across the dashboard, and this dedicated Changelog Hub.",
         "user_features": [
             {

@@ -17,6 +17,6 @@ IS_LINUX = sys.platform.startswith("linux")
 IS_DARWIN = sys.platform.startswith("darwin")
 
 APP_NAME = "Oasis Reconnaissance & Intelligence Suite"
-APP_VERSION = "1.4.0"
+APP_VERSION = "1.5.0"
 ANALYST_NAME = "User"
 ANALYST_ROLE = "INTELLIGENCE ANALYST"
