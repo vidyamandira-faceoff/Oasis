@@ -13,7 +13,6 @@
   <div class="page-top-banner">
     <div class="banner-info">
       <div class="banner-pretitle">
-        <span class="live-dot-pulse"></span>
         <span>OSINT TELEMETRY & EVENT STREAM</span>
       </div>
       <h1 class="banner-title">Tool Processing Notifications</h1>
@@ -108,10 +107,7 @@
 
             <div class="notif-status-badge">
               {% if notif.status == 'PROCESSING' %}
-                <span class="badge-status-processing">
-                  <span class="pulse-dot"></span>
-                  PROCESSING
-                </span>
+                <span class="badge-status-processing">PROCESSING</span>
               {% else %}
                 <span class="badge-status-finished">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
