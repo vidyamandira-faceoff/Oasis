@@ -9,13 +9,19 @@ trio>=0.22.0
 bs4>=0.0.1
 termcolor>=2.0.0
 tqdm>=4.60.0
--e ../holehe_OSINT
+holehe>=1.61.0
 aiosqlite>=0.17.0
 fake-useragent>=1.4.0
 loguru>=0.7.0
 pyotp>=2.9.0
 py-machineid>=1.0.0
 curl-cffi>=0.9.0
--e ../twscrape_OSINT
+twscrape>=0.11.0
+python-dotenv>=1.0.0
+phonenumbers>=8.13.0
+maigret>=0.6.6
+mailcat-osint>=0.1.1
+crosslinked>=0.3.0
+tld>=0.13.2
 
 

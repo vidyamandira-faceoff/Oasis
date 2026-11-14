@@ -117,12 +117,16 @@
     letter-spacing: 0.5px;
     display: block;
     margin-bottom: 2px;
+    text-transform: uppercase;
+    white-space: nowrap;
   }
   .clock-time-val {
     font-family: var(--font-mono);
     font-size: 15px;
     font-weight: 700;
     color: var(--slate-800);
+    letter-spacing: 0.5px;
+    white-space: nowrap;
   }
 
   /* 2. Section Header */
@@ -416,12 +420,12 @@
 
       <div class="hero-welcome-right">
         <div class="system-clock-badge">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"></circle>
             <polyline points="12 6 12 12 16 14"></polyline>
           </svg>
           <div>
-            <span class="clock-meta-label">SYSTEM TIME (IST)</span>
+            <span class="clock-meta-label" id="live-date-str">SYSTEM DATE</span>
             <span class="clock-time-val" id="live-clock-text">--:--:-- IST</span>
           </div>
         </div>
@@ -722,18 +726,4 @@
 
   </div>
 </section>
-{% endblock %}
-
-{% block scripts %}
-<script>
-  function updateLiveClock() {
-    const clockEl = document.getElementById('live-clock-text');
-    if (clockEl) {
-      const now = new Date();
-      clockEl.innerText = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour12: false }) + ' IST';
-    }
-  }
-  setInterval(updateLiveClock, 1000);
-  updateLiveClock();
-</script>
 {% endblock %}

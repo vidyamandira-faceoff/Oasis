@@ -18,9 +18,14 @@ from core.notifications import add_recon_notification, update_tool_notification
 REPORTS_DIR = BASE_DIR / "services" / "domain_intelligence" / "reports"
 REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 
-# Locate Photon engine script
-ENGINE_DIR = (BASE_DIR.parent / "Photon_osint_url").resolve()
-ENGINE_SCRIPT = ENGINE_DIR / "photon.py"
+# Locate Photon engine script (internal engine preferred, sibling directory as fallback)
+INTERNAL_ENGINE = BASE_DIR / "services" / "domain_intelligence" / "engine" / "photon.py"
+if INTERNAL_ENGINE.exists():
+    ENGINE_DIR = INTERNAL_ENGINE.parent
+    ENGINE_SCRIPT = INTERNAL_ENGINE
+else:
+    ENGINE_DIR = (BASE_DIR.parent / "Photon_osint_url").resolve()
+    ENGINE_SCRIPT = ENGINE_DIR / "photon.py"
 
 # Use Photon virtualenv or Oasis virtualenv python
 def _get_domain_engine_python() -> str:
@@ -317,10 +322,13 @@ def _run_domain_worker(job_id: str, target_url: str, depth: int, threads: int, d
         )
         _DOMAIN_PROCESSES[job_id] = proc
 
+        output_lines = []
         for line in iter(proc.stdout.readline, ''):
             if not line:
                 break
             line_str = line.strip()
+            if line_str:
+                output_lines.append(line_str)
             if line_str.startswith("[~]") or line_str.startswith("[+]") or line_str.startswith("[!]"):
                 clean_msg = sanitize_text(line_str)
                 job["progress_msg"] = clean_msg
@@ -333,7 +341,24 @@ def _run_domain_worker(job_id: str, target_url: str, depth: int, threads: int, d
         parsed = _parse_scan_output(job_output_dir, target_url)
         
         domain_key = urlparse(target_url).netloc
-        _DOMAIN_CACHE[domain_key] = parsed
+        if parsed.get("findings"):
+            _DOMAIN_CACHE[domain_key] = parsed
+
+        if proc.returncode != 0 and not parsed.get("findings"):
+            job["status"] = "ERROR"
+            err_details = "\n".join([l for l in output_lines if "Error" in l or "Exception" in l or "Traceback" in l][-3:]) or f"Process exited with code {proc.returncode}"
+            job["error"] = f"Domain crawler failed: {err_details}"
+            job["progress_msg"] = "Crawling failed."
+            job["duration"] = round(time.time() - job["start_time"], 1)
+            add_log("Domain Intelligence", f"Crawl failed for {target_url} with exit code {proc.returncode}", "error")
+            update_tool_notification(
+                tool="Domain & Website Intelligence",
+                target=target_url,
+                new_status="FINISHED",
+                title="Domain Intelligence Error",
+                details=f"Crawler process exited with error code {proc.returncode}."
+            )
+            return
 
         job["status"] = "COMPLETED"
         job["duration"] = round(time.time() - job["start_time"], 1)
@@ -395,19 +420,20 @@ def execute_domain_task(
     normalized_target = normalize_domain_target(target)
     domain_key = urlparse(normalized_target).netloc
 
-    # Check cache if not forcing re-crawl
+    # Check cache if not forcing re-crawl and findings exist
     if not force and domain_key in _DOMAIN_CACHE:
         cached = _DOMAIN_CACHE[domain_key]
-        return {
-            "job_id": "cached_" + domain_key,
-            "target": normalized_target,
-            "status": "COMPLETED",
-            "cached": True,
-            "duration": 0.1,
-            "stats": cached["stats"],
-            "findings": cached["findings"],
-            "progress_msg": "Loaded cached domain observations."
-        }
+        if cached.get("findings"):
+            return {
+                "job_id": "cached_" + domain_key,
+                "target": normalized_target,
+                "status": "COMPLETED",
+                "cached": True,
+                "duration": 0.1,
+                "stats": cached.get("stats", {}),
+                "findings": cached.get("findings", []),
+                "progress_msg": "Loaded cached domain observations."
+            }
 
     with _LOCK:
         job_id = uuid.uuid4().hex[:12]
@@ -451,17 +477,19 @@ def get_domain_status(job_id: str) -> Dict[str, Any]:
             "error": j.get("error")
         }
     
-    # Check domain cache if clean_id is a domain
-    if clean_id in _DOMAIN_CACHE:
-        cached = _DOMAIN_CACHE[clean_id]
+    # Check domain cache if clean_id is a domain or starts with cached_
+    dom_candidate = clean_id[7:] if clean_id.startswith("cached_") else clean_id
+    if dom_candidate in _DOMAIN_CACHE:
+        cached = _DOMAIN_CACHE[dom_candidate]
         return {
-            "job_id": "cached_" + clean_id,
-            "target": cached["target"],
+            "job_id": clean_id,
+            "target": cached.get("target", f"https://{dom_candidate}"),
             "status": "COMPLETED",
-            "elapsed": 0,
-            "progress_msg": "Completed.",
-            "stats": cached["stats"],
-            "findings": cached["findings"],
+            "cached": True,
+            "elapsed": 0.1,
+            "progress_msg": "Loaded cached domain observations.",
+            "stats": cached.get("stats", {}),
+            "findings": cached.get("findings", []),
             "error": None
         }
 

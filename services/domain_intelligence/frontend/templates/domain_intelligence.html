@@ -902,7 +902,7 @@ async function startDomainRecon(force = false) {
     const data = await res.json();
     currentJobId = data.job_id;
 
-    if (data.status === "COMPLETED" && data.findings && data.findings.length > 0) {
+    if (data.status === "COMPLETED") {
       clearInterval(domainTimerInterval);
       progressPanel.className = "progress-card completed";
       if (statusPill) {
@@ -916,7 +916,8 @@ async function startDomainRecon(force = false) {
         progressFill.style.width = "100%";
       }
       if (progressPercent) progressPercent.innerText = "100% Complete";
-      document.getElementById("domain-live-status-text").innerText = `Loaded cached crawl for ${target} (${data.findings.length} endpoints).`;
+      const findingsCount = (data.findings && data.findings.length) || 0;
+      document.getElementById("domain-live-status-text").innerText = `Loaded cached crawl for ${target} (${findingsCount} endpoints).`;
       setDomainButtonState(false);
       handleDomainCompletion(data);
       loadDomainHistory();
@@ -953,6 +954,7 @@ function startDomainPolling(jobId) {
   const statusPillText = document.getElementById("domain-status-pill-text");
   const progressFill = document.getElementById("domain-progress-fill");
   const progressPercent = document.getElementById("domain-progress-percent");
+  let idleCount = 0;
 
   domainPollInterval = setInterval(async () => {
     try {
@@ -1009,6 +1011,16 @@ function startDomainPolling(jobId) {
 
         setDomainButtonState(false);
         alert("Crawling error: " + (data.error || "Unknown error encountered"));
+      } else if (data.status === "IDLE") {
+        idleCount++;
+        if (idleCount > 4) {
+          clearInterval(domainPollInterval);
+          clearInterval(domainTimerInterval);
+          progressPanel.className = "progress-card error";
+          if (progressPercent) progressPercent.innerText = "Failed";
+          document.getElementById("domain-live-status-text").innerText = "Scan job not found or expired.";
+          setDomainButtonState(false);
+        }
       }
     } catch (e) {
       console.warn("Domain polling error:", e);

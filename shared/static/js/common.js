@@ -58,41 +58,53 @@ function initTheme() {
 window.toggleOasisTheme = toggleOasisTheme;
 window.toggleTheme = toggleOasisTheme;
 
-// 1. Live Real-time Clock
+// 1. Live Real-time Clock (IST Asia/Kolkata Unified Engine)
 function initClock() {
   function updateTime() {
     const now = new Date();
-    let hours = now.getHours();
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const seconds = String(now.getSeconds()).padStart(2, '0');
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12;
-    hours = hours ? hours : 12;
-    const strTime = `${hours}:${minutes}:${seconds} ${ampm}`;
+    
+    // Time in IST (24-hour tactical format: HH:mm:ss IST)
+    let timeStr = "";
+    try {
+      timeStr = now.toLocaleTimeString('en-GB', { 
+        timeZone: 'Asia/Kolkata', 
+        hour12: false 
+      }) + ' IST';
+    } catch (_) {
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const s = String(now.getSeconds()).padStart(2, '0');
+      timeStr = `${h}:${m}:${s} IST`;
+    }
     
     const clockEl = document.getElementById("live-clock-text");
-    if (clockEl) clockEl.innerText = strTime;
+    if (clockEl) clockEl.innerText = timeStr;
 
-    const days = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
-    const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-    const dayName = days[now.getDay()];
-    const monthName = months[now.getMonth()];
-    const dateNum = now.getDate();
-    
-    let greeting = "ACTIVE SESSION";
-    const rawHour = now.getHours();
-    if (rawHour < 12) greeting = "GOOD MORNING";
-    else if (rawHour < 17) greeting = "GOOD AFTERNOON";
-    else greeting = "GOOD EVENING";
-
+    // Date in IST (Tactical format: DAY, DD MON YYYY)
     const dateEl = document.getElementById("live-date-str");
     if (dateEl) {
-      dateEl.innerText = `${dayName}, ${monthName} ${dateNum} • ${greeting}`;
+      try {
+        const parts = new Intl.DateTimeFormat('en-US', { 
+          timeZone: 'Asia/Kolkata', 
+          weekday: 'short', 
+          day: 'numeric', 
+          month: 'short', 
+          year: 'numeric' 
+        }).formatToParts(now);
+        const getPart = type => parts.find(p => p.type === type)?.value || '';
+        dateEl.innerText = `${getPart('weekday')}, ${getPart('day')} ${getPart('month')} ${getPart('year')}`.toUpperCase();
+      } catch (_) {
+        const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+        const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+        dateEl.innerText = `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+      }
     }
   }
 
   updateTime();
-  setInterval(updateTime, 1000);
+  if (!window._oasisClockInterval) {
+    window._oasisClockInterval = setInterval(updateTime, 1000);
+  }
 }
 
 // 2. Global Status & Microservices Health Polling

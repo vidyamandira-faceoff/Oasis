@@ -14,11 +14,10 @@ if str(CROSSLINKED_DIR) not in sys.path:
     sys.path.insert(0, str(CROSSLINKED_DIR))
 
 try:
-    from crosslinked.search import CrossLinked, clean_linkedin_url
+    from crosslinked.search import CrossLinked
     from crosslinked import utils
 except ImportError:
     CrossLinked = None
-    clean_linkedin_url = None
     utils = None
 
 def clean_company_name(company: str) -> str:

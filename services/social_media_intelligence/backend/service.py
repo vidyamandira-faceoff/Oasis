@@ -820,6 +820,14 @@ def _run_instagram_flash_worker(clean_target: str, count: int, session: str, tar
         action_url="/services/social-media-intelligence"
     )
 
+    if not INSTAGRAM_ENGINE_SCRIPT.exists():
+        task["status"] = "ERROR"
+        task["error"] = "Local Instagram engine script (engine_scraper.js) was not found in instagram-scraper_OSINT. Please switch to Pro Mode for cluster reconnaissance."
+        task["progress_msg"] = "Local engine not found. Switch to Pro Mode."
+        add_log("OASIS Instagram Engine", "Local engine_scraper.js missing. Switch to Pro Mode.", "error")
+        update_tool_notification("OASIS Instagram Intelligence Engine", clean_target, "ERROR", details="Local engine_scraper.js missing. Switch to Pro Mode.")
+        return
+
     try:
         proc = subprocess.Popen(
             cmd,
