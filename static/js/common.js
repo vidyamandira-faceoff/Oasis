@@ -222,3 +222,32 @@ async function abortAllTasksImmediately() {
   }
 }
 
+// --------------------------------------------------------------------------
+// MOBILE NAVIGATION CONTROLLER
+// --------------------------------------------------------------------------
+function toggleMobileNav(forceState) {
+  const body = document.body;
+  const isOpening = forceState !== undefined ? forceState : !body.classList.contains('mobile-nav-open');
+  if (isOpening) {
+    body.classList.add('mobile-nav-open');
+  } else {
+    body.classList.remove('mobile-nav-open');
+  }
+  const toggleBtn = document.getElementById('mobile-nav-toggle');
+  if (toggleBtn) {
+    toggleBtn.setAttribute('aria-expanded', isOpening ? 'true' : 'false');
+  }
+}
+window.toggleMobileNav = toggleMobileNav;
+
+// Auto-close mobile drawer when tapping links on mobile
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".sidebar .nav-item").forEach(link => {
+    link.addEventListener("click", () => {
+      if (window.innerWidth <= 992) {
+        toggleMobileNav(false);
+      }
+    });
+  });
+});
+

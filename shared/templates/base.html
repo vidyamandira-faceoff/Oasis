@@ -6,6 +6,7 @@
   <title>{{ page_title | default("OASIS — Open-Source OSINT Platform") }}</title>
   <link rel="stylesheet" href="/static/css/style.css">
   <link rel="stylesheet" href="/static/css/dark_mode.css" id="shared-dark-mode">
+  <link rel="stylesheet" href="/static/css/mobile.css" id="shared-mobile-responsive">
   <script>
     (function() {
       const savedTheme = localStorage.getItem('oasis_theme') || 'light';
@@ -24,6 +25,15 @@
        ========================================================================= -->
   <header class="header-bar">
     <div class="header-left">
+      <!-- Mobile Navigation Drawer Toggle -->
+      <button class="mobile-nav-toggle" id="mobile-nav-toggle" aria-label="Toggle Navigation Menu" onclick="toggleMobileNav()" title="Toggle Navigation">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
       <div class="brand-emblem" title="OASIS Platform">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="12" cy="12" r="9"></circle>
@@ -93,6 +103,9 @@
       </div>
     </div>
   </header>
+
+  <!-- Mobile Navigation Backdrop Overlay -->
+  <div class="mobile-nav-backdrop" id="mobile-nav-backdrop" onclick="toggleMobileNav(false)"></div>
 
   <!-- =========================================================================
        INTELLIGENCE NAVIGATION SIDEBAR

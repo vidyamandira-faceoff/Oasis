@@ -101,7 +101,7 @@
     flex-wrap: wrap;
   }
   .domain-target-group {
-    flex: 1 1 320px;
+    flex: 1 1 auto;
     min-width: 0;
     margin-bottom: 0;
   }
@@ -126,6 +126,10 @@
     cursor: pointer;
   }
   @media (max-width: 680px) {
+    .domain-target-group {
+      flex: none;
+      width: 100%;
+    }
     .domain-target-row .btn-search {
       width: 100%;
       justify-content: center;
