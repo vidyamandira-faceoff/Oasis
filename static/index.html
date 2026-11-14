@@ -23,33 +23,20 @@
        ========================================================================= -->
   <header class="header-bar">
     <div class="header-left">
-      <div class="brand-emblem">
-        <svg viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="10" stroke="white" stroke-width="2" fill="none"/>
-          <circle cx="12" cy="12" r="6" stroke="white" stroke-width="1.5" fill="none"/>
-          <circle cx="12" cy="12" r="2" fill="white"/>
-          <line x1="12" y1="2" x2="12" y2="6" stroke="white" stroke-width="2"/>
-          <line x1="12" y1="18" x2="12" y2="22" stroke="white" stroke-width="2"/>
-          <line x1="2" y1="12" x2="6" y2="12" stroke="white" stroke-width="2"/>
-          <line x1="18" y1="12" x2="22" y2="12" stroke="white" stroke-width="2"/>
+      <div class="brand-emblem" title="OASIS Platform">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="9"></circle>
+          <circle cx="12" cy="12" r="4"></circle>
+          <line x1="12" y1="3" x2="12" y2="7"></line>
+          <line x1="12" y1="17" x2="12" y2="21"></line>
+          <line x1="3" y1="12" x2="7" y2="12"></line>
+          <line x1="17" y1="12" x2="21" y2="12"></line>
         </svg>
       </div>
       <div class="brand-name-group">
-        <span class="brand-title">Oasis</span>
-        <span class="brand-tag">Cyber Intelligence Suite</span>
+        <span class="brand-title">OASIS</span>
+        <span class="brand-tag">OSINT Aggregation &amp; Strategic Intelligence System</span>
       </div>
-    </div>
-
-    <!-- Quick Recon Target Search Palette -->
-    <div class="header-center-search">
-      <span class="header-search-icon">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-      </span>
-      <input type="text" class="header-search-box" id="global-search-input" placeholder="Search target domain, IP, or @handle..." onkeydown="if(event.key==='Enter'&&this.value.trim()){window.location.href='/services/recon-website-url?target='+encodeURIComponent(this.value.trim());}">
-      <span class="header-search-shortcut">Enter ↵</span>
     </div>
 
     <div class="header-right">
@@ -70,11 +57,6 @@
           <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
         </svg>
       </button>
-
-      <div class="status-pill" id="global-status-pill" onclick="window.location.href='/dashboard'">
-        <span class="status-indicator-dot"></span>
-        <span id="global-status-text">Oasis Engines Operational (12 Active Services)</span>
-      </div>
 
       <button class="header-icon-btn" title="Environment Settings" onclick="window.location.href='/settings'">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -110,41 +92,39 @@
        ========================================================================= -->
   <aside class="sidebar">
     <div class="sidebar-nav">
-      <div class="nav-section-title">Core Operations</div>
-      <a href="/dashboard" class="nav-item active"><span>Mission Briefing</span></a>
-      <a href="/vault" class="nav-item"><span>Target Repository</span></a>
-      <a href="/terminal" class="nav-item"><span>Live Telemetry</span></a>
-      <a href="/notifications" class="nav-item"><span>Event Notifications</span></a>
+      <div class="nav-section-title">Overview</div>
+      <a href="/dashboard" class="nav-item active"><span>Intelligence Dashboard</span></a>
+      <a href="/notifications" class="nav-item"><span>Notifications</span></a>
+      <a href="/changelog" class="nav-item"><span>System Changelog</span><span class="nav-badge-version">v1.6.0</span></a>
 
-      <div class="nav-section-title" style="margin-top: 14px;">Social Media Intelligence</div>
-      <a href="/services/social-instagram" class="nav-item"><span>Instagram Scraping</span><span class="nav-badge">IG</span></a>
-      <a href="/services/social-linkedin" class="nav-item"><span>LinkedIn Scraping</span><span class="nav-badge">IN</span></a>
-      <a href="/services/social-x" class="nav-item"><span>X Scraping &amp; Recon</span><span class="nav-badge">X</span></a>
-      <a href="/services/social-reddit" class="nav-item"><span>Reddit Scraping</span><span class="nav-badge">RD</span></a>
+      <div class="nav-section-title" style="margin-top: 14px;">Intelligence Services</div>
+      <a href="/services/recon-username" class="nav-item"><span>Username Intelligence</span><span class="nav-badge">Active</span></a>
+      <a href="/services/domain-intelligence" class="nav-item"><span>Domain &amp; Website Intelligence</span><span class="nav-badge">Active</span></a>
+      <a href="/services/social-media-intelligence" class="nav-item"><span>Social Media Intelligence</span><span class="nav-badge">Active</span></a>
+      <a href="/services/email-intelligence" class="nav-item"><span>Email Intelligence</span><span class="nav-badge">Active</span></a>
+      <a href="/services/phone-intelligence" class="nav-item"><span>Phone Number Intelligence</span><span class="nav-badge">Active</span></a>
+      <a href="/services/ip-network-intelligence" class="nav-item"><span>IP &amp; Network Intelligence</span><span class="nav-badge">Active</span></a>
 
-      <div class="nav-section-title" style="margin-top: 14px;">Reconnaissance &amp; Footprinting</div>
-      <a href="/services/recon-website-url" class="nav-item"><span>Website URL Recon</span><span class="nav-badge">URL</span></a>
-      <a href="/services/recon-web-browsers" class="nav-item"><span>Web Browsers &amp; Stack</span><span class="nav-badge">WEB</span></a>
-      <a href="/services/recon-email" class="nav-item"><span>Email Address Recon</span><span class="nav-badge">@</span></a>
-      <a href="/services/recon-ip" class="nav-item"><span>IP Addresses Intelligence</span><span class="nav-badge">IP</span></a>
-      <a href="/services/recon-username" class="nav-item"><span>Username Recon</span><span class="nav-badge">ID</span></a>
-      <a href="/services/recon-phone" class="nav-item"><span>Phone Number Recon</span><span class="nav-badge">TEL</span></a>
-      <a href="/services/recon-subdomains" class="nav-item"><span>Hostname &amp; Subdomains</span><span class="nav-badge">SUB</span></a>
-      <a href="/services/recon-crypto" class="nav-item"><span>Bitcoin &amp; Crypto Recon</span><span class="nav-badge">BTC</span></a>
-
-      <div class="nav-section-title" style="margin-top: 14px;">Environment</div>
-      <a href="/settings" class="nav-item"><span>System Environment</span></a>
+      <div class="nav-section-title" style="margin-top: 14px;">Administration</div>
+      <a href="/settings" class="nav-item"><span>System Admin</span></a>
     </div>
 
     <!-- Sidebar Bottom Profile Badge -->
     <div class="sidebar-footer">
       <div class="user-profile-card">
-        <div class="user-avatar-orange">U</div>
+        <div class="user-avatar-orange">A</div>
         <div class="user-info-text">
-          <span class="user-display-name">User</span>
-          <span class="user-role-badge">INTELLIGENCE ANALYST</span>
+          <span class="user-display-name">Analyst</span>
+          <span class="user-role-badge">STATION AUTH</span>
         </div>
       </div>
+      <div style="margin-top: 8px; font-size: 10.5px; color: var(--slate-500); text-align: center; font-weight: 500;">
+        OASIS Operational Station
+      </div>
+      <div style="margin-top: 6px; font-size: 10.5px; color: var(--slate-600); text-align: center; font-weight: 600; border-top: 1px solid var(--border-soft); padding-top: 8px;">
+        Incubated at Ramakrishna Mission Vidyamandira
+      </div>
+    </div>
     </div>
   </aside>
 

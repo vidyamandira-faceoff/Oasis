@@ -1,40 +1,54 @@
 /* ==========================================================================
-   OASIS DASHBOARD MICROSERVICE - DARK MODE STYLESHEET
-   Page: Mission Briefing / Command HUD
+   OASIS DASHBOARD MICROSERVICE - FORMAL DARK MODE STYLESHEET
+   Page: Intelligence Dashboard & Operations Center
    Path: services/dashboard/frontend/static/css/dark_mode.css
    ========================================================================== */
 
-/* Welcome Mission Briefing Banner */
+/* Welcome Operations Overview Banner */
 html[data-theme="dark"] .welcome-banner-card,
-body.dark-mode .welcome-banner-card {
-  background: linear-gradient(135deg, #111827 0%, #162032 60%, #1e1b2e 100%) !important;
+body.dark-mode .welcome-banner-card,
+html[data-theme="dark"] .hero-welcome-card,
+body.dark-mode .hero-welcome-card {
+  background: #111827 !important;
   border: 1px solid var(--border-soft) !important;
-  box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.65), 0 0 20px rgba(249, 115, 22, 0.08) !important;
+  box-shadow: var(--shadow-card) !important;
+}
+
+html[data-theme="dark"] .hero-welcome-card::before,
+body.dark-mode .hero-welcome-card::before {
+  background: var(--ember-500) !important;
 }
 
 html[data-theme="dark"] .welcome-avatar-box,
-body.dark-mode .welcome-avatar-box {
-  background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%) !important;
-  color: #ffffff !important;
-  box-shadow: 0 0 16px rgba(234, 88, 12, 0.35) !important;
+body.dark-mode .welcome-avatar-box,
+html[data-theme="dark"] .hero-logo-box,
+body.dark-mode .hero-logo-box {
+  background: #0f172a !important;
+  border: 1px solid #1e293b !important;
+  color: var(--ember-400) !important;
+  box-shadow: none !important;
 }
 
 html[data-theme="dark"] .welcome-heading,
-body.dark-mode .welcome-heading {
+body.dark-mode .welcome-heading,
+html[data-theme="dark"] .hero-title,
+body.dark-mode .hero-title {
   color: #f8fafc !important;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  text-shadow: none !important;
 }
 
 html[data-theme="dark"] .welcome-subtitle,
-body.dark-mode .welcome-subtitle {
+body.dark-mode .welcome-subtitle,
+html[data-theme="dark"] .hero-subtitle,
+body.dark-mode .hero-subtitle {
   color: #94a3b8 !important;
 }
 
 html[data-theme="dark"] .role-pill-dark,
 body.dark-mode .role-pill-dark {
-  background: rgba(249, 115, 22, 0.15) !important;
-  color: #fb923c !important;
-  border: 1px solid rgba(249, 115, 22, 0.35) !important;
+  background: rgba(245, 158, 11, 0.12) !important;
+  color: #fbbf24 !important;
+  border: 1px solid rgba(245, 158, 11, 0.25) !important;
 }
 
 html[data-theme="dark"] #live-date-str,
@@ -44,41 +58,49 @@ body.dark-mode #live-date-str {
 
 /* Clock Display Card */
 html[data-theme="dark"] .clock-info-box,
-body.dark-mode .clock-info-box {
-  background: rgba(10, 14, 23, 0.7) !important;
+body.dark-mode .clock-info-box,
+html[data-theme="dark"] .system-clock-badge,
+body.dark-mode .system-clock-badge {
+  background: #162032 !important;
   border: 1px solid var(--border-soft) !important;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: none !important;
 }
 
 html[data-theme="dark"] .clock-icon-svg,
-body.dark-mode .clock-icon-svg {
-  color: #fb923c !important;
+body.dark-mode .clock-icon-svg,
+html[data-theme="dark"] .system-clock-badge svg,
+body.dark-mode .system-clock-badge svg {
+  color: var(--ember-400) !important;
 }
 
 html[data-theme="dark"] .clock-label,
-body.dark-mode .clock-label {
+body.dark-mode .clock-label,
+html[data-theme="dark"] .clock-meta-label,
+body.dark-mode .clock-meta-label {
   color: #64748b !important;
 }
 
 html[data-theme="dark"] .clock-display,
-body.dark-mode .clock-display {
+body.dark-mode .clock-display,
+html[data-theme="dark"] .clock-time-val,
+body.dark-mode .clock-time-val {
   color: #f8fafc !important;
-  text-shadow: 0 0 8px rgba(249, 115, 22, 0.3);
+  text-shadow: none !important;
 }
 
-/* 4 Metrics Cards Grid */
+/* Metrics Cards Grid */
 html[data-theme="dark"] .metric-card,
 body.dark-mode .metric-card {
   background: #111827 !important;
   border: 1px solid var(--border-soft) !important;
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.55) !important;
+  box-shadow: var(--shadow-card) !important;
 }
 
 html[data-theme="dark"] .metric-card:hover,
 body.dark-mode .metric-card:hover {
   transform: translateY(-2px);
-  border-color: rgba(249, 115, 22, 0.4) !important;
-  box-shadow: 0 8px 30px -4px rgba(0, 0, 0, 0.7), 0 0 16px rgba(249, 115, 22, 0.12) !important;
+  border-color: var(--border-main) !important;
+  box-shadow: var(--shadow-float) !important;
 }
 
 html[data-theme="dark"] .metric-title,
@@ -108,37 +130,37 @@ body.dark-mode .metric-footer-stat {
 
 html[data-theme="dark"] .metric-badge-icon.icon-blue,
 body.dark-mode .metric-badge-icon.icon-blue {
-  background: rgba(56, 189, 248, 0.14) !important;
+  background: rgba(56, 189, 248, 0.12) !important;
   color: #38bdf8 !important;
-  border: 1px solid rgba(56, 189, 248, 0.3) !important;
+  border: 1px solid rgba(56, 189, 248, 0.25) !important;
 }
 
 html[data-theme="dark"] .metric-badge-icon.icon-red,
 body.dark-mode .metric-badge-icon.icon-red {
-  background: rgba(244, 63, 94, 0.14) !important;
+  background: rgba(244, 63, 94, 0.12) !important;
   color: #f43f5e !important;
-  border: 1px solid rgba(244, 63, 94, 0.3) !important;
+  border: 1px solid rgba(244, 63, 94, 0.25) !important;
 }
 
 html[data-theme="dark"] .metric-badge-icon.icon-green,
 body.dark-mode .metric-badge-icon.icon-green {
-  background: rgba(16, 185, 129, 0.14) !important;
+  background: rgba(16, 185, 129, 0.12) !important;
   color: #10b981 !important;
-  border: 1px solid rgba(16, 185, 129, 0.3) !important;
+  border: 1px solid rgba(16, 185, 129, 0.25) !important;
 }
 
 html[data-theme="dark"] .metric-badge-icon.icon-orange,
 body.dark-mode .metric-badge-icon.icon-orange {
-  background: rgba(249, 115, 22, 0.14) !important;
-  color: #f97316 !important;
-  border: 1px solid rgba(249, 115, 22, 0.3) !important;
+  background: rgba(245, 158, 11, 0.12) !important;
+  color: #f59e0b !important;
+  border: 1px solid rgba(245, 158, 11, 0.25) !important;
 }
 
 html[data-theme="dark"] .pill-alert,
 body.dark-mode .pill-alert {
-  background: rgba(244, 63, 94, 0.15) !important;
+  background: rgba(244, 63, 94, 0.12) !important;
   color: #fb7185 !important;
-  border: 1px solid rgba(244, 63, 94, 0.35) !important;
+  border: 1px solid rgba(244, 63, 94, 0.25) !important;
 }
 
 /* Quick Action Bento Tiles */
@@ -151,8 +173,8 @@ body.dark-mode .quick-action-tile {
 html[data-theme="dark"] .quick-action-tile:hover,
 body.dark-mode .quick-action-tile:hover {
   background-color: #1e293b !important;
-  border-color: rgba(249, 115, 22, 0.45) !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 12px rgba(249, 115, 22, 0.1) !important;
+  border-color: var(--border-main) !important;
+  box-shadow: var(--shadow-float) !important;
 }
 
 html[data-theme="dark"] .tile-title,
@@ -165,85 +187,7 @@ body.dark-mode .tile-subtext {
   color: #94a3b8 !important;
 }
 
-/* Recent Intelligence Table & Inspect Button */
-html[data-theme="dark"] .btn-inspect,
-body.dark-mode .btn-inspect {
-  background-color: #162032 !important;
-  color: #cbd5e1 !important;
-  border: 1px solid #2b3952 !important;
-}
-
-html[data-theme="dark"] .btn-inspect:hover,
-body.dark-mode .btn-inspect:hover {
-  background-color: #f97316 !important;
-  color: #ffffff !important;
-  border-color: #ea580c !important;
-}
-
-/* Danger / Emergency Actions */
-html[data-theme="dark"] .btn-danger-action,
-body.dark-mode .btn-danger-action {
-  background-color: rgba(244, 63, 94, 0.12) !important;
-  color: #fb7185 !important;
-  border: 1px solid rgba(244, 63, 94, 0.35) !important;
-}
-
-html[data-theme="dark"] .btn-danger-action:hover,
-body.dark-mode .btn-danger-action:hover {
-  background-color: rgba(244, 63, 94, 0.22) !important;
-  color: #ffffff !important;
-  border-color: #f43f5e !important;
-}
-
-/* Tool Status Table & Engines */
-html[data-theme="dark"] .tool-status-table th,
-body.dark-mode .tool-status-table th {
-  background-color: #162032 !important;
-  color: #94a3b8 !important;
-  border-bottom: 1px solid var(--border-soft) !important;
-}
-
-html[data-theme="dark"] .tool-status-table td,
-body.dark-mode .tool-status-table td {
-  border-bottom: 1px solid var(--border-ultra-soft) !important;
-  color: #e2e8f0 !important;
-}
-
-html[data-theme="dark"] .tool-status-table tr:hover td,
-body.dark-mode .tool-status-table tr:hover td {
-  background-color: rgba(22, 32, 50, 0.7) !important;
-}
-
-
-/* New Professional Welcome Dashboard Dark Mode Additions */
-html[data-theme="dark"] .hero-welcome-card,
-body.dark-mode .hero-welcome-card {
-  background: linear-gradient(135deg, #111827 0%, #162032 60%, #1a1e2e 100%) !important;
-  border-color: var(--border-soft) !important;
-  box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.65) !important;
-}
-
-html[data-theme="dark"] .hero-title,
-body.dark-mode .hero-title {
-  color: #f8fafc !important;
-}
-
-html[data-theme="dark"] .hero-subtitle,
-body.dark-mode .hero-subtitle {
-  color: #94a3b8 !important;
-}
-
-html[data-theme="dark"] .system-clock-badge,
-body.dark-mode .system-clock-badge {
-  background: rgba(10, 14, 23, 0.7) !important;
-  border-color: var(--border-soft) !important;
-}
-
-html[data-theme="dark"] .clock-time-val,
-body.dark-mode .clock-time-val {
-  color: #f8fafc !important;
-}
-
+/* Section Headings */
 html[data-theme="dark"] .section-heading-title,
 body.dark-mode .section-heading-title {
   color: #f8fafc !important;
@@ -254,18 +198,43 @@ body.dark-mode .section-heading-sub {
   color: #94a3b8 !important;
 }
 
+/* Core Module Feature Cards */
 html[data-theme="dark"] .module-feature-card,
 body.dark-mode .module-feature-card {
   background: #111827 !important;
   border-color: var(--border-soft) !important;
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.55) !important;
+  box-shadow: var(--shadow-card) !important;
 }
 
 html[data-theme="dark"] .module-feature-card:hover,
 body.dark-mode .module-feature-card:hover {
-  background: #162032 !important;
-  border-color: rgba(249, 115, 22, 0.4) !important;
-  box-shadow: 0 8px 30px -4px rgba(0, 0, 0, 0.7), 0 0 16px rgba(249, 115, 22, 0.12) !important;
+  background: #141e30 !important;
+  border-color: var(--border-main) !important;
+  box-shadow: var(--shadow-float) !important;
+}
+
+html[data-theme="dark"] .module-feature-card::before,
+body.dark-mode .module-feature-card::before {
+  background: #1e293b !important;
+}
+
+html[data-theme="dark"] .module-feature-card:hover::before,
+body.dark-mode .module-feature-card:hover::before {
+  background: var(--ember-500) !important;
+}
+
+html[data-theme="dark"] .module-card-icon,
+body.dark-mode .module-card-icon {
+  background: #1e293b !important;
+  border-color: #283548 !important;
+  color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .module-feature-card:hover .module-card-icon,
+body.dark-mode .module-feature-card:hover .module-card-icon {
+  background: rgba(245, 158, 11, 0.12) !important;
+  border-color: rgba(245, 158, 11, 0.25) !important;
+  color: var(--ember-400) !important;
 }
 
 html[data-theme="dark"] .module-card-title-group h3,
@@ -283,6 +252,17 @@ body.dark-mode .module-card-footer {
   border-top-color: var(--border-ultra-soft) !important;
 }
 
+html[data-theme="dark"] .module-action-cta,
+body.dark-mode .module-action-cta {
+  color: #cbd5e1 !important;
+}
+
+html[data-theme="dark"] .module-feature-card:hover .module-action-cta,
+body.dark-mode .module-feature-card:hover .module-action-cta {
+  color: var(--ember-400) !important;
+}
+
+/* Quick Platform Ops Toolbar */
 html[data-theme="dark"] .quick-op-link,
 body.dark-mode .quick-op-link {
   background: #111827 !important;
@@ -293,14 +273,16 @@ body.dark-mode .quick-op-link {
 html[data-theme="dark"] .quick-op-link:hover,
 body.dark-mode .quick-op-link:hover {
   background: #162032 !important;
-  border-color: var(--ember-500) !important;
+  border-color: var(--border-main) !important;
   color: #f8fafc !important;
 }
 
+/* Architecture Pillars */
 html[data-theme="dark"] .platform-pillars-card,
 body.dark-mode .platform-pillars-card {
   background: #111827 !important;
   border-color: var(--border-soft) !important;
+  box-shadow: var(--shadow-card) !important;
 }
 
 html[data-theme="dark"] .pillar-info h4,
@@ -317,4 +299,37 @@ html[data-theme="dark"] .pillar-icon-box,
 body.dark-mode .pillar-icon-box {
   background: #162032 !important;
   border-color: var(--border-soft) !important;
+}
+
+/* Tables & Controls */
+html[data-theme="dark"] .btn-inspect,
+body.dark-mode .btn-inspect {
+  background-color: #162032 !important;
+  color: #cbd5e1 !important;
+  border: 1px solid #283548 !important;
+}
+
+html[data-theme="dark"] .btn-inspect:hover,
+body.dark-mode .btn-inspect:hover {
+  background-color: var(--ember-600) !important;
+  color: #ffffff !important;
+  border-color: var(--ember-500) !important;
+}
+
+html[data-theme="dark"] .tool-status-table th,
+body.dark-mode .tool-status-table th {
+  background-color: #162032 !important;
+  color: #94a3b8 !important;
+  border-bottom: 1px solid var(--border-soft) !important;
+}
+
+html[data-theme="dark"] .tool-status-table td,
+body.dark-mode .tool-status-table td {
+  border-bottom: 1px solid var(--border-ultra-soft) !important;
+  color: #e2e8f0 !important;
+}
+
+html[data-theme="dark"] .tool-status-table tr:hover td,
+body.dark-mode .tool-status-table tr:hover td {
+  background-color: rgba(22, 32, 50, 0.7) !important;
 }

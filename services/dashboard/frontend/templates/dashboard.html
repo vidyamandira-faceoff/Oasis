@@ -9,20 +9,19 @@
     padding-bottom: 50px;
   }
 
-  /* 1. Hero Welcome Card */
+  /* 1. Hero Welcome Card (Executive Intelligence Station Style) */
   .hero-welcome-card {
     background: var(--bg-surface);
     border: 1px solid var(--border-soft);
-    border-radius: var(--radius-lg);
-    padding: 36px 40px;
+    border-radius: var(--radius-md);
+    padding: 26px 32px;
     box-shadow: var(--shadow-card);
-    margin-bottom: 30px;
+    margin-bottom: 24px;
     position: relative;
-    overflow: hidden;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 30px;
+    gap: 24px;
     flex-wrap: wrap;
   }
   .hero-welcome-card::before {
@@ -31,30 +30,28 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 5px;
-    background: linear-gradient(90deg, #f97316 0%, #ec4899 35%, #8b5cf6 70%, #0284c7 100%);
+    height: 2px;
+    background: var(--ember-600);
   }
 
   .hero-welcome-left {
     display: flex;
     align-items: center;
-    gap: 22px;
+    gap: 20px;
     flex: 1;
     min-width: 320px;
   }
   .hero-logo-box {
-    width: 64px;
-    height: 64px;
-    border-radius: var(--radius-md);
-    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-    color: #ffffff;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-sm);
+    background: var(--slate-900);
+    border: 1px solid var(--slate-800);
+    color: var(--ember-400);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 26px;
-    font-weight: 800;
-    letter-spacing: 0.5px;
-    box-shadow: 0 8px 24px rgba(249, 115, 22, 0.3);
+    box-shadow: var(--shadow-subtle);
     flex-shrink: 0;
   }
 
@@ -62,34 +59,33 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-size: 11.5px;
-    font-weight: 800;
+    font-size: 11px;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.8px;
+    letter-spacing: 0.06em;
     color: var(--ember-600);
     margin-bottom: 6px;
   }
   .hero-greeting-tag .pulse-dot {
-    width: 7px;
-    height: 7px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
     background-color: var(--emerald-500);
-    box-shadow: 0 0 8px var(--emerald-500);
   }
 
   .hero-title {
-    font-size: 26px;
-    font-weight: 800;
+    font-size: 22px;
+    font-weight: 700;
     color: var(--slate-900);
-    letter-spacing: -0.5px;
-    margin: 0 0 6px 0;
+    letter-spacing: -0.02em;
+    margin: 0 0 4px 0;
     line-height: 1.25;
   }
   .hero-subtitle {
-    font-size: 14px;
+    font-size: 13.5px;
     color: var(--slate-600);
     margin: 0;
-    max-width: 650px;
+    max-width: 680px;
     line-height: 1.5;
   }
 
@@ -104,17 +100,17 @@
     gap: 12px;
     background: var(--bg-card-subtle);
     border: 1px solid var(--border-soft);
-    padding: 12px 20px;
-    border-radius: var(--radius-md);
+    padding: 10px 16px;
+    border-radius: var(--radius-sm);
   }
   .system-clock-badge svg {
-    color: var(--ember-500);
+    color: var(--ember-600);
   }
   .clock-meta-label {
-    font-size: 10.5px;
-    font-weight: 800;
+    font-size: 10px;
+    font-weight: 700;
     color: var(--slate-400);
-    letter-spacing: 0.5px;
+    letter-spacing: 0.06em;
     display: block;
     margin-bottom: 2px;
     text-transform: uppercase;
@@ -122,10 +118,10 @@
   }
   .clock-time-val {
     font-family: var(--font-mono);
-    font-size: 15px;
-    font-weight: 700;
+    font-size: 14px;
+    font-weight: 600;
     color: var(--slate-800);
-    letter-spacing: 0.5px;
+    letter-spacing: 0.02em;
     white-space: nowrap;
   }
 
@@ -134,21 +130,21 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-    padding-left: 4px;
-    padding-right: 4px;
+    margin-bottom: 16px;
+    padding-left: 2px;
+    padding-right: 2px;
   }
   .section-heading-title {
-    font-size: 18px;
-    font-weight: 800;
+    font-size: 16px;
+    font-weight: 700;
     color: var(--slate-900);
     display: flex;
     align-items: center;
-    gap: 10px;
-    letter-spacing: -0.3px;
+    gap: 8px;
+    letter-spacing: -0.01em;
   }
   .section-heading-sub {
-    font-size: 13px;
+    font-size: 12.5px;
     color: var(--slate-500);
   }
 
@@ -156,8 +152,8 @@
   .modules-showcase-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 22px;
-    margin-bottom: 34px;
+    gap: 18px;
+    margin-bottom: 28px;
   }
   @media (max-width: 860px) {
     .modules-showcase-grid {
@@ -169,19 +165,18 @@
     background: var(--bg-surface);
     border: 1px solid var(--border-soft);
     border-radius: var(--radius-md);
-    padding: 28px;
+    padding: 22px 24px;
     box-shadow: var(--shadow-card);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     text-decoration: none;
     color: inherit;
-    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.18s ease;
     position: relative;
-    overflow: hidden;
   }
   .module-feature-card:hover {
-    transform: translateY(-3px);
+    transform: translateY(-2px);
     box-shadow: var(--shadow-float);
     border-color: var(--border-main);
   }
@@ -191,67 +186,73 @@
     top: 0;
     left: 0;
     bottom: 0;
-    width: 4px;
-    transition: width 0.2s ease;
+    width: 3px;
+    background: var(--border-soft);
+    transition: background 0.18s ease;
+    border-radius: var(--radius-md) 0 0 var(--radius-md);
   }
   .module-feature-card:hover::before {
-    width: 6px;
+    background: var(--ember-600);
   }
-
-  .card-recon-username::before { background: #10b981; }
-  .card-domain-intel::before { background: #0ea5e9; }
-  .card-social-intel::before { background: #ec4899; }
-  .card-phone-intel::before { background: #059669; }
-  .card-email-intel::before { background: #6366f1; }
-  .card-ip-intel::before { background: #0284c7; }
 
   .module-card-top {
     display: flex;
     align-items: flex-start;
-    gap: 18px;
-    margin-bottom: 18px;
+    gap: 16px;
+    margin-bottom: 14px;
   }
   .module-card-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
+    width: 42px;
+    height: 42px;
+    border-radius: var(--radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 22px;
     flex-shrink: 0;
+    background: var(--slate-100);
+    color: var(--slate-700);
+    border: 1px solid var(--border-soft);
+    transition: all 0.18s ease;
   }
-  .icon-green-bg { background: rgba(16, 185, 129, 0.12); color: #10b981; }
-  .icon-blue-bg { background: rgba(14, 165, 233, 0.12); color: #0284c7; }
-  .icon-pink-bg { background: rgba(236, 72, 153, 0.12); color: #ec4899; }
-  .icon-emerald-bg { background: rgba(5, 150, 105, 0.12); color: #059669; }
-  .icon-indigo-bg { background: rgba(99, 102, 241, 0.12); color: #6366f1; }
+  .module-feature-card:hover .module-card-icon {
+    background: var(--ember-50);
+    color: var(--ember-600);
+    border-color: var(--ember-200);
+  }
+
+  .icon-green-bg { background: var(--slate-100); color: var(--slate-700); }
+  .icon-blue-bg { background: var(--slate-100); color: var(--slate-700); }
+  .icon-pink-bg { background: var(--slate-100); color: var(--slate-700); }
+  .icon-emerald-bg { background: var(--slate-100); color: var(--slate-700); }
+  .icon-indigo-bg { background: var(--slate-100); color: var(--slate-700); }
 
   .module-card-title-group h3 {
-    font-size: 16.5px;
-    font-weight: 800;
+    font-size: 15.5px;
+    font-weight: 700;
     color: var(--slate-900);
-    margin: 0 0 4px 0;
+    margin: 0 0 3px 0;
     display: flex;
     align-items: center;
     gap: 8px;
+    letter-spacing: -0.01em;
   }
   .module-card-badge {
-    font-size: 10px;
-    font-weight: 800;
+    font-size: 9.5px;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    padding: 2px 7px;
+    letter-spacing: 0.05em;
+    padding: 2px 6px;
     border-radius: 4px;
-    background: rgba(16, 185, 129, 0.12);
+    background: rgba(16, 185, 129, 0.08);
     color: #059669;
+    border: 1px solid rgba(16, 185, 129, 0.25);
   }
 
   .module-card-desc {
-    font-size: 13.5px;
+    font-size: 13px;
     color: var(--slate-600);
-    line-height: 1.55;
-    margin: 0 0 20px 0;
+    line-height: 1.5;
+    margin: 0 0 16px 0;
   }
 
   .module-card-footer {
@@ -268,15 +269,15 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    color: var(--ember-600);
-    transition: gap 0.2s ease;
+    color: var(--slate-800);
+    transition: color 0.18s ease;
   }
   .module-feature-card:hover .module-action-cta {
-    gap: 9px;
+    color: var(--ember-600);
   }
   .module-status-chip {
     font-size: 11px;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--slate-500);
     display: flex;
     align-items: center;
@@ -289,19 +290,19 @@
     background-color: var(--emerald-500);
   }
 
-  /* 4. Platform Capabilities Banner (3 Pillars) */
+  /* 4. Platform Architecture & Capabilities Pillars */
   .platform-pillars-card {
     background: var(--bg-surface);
     border: 1px solid var(--border-soft);
     border-radius: var(--radius-md);
-    padding: 30px;
+    padding: 24px 28px;
     box-shadow: var(--shadow-card);
-    margin-bottom: 30px;
+    margin-bottom: 24px;
   }
   .pillars-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+    gap: 20px;
   }
   @media (max-width: 900px) {
     .pillars-grid {
@@ -311,28 +312,27 @@
   .pillar-item {
     display: flex;
     align-items: flex-start;
-    gap: 16px;
+    gap: 14px;
   }
   .pillar-icon-box {
-    width: 42px;
-    height: 42px;
-    border-radius: 10px;
+    width: 38px;
+    height: 38px;
+    border-radius: var(--radius-sm);
     background: var(--bg-card-subtle);
     border: 1px solid var(--border-soft);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
     flex-shrink: 0;
   }
   .pillar-info h4 {
-    font-size: 14px;
-    font-weight: 800;
+    font-size: 13.5px;
+    font-weight: 700;
     color: var(--slate-900);
-    margin: 0 0 4px 0;
+    margin: 0 0 3px 0;
   }
   .pillar-info p {
-    font-size: 12.5px;
+    font-size: 12px;
     color: var(--slate-500);
     line-height: 1.45;
     margin: 0;
@@ -341,16 +341,11 @@
   /* 5. Quick Tools & Operations Toolbar */
   .quick-ops-bar {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 14px;
-    margin-bottom: 24px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
   }
-  @media (max-width: 1100px) {
-    .quick-ops-bar {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-  @media (max-width: 768px) {
+  @media (max-width: 960px) {
     .quick-ops-bar {
       grid-template-columns: repeat(2, 1fr);
     }
@@ -359,36 +354,36 @@
     background: var(--bg-surface);
     border: 1px solid var(--border-soft);
     border-radius: var(--radius-sm);
-    padding: 14px 18px;
+    padding: 12px 16px;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     text-decoration: none;
-    color: var(--slate-800);
-    font-size: 13px;
-    font-weight: 700;
+    color: var(--slate-700);
+    font-size: 12.5px;
+    font-weight: 600;
     transition: all 0.18s ease;
   }
   .quick-op-link:hover {
-    border-color: var(--ember-400);
+    border-color: var(--border-main);
     background: var(--bg-card-subtle);
-    transform: translateY(-1px);
-    color: var(--ember-600);
+    color: var(--slate-900);
   }
   .quick-op-link svg {
     color: var(--slate-400);
     transition: color 0.18s ease;
   }
   .quick-op-link:hover svg {
-    color: var(--ember-500);
+    color: var(--ember-600);
   }
 
   /* 6. Professional Footer */
   .dashboard-footer {
     text-align: center;
     padding-top: 10px;
-    color: var(--slate-500);
-    font-size: 12.5px;
+    color: var(--slate-400);
+    font-size: 12px;
+    font-weight: 500;
   }
 </style>
 {% endblock %}
@@ -401,7 +396,7 @@
     <div class="hero-welcome-card">
       <div class="hero-welcome-left">
         <div class="hero-logo-box">
-          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"></circle>
             <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
           </svg>
@@ -409,18 +404,18 @@
         <div>
           <div class="hero-greeting-tag">
             <span class="pulse-dot"></span>
-            <span>OASIS INTELLIGENCE HUB &bull; SYSTEM ONLINE</span>
+            <span>OASIS OPERATIONAL PLATFORM &bull; ENGINES ACTIVE</span>
           </div>
-          <h1 class="hero-title">Welcome to OASIS</h1>
+          <h1 class="hero-title">Intelligence Operations Overview</h1>
           <p class="hero-subtitle">
-            Next-generation open-source intelligence aggregation and strategic reconnaissance system. Access unified intelligence gathering across usernames, web infrastructure, social platforms, and telecommunications.
+            Unified open-source intelligence collection, reconnaissance, and entity correlation terminal. Launch multi-vector investigations across identity handles, web infrastructure, social platforms, and network perimeters.
           </p>
         </div>
       </div>
 
       <div class="hero-welcome-right">
         <div class="system-clock-badge">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"></circle>
             <polyline points="12 6 12 12 16 14"></polyline>
           </svg>

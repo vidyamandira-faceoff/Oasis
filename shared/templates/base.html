@@ -20,11 +20,11 @@
 <body>
 
   <!-- =========================================================================
-       COMMAND HEADER BAR (Tactical Recon Layout)
+       COMMAND HEADER BAR (Intelligence Operations Station)
        ========================================================================= -->
   <header class="header-bar">
     <div class="header-left">
-      <div class="brand-emblem">
+      <div class="brand-emblem" title="OASIS Platform">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="12" cy="12" r="9"></circle>
           <circle cx="12" cy="12" r="4"></circle>
@@ -36,30 +36,13 @@
       </div>
       <div class="brand-name-group">
         <span class="brand-title">OASIS</span>
-        <span class="brand-tag">OSINT Aggregation and Strategic Intelligence System</span>
+        <span class="brand-tag">OSINT Aggregation &amp; Strategic Intelligence System</span>
       </div>
-    </div>
-
-    <!-- Target Identifier Search Palette -->
-    <div class="header-center-search">
-      <span class="header-search-icon">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-      </span>
-      <input type="text" class="header-search-box" id="global-search-input" placeholder="Search target username or handle..." onkeydown="if(event.key==='Enter'&&this.value.trim()){window.location.href='/services/recon-username?target='+encodeURIComponent(this.value.trim());}">
-      <span class="header-search-shortcut">Enter ↵</span>
     </div>
 
     <div class="header-right">
-      <div class="status-pill" id="global-status-pill" onclick="window.location.href='/dashboard'">
-        <span class="status-indicator-dot"></span>
-        <span id="global-status-text">Recon Engine Ready</span>
-      </div>
-
       <!-- Version & Changelog Pill in Header -->
-      <a href="/changelog" class="header-version-pill {% if active_view == 'changelog' %}active-version-pill{% endif %}" title="View System Changelog & Releases (v1.6.0)">
+      <a href="/changelog" class="header-version-pill {% if active_view == 'changelog' %}active-version-pill{% endif %}" title="View System Changelog &amp; Release History (v1.6.0)">
         <span class="version-pill-tag">v1.6.0</span>
         <span class="version-pill-label">Changelog</span>
       </a>
@@ -82,14 +65,14 @@
         </svg>
       </button>
 
-      <button class="header-icon-btn" title="Environment Settings" onclick="window.location.href='/settings'">
+      <button class="header-icon-btn" title="System Settings &amp; Configuration" onclick="window.location.href='/settings'">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="12" cy="12" r="3"></circle>
           <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
         </svg>
       </button>
 
-      <button class="header-icon-btn {% if active_view == 'notifications' %}active-header-icon{% endif %}" title="OSINT Processing Notifications" onclick="window.location.href='/notifications'">
+      <button class="header-icon-btn {% if active_view == 'notifications' %}active-header-icon{% endif %}" title="OSINT Telemetry &amp; Event Notifications" onclick="window.location.href='/notifications'">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
           <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
@@ -98,8 +81,8 @@
       </button>
 
       <div class="header-user-group">
-        <div class="header-avatar" title="User Profile">U</div>
-        <button class="header-signout-btn" title="Sign Out" onclick="handleSignOut()">
+        <div class="header-avatar" title="Analyst Station">A</div>
+        <button class="header-signout-btn" title="Sign Out Session" onclick="handleSignOut()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
             <polyline points="16 17 21 12 16 7"></polyline>
@@ -112,13 +95,13 @@
   </header>
 
   <!-- =========================================================================
-       TACTICAL NAVIGATION SIDEBAR (OASIS Architecture Alignment)
+       INTELLIGENCE NAVIGATION SIDEBAR
        ========================================================================= -->
   <aside class="sidebar">
     <div class="sidebar-nav">
       
-      <!-- Section: Core Platform -->
-      <div class="nav-section-title">Core Platform</div>
+      <!-- Section: Overview -->
+      <div class="nav-section-title">Overview</div>
 
       <!-- Dashboard -->
       <a href="/dashboard" class="nav-item {% if active_view == 'dashboard' %}active{% endif %}">
@@ -128,10 +111,8 @@
           <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
           <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
         </svg>
-        <span>Mission Briefing</span>
+        <span>Intelligence Dashboard</span>
       </a>
-
-
 
       <!-- Notifications -->
       <a href="/notifications" class="nav-item {% if active_view == 'notifications' %}active{% endif %}">
@@ -139,11 +120,11 @@
           <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
           <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
         </svg>
-        <span>Event Notifications</span>
+        <span>Notifications</span>
       </a>
 
       <!-- System Changelog -->
-      <a href="/changelog" class="nav-item {% if active_view == 'changelog' %}active{% endif %}" title="View System Releases & Changelog">
+      <a href="/changelog" class="nav-item {% if active_view == 'changelog' %}active{% endif %}" title="View System Releases &amp; Changelog">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
           <circle cx="12" cy="12" r="4"></circle>
           <line x1="1.05" y1="12" x2="7" y2="12"></line>
@@ -156,19 +137,19 @@
       </a>
 
       <!-- Section: Intelligence Modules -->
-      <div class="nav-section-title" style="margin-top: 14px;">Intelligence Modules</div>
+      <div class="nav-section-title" style="margin-top: 14px;">Intelligence Services</div>
 
-      <!-- Username Intelligence (CONNECTED & ACTIVE) -->
+      <!-- Username Intelligence -->
       <a href="/services/recon-username" class="nav-item {% if active_view == 'recon_username' %}active{% endif %}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
           <circle cx="12" cy="7" r="4"></circle>
         </svg>
         <span>Username Intelligence</span>
-        <span class="nav-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border-color: rgba(16, 185, 129, 0.3);">Active</span>
+        <span class="nav-badge">Active</span>
       </a>
 
-      <!-- Intelligence Module: Domain & Website Intelligence -->
+      <!-- Domain & Website Intelligence -->
       <a href="/services/domain-intelligence" class="nav-item {% if active_view == 'domain_intelligence' %}active{% endif %}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
           <circle cx="12" cy="12" r="10"></circle>
@@ -176,102 +157,103 @@
           <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path>
         </svg>
         <span>Domain &amp; Website Intelligence</span>
-        <span class="nav-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border-color: rgba(16, 185, 129, 0.3);">Active</span>
+        <span class="nav-badge">Active</span>
       </a>
 
-      <!-- Social Media Intelligence (CONNECTED & ACTIVE) -->
+      <!-- Social Media Intelligence -->
       <a href="/services/social-media-intelligence" class="nav-item {% if active_view == 'social_media_intelligence' %}active{% endif %}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
           <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
         </svg>
         <span>Social Media Intelligence</span>
-        <span class="nav-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border-color: rgba(16, 185, 129, 0.3);">Active</span>
+        <span class="nav-badge">Active</span>
       </a>
 
-      <!-- Email Intelligence (ACTIVE) -->
+      <!-- Email Intelligence -->
       <a href="/services/email-intelligence" class="nav-item {% if active_view == 'email_intelligence' %}active{% endif %}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
           <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
           <polyline points="22,6 12,13 2,6"></polyline>
         </svg>
         <span>Email Intelligence</span>
-        <span class="nav-badge" style="background: rgba(16, 185, 129, 0.15); color: #059669; border-color: rgba(16, 185, 129, 0.3);">Active</span>
+        <span class="nav-badge">Active</span>
       </a>
 
-      <!-- Phone Number Intelligence (ACTIVE) -->
+      <!-- Phone Number Intelligence -->
       <a href="/services/phone-intelligence" class="nav-item {% if active_view == 'phone_intelligence' %}active{% endif %}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
           <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
         </svg>
         <span>Phone Number Intelligence</span>
-        <span class="nav-badge" style="background: rgba(16, 185, 129, 0.15); color: #059669; border-color: rgba(16, 185, 129, 0.3);">Active</span>
+        <span class="nav-badge">Active</span>
       </a>
 
-
-
-      <!-- IP & Network Intelligence (ACTIVE) -->
+      <!-- IP & Network Intelligence -->
       <a href="/services/ip-network-intelligence" class="nav-item {% if active_view == 'ip_network_intelligence' %}active{% endif %}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
           <rect x="1" y="4" width="22" height="16" rx="2"></rect>
           <line x1="1" y1="10" x2="23" y2="10"></line>
         </svg>
         <span>IP &amp; Network Intelligence</span>
-        <span class="nav-badge" style="background: rgba(16, 185, 129, 0.15); color: #059669; border-color: rgba(16, 185, 129, 0.3);">Active</span>
+        <span class="nav-badge">Active</span>
       </a>
 
-      <!-- Image & Media Intelligence (DISABLED - Coming Soon) -->
-      <div class="nav-item disabled" title="Image & Media Intelligence (Coming Soon)">
+      <!-- Section: Planned Suites -->
+      <div class="nav-section-title" style="margin-top: 14px;">Roadmap Capabilities</div>
+
+      <!-- Image & Media Intelligence -->
+      <div class="nav-item disabled" title="Image &amp; Media Intelligence (Roadmap)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
           <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
           <circle cx="8.5" cy="8.5" r="1.5"></circle>
           <polyline points="21 15 16 10 5 21"></polyline>
         </svg>
         <span>Image &amp; Media Intelligence</span>
-        <span class="nav-badge-coming-soon">Coming Soon</span>
+        <span class="nav-badge-coming-soon">Planned</span>
       </div>
 
-      <!-- Geospatial Intelligence (DISABLED - Coming Soon) -->
-      <div class="nav-item disabled" title="Geospatial Intelligence (Coming Soon)">
+      <!-- Geospatial Intelligence -->
+      <div class="nav-item disabled" title="Geospatial Intelligence (Roadmap)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
           <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
           <line x1="8" y1="2" x2="8" y2="18"></line>
           <line x1="16" y1="6" x2="16" y2="22"></line>
         </svg>
         <span>Geospatial Intelligence</span>
-        <span class="nav-badge-coming-soon">Coming Soon</span>
+        <span class="nav-badge-coming-soon">Planned</span>
       </div>
 
-      <!-- Search Engine & Web Intelligence (DISABLED - Coming Soon) -->
-      <div class="nav-item disabled" title="Search Engine & Web Intelligence (Coming Soon)">
+      <!-- Search Engine & Web Intelligence -->
+      <div class="nav-item disabled" title="Search Engine &amp; Web Intelligence (Roadmap)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
         <span>Search Engine &amp; Web Intelligence</span>
-        <span class="nav-badge-coming-soon">Coming Soon</span>
+        <span class="nav-badge-coming-soon">Planned</span>
       </div>
 
-      <!-- Dark Web Intelligence (DISABLED - Coming Soon) -->
-      <div class="nav-item disabled" title="Dark Web Intelligence (Coming Soon)">
+      <!-- Dark Web Intelligence -->
+      <div class="nav-item disabled" title="Dark Web Intelligence (Roadmap)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
           <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 14.93V17a1 1 0 0 1-2 0v-.07A7.003 7.003 0 0 1 5.07 11H5a1 1 0 0 1 0-2h.07A7.003 7.003 0 0 1 11 5.07V5a1 1 0 0 1 2 0v.07A7.003 7.003 0 0 1 18.93 11H19a1 1 0 0 1 0 2h-.07A7.003 7.003 0 0 1 13 16.93z"></path>
         </svg>
         <span>Dark Web Intelligence</span>
-        <span class="nav-badge-coming-soon">Coming Soon</span>
+        <span class="nav-badge-coming-soon">Planned</span>
       </div>
 
-      <!-- Data Breach & Exposure Intelligence (DISABLED - Coming Soon) -->
-      <div class="nav-item disabled" title="Data Breach & Exposure Intelligence (Coming Soon)">
+      <!-- Data Breach & Exposure Intelligence -->
+      <div class="nav-item disabled" title="Data Breach &amp; Exposure Intelligence (Roadmap)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
           <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
           <path d="M7 11V7a5 5 0 0 1 9.9-1"></path>
         </svg>
-        <span>Data Breach &amp; Exposure Intelligence</span>
-        <span class="nav-badge-coming-soon">Coming Soon</span>
+        <span>Data Breach &amp; Exposure</span>
+        <span class="nav-badge-coming-soon">Planned</span>
       </div>
 
-      <!-- Identity & Entity Correlation Intelligence (DISABLED - Coming Soon) -->
-      <div class="nav-item disabled" title="Identity & Entity Correlation Intelligence (Coming Soon)">
+      <!-- Identity & Entity Correlation Intelligence -->
+      <div class="nav-item disabled" title="Identity &amp; Entity Correlation Intelligence (Roadmap)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
           <circle cx="18" cy="5" r="3"></circle>
           <circle cx="6" cy="12" r="3"></circle>
@@ -280,11 +262,11 @@
           <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
         </svg>
         <span>Identity &amp; Entity Correlation</span>
-        <span class="nav-badge-coming-soon">Coming Soon</span>
+        <span class="nav-badge-coming-soon">Planned</span>
       </div>
 
       <!-- Section: Environment -->
-      <div class="nav-section-title" style="margin-top: 14px;">Environment</div>
+      <div class="nav-section-title" style="margin-top: 14px;">Administration</div>
 
       <!-- Settings -->
       <a href="/settings" class="nav-item {% if active_view == 'settings' %}active{% endif %}">
@@ -296,19 +278,19 @@
       </a>
     </div>
 
-    <!-- Sidebar Bottom Profile Badge & Demo Marking -->
+    <!-- Sidebar Bottom Profile Badge -->
     <div class="sidebar-footer">
       <div class="user-profile-card">
         <div class="user-avatar-orange">A</div>
         <div class="user-info-text">
           <span class="user-display-name">{{ user_name | default("Analyst") }}</span>
-          <span class="user-role-badge">DEMO BUILD</span>
+          <span class="user-role-badge">STATION AUTH</span>
         </div>
       </div>
-      <div style="margin-top: 8px; font-size: 10px; color: var(--slate-400); text-align: center; font-weight: 600;">
-        Not for Casework
+      <div style="margin-top: 8px; font-size: 10.5px; color: var(--slate-500); text-align: center; font-weight: 500;">
+        OASIS Operational Station
       </div>
-      <div style="margin-top: 6px; font-size: 10.5px; color: var(--ember-600); text-align: center; font-weight: 700; border-top: 1px solid var(--border-soft); padding-top: 8px;">
+      <div style="margin-top: 6px; font-size: 10.5px; color: var(--slate-600); text-align: center; font-weight: 600; border-top: 1px solid var(--border-soft); padding-top: 8px;">
         Incubated at Ramakrishna Mission Vidyamandira
       </div>
     </div>
@@ -320,10 +302,10 @@
   <main class="main-wrapper">
     {% block content %}{% endblock %}
     
-    <footer style="margin-top: 40px; padding: 20px 0; border-top: 1px solid var(--border-soft); text-align: center; font-size: 12px; color: var(--slate-500); font-weight: 600;">
-      <span>OASIS — OSINT Aggregation and Strategic Intelligence System</span>
+    <footer style="margin-top: 40px; padding: 20px 0; border-top: 1px solid var(--border-soft); text-align: center; font-size: 12px; color: var(--slate-500); font-weight: 500;">
+      <span>OASIS &mdash; OSINT Aggregation and Strategic Intelligence System</span>
       <span style="margin: 0 8px; color: var(--slate-300);">&bull;</span>
-      <span style="color: var(--slate-700); font-weight: 700;">Incubated at Ramakrishna Mission Vidyamandira</span>
+      <span style="color: var(--slate-600); font-weight: 600;">Incubated at Ramakrishna Mission Vidyamandira</span>
     </footer>
   </main>
 

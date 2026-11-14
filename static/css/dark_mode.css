@@ -14,7 +14,7 @@ html.dark-theme,
 html[data-theme="dark"] body,
 body.dark-mode,
 body.dark-theme {
-  background-color: #0a0e17 !important;
+  background-color: #0b0f19 !important;
   color: #e2e8f0 !important;
 }
 
@@ -25,23 +25,23 @@ body.dark-mode .view-page {
 
 html[data-theme="dark"] .tool-header-banner,
 body.dark-mode .tool-header-banner {
-  background: linear-gradient(135deg, #111827 0%, #162032 60%, #1e1b2e 100%) !important;
+  background: #111827 !important;
   border: 1px solid #1f2c42 !important;
-  box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.65) !important;
+  box-shadow: var(--shadow-card) !important;
 }
 
 html[data-theme="dark"] .welcome-banner-card,
 body.dark-mode .welcome-banner-card {
-  background: linear-gradient(135deg, #111827 0%, #162032 60%, #1e1b2e 100%) !important;
+  background: #111827 !important;
   border: 1px solid #1f2c42 !important;
-  box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.65) !important;
+  box-shadow: var(--shadow-card) !important;
 }
 
 html[data-theme="dark"] .metric-card,
 body.dark-mode .metric-card {
   background: #111827 !important;
   border: 1px solid #1f2c42 !important;
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.55) !important;
+  box-shadow: var(--shadow-card) !important;
 }
 
 html[data-theme="dark"] .metric-title,

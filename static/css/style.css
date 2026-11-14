@@ -6,15 +6,15 @@
 
 :root {
   /* Surfaces & Canvas */
-  --bg-app: #f6f8fb;
+  --bg-app: #f8fafc;
   --bg-surface: #ffffff;
   --bg-card-subtle: #fbfcfe;
   --bg-pill: #f1f4f9;
 
   /* Borders & Dividers */
   --border-ultra-soft: #f1f4f8;
-  --border-soft: #e9eef5;
-  --border-main: #dfe5ef;
+  --border-soft: #e2e8f0;
+  --border-main: #cbd5e1;
   --border-focus: #f97316;
 
   /* Warm Ember & Amber Accents */
@@ -61,16 +61,16 @@
   --font-mono: ui-monospace, SFMono-Regular, "Cascadia Code", Menlo, Monaco, Consolas, monospace;
 
   /* Comfortable Radii (Smooth & Round) */
-  --radius-xs: 8px;
-  --radius-sm: 12px;
-  --radius-md: 18px;
-  --radius-lg: 24px;
-  --radius-xl: 30px;
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 12px;
   --radius-pill: 9999px;
 
   /* Dimensions */
-  --header-height: 70px;
-  --sidebar-width: 275px;
+  --header-height: 60px;
+  --sidebar-width: 280px;
 
   /* Silky Soft Elevation Shadows */
   --shadow-subtle: 0 2px 6px rgba(15, 23, 42, 0.02), 0 1px 2px rgba(15, 23, 42, 0.02);
@@ -88,9 +88,6 @@
 body {
   font-family: var(--font-sans);
   background-color: var(--bg-app);
-  background-image: 
-    radial-gradient(at 0% 0%, rgba(249, 115, 22, 0.035) 0px, transparent 45%),
-    radial-gradient(at 100% 100%, rgba(2, 132, 199, 0.025) 0px, transparent 45%);
   color: var(--slate-800);
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
@@ -126,23 +123,20 @@ body {
 }
 
 .brand-emblem {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--slate-900);
+  border: 1px solid var(--slate-800);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--ember-400);
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--shadow-subtle);
   flex-shrink: 0;
 }
 
-.brand-emblem:hover {
-  transform: rotate(5deg) scale(1.04);
-}
+
 
 .brand-emblem svg {
   width: 24px;
@@ -156,19 +150,20 @@ body {
 }
 
 .brand-title {
-  font-size: 23px;
-  font-weight: 850;
+  font-size: 16px;
+  font-weight: 700;
   color: var(--slate-900);
-  letter-spacing: -0.6px;
+  letter-spacing: 0.04em;
   line-height: 1.1;
 }
 
 .brand-tag {
-  font-size: 11.5px;
-  font-weight: 700;
-  color: var(--ember-600);
-  letter-spacing: 0.6px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--slate-500);
+  letter-spacing: 0.04em;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 /* Rounded Pill Search Bar */
@@ -261,9 +256,9 @@ body {
 }
 
 .header-icon-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
   background-color: #ffffff;
   border: 1px solid var(--border-soft);
   color: var(--slate-600);
@@ -271,7 +266,7 @@ body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.18s ease;
   position: relative;
   box-shadow: var(--shadow-subtle);
 }
@@ -451,23 +446,11 @@ body {
 
 /* Comfortable Active State */
 .nav-item.active {
-  background: linear-gradient(90deg, #fff3ea 0%, #ffeedf 100%);
-  color: var(--ember-700);
-  font-weight: 700;
+  background: var(--slate-100);
+  color: var(--slate-900);
+  font-weight: 600;
   border-radius: var(--radius-sm);
-  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.07);
-}
-
-.nav-item.active::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 18%;
-  bottom: 18%;
-  width: 4px;
-  border-radius: 0 4px 4px 0;
-  background-color: var(--ember-500);
-  box-shadow: 0 0 10px var(--ember-glow-strong);
+  border-left: 3px solid var(--ember-600);
 }
 
 .nav-item.active svg {
@@ -476,20 +459,28 @@ body {
 
 .nav-badge {
   margin-left: auto;
-  font-size: 11px;
-  font-weight: 800;
-  padding: 2.5px 8px;
-  border-radius: var(--radius-pill);
-  background-color: #ffffff;
-  color: var(--slate-600);
-  border: 1px solid var(--border-soft);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  font-size: 9.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 6px;
+  border-radius: var(--radius-xs);
+  background-color: rgba(16, 185, 129, 0.08);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.25);
 }
 
 .nav-item.active .nav-badge {
-  background-color: var(--ember-500);
-  color: #ffffff;
-  border-color: var(--ember-600);
+  margin-left: auto;
+  font-size: 9.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 6px;
+  border-radius: var(--radius-xs);
+  background-color: rgba(16, 185, 129, 0.08);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.25);
 }
 
 /* Sidebar Bottom ID Card */
@@ -614,7 +605,7 @@ body {
   right: 0;
   height: 4px;
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  background: linear-gradient(90deg, var(--ember-400), var(--ember-500), var(--sky-500));
+  background: var(--ember-600);
 }
 
 .welcome-banner-left {
@@ -813,10 +804,19 @@ body {
   height: 3.5px;
 }
 
-.metric-card:nth-child(1)::before { background: linear-gradient(90deg, var(--sky-500), #38bdf8); }
-.metric-card:nth-child(2)::before { background: linear-gradient(90deg, var(--ember-500), #fb923c); }
-.metric-card:nth-child(3)::before { background: linear-gradient(90deg, var(--emerald-500), #34d399); }
-.metric-card:nth-child(4)::before { background: linear-gradient(90deg, var(--indigo-500), #818cf8); }
+.metric-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--border-soft);
+  transition: background 0.18s ease;
+}
+.metric-card:hover::before {
+  background: var(--ember-600);
+}
 
 .metric-header {
   display: flex;
@@ -1316,7 +1316,7 @@ body {
   right: 0;
   height: 4px;
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  background: linear-gradient(90deg, var(--ember-400), var(--sky-500));
+  background: var(--ember-600);
 }
 
 .tool-header-left {
