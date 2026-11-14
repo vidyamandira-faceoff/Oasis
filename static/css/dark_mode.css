@@ -216,3 +216,10 @@ body.dark-mode .btn-danger-action {
   color: #fb7185 !important;
   border: 1px solid rgba(244, 63, 94, 0.35) !important;
 }
+
+/* Platform Footer */
+html[data-theme="dark"] .site-footer,
+body.dark-mode .site-footer {
+  border-top-color: var(--border-soft) !important;
+  color: var(--slate-400) !important;
+}

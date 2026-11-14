@@ -1130,3 +1130,10 @@ html[data-theme="dark"] .view-page,
 body.dark-mode .view-page {
   color: #e2e8f0 !important;
 }
+
+/* Platform Footer */
+html[data-theme="dark"] .site-footer,
+body.dark-mode .site-footer {
+  border-top-color: var(--border-soft) !important;
+  color: var(--slate-400) !important;
+}
